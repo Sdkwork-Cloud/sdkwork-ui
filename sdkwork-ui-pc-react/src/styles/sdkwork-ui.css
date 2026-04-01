@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+:root {
+  --sdk-color-brand-primary: #3b82f6;
+  --sdk-color-brand-primary-hover: #2563eb;
+  --sdk-color-brand-primary-soft: rgba(59, 130, 246, 0.14);
+  --sdk-color-brand-accent: #22d3ee;
+  --sdk-color-surface-canvas: #09090b;
+  --sdk-color-surface-panel: #18181b;
+  --sdk-color-surface-panel-muted: #27272a;
+  --sdk-color-surface-elevated: #3f3f46;
+  --sdk-color-surface-overlay: rgba(9, 9, 11, 0.45);
+  --sdk-color-text-primary: #fafafa;
+  --sdk-color-text-secondary: #d4d4d8;
+  --sdk-color-text-muted: #a1a1aa;
+  --sdk-color-text-inverse: #ffffff;
+  --sdk-color-border-subtle: rgba(244, 244, 245, 0.08);
+  --sdk-color-border-default: rgba(244, 244, 245, 0.12);
+  --sdk-color-border-strong: rgba(244, 244, 245, 0.18);
+  --sdk-color-border-focus: rgba(59, 130, 246, 0.4);
+  --sdk-color-state-success: #22c55e;
+  --sdk-color-state-warning: #f59e0b;
+  --sdk-color-state-danger: #ef4444;
+  --sdk-color-state-info: #38bdf8;
+  --sdk-radius-control: 0.75rem;
+  --sdk-radius-panel: 1.75rem;
+  --sdk-radius-pill: 999px;
+  --sdk-shadow-sm: 0 8px 24px rgba(9, 9, 11, 0.12);
+  --sdk-shadow-md: 0 18px 50px rgba(9, 9, 11, 0.16);
+  --sdk-shadow-lg: 0 32px 80px rgba(9, 9, 11, 0.22);
+}
