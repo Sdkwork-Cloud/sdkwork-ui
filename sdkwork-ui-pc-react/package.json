@@ -107,7 +107,7 @@
   },
   "scripts": {
     "build": "vite build",
-    "prepare": "pnpm build",
+    "prepare": "vite build",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
