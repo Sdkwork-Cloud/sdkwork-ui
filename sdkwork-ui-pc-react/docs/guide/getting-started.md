@@ -8,6 +8,14 @@ pnpm install
 
 If your app uses the `components/ui/form` domain, align `react-hook-form` with the package peer dependency in the consuming app.
 
+To consume the package directly from the repository main branch instead of a registry release:
+
+```bash
+pnpm add "https://<git-host>/<org>/spring-ai-plus.git#main&path:/spring-ai-plus-business/apps/sdkwork-ui/sdkwork-ui-pc-react"
+```
+
+The package runs `prepare` on git installs so `dist` is built before the dependency is linked into the consumer app.
+
 ## Run The Core Checks
 
 ```bash
@@ -23,7 +31,7 @@ import '@sdkwork/ui-pc-react/styles.css';
 import { AppShell, Button, PageHeader } from '@sdkwork/ui-pc-react';
 ```
 
-For desktop forms, import the dedicated form domain:
+For desktop forms, keep orchestration in `form` and standalone controls in `data-entry`:
 
 ```tsx
 import {
@@ -39,16 +47,17 @@ import {
   FormLabel,
   FormMessage,
   FormSection,
-  Input,
 } from '@sdkwork/ui-pc-react/components/ui/form';
+import { Input } from '@sdkwork/ui-pc-react/components/ui/data-entry';
 ```
 
 For list filtering and detail drawers:
 
 ```tsx
 import { Button } from '@sdkwork/ui-pc-react/components/ui/actions';
+import { Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@sdkwork/ui-pc-react/components/ui/data-entry';
 import { DescriptionDetails, DescriptionItem, DescriptionList, DescriptionTerm } from '@sdkwork/ui-pc-react/components/ui/data-display';
-import { FilterBar, FilterBarActions, FilterBarSection, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@sdkwork/ui-pc-react/components/ui/form';
+import { FilterBar, FilterBarActions, FilterBarSection } from '@sdkwork/ui-pc-react/components/ui/form';
 
 export function UsersPageChrome() {
   return (

@@ -1,12 +1,12 @@
-import type { HTMLAttributes, ReactNode } from 'react';
+import * as React from 'react';
 import { AlertCircle, AlertTriangle, CheckCircle2, Info } from 'lucide-react';
 import { cn } from '../../../lib/utils';
 
-export interface InlineAlertProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
-  actions?: ReactNode;
-  description?: ReactNode;
+export interface InlineAlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+  actions?: React.ReactNode;
+  description?: React.ReactNode;
   showIcon?: boolean;
-  title?: ReactNode;
+  title?: React.ReactNode;
   tone?: 'default' | 'info' | 'success' | 'warning' | 'danger';
 }
 
@@ -31,7 +31,7 @@ const toneIcon = {
   danger: AlertCircle,
 } as const;
 
-export function InlineAlert({
+export const InlineAlert = React.forwardRef<HTMLDivElement, InlineAlertProps>(({
   actions,
   className,
   description,
@@ -39,16 +39,18 @@ export function InlineAlert({
   title,
   tone = 'default',
   ...props
-}: InlineAlertProps) {
+}, ref) => {
   const Icon = toneIcon[tone];
 
   return (
     <div
+      ref={ref}
       className={cn(
         'flex items-start gap-3 rounded-[var(--sdk-radius-control)] border px-4 py-3 shadow-[var(--sdk-shadow-sm)]',
         toneClass[tone],
         className,
       )}
+      data-sdk-ui="inline-alert"
       role="alert"
       {...props}
     >
@@ -64,4 +66,6 @@ export function InlineAlert({
       {actions ? <div className="flex shrink-0 items-center gap-2">{actions}</div> : null}
     </div>
   );
-}
+});
+
+InlineAlert.displayName = 'InlineAlert';

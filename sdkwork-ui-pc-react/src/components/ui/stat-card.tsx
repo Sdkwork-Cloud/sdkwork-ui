@@ -31,6 +31,7 @@ function StatCard({
   return (
     <Card
       className={cn('h-full', className)}
+      data-sdk-ui="stat-card"
       {...props}
     >
       <CardHeader className="flex flex-row items-start justify-between gap-4 space-y-0">
@@ -49,5 +50,7 @@ function StatCard({
     </Card>
   );
 }
+
+StatCard.displayName = 'StatCard';
 
 export { StatCard };

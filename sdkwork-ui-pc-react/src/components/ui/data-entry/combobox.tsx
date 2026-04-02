@@ -20,18 +20,20 @@ export interface ComboboxOption {
   keywords?: string[];
 }
 
+export type ComboboxValueChangeHandler = (value: string) => void;
+
 export interface ComboboxProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'defaultValue' | 'onChange' | 'value'> {
   clearable?: boolean;
   defaultValue?: string;
   emptyText?: string;
   options: ComboboxOption[];
-  onValueChange?: (value: string) => void;
+  onValueChange?: ComboboxValueChangeHandler;
   placeholder?: string;
   searchPlaceholder?: string;
   value?: string;
 }
 
-function Combobox({
+const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(({
   className,
   clearable = false,
   defaultValue,
@@ -43,7 +45,7 @@ function Combobox({
   searchPlaceholder = 'Search option...',
   value,
   ...props
-}: ComboboxProps) {
+}, ref) => {
   const [open, setOpen] = React.useState(false);
   const [internalValue, setInternalValue] = React.useState(defaultValue ?? '');
   const selectedValue = value ?? internalValue;
@@ -67,9 +69,11 @@ function Combobox({
     <Popover modal open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <button
+          ref={ref}
           aria-expanded={open}
           aria-label={selectedOption?.label ?? placeholder}
           className={cn(inputBaseClassName, 'justify-between gap-2 text-left', className)}
+          data-sdk-ui="combobox"
           disabled={disabled}
           role="combobox"
           type="button"
@@ -122,6 +126,8 @@ function Combobox({
       </PopoverContent>
     </Popover>
   );
-}
+});
+
+Combobox.displayName = 'Combobox';
 
 export { Combobox };

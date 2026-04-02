@@ -1,16 +1,24 @@
 import * as React from 'react';
 import { Hash, X } from 'lucide-react';
 import { cn } from '../../../lib/utils';
+import { mergeSlotProps, type SlotProps } from '../../../lib/slot-props';
 import { inputBaseClassName } from '../input';
 
 const DEFAULT_SEPARATOR_KEYS = ['Enter', 'Tab', ','] as const;
+export type TagInputValueChangeHandler = (value: string[]) => void;
+export type TagInputRootSlotProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>>;
+
+export interface TagInputSlotProps {
+  root?: TagInputRootSlotProps;
+}
 
 export interface TagInputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'defaultValue' | 'onChange' | 'value'> {
   allowDuplicates?: boolean;
   defaultValue?: string[];
   maxTags?: number;
-  onValueChange?: (value: string[]) => void;
+  onValueChange?: TagInputValueChangeHandler;
+  slotProps?: TagInputSlotProps;
   value?: string[];
 }
 
@@ -27,6 +35,7 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
       maxTags,
       onValueChange,
       placeholder = 'Add tag',
+      slotProps,
       value,
       ...props
     },
@@ -66,12 +75,17 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
 
     return (
       <div
-        className={cn(
-          inputBaseClassName,
-          'h-auto min-h-10 flex-wrap items-center gap-2 px-2 py-2',
-          className,
+        {...mergeSlotProps(
+          {
+            className: cn(
+              inputBaseClassName,
+              'h-auto min-h-10 flex-wrap items-center gap-2 px-2 py-2',
+              className,
+            ),
+            'data-sdk-ui': 'tag-input',
+          },
+          slotProps?.root,
         )}
-        data-sdk-ui="tag-input"
       >
         {tags.map((tag) => (
           <span

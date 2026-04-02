@@ -34,7 +34,7 @@ const FilterBar = React.forwardRef<HTMLElement, FilterBarProps>(
         aria-describedby={describedBy}
         aria-labelledby={labelledBy}
         className={cn(
-          'space-y-4 rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] p-4 shadow-[var(--sdk-shadow-sm)]',
+          'space-y-4 rounded-[var(--sdk-radius-control)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] p-4 shadow-[var(--sdk-shadow-sm)]',
           className,
         )}
         data-sdk-ui="filter-bar"

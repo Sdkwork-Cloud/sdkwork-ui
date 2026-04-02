@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ResizablePanels from 'react-resizable-panels';
 import { cn } from '../../../lib/utils';
 
-type PanelDirection = 'horizontal' | 'vertical';
+export type PanelDirection = 'horizontal' | 'vertical';
 
 const PanelGroupDirectionContext = React.createContext<PanelDirection>('horizontal');
 
@@ -20,6 +20,7 @@ const PanelGroup = React.forwardRef<HTMLDivElement, PanelGroupProps>(
           className,
         )}
         data-panel-group-direction={direction}
+        data-sdk-ui="panel-group"
         elementRef={ref}
         orientation={direction}
         {...props}
@@ -35,6 +36,7 @@ export interface PanelProps extends Omit<ResizablePanels.PanelProps, 'elementRef
 const Panel = React.forwardRef<HTMLDivElement, PanelProps>(({ className, ...props }, ref) => (
   <ResizablePanels.Panel
     className={cn('min-h-0 min-w-0 overflow-hidden', className)}
+    data-sdk-ui="panel"
     data-sdk-panel=""
     elementRef={ref}
     {...props}
@@ -60,6 +62,7 @@ const PanelResizeHandle = React.forwardRef<HTMLDivElement, PanelResizeHandleProp
           className,
         )}
         data-panel-group-direction={direction}
+        data-sdk-ui="panel-resize-handle"
         data-sdk-panel-resize-handle=""
         elementRef={ref}
         {...props}

@@ -8,9 +8,11 @@ export interface SegmentedControlOption {
   value: string;
 }
 
+export type SegmentedControlValueChangeHandler = (value: string) => void;
+
 export interface SegmentedControlProps extends React.HTMLAttributes<HTMLDivElement> {
   fullWidth?: boolean;
-  onValueChange: (value: string) => void;
+  onValueChange: SegmentedControlValueChangeHandler;
   options: SegmentedControlOption[];
   orientation?: 'horizontal' | 'vertical';
   size?: 'default' | 'sm';
@@ -56,7 +58,7 @@ const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedControlProps>
           <button
             aria-pressed={active}
             className={cn(
-              'inline-flex items-center justify-center gap-2 rounded-[calc(var(--sdk-radius-control)-0.125rem)] font-medium transition-colors disabled:pointer-events-none disabled:opacity-50',
+              'inline-flex items-center justify-center gap-2 rounded-[var(--sdk-radius-field)] font-medium transition-colors disabled:pointer-events-none disabled:opacity-50',
               sizeClassName[size],
               orientation === 'horizontal' && fullWidth ? 'flex-1' : null,
               active

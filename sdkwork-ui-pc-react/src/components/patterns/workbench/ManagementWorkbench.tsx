@@ -1,5 +1,9 @@
 import * as React from 'react';
 import { cn } from '../../../lib/utils';
+import {
+  mergePatternSlotProps,
+  type PatternSlotProps,
+} from '../_internal/slot-props';
 import { PageHeader } from '../app-shell/PageHeader';
 import { InspectorRail, type InspectorRailProps } from '../workspace/InspectorRail';
 import { WorkspacePanel, type WorkspacePanelProps } from '../workspace/WorkspacePanel';
@@ -14,6 +18,22 @@ export interface ManagementWorkbenchDetailProps
   className?: string;
 }
 
+export type ManagementWorkbenchRegionSlotProps = PatternSlotProps<
+  Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>
+>;
+export type ManagementWorkbenchMainRootProps = PatternSlotProps<
+  Omit<React.ComponentPropsWithoutRef<'section'>, 'children'>
+>;
+
+export interface ManagementWorkbenchSlotProps {
+  content?: ManagementWorkbenchRegionSlotProps;
+  filters?: ManagementWorkbenchRegionSlotProps;
+  footer?: ManagementWorkbenchRegionSlotProps;
+  header?: PatternSlotProps<Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>>;
+  main?: ManagementWorkbenchMainRootProps;
+  selectionBar?: ManagementWorkbenchRegionSlotProps;
+}
+
 export interface ManagementWorkbenchProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children' | 'title'> {
   actions?: React.ReactNode;
@@ -25,6 +45,7 @@ export interface ManagementWorkbenchProps
   footer?: React.ReactNode;
   main: ManagementWorkbenchMainProps;
   selectionBar?: React.ReactNode;
+  slotProps?: ManagementWorkbenchSlotProps;
   title: React.ReactNode;
 }
 
@@ -32,7 +53,7 @@ function resolveWorkbenchDetailWidth(detailWidth: number | string) {
   return typeof detailWidth === 'number' ? `${detailWidth}px` : detailWidth;
 }
 
-export function ManagementWorkbench({
+export const ManagementWorkbench = React.forwardRef<HTMLDivElement, ManagementWorkbenchProps>(({
   actions,
   className,
   description,
@@ -43,22 +64,33 @@ export function ManagementWorkbench({
   footer,
   main,
   selectionBar,
+  slotProps,
   title,
   ...props
-}: ManagementWorkbenchProps) {
+}, ref) => {
   const {
     actions: mainActions,
     children,
     className: mainClassName,
     description: mainDescription,
+    slotProps: mainPanelSlotProps,
     title: mainTitle,
+    ...mainRootProps
   } = main;
+  const resolvedMainRootProps = mergePatternSlotProps<ManagementWorkbenchMainRootProps>(
+    {
+      className: cn('h-full', mainClassName),
+      ...mainRootProps,
+    },
+    slotProps?.main,
+  );
   const detailGridStyle = detail
     ? { gridTemplateColumns: `minmax(0, 1fr) ${resolveWorkbenchDetailWidth(detailWidth)}` }
     : undefined;
 
   return (
     <div
+      ref={ref}
       className={cn('flex h-full min-h-0 min-w-0 flex-col gap-4', className)}
       data-sdk-pattern="management-workbench"
       {...props}
@@ -67,48 +99,67 @@ export function ManagementWorkbench({
         actions={actions}
         description={description}
         eyebrow={eyebrow}
+        {...slotProps?.header}
         title={title}
       />
       {filters ? (
-        <div data-sdk-region="management-workbench-filters">{filters}</div>
+        <div
+          {...mergePatternSlotProps<ManagementWorkbenchRegionSlotProps>(
+            {
+              'data-sdk-region': 'management-workbench-filters',
+            },
+            slotProps?.filters,
+          )}
+        >
+          {filters}
+        </div>
       ) : null}
       {selectionBar ? (
-        <div data-sdk-region="management-workbench-selection-bar">{selectionBar}</div>
+        <div
+          {...mergePatternSlotProps<ManagementWorkbenchRegionSlotProps>(
+            {
+              'data-sdk-region': 'management-workbench-selection-bar',
+            },
+            slotProps?.selectionBar,
+          )}
+        >
+          {selectionBar}
+        </div>
       ) : null}
       <div
-        className={cn('min-h-0 min-w-0', detail ? 'grid gap-4 xl:grid' : null)}
-        style={detailGridStyle}
+        {...mergePatternSlotProps<ManagementWorkbenchRegionSlotProps>(
+          {
+            className: cn('min-h-0 min-w-0', detail ? 'grid gap-4 xl:grid' : null),
+            'data-sdk-region': 'management-workbench-content',
+            style: detailGridStyle,
+          },
+          slotProps?.content,
+        )}
       >
         <WorkspacePanel
           actions={mainActions}
-          className={cn('h-full', mainClassName)}
           description={mainDescription}
+          {...resolvedMainRootProps}
+          slotProps={mainPanelSlotProps}
           title={mainTitle}
         >
           {children}
         </WorkspacePanel>
-        {detail ? (
-          <InspectorRail
-            actions={detail.actions}
-            bodyClassName={detail.bodyClassName}
-            className={cn('h-full', detail.className)}
-            description={detail.description}
-            eyebrow={detail.eyebrow}
-            footer={detail.footer}
-            footerClassName={detail.footerClassName}
-            headerClassName={detail.headerClassName}
-            meta={detail.meta}
-            side={detail.side}
-            stickyHeader={detail.stickyHeader}
-            summary={detail.summary}
-            title={detail.title}
-            variant={detail.variant}
-          >
-            {detail.children}
-          </InspectorRail>
-        ) : null}
+        {detail ? <InspectorRail {...detail} className={cn('h-full', detail.className)} /> : null}
       </div>
-      {footer ? <div data-sdk-region="management-workbench-footer">{footer}</div> : null}
+      {footer ? (
+        <div
+          {...mergePatternSlotProps<ManagementWorkbenchRegionSlotProps>(
+            {
+              'data-sdk-region': 'management-workbench-footer',
+            },
+            slotProps?.footer,
+          )}
+        >
+          {footer}
+        </div>
+      ) : null}
     </div>
   );
-}
+});
+ManagementWorkbench.displayName = 'ManagementWorkbench';

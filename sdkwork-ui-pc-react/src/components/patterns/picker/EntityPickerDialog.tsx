@@ -1,13 +1,21 @@
 import * as React from 'react';
-import { cn } from '../../../lib/utils';
+import {
+  mergePatternSlotProps,
+  type PatternSlotProps,
+} from '../_internal/slot-props';
 import type { ButtonProps } from '../../ui/button';
-import { PickerDialog, type PickerDialogProps } from './PickerDialog';
+import {
+  PickerDialog,
+  type PickerDialogProps,
+  type PickerDialogSlotProps,
+} from './PickerDialog';
 import { PickerSelectionFooter } from './PickerSelectionFooter';
 
 export type EntityPickerSelectionMode = 'single' | 'multiple';
+export type EntityPickerDialogSelectionActionHandler = () => void;
 
 export interface EntityPickerDialogSelectionContext<T> {
-  clearSelection: () => void;
+  clearSelection: EntityPickerDialogSelectionActionHandler;
   selectedCount: number;
   selectedIds: React.Key[];
   selectedItems: T[];
@@ -16,39 +24,68 @@ export interface EntityPickerDialogSelectionContext<T> {
 
 export interface EntityPickerDialogRenderItemContext<T>
   extends EntityPickerDialogSelectionContext<T> {
-  deselect: () => void;
+  deselect: EntityPickerDialogSelectionActionHandler;
   index: number;
   item: T;
   itemId: React.Key;
-  select: () => void;
+  select: EntityPickerDialogSelectionActionHandler;
   selected: boolean;
-  toggleSelection: () => void;
+  toggleSelection: EntityPickerDialogSelectionActionHandler;
 }
 
-export interface EntityPickerDialogProps<T>
-  extends Omit<PickerDialogProps, 'children' | 'empty' | 'footer'> {
+export type EntityPickerDialogConfirmLabelRenderer<T> = (
+  context: EntityPickerDialogSelectionContext<T>,
+) => React.ReactNode;
+export type EntityPickerDialogConfirmHandler<T> = (
+  selectedItems: T[],
+  selectedIds: React.Key[],
+) => void;
+export type EntityPickerDialogItemIdResolver<T> = (item: T, index: number) => React.Key;
+export type EntityPickerDialogItemLabelRenderer<T> = (item: T, index: number) => React.ReactNode;
+export type EntityPickerDialogItemRenderer<T> = (
+  context: EntityPickerDialogRenderItemContext<T>,
+) => React.ReactNode;
+export type EntityPickerDialogSelectedIdsChangeHandler<T> = (
+  selectedIds: React.Key[],
+  selectedItems: T[],
+) => void;
+export type EntityPickerDialogSelectionSummaryRenderer<T> = (
+  context: EntityPickerDialogSelectionContext<T>,
+) => React.ReactNode;
+
+export type EntityPickerDialogRegionSlotProps = PatternSlotProps<
+  Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>
+>;
+
+export interface EntityPickerDialogSlotProps extends PickerDialogSlotProps {
+  items?: EntityPickerDialogRegionSlotProps;
+  pagination?: EntityPickerDialogRegionSlotProps;
+}
+
+export interface EntityPickerDialogProps<T = any>
+  extends Omit<PickerDialogProps, 'children' | 'empty' | 'footer' | 'slotProps'> {
   cancelLabel?: React.ReactNode;
   clearLabel?: React.ReactNode;
   confirmLabel?:
     | React.ReactNode
-    | ((context: EntityPickerDialogSelectionContext<T>) => React.ReactNode);
+    | EntityPickerDialogConfirmLabelRenderer<T>;
   confirmLoading?: boolean;
   confirmVariant?: ButtonProps['variant'];
   defaultSelectedIds?: React.Key[];
-  getItemId?: (item: T, index: number) => React.Key;
-  getItemLabel?: (item: T, index: number) => React.ReactNode;
+  getItemId?: EntityPickerDialogItemIdResolver<T>;
+  getItemLabel?: EntityPickerDialogItemLabelRenderer<T>;
   items: T[];
-  itemsClassName?: string;
   layout?: 'grid' | 'list';
-  onConfirm?: (selectedItems: T[], selectedIds: React.Key[]) => void;
-  onSelectedIdsChange?: (selectedIds: React.Key[], selectedItems: T[]) => void;
+  onConfirm?: EntityPickerDialogConfirmHandler<T>;
+  onSelectedIdsChange?: EntityPickerDialogSelectedIdsChangeHandler<T>;
   pagination?: React.ReactNode;
-  renderItem: (context: EntityPickerDialogRenderItemContext<T>) => React.ReactNode;
+  renderItem: EntityPickerDialogItemRenderer<T>;
   selectedIds?: React.Key[];
   selectionMode?: EntityPickerSelectionMode;
   selectionSummary?:
     | React.ReactNode
-    | ((context: EntityPickerDialogSelectionContext<T>) => React.ReactNode);
+    | EntityPickerDialogSelectionSummaryRenderer<T>;
+  slotProps?: EntityPickerDialogSlotProps;
 }
 
 interface EntityPickerItemRecord<T> {
@@ -61,7 +98,13 @@ function resolveDefaultItemId<T>(item: T, index: number): React.Key {
   return resolvedId ?? index;
 }
 
-function EntityPickerDialog<T>({
+type EntityPickerDialogComponent = React.ForwardRefExoticComponent<
+  EntityPickerDialogProps & React.RefAttributes<HTMLDivElement>
+> & {
+  <T = any>(props: EntityPickerDialogProps<T> & React.RefAttributes<HTMLDivElement>): React.ReactNode;
+};
+
+function EntityPickerDialogInner<T = any>({
   cancelLabel = 'Cancel',
   clearLabel = 'Clear selection',
   confirmLabel,
@@ -71,7 +114,6 @@ function EntityPickerDialog<T>({
   getItemId,
   getItemLabel,
   items,
-  itemsClassName,
   layout = 'grid',
   onConfirm,
   onOpenChange,
@@ -81,8 +123,9 @@ function EntityPickerDialog<T>({
   selectedIds: controlledSelectedIds,
   selectionMode = 'single',
   selectionSummary,
+  slotProps,
   ...pickerProps
-}: EntityPickerDialogProps<T>) {
+}: EntityPickerDialogProps<T>, ref: React.ForwardedRef<HTMLDivElement>) {
   const [uncontrolledSelectedIds, setUncontrolledSelectedIds] =
     React.useState<React.Key[]>(defaultSelectedIds);
 
@@ -251,11 +294,21 @@ function EntityPickerDialog<T>({
           summary={resolvedSelectionSummary}
         />
       )}
+      slotProps={slotProps}
     >
-      <div className="flex flex-col gap-5" data-sdk-pattern="entity-picker-dialog">
+      <div
+        ref={ref}
+        className="flex flex-col gap-5"
+        data-sdk-pattern="entity-picker-dialog"
+      >
         <div
-          className={cn(resultsLayoutClassName, itemsClassName)}
-          data-sdk-region="entity-picker-results"
+          {...mergePatternSlotProps<EntityPickerDialogRegionSlotProps>(
+            {
+              className: resultsLayoutClassName,
+              'data-sdk-region': 'entity-picker-items',
+            },
+            slotProps?.items,
+          )}
         >
           {itemRecords.map((record, index) => (
             <React.Fragment key={record.id}>
@@ -272,10 +325,32 @@ function EntityPickerDialog<T>({
             </React.Fragment>
           ))}
         </div>
-        {pagination ? <div data-sdk-region="entity-picker-pagination">{pagination}</div> : null}
+        {pagination ? (
+          <div
+            {...mergePatternSlotProps<EntityPickerDialogRegionSlotProps>(
+              {
+                'data-sdk-region': 'entity-picker-pagination',
+              },
+              slotProps?.pagination,
+            )}
+          >
+            {pagination}
+          </div>
+        ) : null}
       </div>
     </PickerDialog>
   );
 }
 
+const EntityPickerDialog: EntityPickerDialogComponent = React.forwardRef<
+  HTMLDivElement,
+  EntityPickerDialogProps
+>(
+  EntityPickerDialogInner as (
+    props: EntityPickerDialogProps,
+    ref: React.ForwardedRef<HTMLDivElement>,
+  ) => React.ReactNode,
+);
+
 export { EntityPickerDialog };
+EntityPickerDialog.displayName = 'EntityPickerDialog';

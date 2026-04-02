@@ -1,11 +1,31 @@
 import * as React from 'react';
 import { cn } from '../../../lib/utils';
+import {
+  mergePatternSlotProps,
+  type PatternSlotProps,
+} from '../_internal/slot-props';
 import { Panel, PanelGroup, PanelResizeHandle } from '../../ui/layout';
 import type { PanelProps, PanelGroupProps } from '../../ui/layout/panel-group';
-import { InspectorRail, type InspectorRailProps } from './InspectorRail';
-import { WorkspacePanel, type WorkspacePanelProps } from './WorkspacePanel';
+import {
+  InspectorRail,
+  type InspectorRailProps,
+  type InspectorRailSlotProps,
+} from './InspectorRail';
+import {
+  WorkspacePanel,
+  type WorkspacePanelProps,
+  type WorkspacePanelSlotProps,
+} from './WorkspacePanel';
 
-type ListDetailWorkspaceDirection = NonNullable<PanelGroupProps['direction']>;
+export type ListDetailWorkspaceDirection = NonNullable<PanelGroupProps['direction']>;
+export type ListDetailWorkspaceRegionSlotProps = PatternSlotProps<
+  Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>
+>;
+export type ListDetailWorkspacePanelSlotProps = Omit<
+  PanelProps,
+  'children' | 'collapsedSize' | 'collapsible' | 'defaultSize' | 'maxSize' | 'minSize'
+>;
+export type ListDetailWorkspaceGroupSlotProps = Omit<PanelGroupProps, 'children' | 'direction'>;
 
 interface ListDetailWorkspacePaneSizing {
   collapsedSize?: PanelProps['collapsedSize'];
@@ -13,34 +33,50 @@ interface ListDetailWorkspacePaneSizing {
   defaultSize?: PanelProps['defaultSize'];
   maxSize?: PanelProps['maxSize'];
   minSize?: PanelProps['minSize'];
-  panelClassName?: string;
+}
+
+export interface ListDetailWorkspacePaneSlotProps extends WorkspacePanelSlotProps {
+  panel?: ListDetailWorkspacePanelSlotProps;
+  region?: ListDetailWorkspaceRegionSlotProps;
+}
+
+export interface ListDetailWorkspaceDetailSlotProps extends InspectorRailSlotProps {
+  panel?: ListDetailWorkspacePanelSlotProps;
+  region?: ListDetailWorkspaceRegionSlotProps;
 }
 
 export interface ListDetailWorkspaceSidebarProps
   extends ListDetailWorkspacePaneSizing,
-    Omit<WorkspacePanelProps, 'className'> {
+    Omit<WorkspacePanelProps, 'className' | 'slotProps'> {
   className?: string;
+  slotProps?: ListDetailWorkspacePaneSlotProps;
 }
 
 export interface ListDetailWorkspaceContentProps
   extends ListDetailWorkspacePaneSizing,
-    Omit<WorkspacePanelProps, 'className'> {
+    Omit<WorkspacePanelProps, 'className' | 'slotProps'> {
   className?: string;
+  slotProps?: ListDetailWorkspacePaneSlotProps;
 }
 
 export interface ListDetailWorkspaceDetailProps
   extends ListDetailWorkspacePaneSizing,
-    Omit<InspectorRailProps, 'className'> {
+    Omit<InspectorRailProps, 'className' | 'slotProps'> {
   className?: string;
+  slotProps?: ListDetailWorkspaceDetailSlotProps;
+}
+
+export interface ListDetailWorkspaceSlotProps {
+  panelGroup?: ListDetailWorkspaceGroupSlotProps;
 }
 
 export interface ListDetailWorkspaceProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children' | 'content'> {
   content: ListDetailWorkspaceContentProps;
   detail?: ListDetailWorkspaceDetailProps;
   direction?: ListDetailWorkspaceDirection;
-  panelGroupClassName?: string;
   resizeHandleMode?: 'line' | 'grip';
   sidebar?: ListDetailWorkspaceSidebarProps;
+  slotProps?: ListDetailWorkspaceSlotProps;
 }
 
 function renderWorkspacePane(
@@ -55,28 +91,40 @@ function renderWorkspacePane(
     description,
     maxSize,
     minSize,
-    panelClassName,
+    slotProps,
     title,
-    ...panelProps
+    ...panelRootProps
   }: ListDetailWorkspaceSidebarProps | ListDetailWorkspaceContentProps,
   defaults: Pick<PanelProps, 'defaultSize' | 'minSize'>,
 ) {
   return (
     <Panel
       collapsedSize={collapsedSize}
-      className={panelClassName}
       collapsible={collapsible}
       defaultSize={defaultSize ?? defaults.defaultSize}
       maxSize={maxSize}
       minSize={minSize ?? defaults.minSize}
+      {...slotProps?.panel}
     >
-      <div className="h-full" data-sdk-region={region}>
+      <div
+        {...mergePatternSlotProps<ListDetailWorkspaceRegionSlotProps>(
+          {
+            className: 'h-full',
+            'data-sdk-region': region,
+          },
+          slotProps?.region,
+        )}
+      >
         <WorkspacePanel
           actions={actions}
           className={cn('h-full', className)}
           description={description}
+          slotProps={{
+            body: slotProps?.body,
+            header: slotProps?.header,
+          }}
           title={title}
-          {...panelProps}
+          {...panelRootProps}
         >
           {children}
         </WorkspacePanel>
@@ -92,39 +140,50 @@ function renderDetailPane({
   collapsible,
   defaultSize,
   footer,
-  headerClassName,
   meta,
   side,
   stickyHeader,
   summary,
   maxSize,
   minSize,
-  panelClassName,
+  slotProps,
   title,
   variant,
-  ...panelProps
+  ...railRootProps
 }: ListDetailWorkspaceDetailProps, defaults: Pick<PanelProps, 'defaultSize' | 'minSize'>) {
   return (
     <Panel
       collapsedSize={collapsedSize}
-      className={panelClassName}
       collapsible={collapsible}
       defaultSize={defaultSize ?? defaults.defaultSize}
       maxSize={maxSize}
       minSize={minSize ?? defaults.minSize}
+      {...slotProps?.panel}
     >
-      <div className="h-full" data-sdk-region="detail">
+      <div
+        {...mergePatternSlotProps<ListDetailWorkspaceRegionSlotProps>(
+          {
+            className: 'h-full',
+            'data-sdk-region': 'detail',
+          },
+          slotProps?.region,
+        )}
+      >
         <InspectorRail
           className={cn('h-full', className)}
           footer={footer}
-          headerClassName={headerClassName}
           meta={meta}
           side={side}
+          slotProps={{
+            body: slotProps?.body,
+            footer: slotProps?.footer,
+            header: slotProps?.header,
+          }}
           stickyHeader={stickyHeader}
           summary={summary}
           title={title}
           variant={variant}
-          {...panelProps}
+          {...railRootProps}
         >
           {children}
         </InspectorRail>
@@ -133,29 +192,35 @@ function renderDetailPane({
   );
 }
 
-export function ListDetailWorkspace({
+export const ListDetailWorkspace = React.forwardRef<HTMLDivElement, ListDetailWorkspaceProps>(({
   className,
   content,
   detail,
   direction = 'horizontal',
-  panelGroupClassName,
   resizeHandleMode = 'grip',
   sidebar,
+  slotProps,
   ...props
-}: ListDetailWorkspaceProps) {
+}, ref) => {
   const withHandle = resizeHandleMode === 'grip';
   const hasSidebar = Boolean(sidebar);
   const hasDetail = Boolean(detail);
 
   return (
     <div
+      ref={ref}
       className={cn('h-full min-h-0 min-w-0', className)}
       data-sdk-pattern="list-detail-workspace"
       {...props}
     >
       <PanelGroup
-        className={cn('h-full', panelGroupClassName)}
         direction={direction}
+        {...mergePatternSlotProps<ListDetailWorkspaceGroupSlotProps>(
+          {
+            className: 'h-full',
+          },
+          slotProps?.panelGroup,
+        )}
       >
         {hasSidebar
           ? renderWorkspacePane('sidebar', sidebar!, {
@@ -178,4 +243,5 @@ export function ListDetailWorkspace({
       </PanelGroup>
     </div>
   );
-}
+});
+ListDetailWorkspace.displayName = 'ListDetailWorkspace';

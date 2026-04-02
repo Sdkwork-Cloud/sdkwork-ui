@@ -1,4 +1,4 @@
-import { createElement, type ComponentProps, type ReactElement, type ReactNode } from 'react';
+import type { ComponentProps, ReactElement, ReactNode } from 'react';
 import { Toaster as SonnerToaster, toast as sonnerToast, type ExternalToast } from 'sonner';
 import { useSdkworkTheme } from '../../../theme';
 
@@ -6,51 +6,68 @@ type SonnerToasterProps = ComponentProps<typeof SonnerToaster>;
 type SonnerToastOptions = NonNullable<SonnerToasterProps['toastOptions']>;
 type SonnerToastClassNames = NonNullable<SonnerToastOptions['classNames']>;
 
+export type SdkworkToastId = number | string;
+export type SdkworkToastResultUnwrapHandler<ToastData = unknown> = () => Promise<ToastData>;
 export type SdkworkToastResult<ToastData = unknown> =
-  | number
-  | string
+  | SdkworkToastId
   | {
-      unwrap: () => Promise<ToastData>;
+      unwrap: SdkworkToastResultUnwrapHandler<ToastData>;
     };
 
+export type SdkworkToastPromiseFactory<ToastData = unknown> = () => Promise<ToastData>;
 export type SdkworkToastPromise<ToastData = unknown> =
   | Promise<ToastData>
-  | (() => Promise<ToastData>);
+  | SdkworkToastPromiseFactory<ToastData>;
 
 export type SdkworkToastPromiseRenderer<ToastData = unknown> =
   | ReactNode
   | ((data: ToastData) => ReactNode | Promise<ReactNode>);
+export type SdkworkToastPromiseErrorRenderer =
+  | ReactNode
+  | ((error: unknown) => ReactNode | Promise<ReactNode>);
+export type SdkworkToastPromiseFinallyHandler = () => void | Promise<void>;
+export type SdkworkToastHandler = (message: ReactNode, data?: ExternalToast) => SdkworkToastId;
+export type SdkworkToastCustomRenderer = (id: SdkworkToastId) => ReactElement;
+export type SdkworkToastCustomHandler = (
+  jsx: SdkworkToastCustomRenderer,
+  data?: ExternalToast,
+) => SdkworkToastId;
+export type SdkworkToastDismissHandler = (id?: SdkworkToastId) => SdkworkToastId;
+export type SdkworkToastPromiseHandler = <ToastData = unknown>(
+  promise: SdkworkToastPromise<ToastData>,
+  data?: SdkworkToastPromiseOptions<ToastData>,
+) => SdkworkToastResult<ToastData>;
 
 export interface SdkworkToastPromiseOptions<ToastData = unknown>
   extends Omit<ExternalToast, 'description'> {
   description?: SdkworkToastPromiseRenderer<ToastData>;
-  error?: ReactNode | ((error: unknown) => ReactNode | Promise<ReactNode>);
-  finally?: () => void | Promise<void>;
+  error?: SdkworkToastPromiseErrorRenderer;
+  finally?: SdkworkToastPromiseFinallyHandler;
   loading?: ReactNode;
   success?: SdkworkToastPromiseRenderer<ToastData>;
 }
 
-export interface SdkworkToastApi {
-  (message: ReactNode, data?: ExternalToast): string | number;
-  custom: (jsx: (id: number | string) => ReactElement, data?: ExternalToast) => string | number;
-  dismiss: (id?: number | string) => string | number;
-  error: (message: ReactNode, data?: ExternalToast) => string | number;
-  info: (message: ReactNode, data?: ExternalToast) => string | number;
-  loading: (message: ReactNode, data?: ExternalToast) => string | number;
-  message: (message: ReactNode, data?: ExternalToast) => string | number;
-  promise: <ToastData = unknown>(
-    promise: SdkworkToastPromise<ToastData>,
-    data?: SdkworkToastPromiseOptions<ToastData>,
-  ) => SdkworkToastResult<ToastData>;
-  success: (message: ReactNode, data?: ExternalToast) => string | number;
-  warning: (message: ReactNode, data?: ExternalToast) => string | number;
-}
+export type SdkworkToastApi = SdkworkToastHandler & {
+  custom: SdkworkToastCustomHandler;
+  dismiss: SdkworkToastDismissHandler;
+  error: SdkworkToastHandler;
+  info: SdkworkToastHandler;
+  loading: SdkworkToastHandler;
+  message: SdkworkToastHandler;
+  promise: SdkworkToastPromiseHandler;
+  success: SdkworkToastHandler;
+  warning: SdkworkToastHandler;
+};
+
+type ToasterDataAttributes = {
+  [K in `data-${string}`]?: string;
+};
 
 const sdkworkToastClassNames: Partial<SonnerToastClassNames> = {
   actionButton:
-    'rounded-[calc(var(--sdk-radius-control)-0.125rem)] bg-[var(--sdk-color-brand-primary)] px-3 py-1 text-xs font-medium text-[var(--sdk-color-text-inverse)] transition-colors hover:bg-[var(--sdk-color-brand-primary-hover)]',
+    'rounded-[var(--sdk-radius-control)] bg-[var(--sdk-color-brand-primary)] px-3 py-1 text-xs font-medium text-[var(--sdk-color-text-inverse)] transition-colors hover:bg-[var(--sdk-color-brand-primary-hover)]',
   cancelButton:
-    'rounded-[calc(var(--sdk-radius-control)-0.125rem)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel-muted)] px-3 py-1 text-xs font-medium text-[var(--sdk-color-text-secondary)] transition-colors hover:bg-[var(--sdk-color-surface-elevated)] hover:text-[var(--sdk-color-text-primary)]',
+    'rounded-[var(--sdk-radius-control)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel-muted)] px-3 py-1 text-xs font-medium text-[var(--sdk-color-text-secondary)] transition-colors hover:bg-[var(--sdk-color-surface-elevated)] hover:text-[var(--sdk-color-text-primary)]',
   closeButton:
     'rounded-full border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] text-[var(--sdk-color-text-muted)] transition-colors hover:bg-[var(--sdk-color-surface-elevated)] hover:text-[var(--sdk-color-text-primary)]',
   description: 'text-sm leading-6 text-[var(--sdk-color-text-secondary)]',
@@ -60,7 +77,7 @@ const sdkworkToastClassNames: Partial<SonnerToastClassNames> = {
   info: 'border-[color-mix(in_srgb,var(--sdk-color-state-info)_32%,transparent)]',
   title: 'text-sm font-semibold text-[var(--sdk-color-text-primary)]',
   toast:
-    'group rounded-[calc(var(--sdk-radius-panel)-0.5rem)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] text-[var(--sdk-color-text-primary)] shadow-[var(--sdk-shadow-md)]',
+    'group rounded-[var(--sdk-radius-control)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] text-[var(--sdk-color-text-primary)] shadow-[var(--sdk-shadow-md)]',
   warning: 'border-[color-mix(in_srgb,var(--sdk-color-state-warning)_32%,transparent)]',
 };
 
@@ -76,7 +93,8 @@ function mergeToastOptions(
   };
 }
 
-export interface ToasterProps extends SonnerToasterProps {}
+export interface ToasterProps extends SonnerToasterProps, ToasterDataAttributes {}
+export type SdkworkToasterProps = ToasterProps;
 
 export function Toaster({
   closeButton = true,
@@ -88,19 +106,28 @@ export function Toaster({
   ...props
 }: ToasterProps) {
   const { colorMode } = useSdkworkTheme();
-
-  return createElement(SonnerToaster, {
-    closeButton,
-    expand,
-    position,
-    richColors,
-    theme: theme ?? colorMode,
-    toastOptions: mergeToastOptions(toastOptions),
-    ...props,
-  });
+  return (
+    <SonnerToaster
+      closeButton={closeButton}
+      data-sdk-ui="toaster"
+      expand={expand}
+      position={position}
+      richColors={richColors}
+      theme={theme ?? colorMode}
+      toastOptions={mergeToastOptions(toastOptions)}
+      {...props}
+    />
+  );
 }
 
-export const SdkworkToaster = Toaster;
+export function SdkworkToaster(props: SdkworkToasterProps) {
+  return (
+    <Toaster
+      data-sdk-ui="sdkwork-toaster"
+      {...props}
+    />
+  );
+}
 
 const sdkworkToastApi = Object.assign(
   (message: ReactNode, data?: ExternalToast) => sonnerToast(message, data),
@@ -123,3 +150,5 @@ const sdkworkToastApi = Object.assign(
 
 export const toast: SdkworkToastApi = sdkworkToastApi;
 export const sdkToast: SdkworkToastApi = toast;
+Toaster.displayName = 'Toaster';
+SdkworkToaster.displayName = 'SdkworkToaster';

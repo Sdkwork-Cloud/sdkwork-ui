@@ -1,14 +1,17 @@
 import * as React from 'react';
 import { cn } from '../../lib/utils';
 
-const Skeleton = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+export type SkeletonProps = React.HTMLAttributes<HTMLDivElement>;
+
+const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
       className={cn(
-        'animate-pulse rounded-[calc(var(--sdk-radius-control)-0.125rem)] bg-[var(--sdk-color-surface-panel-muted)]',
+        'animate-pulse rounded-[var(--sdk-radius-control)] bg-[var(--sdk-color-surface-panel-muted)]',
         className,
       )}
+      data-sdk-ui="skeleton"
       {...props}
     />
   ),

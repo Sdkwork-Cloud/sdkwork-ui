@@ -1,12 +1,22 @@
 import * as React from 'react';
 import { cn } from '../../lib/utils';
 
-const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
+export type TableProps = React.HTMLAttributes<HTMLTableElement>;
+export type TableHeaderProps = React.HTMLAttributes<HTMLTableSectionElement>;
+export type TableBodyProps = React.HTMLAttributes<HTMLTableSectionElement>;
+export type TableFooterProps = React.HTMLAttributes<HTMLTableSectionElement>;
+export type TableRowProps = React.HTMLAttributes<HTMLTableRowElement>;
+export type TableHeadProps = React.ThHTMLAttributes<HTMLTableCellElement>;
+export type TableCellProps = React.TdHTMLAttributes<HTMLTableCellElement>;
+export type TableCaptionProps = React.HTMLAttributes<HTMLTableCaptionElement>;
+
+const Table = React.forwardRef<HTMLTableElement, TableProps>(
   ({ className, ...props }, ref) => (
-    <div className="relative w-full overflow-auto rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)]">
+    <div className="relative w-full overflow-auto">
       <table
         ref={ref}
         className={cn('w-full caption-bottom text-sm', className)}
+        data-sdk-ui="table"
         {...props}
       />
     </div>
@@ -15,11 +25,12 @@ const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableE
 
 Table.displayName = 'Table';
 
-const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
+const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeaderProps>(
   ({ className, ...props }, ref) => (
     <thead
       ref={ref}
       className={cn('[&_tr]:border-b [&_tr]:border-[var(--sdk-color-border-default)]', className)}
+      data-sdk-ui="table-header"
       {...props}
     />
   ),
@@ -27,11 +38,12 @@ const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLAttribut
 
 TableHeader.displayName = 'TableHeader';
 
-const TableBody = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
+const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
   ({ className, ...props }, ref) => (
     <tbody
       ref={ref}
       className={cn('[&_tr:last-child]:border-0', className)}
+      data-sdk-ui="table-body"
       {...props}
     />
   ),
@@ -39,7 +51,7 @@ const TableBody = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes
 
 TableBody.displayName = 'TableBody';
 
-const TableFooter = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
+const TableFooter = React.forwardRef<HTMLTableSectionElement, TableFooterProps>(
   ({ className, ...props }, ref) => (
     <tfoot
       ref={ref}
@@ -47,6 +59,7 @@ const TableFooter = React.forwardRef<HTMLTableSectionElement, React.HTMLAttribut
         'border-t border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel-muted)] font-medium [&>tr]:last:border-b-0',
         className,
       )}
+      data-sdk-ui="table-footer"
       {...props}
     />
   ),
@@ -54,14 +67,15 @@ const TableFooter = React.forwardRef<HTMLTableSectionElement, React.HTMLAttribut
 
 TableFooter.displayName = 'TableFooter';
 
-const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTMLTableRowElement>>(
+const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
   ({ className, ...props }, ref) => (
     <tr
       ref={ref}
       className={cn(
-        'border-b border-[var(--sdk-color-border-subtle)] transition-colors hover:bg-[var(--sdk-color-brand-primary-soft)] data-[state=selected]:bg-[var(--sdk-color-brand-primary-soft)]',
+        'border-b border-[var(--sdk-color-border-subtle)] transition-colors data-[state=selected]:bg-[var(--sdk-color-brand-primary-soft)]',
         className,
       )}
+      data-sdk-ui="table-row"
       {...props}
     />
   ),
@@ -69,7 +83,7 @@ const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTML
 
 TableRow.displayName = 'TableRow';
 
-const TableHead = React.forwardRef<HTMLTableCellElement, React.ThHTMLAttributes<HTMLTableCellElement>>(
+const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
   ({ className, ...props }, ref) => (
     <th
       ref={ref}
@@ -77,6 +91,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, React.ThHTMLAttributes<
         'h-11 px-4 text-left align-middle text-sm font-medium text-[var(--sdk-color-text-secondary)]',
         className,
       )}
+      data-sdk-ui="table-head"
       {...props}
     />
   ),
@@ -84,11 +99,12 @@ const TableHead = React.forwardRef<HTMLTableCellElement, React.ThHTMLAttributes<
 
 TableHead.displayName = 'TableHead';
 
-const TableCell = React.forwardRef<HTMLTableCellElement, React.TdHTMLAttributes<HTMLTableCellElement>>(
+const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
   ({ className, ...props }, ref) => (
     <td
       ref={ref}
       className={cn('p-4 align-middle text-[var(--sdk-color-text-primary)]', className)}
+      data-sdk-ui="table-cell"
       {...props}
     />
   ),
@@ -96,11 +112,12 @@ const TableCell = React.forwardRef<HTMLTableCellElement, React.TdHTMLAttributes<
 
 TableCell.displayName = 'TableCell';
 
-const TableCaption = React.forwardRef<HTMLTableCaptionElement, React.HTMLAttributes<HTMLTableCaptionElement>>(
+const TableCaption = React.forwardRef<HTMLTableCaptionElement, TableCaptionProps>(
   ({ className, ...props }, ref) => (
     <caption
       ref={ref}
       className={cn('mt-4 text-sm text-[var(--sdk-color-text-secondary)]', className)}
+      data-sdk-ui="table-caption"
       {...props}
     />
   ),

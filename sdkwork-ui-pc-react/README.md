@@ -2,7 +2,7 @@
 
 `@sdkwork/ui-pc-react` is the shared PC application UI framework for SDKWORK desktop and desktop-first React applications.
 
-The default visual baseline is the `claw-studio` desktop design language: zinc-neutral surfaces, blue brand emphasis, rounded-xl controls, large panel radii, and soft layered shadows.
+The default visual baseline is the `claw-studio` desktop design language: zinc-neutral surfaces, blue brand emphasis, compact control radii, restrained panel radii, and soft layered shadows.
 
 It standardizes:
 
@@ -23,6 +23,16 @@ It standardizes:
 - framework documentation with VitePress
 
 The current shared baseline includes actions with `SplitButton`, `ActionMenuButton`, and `BulkActionBar`, data-entry primitives including `TagInput`, `DateTimeInput`, `DateRangeField`, `DateTimeRangeField`, `DateRangePicker`, a typed upload family with replacement, clear-all, paste, directory support, inline rejection feedback, and preview/download/retry item actions, richer data-display primitives including `DataGrid`, `DataTable`, `RichTree`, `Timeline`, `MarkdownViewer`, and `KeyValueTable`, layout toolbars plus `StatusBar`, split-workspace surfaces, navigation primitives including `Menubar`, `Stepper`, and closable workspace tabs, overlays, a feedback domain with `ActivityFeed`, inline alerts, notification-center panels, and themed toast notifications, a desktop form system with settings-specific field orchestration, list-filter infrastructure, structured detail presentation primitives, advanced desktop interaction components, and desktop shell or workbench patterns including reusable `DesktopShellFrame`, `InspectorRail`, `SettingsCenter`, `DirtyStateBar`, `DetailDrawer`, `OperationDrawer`, `AnchoredPickerSurface`, `PickerDialog`, `EntityPickerDialog`, `PickerSelectionFooter`, `TwoPaneSelectorPopover`, `ListDetailWorkspace`, `ManagementWorkbench`, `CrudWorkbench`, `SearchCommandPalette`, and `WorkspaceScaffold`.
+
+## Framework Governance
+
+The package is now governed by explicit framework contracts rather than ad hoc component conventions.
+
+- Theme tokens are a closed contract and are audited for undeclared usage.
+- Rendered components expose stable `data-sdk-ui`, `data-sdk-pattern`, or `data-sdk-region` markers.
+- Reusable components follow shared authoring rules for props, refs, display names, and semantics.
+
+See `docs/reference/framework-governance.md` for the framework rulebook.
 
 ## Scope
 
@@ -48,6 +58,21 @@ pnpm docs:dev
 pnpm docs:build
 ```
 
+## Install From Git
+
+This package can be consumed directly from the repository main branch. Because the package declares a `prepare` script, git installs build `dist` before the dependency is linked into the consumer app.
+
+```bash
+pnpm add "https://<git-host>/<org>/spring-ai-plus.git#main&path:/spring-ai-plus-business/apps/sdkwork-ui/sdkwork-ui-pc-react"
+```
+
+After installation, consume it like any other package:
+
+```tsx
+import '@sdkwork/ui-pc-react/styles.css';
+import { Button, DataTable } from '@sdkwork/ui-pc-react';
+```
+
 ## Package Exports
 
 - `@sdkwork/ui-pc-react`
@@ -56,9 +81,9 @@ pnpm docs:build
 - `@sdkwork/ui-pc-react/components/ui/actions`
 - `@sdkwork/ui-pc-react/components/ui/data-entry`
 - `@sdkwork/ui-pc-react/components/ui/data-display`
-- `@sdkwork/ui-pc-react/components/ui/layout`
 - `@sdkwork/ui-pc-react/components/ui/form`
 - `@sdkwork/ui-pc-react/components/ui/feedback`
+- `@sdkwork/ui-pc-react/components/ui/layout`
 - `@sdkwork/ui-pc-react/components/ui/navigation`
 - `@sdkwork/ui-pc-react/components/ui/overlays`
 - `@sdkwork/ui-pc-react/components/ui/catalog`
@@ -281,14 +306,25 @@ src/components/ui
     index.ts
 ```
 
-Low-level primitives that predate this structure are still re-exported for compatibility, but new composite families should land under their owning domain.
+Each domain barrel is now authoritative for its own public runtime surface.
 
-`data-entry` stays focused on standalone input primitives, while `form` owns field orchestration and desktop form layouts:
+`form` owns field orchestration and desktop form layouts:
 
 - `Form`, `FormField`, `FormItem`, `FormLabel`, `FormControl`, `FormDescription`, `FormMessage`
 - `FormSection`, `FormGrid`, `FormActions`
 - `SettingsField`, `SettingsSection`
 - `FilterBar`, `FilterBarSection`, `FilterBarActions`
+
+`data-entry` owns standalone controls and typed input families:
+
+- `Input`
+- `Textarea`
+- `Checkbox`
+- `Switch`
+- `Select`
+- `Label`
+- `RadioGroup`
+- `Slider`
 - `Combobox`
 - `DateInput`
 - `DateTimeInput`
@@ -316,7 +352,7 @@ The upload family now covers local and remote desktop intake flows:
 - `Menubar`
 - `Stepper`, `StepperItem`
 - `Pagination`, `PaginationLink`, `PaginationPrevious`, `PaginationNext`
-- `WorkspaceTabs`
+- `WorkspaceTab`, `WorkspaceTabs`
 
 `layout` owns reusable workspace structure that is lighter than app shells and heavier than raw `div` wrappers:
 
@@ -361,7 +397,7 @@ The upload family now covers local and remote desktop intake flows:
 - `EmptyState`, `LoadingBlock`, `StatusNotice`, `Progress`, `Skeleton`
 - `EmptySearch`
 - `InlineAlert`
-- `NotificationCenter`
+- `NotificationCenter`, `NotificationCenterItem`
 - `Toaster`, `SdkworkToaster`
 - `toast`, `sdkToast`
 
@@ -421,7 +457,7 @@ src/components/patterns
 
 The top-level pattern files remain as compatibility re-export facades, but new composition families should land inside their owning pattern domain.
 
-The current implementation covers the highest-frequency shared controls first, including `Avatar`, `Tabs`, `DataGrid`, `DataTable`, `RichTree`, `DescriptionList`, `KeyValueTable`, `MarkdownViewer`, `Table`, `Timeline`, `Tree`, `StatusBadge`, `StatCard`, `ActivityFeed`, `Progress`, `Skeleton`, `InlineAlert`, `EmptySearch`, `NotificationCenter`, `Toaster`, `toast`, `Popover`, `DropdownMenu`, `Tooltip`, `RadioGroup`, `Slider`, `Button`, `IconButton`, `ToolbarButton`, `ActionMenuButton`, `BulkActionBar`, `SplitButton`, `Command`, `Toolbar`, `PanelGroup`, `Panel`, `PanelResizeHandle`, `SidebarSection`, `StatusBar`, `Modal`, `ConfirmDialog`, `Drawer`, `ContextMenu`, `HoverCard`, `Combobox`, `DateInput`, `DateTimeInput`, `DateRangeField`, `DateTimeRangeField`, `DateRangePicker`, the full upload family (`FileUpload`, `ImageUpload`, `VideoUpload`, `AudioUpload`, `DocumentUpload`), `NumberInput`, `SegmentedControl`, `TagInput`, `Menubar`, `Stepper`, `WorkspaceTabs`, the shared form system, core navigation primitives, and the desktop pattern family (`DesktopWindowControls`, `DesktopTitleBar`, `DesktopAppHeader`, `DesktopShellFrame`, `SectionHeader`, `SettingsCenter`, `DirtyStateBar`, `DetailDrawer`, `OperationDrawer`, `AnchoredPickerSurface`, `PickerDialog`, `EntityPickerDialog`, `PickerSelectionFooter`, `TwoPaneSelectorPopover`, `InspectorRail`, `ListDetailWorkspace`, `ManagementWorkbench`, `CrudWorkbench`, `SearchCommandPalette`, `WorkspaceScaffold`, and `RestartRequiredNotice`). The picker stack now layers `AnchoredPickerSurface` beneath `TwoPaneSelectorPopover` so future `DatePicker`, `PresetRangePicker`, `TreeSelect`, and `TransferList` patterns can converge on one anchored shell. The docs now position the next-wave catalog around richer popup date picking, filter tabs and chips, `TreeSelect`, `TransferList`, explorer shells, and higher-order settings or navigation workbench families.
+The current implementation covers the highest-frequency shared controls first, including `Avatar`, `Tabs`, `DataGrid`, `DataTable`, `RichTree`, `DescriptionList`, `KeyValueTable`, `MarkdownViewer`, `Table`, `Timeline`, `Tree`, `StatusBadge`, `StatCard`, `ActivityFeed`, `ActivityFeedItem`, `Progress`, `Skeleton`, `InlineAlert`, `EmptySearch`, `NotificationCenter`, `NotificationCenterItem`, `Toaster`, `toast`, `Popover`, `DropdownMenu`, `Tooltip`, `RadioGroup`, `Slider`, `Button`, `IconButton`, `ToolbarButton`, `ActionMenuButton`, `BulkActionBar`, `SplitButton`, `Command`, `Toolbar`, `PanelGroup`, `Panel`, `PanelResizeHandle`, `SidebarSection`, `StatusBar`, `Modal`, `ConfirmDialog`, `Drawer`, `ContextMenu`, `HoverCard`, `Combobox`, `DateInput`, `DateTimeInput`, `DateRangeField`, `DateTimeRangeField`, `DateRangePicker`, the full upload family (`FileUpload`, `ImageUpload`, `VideoUpload`, `AudioUpload`, `DocumentUpload`), `NumberInput`, `SegmentedControl`, `TagInput`, `Menubar`, `Stepper`, `StepperItem`, `WorkspaceTab`, `WorkspaceTabs`, the shared form system, core navigation primitives, and the desktop pattern family (`DesktopWindowControls`, `DesktopTitleBar`, `DesktopAppHeader`, `DesktopShellFrame`, `SectionHeader`, `SettingsCenter`, `DirtyStateBar`, `DetailDrawer`, `OperationDrawer`, `AnchoredPickerSurface`, `PickerDialog`, `EntityPickerDialog`, `PickerSelectionFooter`, `TwoPaneSelectorPopover`, `InspectorRail`, `ListDetailWorkspace`, `ManagementWorkbench`, `CrudWorkbench`, `SearchCommandPalette`, `WorkspaceScaffold`, and `RestartRequiredNotice`). The picker stack now layers `AnchoredPickerSurface` beneath `TwoPaneSelectorPopover` so future `DatePicker`, `PresetRangePicker`, `TreeSelect`, and `TransferList` patterns can converge on one anchored shell. The docs now position the next-wave catalog around richer popup date picking, filter tabs and chips, `TreeSelect`, `TransferList`, explorer shells, and higher-order settings or navigation workbench families.
 
 ## Documentation
 

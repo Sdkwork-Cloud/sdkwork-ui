@@ -97,6 +97,7 @@ describe('ui component catalog', () => {
       expect.arrayContaining([
         'ActivityFeed',
         'ActivityFeedItem',
+        'NotificationCenterItem',
         'EmptyState',
         'LoadingBlock',
         'StatusNotice',
@@ -185,6 +186,7 @@ describe('ui component catalog', () => {
         'PaginationPrevious',
         'PaginationNext',
         'PaginationEllipsis',
+        'WorkspaceTab',
         'WorkspaceTabs',
       ]),
     );

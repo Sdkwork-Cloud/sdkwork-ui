@@ -6,17 +6,48 @@ import { cn } from '../../../lib/utils';
 import { Button } from '../button';
 
 const Modal = DialogPrimitive.Root;
-const ModalTrigger = DialogPrimitive.Trigger;
 const ModalPortal = DialogPrimitive.Portal;
-const ModalClose = DialogPrimitive.Close;
+
+export type ModalProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>;
+export type ModalTriggerProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>;
+export type ModalPortalProps = React.ComponentProps<typeof DialogPrimitive.Portal>;
+export type ModalCloseProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Close>;
+export type ModalOverlayProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>;
+
+const ModalTrigger = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Trigger>,
+  ModalTriggerProps
+>(({ ...props }, ref) => (
+  <DialogPrimitive.Trigger
+    ref={ref}
+    data-sdk-ui="modal-trigger"
+    {...props}
+  />
+));
+
+ModalTrigger.displayName = 'ModalTrigger';
+
+const ModalClose = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Close>,
+  ModalCloseProps
+>(({ ...props }, ref) => (
+  <DialogPrimitive.Close
+    ref={ref}
+    data-sdk-ui="modal-close"
+    {...props}
+  />
+));
+
+ModalClose.displayName = 'ModalClose';
 
 const ModalOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
+  ModalOverlayProps
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn('fixed inset-0 z-50 bg-[var(--sdk-color-surface-overlay)] backdrop-blur-sm', className)}
+    data-sdk-ui="modal-overlay"
     {...props}
   />
 ));
@@ -52,6 +83,10 @@ export interface ModalContentProps
   showCloseButton?: boolean;
 }
 
+export type ModalHeaderProps = React.HTMLAttributes<HTMLDivElement>;
+export type ModalBodyProps = React.HTMLAttributes<HTMLDivElement>;
+export type ModalFooterProps = React.HTMLAttributes<HTMLDivElement>;
+
 const ModalContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, ModalContentProps>(
   ({ align, children, className, showCloseButton = true, size, ...props }, ref) => (
     <ModalPortal>
@@ -59,14 +94,15 @@ const ModalContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Co
       <DialogPrimitive.Content
         ref={ref}
         className={cn(modalContentVariants({ align, size }), className)}
+        data-sdk-ui="modal-content"
         {...props}
       >
         {children}
         {showCloseButton ? (
-          <DialogPrimitive.Close className="absolute right-4 top-4 rounded-full p-1.5 text-[var(--sdk-color-text-muted)] transition-colors hover:bg-[var(--sdk-color-brand-primary-soft)] hover:text-[var(--sdk-color-text-primary)]">
+          <ModalClose className="absolute right-4 top-4 rounded-full p-1.5 text-[var(--sdk-color-text-muted)] transition-colors hover:bg-[var(--sdk-color-brand-primary-soft)] hover:text-[var(--sdk-color-text-primary)]">
             <X className="h-4 w-4" />
             <span className="sr-only">Close</span>
-          </DialogPrimitive.Close>
+          </ModalClose>
         ) : null}
       </DialogPrimitive.Content>
     </ModalPortal>
@@ -75,46 +111,59 @@ const ModalContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Co
 
 ModalContent.displayName = 'ModalContent';
 
-const ModalHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+const ModalHeader = React.forwardRef<HTMLDivElement, ModalHeaderProps>(({ className, ...props }, ref) => (
   <div
+    ref={ref}
     className={cn(
       'flex shrink-0 flex-col gap-1.5 border-b border-[var(--sdk-color-border-default)] px-6 py-5 pr-14',
       className,
     )}
+    data-sdk-ui="modal-header"
     {...props}
   />
-);
+));
 
-const ModalBody = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('min-h-0 flex-1 overflow-y-auto px-6 py-5', className)} {...props} />
-);
-
-const ModalFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+const ModalBody = React.forwardRef<HTMLDivElement, ModalBodyProps>(({ className, ...props }, ref) => (
   <div
+    ref={ref}
+    className={cn('min-h-0 flex-1 overflow-y-auto px-6 py-5', className)}
+    data-sdk-ui="modal-body"
+    {...props}
+  />
+));
+
+const ModalFooter = React.forwardRef<HTMLDivElement, ModalFooterProps>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
     className={cn(
       'flex shrink-0 items-center justify-end gap-3 border-t border-[var(--sdk-color-border-default)] px-6 py-4',
       className,
     )}
+    data-sdk-ui="modal-footer"
     {...props}
   />
-);
+));
+
+export type ModalTitleProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>;
+export type ModalDescriptionProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>;
 
 const ModalTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
+  ModalTitleProps
 >(({ className, ...props }, ref) => (
-  <DialogPrimitive.Title ref={ref} className={cn('text-lg font-semibold', className)} {...props} />
+  <DialogPrimitive.Title ref={ref} className={cn('text-lg font-semibold', className)} data-sdk-ui="modal-title" {...props} />
 ));
 
 ModalTitle.displayName = 'ModalTitle';
 
 const ModalDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
+  ModalDescriptionProps
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
     className={cn('text-sm text-[var(--sdk-color-text-secondary)]', className)}
+    data-sdk-ui="modal-description"
     {...props}
   />
 ));
@@ -130,6 +179,9 @@ const confirmIconToneClass = {
     'border-[color-mix(in_srgb,var(--sdk-color-state-warning)_24%,transparent)] bg-[color-mix(in_srgb,var(--sdk-color-state-warning)_16%,transparent)] text-[var(--sdk-color-state-warning)]',
 } as const;
 
+export type ConfirmDialogConfirmHandler = () => void;
+export type ConfirmDialogOpenChangeHandler = (open: boolean) => void;
+
 export interface ConfirmDialogProps {
   cancelLabel?: React.ReactNode;
   closeOnConfirm?: boolean;
@@ -137,8 +189,8 @@ export interface ConfirmDialogProps {
   confirmLoading?: boolean;
   description?: React.ReactNode;
   open?: boolean;
-  onConfirm: () => void;
-  onOpenChange?: (open: boolean) => void;
+  onConfirm: ConfirmDialogConfirmHandler;
+  onOpenChange?: ConfirmDialogOpenChangeHandler;
   title: React.ReactNode;
   tone?: 'default' | 'danger' | 'warning';
 }
@@ -159,7 +211,7 @@ export function ConfirmDialog({
 
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
-      <ModalContent size="sm">
+      <ModalContent data-sdk-ui="confirm-dialog" size="sm">
         <ModalHeader>
           <div className="flex items-start gap-3">
             <div
@@ -212,3 +264,9 @@ export {
   ModalTitle,
   ModalTrigger,
 };
+ConfirmDialog.displayName = 'ConfirmDialog';
+Modal.displayName = 'Modal';
+ModalBody.displayName = 'ModalBody';
+ModalFooter.displayName = 'ModalFooter';
+ModalHeader.displayName = 'ModalHeader';
+ModalPortal.displayName = 'ModalPortal';

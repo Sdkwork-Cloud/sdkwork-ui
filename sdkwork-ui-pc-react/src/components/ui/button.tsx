@@ -50,6 +50,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         className={cn(buttonVariants({ variant, size }), className)}
         data-loading={loading ? 'true' : undefined}
+        data-sdk-ui="button"
         disabled={disabled || loading}
         {...props}
       >

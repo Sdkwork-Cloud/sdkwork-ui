@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../../lib/utils';
 
 const toolbarButtonVariants = cva(
-  'inline-flex shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-[calc(var(--sdk-radius-control)-0.125rem)] border border-transparent bg-transparent font-medium text-[var(--sdk-color-text-secondary)] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[var(--sdk-color-border-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--sdk-color-surface-canvas)] disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0',
+  'inline-flex shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-[var(--sdk-radius-control)] border border-transparent bg-transparent font-medium text-[var(--sdk-color-text-secondary)] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[var(--sdk-color-border-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--sdk-color-surface-canvas)] disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0',
   {
     variants: {
       size: {
@@ -86,6 +86,7 @@ const ToolbarButton = React.forwardRef<HTMLButtonElement, ToolbarButtonProps>(
         aria-label={ariaLabel}
         aria-pressed={hasPressedState ? resolvedPressed : undefined}
         className={cn(toolbarButtonVariants({ pressed: resolvedPressed, size }), className)}
+        data-sdk-ui="toolbar-button"
         onMouseDown={handleMouseDown}
         title={resolvedTitle}
         type={type}

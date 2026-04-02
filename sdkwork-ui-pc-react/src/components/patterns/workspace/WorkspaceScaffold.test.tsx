@@ -23,9 +23,13 @@ describe('WorkspaceScaffold', () => {
           title: 'Inspector',
         }}
         main={{
-          bodyClassName: 'p-0',
           children: <div>Primary canvas</div>,
           description: 'Main editing and preview surface.',
+          slotProps: {
+            body: {
+              className: 'p-0',
+            },
+          },
           title: 'Canvas',
         }}
         sidebar={{

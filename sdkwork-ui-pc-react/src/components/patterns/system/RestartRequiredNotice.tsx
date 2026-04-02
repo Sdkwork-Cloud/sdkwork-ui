@@ -3,12 +3,15 @@ import { cn } from '../../../lib/utils';
 import { Button } from '../../ui/button';
 import { InlineAlert } from '../../ui/feedback';
 
+export type RestartRequiredNoticeDismissHandler = () => void;
+export type RestartRequiredNoticeRestartHandler = () => void;
+
 export interface RestartRequiredNoticeProps
   extends Omit<React.ComponentPropsWithoutRef<typeof InlineAlert>, 'actions' | 'showIcon' | 'title' | 'tone'> {
   actions?: React.ReactNode;
   dismissLabel?: React.ReactNode;
-  onDismiss?: () => void;
-  onRestart?: () => void;
+  onDismiss?: RestartRequiredNoticeDismissHandler;
+  onRestart?: RestartRequiredNoticeRestartHandler;
   restartLabel?: React.ReactNode;
   sticky?: boolean;
   title?: React.ReactNode;
@@ -56,6 +59,7 @@ export function RestartRequiredNotice({
     <InlineAlert
       actions={resolvedActions}
       className={cn(sticky ? 'sticky bottom-0 z-10' : null, className)}
+      data-sdk-pattern="restart-required-notice"
       description={description}
       showIcon
       title={title}
@@ -64,3 +68,4 @@ export function RestartRequiredNotice({
     />
   );
 }
+RestartRequiredNotice.displayName = 'RestartRequiredNotice';

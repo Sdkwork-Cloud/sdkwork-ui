@@ -189,8 +189,8 @@ function UploadItem({ disabled = false, fallbackVariant, item, listType, onDownl
 
   if (isGrid) {
     return (
-      <div className="rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] shadow-[var(--sdk-shadow-sm)]">
-        <div className="relative aspect-square overflow-hidden rounded-t-[calc(var(--sdk-radius-panel)-2px)] bg-[var(--sdk-color-surface-panel-muted)]">
+      <div className="rounded-[var(--sdk-radius-control)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] shadow-[var(--sdk-shadow-sm)]" data-sdk-ui="upload-item" data-sdk-variant="grid">
+        <div className="relative aspect-square overflow-hidden rounded-t-[var(--sdk-radius-control)] bg-[var(--sdk-color-surface-panel-muted)]">
           {mediaPreview ? (
             mediaPreview
           ) : (
@@ -225,7 +225,7 @@ function UploadItem({ disabled = false, fallbackVariant, item, listType, onDownl
   }
 
   return (
-    <div className="rounded-[var(--sdk-radius-control)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] px-4 py-3">
+    <div className="rounded-[var(--sdk-radius-control)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] px-4 py-3" data-sdk-ui="upload-item" data-sdk-variant="list">
       <div className="flex items-start gap-3">
         <div
           className={cn(
@@ -264,5 +264,7 @@ function UploadItem({ disabled = false, fallbackVariant, item, listType, onDownl
     </div>
   );
 }
+
+UploadItem.displayName = 'UploadItem';
 
 export { UploadItem };

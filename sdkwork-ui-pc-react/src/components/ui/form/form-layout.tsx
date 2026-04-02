@@ -17,6 +17,8 @@ export interface FormGridProps extends React.HTMLAttributes<HTMLDivElement> {
   columns?: keyof typeof formGridColumnsClass;
 }
 
+export type FormActionsProps = React.HTMLAttributes<HTMLDivElement>;
+
 const FormSection = React.forwardRef<HTMLElement, FormSectionProps>(
   ({ actions, children, className, description, title, ...props }, ref) => {
     const titleId = React.useId();
@@ -30,9 +32,10 @@ const FormSection = React.forwardRef<HTMLElement, FormSectionProps>(
         aria-describedby={describedBy}
         aria-labelledby={labelledBy}
         className={cn(
-          'space-y-6 rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] p-6 shadow-[var(--sdk-shadow-sm)]',
+          'space-y-6 rounded-[var(--sdk-radius-control)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] p-6 shadow-[var(--sdk-shadow-sm)]',
           className,
         )}
+        data-sdk-ui="form-section"
         {...props}
       >
         {title || description || actions ? (
@@ -71,6 +74,7 @@ const FormGrid = React.forwardRef<HTMLDivElement, FormGridProps>(
     <div
       ref={ref}
       className={cn('grid gap-4 xl:gap-6', formGridColumnsClass[columns], className)}
+      data-sdk-ui="form-grid"
       {...props}
     >
       {children}
@@ -80,7 +84,7 @@ const FormGrid = React.forwardRef<HTMLDivElement, FormGridProps>(
 
 FormGrid.displayName = 'FormGrid';
 
-const FormActions = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+const FormActions = React.forwardRef<HTMLDivElement, FormActionsProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
@@ -88,6 +92,7 @@ const FormActions = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDi
         'flex flex-col-reverse gap-3 border-t border-[var(--sdk-color-border-subtle)] pt-5 sm:flex-row sm:items-center sm:justify-end',
         className,
       )}
+      data-sdk-ui="form-actions"
       {...props}
     />
   ),

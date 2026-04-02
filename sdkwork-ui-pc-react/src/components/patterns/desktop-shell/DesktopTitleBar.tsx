@@ -1,29 +1,41 @@
-import type { CSSProperties, HTMLAttributes, ReactNode } from 'react';
+import * as React from 'react';
 import { cn } from '../../../lib/utils';
+import {
+  mergePatternSlotProps,
+  type PatternSlotProps,
+} from '../_internal/slot-props';
 import {
   DesktopWindowControls,
   type DesktopWindowControlLabels,
   type DesktopWindowController,
 } from './DesktopWindowControls';
 
+export type DesktopTitleBarRegionSlotProps = PatternSlotProps<
+  Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>
+>;
+
+export interface DesktopTitleBarSlotProps {
+  center?: DesktopTitleBarRegionSlotProps;
+  centerShell?: DesktopTitleBarRegionSlotProps;
+  leading?: DesktopTitleBarRegionSlotProps;
+  trailing?: DesktopTitleBarRegionSlotProps;
+}
+
 export interface DesktopTitleBarProps
-  extends Omit<HTMLAttributes<HTMLElement>, 'children' | 'style'> {
+  extends Omit<React.HTMLAttributes<HTMLElement>, 'children' | 'style'> {
   bordered?: boolean;
-  center?: ReactNode;
-  centerClassName?: string;
-  centerContainerClassName?: string;
+  center?: React.ReactNode;
   centerInteractive?: boolean;
-  centerMaxWidth?: CSSProperties['maxWidth'];
-  leading?: ReactNode;
-  leadingClassName?: string;
+  centerMaxWidth?: React.CSSProperties['maxWidth'];
+  leading?: React.ReactNode;
   size?: 'comfortable' | 'compact' | 'default';
-  style?: CSSProperties;
-  trailing?: ReactNode;
-  trailingClassName?: string;
+  slotProps?: DesktopTitleBarSlotProps;
+  style?: React.CSSProperties;
+  trailing?: React.ReactNode;
   translucent?: boolean;
   windowController?: DesktopWindowController | null;
   windowControlLabels?: Partial<DesktopWindowControlLabels>;
-  windowControls?: ReactNode;
+  windowControls?: React.ReactNode;
 }
 
 const sizeClassName: Record<NonNullable<DesktopTitleBarProps['size']>, string> = {
@@ -32,26 +44,23 @@ const sizeClassName: Record<NonNullable<DesktopTitleBarProps['size']>, string> =
   default: 'h-12 px-3 sm:px-4',
 };
 
-export function DesktopTitleBar({
+export const DesktopTitleBar = React.forwardRef<HTMLElement, DesktopTitleBarProps>(({
   bordered = true,
   center,
-  centerClassName,
-  centerContainerClassName,
   centerInteractive = true,
   centerMaxWidth = '36rem',
   className,
   leading,
-  leadingClassName,
   size = 'default',
+  slotProps,
   style,
   trailing,
-  trailingClassName,
   translucent = true,
   windowController,
   windowControlLabels,
   windowControls,
   ...props
-}: DesktopTitleBarProps) {
+}, ref) => {
   const resolvedWindowControls =
     windowControls ??
     (windowController ? (
@@ -61,6 +70,7 @@ export function DesktopTitleBar({
 
   return (
     <header
+      ref={ref}
       className={cn(
         'relative flex items-center',
         sizeClassName[size],
@@ -76,29 +86,50 @@ export function DesktopTitleBar({
     >
       {leading ? (
         <div
-          className={cn('flex min-w-0 flex-1 items-center gap-3', leadingClassName)}
-          data-sdk-slot="leading"
-          data-tauri-drag-region
+          {...mergePatternSlotProps<DesktopTitleBarRegionSlotProps>(
+            {
+              className: 'flex min-w-0 flex-1 items-center gap-3',
+              'data-sdk-region': 'desktop-title-bar-leading',
+              'data-sdk-slot': 'leading',
+              'data-tauri-drag-region': true,
+            },
+            slotProps?.leading,
+          )}
         >
           {leading}
         </div>
       ) : (
-        <div className="flex min-w-0 flex-1" data-sdk-slot="leading-spacer" data-tauri-drag-region />
+        <div
+          className="flex min-w-0 flex-1"
+          data-sdk-region="desktop-title-bar-leading-spacer"
+          data-sdk-slot="leading-spacer"
+          data-tauri-drag-region
+        />
       )}
 
       {center ? (
         <div
-          className={cn(
-            'pointer-events-none absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 items-center justify-center px-24 lg:px-32',
-            centerContainerClassName,
+          {...mergePatternSlotProps<DesktopTitleBarRegionSlotProps>(
+            {
+              className:
+                'pointer-events-none absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 items-center justify-center px-24 lg:px-32',
+              'data-sdk-region': 'desktop-title-bar-center-shell',
+              'data-sdk-slot': 'center-shell',
+              style: { maxWidth: centerMaxWidth },
+            },
+            slotProps?.centerShell,
           )}
-          data-sdk-slot="center-shell"
-          style={{ maxWidth: centerMaxWidth }}
         >
           <div
-            className={cn('w-full', centerInteractive ? 'pointer-events-auto' : null, centerClassName)}
-            data-sdk-slot="center"
-            data-tauri-drag-region={centerInteractive ? 'false' : true}
+            {...mergePatternSlotProps<DesktopTitleBarRegionSlotProps>(
+              {
+                className: cn('w-full', centerInteractive ? 'pointer-events-auto' : null),
+                'data-sdk-region': 'desktop-title-bar-center',
+                'data-sdk-slot': 'center',
+                'data-tauri-drag-region': centerInteractive ? 'false' : true,
+              },
+              slotProps?.center,
+            )}
           >
             {center}
           </div>
@@ -107,12 +138,15 @@ export function DesktopTitleBar({
 
       {hasTrailingRegion ? (
         <div
-          className={cn(
-            'ml-auto flex h-full shrink-0 items-center justify-end gap-2',
-            trailingClassName,
+          {...mergePatternSlotProps<DesktopTitleBarRegionSlotProps>(
+            {
+              className: 'ml-auto flex h-full shrink-0 items-center justify-end gap-2',
+              'data-sdk-region': 'desktop-title-bar-trailing',
+              'data-sdk-slot': 'trailing',
+              'data-tauri-drag-region': 'false',
+            },
+            slotProps?.trailing,
           )}
-          data-sdk-slot="trailing"
-          data-tauri-drag-region="false"
         >
           {trailing}
           {resolvedWindowControls}
@@ -120,4 +154,5 @@ export function DesktopTitleBar({
       ) : null}
     </header>
   );
-}
+});
+DesktopTitleBar.displayName = 'DesktopTitleBar';

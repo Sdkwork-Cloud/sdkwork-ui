@@ -1,11 +1,23 @@
 import * as React from 'react';
 import { cn } from '../../../lib/utils';
+import {
+  mergePatternSlotProps,
+  type PatternSlotProps,
+} from '../_internal/slot-props';
 import { Panel, PanelGroup, PanelResizeHandle } from '../../ui/layout';
 import type { PanelProps, PanelGroupProps } from '../../ui/layout/panel-group';
-import { InspectorRail, type InspectorRailProps } from './InspectorRail';
-import { WorkspacePanel, type WorkspacePanelProps } from './WorkspacePanel';
+import {
+  InspectorRail,
+  type InspectorRailProps,
+  type InspectorRailSlotProps,
+} from './InspectorRail';
+import {
+  WorkspacePanel,
+  type WorkspacePanelProps,
+  type WorkspacePanelSlotProps,
+} from './WorkspacePanel';
 
-type WorkspaceScaffoldDirection = NonNullable<PanelGroupProps['direction']>;
+export type WorkspaceScaffoldDirection = NonNullable<PanelGroupProps['direction']>;
 
 interface WorkspaceScaffoldPaneSizing {
   collapsedSize?: PanelProps['collapsedSize'];
@@ -13,31 +25,63 @@ interface WorkspaceScaffoldPaneSizing {
   defaultSize?: PanelProps['defaultSize'];
   maxSize?: PanelProps['maxSize'];
   minSize?: PanelProps['minSize'];
-  panelClassName?: string;
+}
+
+export type WorkspaceScaffoldRegionSlotProps = PatternSlotProps<
+  Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>
+>;
+export type WorkspaceScaffoldPanelSlotProps = Omit<
+  PanelProps,
+  'children' | 'collapsedSize' | 'collapsible' | 'defaultSize' | 'maxSize' | 'minSize'
+>;
+export type WorkspaceScaffoldPanelGroupSlotProps = Omit<PanelGroupProps, 'children' | 'direction'>;
+
+export interface WorkspaceScaffoldPaneSlotProps extends WorkspacePanelSlotProps {
+  panel?: WorkspaceScaffoldPanelSlotProps;
+  region?: WorkspaceScaffoldRegionSlotProps;
+}
+
+export interface WorkspaceScaffoldInspectorSlotProps extends InspectorRailSlotProps {
+  panel?: WorkspaceScaffoldPanelSlotProps;
+  region?: WorkspaceScaffoldRegionSlotProps;
 }
 
 export interface WorkspaceScaffoldSidebarProps
   extends WorkspaceScaffoldPaneSizing,
-    Omit<WorkspacePanelProps, 'className'> {
+    Omit<WorkspacePanelProps, 'className' | 'slotProps'> {
   className?: string;
+  slotProps?: WorkspaceScaffoldPaneSlotProps;
 }
 
 export interface WorkspaceScaffoldMainProps
   extends WorkspaceScaffoldPaneSizing,
-    Omit<WorkspacePanelProps, 'className'> {
+    Omit<WorkspacePanelProps, 'className' | 'slotProps'> {
   className?: string;
+  slotProps?: WorkspaceScaffoldPaneSlotProps;
 }
 
 export interface WorkspaceScaffoldBottomProps
   extends WorkspaceScaffoldPaneSizing,
-    Omit<WorkspacePanelProps, 'className'> {
+    Omit<WorkspacePanelProps, 'className' | 'slotProps'> {
   className?: string;
+  slotProps?: WorkspaceScaffoldPaneSlotProps;
 }
 
 export interface WorkspaceScaffoldInspectorProps
   extends WorkspaceScaffoldPaneSizing,
-    Omit<InspectorRailProps, 'className'> {
+    Omit<InspectorRailProps, 'className' | 'slotProps'> {
   className?: string;
+  slotProps?: WorkspaceScaffoldInspectorSlotProps;
+}
+
+export interface WorkspaceScaffoldSlotProps {
+  banner?: WorkspaceScaffoldRegionSlotProps;
+  bottomGroup?: WorkspaceScaffoldPanelGroupSlotProps;
+  header?: WorkspaceScaffoldRegionSlotProps;
+  mainGroup?: WorkspaceScaffoldPanelGroupSlotProps;
+  mainSplit?: WorkspaceScaffoldRegionSlotProps;
+  statusBar?: WorkspaceScaffoldRegionSlotProps;
+  toolbar?: WorkspaceScaffoldRegionSlotProps;
 }
 
 export interface WorkspaceScaffoldProps
@@ -47,10 +91,9 @@ export interface WorkspaceScaffoldProps
   header?: React.ReactNode;
   inspector?: WorkspaceScaffoldInspectorProps;
   main: WorkspaceScaffoldMainProps;
-  mainPanelGroupClassName?: string;
-  panelGroupClassName?: string;
   resizeHandleMode?: 'line' | 'grip';
   sidebar?: WorkspaceScaffoldSidebarProps;
+  slotProps?: WorkspaceScaffoldSlotProps;
   statusBar?: React.ReactNode;
   toolbar?: React.ReactNode;
   workspaceDirection?: WorkspaceScaffoldDirection;
@@ -60,38 +103,49 @@ function renderWorkspacePane(
   region: 'sidebar' | 'main' | 'bottom',
   {
     actions,
-    bodyClassName,
     children,
     className,
     collapsedSize,
     collapsible,
     defaultSize,
     description,
-    headerClassName,
     maxSize,
     minSize,
-    panelClassName,
+    slotProps,
     title,
     ...panelProps
   }: WorkspaceScaffoldSidebarProps | WorkspaceScaffoldMainProps | WorkspaceScaffoldBottomProps,
   defaults: Pick<PanelProps, 'defaultSize' | 'minSize'>,
 ) {
+  const {
+    panel: panelSlotProps,
+    region: regionSlotProps,
+    ...workspacePanelSlotProps
+  } = slotProps ?? {};
+
   return (
     <Panel
+      {...panelSlotProps}
       collapsedSize={collapsedSize}
-      className={panelClassName}
       collapsible={collapsible}
       defaultSize={defaultSize ?? defaults.defaultSize}
       maxSize={maxSize}
       minSize={minSize ?? defaults.minSize}
     >
-      <div className="h-full" data-sdk-region={region}>
+      <div
+        {...mergePatternSlotProps<WorkspaceScaffoldRegionSlotProps>(
+          {
+            className: 'h-full',
+            'data-sdk-region': region,
+          },
+          regionSlotProps,
+        )}
+      >
         <WorkspacePanel
           actions={actions}
-          bodyClassName={bodyClassName}
           className={cn('h-full', className)}
           description={description}
-          headerClassName={headerClassName}
+          slotProps={workspacePanelSlotProps}
           title={title}
           {...panelProps}
         >
@@ -105,7 +159,6 @@ function renderWorkspacePane(
 function renderInspectorPane(
   {
     actions,
-    bodyClassName,
     children,
     className,
     collapsedSize,
@@ -114,13 +167,11 @@ function renderInspectorPane(
     description,
     eyebrow,
     footer,
-    footerClassName,
-    headerClassName,
     maxSize,
     meta,
     minSize,
-    panelClassName,
     side,
+    slotProps,
     stickyHeader,
     summary,
     title,
@@ -128,27 +179,39 @@ function renderInspectorPane(
   }: WorkspaceScaffoldInspectorProps,
   defaults: Pick<PanelProps, 'defaultSize' | 'minSize'>,
 ) {
+  const {
+    panel: panelSlotProps,
+    region: regionSlotProps,
+    ...inspectorRailSlotProps
+  } = slotProps ?? {};
+
   return (
     <Panel
+      {...panelSlotProps}
       collapsedSize={collapsedSize}
-      className={panelClassName}
       collapsible={collapsible}
       defaultSize={defaultSize ?? defaults.defaultSize}
       maxSize={maxSize}
       minSize={minSize ?? defaults.minSize}
     >
-      <div className="h-full" data-sdk-region="inspector">
+      <div
+        {...mergePatternSlotProps<WorkspaceScaffoldRegionSlotProps>(
+          {
+            className: 'h-full',
+            'data-sdk-region': 'inspector',
+          },
+          regionSlotProps,
+        )}
+      >
         <InspectorRail
           actions={actions}
-          bodyClassName={bodyClassName}
           className={cn('h-full', className)}
           description={description}
           eyebrow={eyebrow}
           footer={footer}
-          footerClassName={footerClassName}
-          headerClassName={headerClassName}
           meta={meta}
           side={side}
+          slotProps={inspectorRailSlotProps}
           stickyHeader={stickyHeader}
           summary={summary}
           title={title}
@@ -161,22 +224,21 @@ function renderInspectorPane(
   );
 }
 
-export function WorkspaceScaffold({
+export const WorkspaceScaffold = React.forwardRef<HTMLDivElement, WorkspaceScaffoldProps>(({
   banner,
   bottomPanel,
   className,
   header,
   inspector,
   main,
-  mainPanelGroupClassName,
-  panelGroupClassName,
   resizeHandleMode = 'grip',
   sidebar,
+  slotProps,
   statusBar,
   toolbar,
   workspaceDirection = 'horizontal',
   ...props
-}: WorkspaceScaffoldProps) {
+}, ref) => {
   const withHandle = resizeHandleMode === 'grip';
   const hasSidebar = Boolean(sidebar);
   const hasInspector = Boolean(inspector);
@@ -184,7 +246,12 @@ export function WorkspaceScaffold({
 
   const mainSplit = (
     <PanelGroup
-      className={cn('h-full', mainPanelGroupClassName)}
+      {...mergePatternSlotProps<WorkspaceScaffoldPanelGroupSlotProps>(
+        {
+          className: 'h-full',
+        },
+        slotProps?.mainGroup,
+      )}
       direction={workspaceDirection}
     >
       {hasSidebar
@@ -210,21 +277,68 @@ export function WorkspaceScaffold({
 
   return (
     <div
+      ref={ref}
       className={cn('flex h-full min-h-0 min-w-0 flex-col gap-4', className)}
       data-sdk-pattern="workspace-scaffold"
       {...props}
     >
-      {header ? <div data-sdk-region="workspace-header">{header}</div> : null}
-      {banner ? <div data-sdk-region="workspace-banner">{banner}</div> : null}
-      {toolbar ? <div data-sdk-region="workspace-toolbar">{toolbar}</div> : null}
+      {header ? (
+        <div
+          {...mergePatternSlotProps<WorkspaceScaffoldRegionSlotProps>(
+            {
+              'data-sdk-region': 'workspace-header',
+            },
+            slotProps?.header,
+          )}
+        >
+          {header}
+        </div>
+      ) : null}
+      {banner ? (
+        <div
+          {...mergePatternSlotProps<WorkspaceScaffoldRegionSlotProps>(
+            {
+              'data-sdk-region': 'workspace-banner',
+            },
+            slotProps?.banner,
+          )}
+        >
+          {banner}
+        </div>
+      ) : null}
+      {toolbar ? (
+        <div
+          {...mergePatternSlotProps<WorkspaceScaffoldRegionSlotProps>(
+            {
+              'data-sdk-region': 'workspace-toolbar',
+            },
+            slotProps?.toolbar,
+          )}
+        >
+          {toolbar}
+        </div>
+      ) : null}
       <div className="min-h-0 min-w-0 flex-1">
         {hasBottomPanel ? (
           <PanelGroup
-            className={cn('h-full', panelGroupClassName)}
+            {...mergePatternSlotProps<WorkspaceScaffoldPanelGroupSlotProps>(
+              {
+                className: 'h-full',
+              },
+              slotProps?.bottomGroup,
+            )}
             direction="vertical"
           >
             <Panel defaultSize={72} minSize={34}>
-              <div className="h-full" data-sdk-region="workspace-main-split">
+              <div
+                {...mergePatternSlotProps<WorkspaceScaffoldRegionSlotProps>(
+                  {
+                    className: 'h-full',
+                    'data-sdk-region': 'workspace-main-split',
+                  },
+                  slotProps?.mainSplit,
+                )}
+              >
                 {mainSplit}
               </div>
             </Panel>
@@ -235,12 +349,32 @@ export function WorkspaceScaffold({
             })}
           </PanelGroup>
         ) : (
-          <div className={cn('h-full', panelGroupClassName)} data-sdk-region="workspace-main-split">
+          <div
+            {...mergePatternSlotProps<WorkspaceScaffoldRegionSlotProps>(
+              {
+                className: 'h-full',
+                'data-sdk-region': 'workspace-main-split',
+              },
+              slotProps?.mainSplit,
+            )}
+          >
             {mainSplit}
           </div>
         )}
       </div>
-      {statusBar ? <div data-sdk-region="workspace-status-bar">{statusBar}</div> : null}
+      {statusBar ? (
+        <div
+          {...mergePatternSlotProps<WorkspaceScaffoldRegionSlotProps>(
+            {
+              'data-sdk-region': 'workspace-status-bar',
+            },
+            slotProps?.statusBar,
+          )}
+        >
+          {statusBar}
+        </div>
+      ) : null}
     </div>
   );
-}
+});
+WorkspaceScaffold.displayName = 'WorkspaceScaffold';

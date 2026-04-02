@@ -56,12 +56,13 @@ function UploadDropzone({
     <div
       aria-disabled={disabled}
       className={cn(
-        'rounded-[var(--sdk-radius-panel)] border border-dashed px-5 py-6 transition-colors',
+        'rounded-[var(--sdk-radius-control)] border border-dashed px-5 py-6 transition-colors',
         isDragging
           ? 'border-[var(--sdk-color-brand-primary)] bg-[var(--sdk-color-brand-primary-soft)]'
           : 'border-[var(--sdk-color-border-strong)] bg-[var(--sdk-color-surface-panel)]',
         disabled && 'cursor-not-allowed opacity-60',
       )}
+      data-sdk-ui="upload-dropzone"
       onClick={() => {
         if (!disabled) {
           onBrowse();
@@ -97,5 +98,7 @@ function UploadDropzone({
     </div>
   );
 }
+
+UploadDropzone.displayName = 'UploadDropzone';
 
 export { UploadDropzone };

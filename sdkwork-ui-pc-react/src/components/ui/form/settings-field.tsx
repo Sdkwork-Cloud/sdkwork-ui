@@ -2,6 +2,8 @@ import * as React from 'react';
 import { AlertCircle, RotateCcw } from 'lucide-react';
 import { cn } from '../../../lib/utils';
 
+export type SettingsFieldResetHandler = () => void;
+
 export interface SettingsFieldProps extends React.HTMLAttributes<HTMLDivElement> {
   actions?: React.ReactNode;
   controlId?: string;
@@ -10,7 +12,7 @@ export interface SettingsFieldProps extends React.HTMLAttributes<HTMLDivElement>
   isModified?: boolean;
   label?: React.ReactNode;
   layout?: 'horizontal' | 'vertical';
-  onReset?: () => void;
+  onReset?: SettingsFieldResetHandler;
   resetLabel?: string;
 }
 

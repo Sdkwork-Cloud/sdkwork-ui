@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { ChevronRight, FileText, Folder, FolderOpen, LoaderCircle } from 'lucide-react';
+import { mergeSlotProps, type SlotProps } from '../../../lib/slot-props';
 import { EmptyState } from '../../patterns/feedback';
 import { cn } from '../../../lib/utils';
-import { Checkbox } from '../checkbox';
+import { Checkbox, type CheckboxProps } from '../checkbox';
 
 export interface RichTreeItem {
   id: string;
@@ -31,6 +32,46 @@ export interface RichTreeItemState {
 
 export type RichTreeSelectionMode = 'single' | 'multiple';
 
+export type RichTreeRegionSlotProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>>;
+export type RichTreeItemRootProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>>;
+export type RichTreeToggleSlotProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'button'>, 'children'>>;
+export type RichTreeIconSlotProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'span'>, 'children'>>;
+export type RichTreeItemPropsResolver = (
+  item: RichTreeItem,
+  state: RichTreeItemState,
+) => RichTreeItemRootProps | undefined;
+export type RichTreeItemSlotPropsResolver = (
+  item: RichTreeItem,
+  state: RichTreeItemState,
+) => RichTreeItemSlotProps | undefined;
+export type RichTreeLoadChildrenHandler = (item: RichTreeItem) => Promise<void> | void;
+export type RichTreeItemActionsRenderer = (
+  item: RichTreeItem,
+  state: RichTreeItemState,
+) => React.ReactNode;
+export type RichTreeItemLabelRenderer = (
+  item: RichTreeItem,
+  state: RichTreeItemState,
+) => React.ReactNode;
+export type RichTreeCheckedIdsChangeHandler = (checkedIds: string[]) => void;
+export type RichTreeExpandedIdsChangeHandler = (expandedIds: string[]) => void;
+export type RichTreeSelectedIdsChangeHandler = (selectedIds: string[]) => void;
+export type TreeSelectedIdChangeHandler = (selectedId: string) => void;
+
+export interface RichTreeItemSlotProps {
+  actions?: RichTreeRegionSlotProps;
+  checkbox?: SlotProps<CheckboxProps>;
+  content?: RichTreeRegionSlotProps;
+  endContent?: RichTreeRegionSlotProps;
+  icon?: RichTreeIconSlotProps;
+  toggle?: RichTreeToggleSlotProps;
+}
+
+export interface RichTreeSlotProps {
+  empty?: RichTreeRegionSlotProps;
+  tree?: RichTreeRegionSlotProps;
+}
+
 export interface RichTreeProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   cascadeCheck?: boolean;
   checkable?: boolean;
@@ -43,21 +84,24 @@ export interface RichTreeProps extends Omit<React.HTMLAttributes<HTMLDivElement>
   emptyTitle?: React.ReactNode;
   expandOnSelect?: boolean;
   expandedIds?: string[];
+  getItemProps?: RichTreeItemPropsResolver;
+  getItemSlotProps?: RichTreeItemSlotPropsResolver;
   items: RichTreeItem[];
-  loadChildren?: (item: RichTreeItem) => Promise<void> | void;
-  onCheckedIdsChange?: (checkedIds: string[]) => void;
-  onExpandedIdsChange?: (expandedIds: string[]) => void;
-  onSelectedIdsChange?: (selectedIds: string[]) => void;
-  renderActions?: (item: RichTreeItem, state: RichTreeItemState) => React.ReactNode;
-  renderLabel?: (item: RichTreeItem, state: RichTreeItemState) => React.ReactNode;
+  loadChildren?: RichTreeLoadChildrenHandler;
+  onCheckedIdsChange?: RichTreeCheckedIdsChangeHandler;
+  onExpandedIdsChange?: RichTreeExpandedIdsChangeHandler;
+  onSelectedIdsChange?: RichTreeSelectedIdsChangeHandler;
+  renderActions?: RichTreeItemActionsRenderer;
+  renderLabel?: RichTreeItemLabelRenderer;
   selectedIds?: string[];
   selectionMode?: RichTreeSelectionMode;
+  slotProps?: RichTreeSlotProps;
 }
 
 export interface TreeProps extends Omit<RichTreeProps, 'items'> {
   data: RichTreeItem[];
   defaultSelectedId?: string | null;
-  onSelectedIdChange?: (selectedId: string) => void;
+  onSelectedIdChange?: TreeSelectedIdChangeHandler;
   selectedId?: string | null;
 }
 
@@ -236,7 +280,7 @@ function defaultRenderLabel(item: RichTreeItem) {
   );
 }
 
-function RichTree({
+const RichTree = React.forwardRef<HTMLDivElement, RichTreeProps>(({
   cascadeCheck = true,
   checkable = false,
   checkedIds: checkedIdsProp,
@@ -249,6 +293,8 @@ function RichTree({
   emptyTitle = 'No items',
   expandOnSelect = false,
   expandedIds: expandedIdsProp,
+  getItemProps,
+  getItemSlotProps,
   items,
   loadChildren,
   onCheckedIdsChange,
@@ -258,8 +304,9 @@ function RichTree({
   renderLabel,
   selectedIds: selectedIdsProp,
   selectionMode = 'single',
+  slotProps,
   ...props
-}: RichTreeProps) {
+}, ref) => {
   const [selectedIds, setSelectedIds] = useControllableState<string[]>(
     selectedIdsProp,
     uniqueIds(defaultSelectedIds),
@@ -518,42 +565,58 @@ function RichTree({
                   : <Folder className="h-4 w-4" />
                 : <FileText className="h-4 w-4" />;
             const actions = renderActions?.(item, state);
+            const itemProps = getItemProps?.(item, state);
+            const itemSlotProps = getItemSlotProps?.(item, state);
 
             return (
               <li className="space-y-1" key={item.id} role="none">
                 <div
-                  aria-checked={checkable ? (state.indeterminate ? 'mixed' : state.checked) : undefined}
-                  aria-disabled={item.disabled ? 'true' : undefined}
-                  aria-expanded={isBranch ? isExpanded : undefined}
-                  aria-level={depth}
-                  aria-selected={state.selected}
-                  className={cn(
-                    'group flex min-h-10 items-center gap-2 rounded-[var(--sdk-radius-control)] px-3 py-2 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--sdk-color-border-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--sdk-color-surface-panel)]',
-                    state.selected
-                      ? 'bg-[var(--sdk-color-brand-primary-soft)] text-[var(--sdk-color-text-primary)]'
-                      : 'text-[var(--sdk-color-text-secondary)] hover:bg-[var(--sdk-color-surface-panel-muted)] hover:text-[var(--sdk-color-text-primary)]',
-                    state.disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
+                  {...mergeSlotProps<RichTreeItemRootProps>(
+                    {
+                      'aria-checked': checkable ? (state.indeterminate ? 'mixed' : state.checked) : undefined,
+                      'aria-disabled': item.disabled ? 'true' : undefined,
+                      'aria-expanded': isBranch ? isExpanded : undefined,
+                      'aria-level': depth,
+                      'aria-selected': state.selected,
+                      className: cn(
+                        'group flex min-h-10 items-center gap-2 rounded-[var(--sdk-radius-control)] px-3 py-2 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--sdk-color-border-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--sdk-color-surface-panel)]',
+                        state.selected
+                          ? 'bg-[var(--sdk-color-brand-primary-soft)] text-[var(--sdk-color-text-primary)]'
+                          : 'text-[var(--sdk-color-text-secondary)] hover:bg-[var(--sdk-color-surface-panel-muted)] hover:text-[var(--sdk-color-text-primary)]',
+                        state.disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
+                      ),
+                      'data-depth': depth,
+                      'data-expanded': state.expanded ? 'true' : 'false',
+                      'data-selected': state.selected ? 'true' : 'false',
+                      onClick: () => handleSelect(item),
+                      onFocus: () => setFocusedId(item.id),
+                      onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => handleItemKeyDown(event, item),
+                      role: 'treeitem',
+                      style: { paddingLeft: `${depth * 0.75}rem` },
+                      tabIndex: focusedId === item.id ? 0 : -1,
+                    },
+                    itemProps,
                   )}
-                  data-depth={depth}
-                  data-expanded={state.expanded ? 'true' : 'false'}
-                  data-selected={state.selected ? 'true' : 'false'}
-                  onClick={() => handleSelect(item)}
-                  onFocus={() => setFocusedId(item.id)}
-                  onKeyDown={(event) => handleItemKeyDown(event, item)}
                   ref={(element) => registerItemRef(item.id, element)}
-                  role="treeitem"
-                  style={{ paddingLeft: `${depth * 0.75}rem` }}
-                  tabIndex={focusedId === item.id ? 0 : -1}
                 >
                   {isBranch ? (
                     <button
-                      aria-label={isExpanded ? `Collapse ${resolveAccessibleLabel(item)}` : `Expand ${resolveAccessibleLabel(item)}`}
-                      className="flex h-5 w-5 shrink-0 items-center justify-center rounded-sm text-[var(--sdk-color-text-muted)] transition-colors hover:bg-[var(--sdk-color-surface-panel-muted)]"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        toggleExpanded(item);
-                      }}
-                      type="button"
+                      {...mergeSlotProps<RichTreeToggleSlotProps>(
+                        {
+                          'aria-label': isExpanded
+                            ? `Collapse ${resolveAccessibleLabel(item)}`
+                            : `Expand ${resolveAccessibleLabel(item)}`,
+                          className:
+                            'flex h-5 w-5 shrink-0 items-center justify-center rounded-sm text-[var(--sdk-color-text-muted)] transition-colors hover:bg-[var(--sdk-color-surface-panel-muted)]',
+                          'data-sdk-region': 'rich-tree-item-toggle',
+                          onClick: (event: React.MouseEvent<HTMLButtonElement>) => {
+                            event.stopPropagation();
+                            toggleExpanded(item);
+                          },
+                          type: 'button',
+                        },
+                        itemSlotProps?.toggle,
+                      )}
                     >
                       <ChevronRight
                         className={cn(
@@ -568,25 +631,65 @@ function RichTree({
 
                   {checkable ? (
                     <Checkbox
-                      aria-label={`Check item ${resolveAccessibleLabel(item)}`}
-                      checked={state.indeterminate ? 'indeterminate' : state.checked}
-                      className="shrink-0"
-                      onCheckedChange={(nextChecked) => handleCheckedChange(item, nextChecked)}
-                      onClick={(event) => event.stopPropagation()}
+                      {...mergeSlotProps<SlotProps<CheckboxProps>>(
+                        {
+                          'aria-label': `Check item ${resolveAccessibleLabel(item)}`,
+                          checked: state.indeterminate ? 'indeterminate' : state.checked,
+                          className: 'shrink-0',
+                          'data-sdk-region': 'rich-tree-item-checkbox',
+                          onCheckedChange: (nextChecked) => handleCheckedChange(item, nextChecked),
+                          onClick: (event: React.MouseEvent<HTMLButtonElement>) => event.stopPropagation(),
+                        },
+                        itemSlotProps?.checkbox,
+                      )}
                     />
                   ) : null}
 
-                  <span className="shrink-0 text-[var(--sdk-color-text-muted)]">{item.icon ?? defaultIcon}</span>
-                  <div className="min-w-0 flex-1">
+                  <span
+                    {...mergeSlotProps<RichTreeIconSlotProps>(
+                      {
+                        className: 'shrink-0 text-[var(--sdk-color-text-muted)]',
+                        'data-sdk-region': 'rich-tree-item-icon',
+                      },
+                      itemSlotProps?.icon,
+                    )}
+                  >
+                    {item.icon ?? defaultIcon}
+                  </span>
+                  <div
+                    {...mergeSlotProps<RichTreeRegionSlotProps>(
+                      {
+                        className: 'min-w-0 flex-1',
+                        'data-sdk-region': 'rich-tree-item-content',
+                      },
+                      itemSlotProps?.content,
+                    )}
+                  >
                     {renderLabel ? renderLabel(item, state) : defaultRenderLabel(item)}
                   </div>
                   {item.endContent ? (
-                    <div className="shrink-0 text-[var(--sdk-color-text-muted)]">{item.endContent}</div>
+                    <div
+                      {...mergeSlotProps<RichTreeRegionSlotProps>(
+                        {
+                          className: 'shrink-0 text-[var(--sdk-color-text-muted)]',
+                          'data-sdk-region': 'rich-tree-item-end-content',
+                        },
+                        itemSlotProps?.endContent,
+                      )}
+                    >
+                      {item.endContent}
+                    </div>
                   ) : null}
                   {actions ? (
                     <div
-                      className="shrink-0"
-                      onClick={(event) => event.stopPropagation()}
+                      {...mergeSlotProps<RichTreeRegionSlotProps>(
+                        {
+                          className: 'shrink-0',
+                          'data-sdk-region': 'rich-tree-item-actions',
+                          onClick: (event: React.MouseEvent<HTMLDivElement>) => event.stopPropagation(),
+                        },
+                        itemSlotProps?.actions,
+                      )}
                     >
                       {actions}
                     </div>
@@ -608,6 +711,8 @@ function RichTree({
       explicitCheckedIdSet,
       expandedIdSet,
       focusedId,
+      getItemProps,
+      getItemSlotProps,
       handleCheckedChange,
       handleItemKeyDown,
       handleSelect,
@@ -623,6 +728,7 @@ function RichTree({
   if (items.length === 0) {
     return (
       <div
+        ref={ref}
         className={cn(
           'rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] p-2',
           className,
@@ -630,13 +736,23 @@ function RichTree({
         data-sdk-ui="rich-tree"
         {...props}
       >
-        {emptyState ?? <EmptyState description={emptyDescription} title={emptyTitle} />}
+        <div
+          {...mergeSlotProps<RichTreeRegionSlotProps>(
+            {
+              'data-sdk-region': 'rich-tree-empty',
+            },
+            slotProps?.empty,
+          )}
+        >
+          {emptyState ?? <EmptyState description={emptyDescription} title={emptyTitle} />}
+        </div>
       </div>
     );
   }
 
   return (
     <div
+      ref={ref}
       className={cn(
         'rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] p-2',
         className,
@@ -644,12 +760,20 @@ function RichTree({
       data-sdk-ui="rich-tree"
       {...props}
     >
-      <div aria-multiselectable={selectionMode === 'multiple' ? 'true' : undefined}>
+      <div
+        {...mergeSlotProps<RichTreeRegionSlotProps>(
+          {
+            'aria-multiselectable': selectionMode === 'multiple' ? 'true' : undefined,
+            'data-sdk-region': 'rich-tree-tree',
+          },
+          slotProps?.tree,
+        )}
+      >
         {renderBranch(items, 1)}
       </div>
     </div>
   );
-}
+});
 
 function Tree({
   data,
@@ -682,6 +806,7 @@ function Tree({
   return (
     <RichTree
       {...props}
+      data-sdk-ui="tree"
       defaultSelectedIds={normalizedDefaultSelectedIds}
       expandOnSelect={props.expandOnSelect ?? true}
       items={data}
@@ -692,3 +817,5 @@ function Tree({
 }
 
 export { RichTree, Tree };
+RichTree.displayName = 'RichTree';
+Tree.displayName = 'Tree';

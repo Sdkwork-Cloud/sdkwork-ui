@@ -15,6 +15,9 @@ export interface DescriptionDetailsProps extends React.HTMLAttributes<HTMLElemen
   mono?: boolean;
 }
 
+export type DescriptionItemProps = React.HTMLAttributes<HTMLDivElement>;
+export type DescriptionTermProps = React.HTMLAttributes<HTMLElement>;
+
 const DescriptionList = React.forwardRef<HTMLDListElement, DescriptionListProps>(
   ({ className, columns = 1, ...props }, ref) => (
     <dl
@@ -28,7 +31,7 @@ const DescriptionList = React.forwardRef<HTMLDListElement, DescriptionListProps>
 
 DescriptionList.displayName = 'DescriptionList';
 
-const DescriptionItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+const DescriptionItem = React.forwardRef<HTMLDivElement, DescriptionItemProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
@@ -44,7 +47,7 @@ const DescriptionItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HT
 
 DescriptionItem.displayName = 'DescriptionItem';
 
-const DescriptionTerm = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
+const DescriptionTerm = React.forwardRef<HTMLElement, DescriptionTermProps>(
   ({ className, ...props }, ref) => (
     <dt
       ref={ref}
@@ -52,6 +55,7 @@ const DescriptionTerm = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLE
         'text-xs font-medium uppercase tracking-[0.12em] text-[var(--sdk-color-text-muted)]',
         className,
       )}
+      data-sdk-ui="description-term"
       {...props}
     />
   ),
@@ -68,6 +72,7 @@ const DescriptionDetails = React.forwardRef<HTMLElement, DescriptionDetailsProps
         mono ? 'font-mono' : undefined,
         className,
       )}
+      data-sdk-ui="description-details"
       {...props}
     />
   ),

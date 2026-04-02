@@ -23,6 +23,8 @@ export interface KeyValueTableRowProps extends React.ComponentPropsWithoutRef<'t
   emphasis?: KeyValueEmphasis;
 }
 
+export type KeyValueTableLabelProps = React.ComponentPropsWithoutRef<'th'>;
+
 export interface KeyValueTableValueProps extends React.ComponentPropsWithoutRef<'td'> {
   mono?: boolean;
   tone?: KeyValueTone;
@@ -88,7 +90,7 @@ const KeyValueTableRow = React.forwardRef<HTMLTableRowElement, KeyValueTableRowP
         className,
       )}
       data-emphasis={emphasis}
-      data-sdk-ui="key-value-row"
+      data-sdk-ui="key-value-table-row"
       data-tone={tone}
       {...props}
     />
@@ -97,7 +99,7 @@ const KeyValueTableRow = React.forwardRef<HTMLTableRowElement, KeyValueTableRowP
 
 KeyValueTableRow.displayName = 'KeyValueTableRow';
 
-const KeyValueTableLabel = React.forwardRef<HTMLTableCellElement, React.ComponentPropsWithoutRef<'th'>>(
+const KeyValueTableLabel = React.forwardRef<HTMLTableCellElement, KeyValueTableLabelProps>(
   ({ className, ...props }, ref) => {
     const dense = React.useContext(denseContext);
     return (
@@ -108,6 +110,7 @@ const KeyValueTableLabel = React.forwardRef<HTMLTableCellElement, React.Componen
           dense ? 'py-1.5' : 'py-2.5',
           className,
         )}
+        data-sdk-ui="key-value-table-label"
         scope="row"
         {...props}
       />
@@ -131,6 +134,7 @@ const KeyValueTableValue = React.forwardRef<HTMLTableCellElement, KeyValueTableV
           dense ? 'py-1.5' : 'py-2.5',
           className,
         )}
+        data-sdk-ui="key-value-table-value"
         {...props}
       />
     );

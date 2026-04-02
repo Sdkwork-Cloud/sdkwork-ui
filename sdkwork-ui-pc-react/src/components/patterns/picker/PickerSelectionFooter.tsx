@@ -2,7 +2,11 @@ import * as React from 'react';
 import { cn } from '../../../lib/utils';
 import { Button, type ButtonProps } from '../../ui/button';
 
-export interface PickerSelectionFooterProps {
+export type PickerSelectionFooterCancelHandler = () => void;
+export type PickerSelectionFooterClearHandler = () => void;
+export type PickerSelectionFooterConfirmHandler = () => void;
+
+export interface PickerSelectionFooterProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onCancel'> {
   cancelLabel?: React.ReactNode;
   className?: string;
   clearLabel?: React.ReactNode;
@@ -10,14 +14,14 @@ export interface PickerSelectionFooterProps {
   confirmLabel?: React.ReactNode;
   confirmLoading?: boolean;
   confirmVariant?: ButtonProps['variant'];
-  onCancel?: () => void;
-  onClear?: () => void;
-  onConfirm?: () => void;
+  onCancel?: PickerSelectionFooterCancelHandler;
+  onClear?: PickerSelectionFooterClearHandler;
+  onConfirm?: PickerSelectionFooterConfirmHandler;
   showClear?: boolean;
   summary?: React.ReactNode;
 }
 
-function PickerSelectionFooter({
+const PickerSelectionFooter = React.forwardRef<HTMLDivElement, PickerSelectionFooterProps>(({
   cancelLabel = 'Cancel',
   className,
   clearLabel = 'Clear selection',
@@ -30,11 +34,14 @@ function PickerSelectionFooter({
   onConfirm,
   showClear = false,
   summary = null,
-}: PickerSelectionFooterProps) {
+  ...props
+}, ref) => {
   return (
     <div
+      ref={ref}
       className={cn('flex w-full flex-wrap items-center justify-between gap-3', className)}
       data-sdk-pattern="picker-selection-footer"
+      {...props}
     >
       <div className="flex min-w-0 flex-wrap items-center gap-2 text-sm text-[var(--sdk-color-text-secondary)]">
         <div className="font-medium text-[var(--sdk-color-text-primary)]">{summary}</div>
@@ -70,6 +77,7 @@ function PickerSelectionFooter({
       </div>
     </div>
   );
-}
+});
 
 export { PickerSelectionFooter };
+PickerSelectionFooter.displayName = 'PickerSelectionFooter';

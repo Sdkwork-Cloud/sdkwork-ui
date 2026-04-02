@@ -18,7 +18,7 @@ describe('KeyValueTable', () => {
     expect(screen.getByText('Status')).toBeInTheDocument();
     expect(screen.getByText('Completed')).toBeInTheDocument();
     expect(container.querySelector('table[data-sdk-ui="key-value-table"]')).toBeInTheDocument();
-    expect(container.querySelector('[data-sdk-ui="key-value-row"]')).toBeInTheDocument();
+    expect(container.querySelector('[data-sdk-ui="key-value-table-row"]')).toBeInTheDocument();
   });
 
   it('supports tone and emphasis for important values', () => {
@@ -28,7 +28,7 @@ describe('KeyValueTable', () => {
       />,
     );
 
-    const row = container.querySelector('[data-sdk-ui="key-value-row"]');
+    const row = container.querySelector('[data-sdk-ui="key-value-table-row"]');
     expect(row).toHaveAttribute('data-tone', 'danger');
     expect(row).toHaveAttribute('data-emphasis', 'strong');
     expect(screen.getByText('High')).toHaveClass('font-semibold');

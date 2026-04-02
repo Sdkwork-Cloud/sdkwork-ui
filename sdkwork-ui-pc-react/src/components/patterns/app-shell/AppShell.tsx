@@ -1,4 +1,4 @@
-import type { CSSProperties, PropsWithChildren, ReactNode } from 'react';
+import * as React from 'react';
 import { cn } from '../../../lib/utils';
 import {
   SDKWORK_DARK_THEME,
@@ -6,18 +6,16 @@ import {
   type SdkworkTheme,
 } from '../../../theme/sdkwork-theme';
 
-export interface AppShellProps extends PropsWithChildren {
-  className?: string;
-  content?: ReactNode;
-  footer?: ReactNode;
-  header?: ReactNode;
-  sidebar?: ReactNode;
+export interface AppShellProps extends Omit<React.ComponentPropsWithoutRef<'div'>, 'children' | 'content'> {
+  content?: React.ReactNode;
+  footer?: React.ReactNode;
+  header?: React.ReactNode;
+  sidebar?: React.ReactNode;
   sidebarWidth?: number | string;
-  style?: CSSProperties;
   theme?: SdkworkTheme;
 }
 
-export function AppShell({
+export const AppShell = React.forwardRef<HTMLDivElement, AppShellProps>(({
   className,
   content,
   footer,
@@ -26,15 +24,19 @@ export function AppShell({
   sidebarWidth = 280,
   style,
   theme = SDKWORK_DARK_THEME,
-}: AppShellProps) {
+  ...props
+}, ref) => {
   return (
     <div
+      ref={ref}
       className={cn(
         'flex min-h-screen w-full flex-col bg-[var(--sdk-color-surface-canvas)] text-[var(--sdk-color-text-primary)]',
         className,
       )}
       data-sdk-color-mode={theme.colorMode}
+      data-sdk-pattern="app-shell"
       data-sdk-shell="app"
+      {...props}
       style={{ ...createThemeStyle(theme), ...style }}
     >
       {header ? (
@@ -69,4 +71,5 @@ export function AppShell({
       ) : null}
     </div>
   );
-}
+});
+AppShell.displayName = 'AppShell';

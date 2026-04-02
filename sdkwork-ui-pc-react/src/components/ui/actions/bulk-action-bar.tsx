@@ -4,6 +4,7 @@ import { cn } from '../../../lib/utils';
 import { Button } from '../button';
 
 export type BulkActionBarTone = 'default' | 'info' | 'success' | 'warning' | 'danger';
+export type BulkActionBarClearHandler = () => void;
 
 export interface BulkActionBarProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   actions?: React.ReactNode;
@@ -11,7 +12,7 @@ export interface BulkActionBarProps extends Omit<React.HTMLAttributes<HTMLDivEle
   count?: React.ReactNode;
   description?: React.ReactNode;
   meta?: React.ReactNode;
-  onClear?: () => void;
+  onClear?: BulkActionBarClearHandler;
   sticky?: boolean;
   title?: React.ReactNode;
   tone?: BulkActionBarTone;
@@ -30,7 +31,7 @@ const toneClassName: Record<BulkActionBarTone, string> = {
     'border-[color-mix(in_srgb,var(--sdk-color-state-danger)_28%,transparent)] bg-[color-mix(in_srgb,var(--sdk-color-state-danger)_10%,transparent)]',
 };
 
-export function BulkActionBar({
+export const BulkActionBar = React.forwardRef<HTMLDivElement, BulkActionBarProps>(({
   actions,
   className,
   clearLabel = 'Clear',
@@ -42,9 +43,10 @@ export function BulkActionBar({
   title,
   tone = 'default',
   ...props
-}: BulkActionBarProps) {
+}, ref) => {
   return (
     <div
+      ref={ref}
       className={cn(
         'flex flex-wrap items-center justify-between gap-3 rounded-[var(--sdk-radius-panel)] border px-4 py-3 shadow-[var(--sdk-shadow-sm)]',
         toneClassName[tone],
@@ -80,4 +82,5 @@ export function BulkActionBar({
       </div>
     </div>
   );
-}
+});
+BulkActionBar.displayName = 'BulkActionBar';

@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { Button } from '../button';
-import { FilterBar, FilterBarActions, FilterBarSection, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './index';
+import { Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../data-entry';
+import { FilterBar, FilterBarActions, FilterBarSection } from './index';
 
 describe('FilterBar', () => {
   it('renders a desktop filter surface with grouped controls and trailing actions', () => {

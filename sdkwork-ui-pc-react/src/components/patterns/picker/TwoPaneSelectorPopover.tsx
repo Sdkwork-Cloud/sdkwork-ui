@@ -1,79 +1,131 @@
 import * as React from 'react';
 import { Check } from 'lucide-react';
 import { cn } from '../../../lib/utils';
+import {
+  mergePatternSlotProps,
+  type PatternSlotProps,
+} from '../_internal/slot-props';
 import { EmptyState } from '../../ui/feedback';
 import { Popover } from '../../ui/popover';
-import { AnchoredPickerSurface } from './AnchoredPickerSurface';
+import {
+  AnchoredPickerSurface,
+  type AnchoredPickerSurfaceSlotProps,
+} from './AnchoredPickerSurface';
 
 export interface TwoPaneSelectorSectionEntry<TSection, TItem> {
   items: TItem[];
   section: TSection;
 }
 
+export type TwoPaneSelectorPopoverItemActionHandler = () => void;
+export type TwoPaneSelectorPopoverSectionActivateHandler = () => void;
+
 export interface TwoPaneSelectorSectionRenderContext<TSection> {
   active: boolean;
   index: number;
   section: TSection;
   sectionId: React.Key;
-  setActiveSection: () => void;
+  setActiveSection: TwoPaneSelectorPopoverSectionActivateHandler;
 }
 
 export interface TwoPaneSelectorItemRenderContext<TSection, TItem> {
   activeSection: TSection | undefined;
-  close: () => void;
+  close: TwoPaneSelectorPopoverItemActionHandler;
   index: number;
   item: TItem;
   itemId: React.Key;
   section: TSection;
   sectionIndex: number;
-  select: () => void;
+  select: TwoPaneSelectorPopoverItemActionHandler;
   selected: boolean;
 }
 
-export interface TwoPaneSelectorPopoverProps<TSection, TItem>
+export type TwoPaneSelectorPopoverItemBadgeRenderer<TSection, TItem> = (
+  item: TItem,
+  itemIndex: number,
+  section: TSection,
+  sectionIndex: number,
+) => React.ReactNode;
+export type TwoPaneSelectorPopoverItemDescriptionRenderer<TSection, TItem> = (
+  item: TItem,
+  itemIndex: number,
+  section: TSection,
+  sectionIndex: number,
+) => React.ReactNode;
+export type TwoPaneSelectorPopoverItemIdResolver<TSection, TItem> = (
+  item: TItem,
+  itemIndex: number,
+  section: TSection,
+  sectionIndex: number,
+) => React.Key;
+export type TwoPaneSelectorPopoverItemLabelRenderer<TSection, TItem> = (
+  item: TItem,
+  itemIndex: number,
+  section: TSection,
+  sectionIndex: number,
+) => React.ReactNode;
+export type TwoPaneSelectorPopoverSectionDescriptionRenderer<TSection> = (
+  section: TSection,
+  sectionIndex: number,
+) => React.ReactNode;
+export type TwoPaneSelectorPopoverSectionIdResolver<TSection> = (
+  section: TSection,
+  sectionIndex: number,
+) => React.Key;
+export type TwoPaneSelectorPopoverSectionLabelRenderer<TSection> = (
+  section: TSection,
+  sectionIndex: number,
+) => React.ReactNode;
+export type TwoPaneSelectorPopoverItemRenderer<TSection, TItem> = (
+  context: TwoPaneSelectorItemRenderContext<TSection, TItem>,
+) => React.ReactNode;
+export type TwoPaneSelectorPopoverSectionRenderer<TSection> = (
+  context: TwoPaneSelectorSectionRenderContext<TSection>,
+) => React.ReactNode;
+export type TwoPaneSelectorPopoverActiveSectionIdChangeHandler<TSection> = (
+  sectionId: React.Key | null,
+  section: TSection | undefined,
+) => void;
+export type TwoPaneSelectorPopoverValueChangeHandler<TSection, TItem> = (
+  value: React.Key,
+  item: TItem,
+  section: TSection,
+) => void;
+
+export type TwoPaneSelectorPopoverRegionSlotProps = PatternSlotProps<
+  Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>
+>;
+
+export interface TwoPaneSelectorPopoverSlotProps
+  extends Omit<AnchoredPickerSurfaceSlotProps, 'surface'> {
+  items?: TwoPaneSelectorPopoverRegionSlotProps;
+  pickerSurface?: NonNullable<AnchoredPickerSurfaceSlotProps['surface']>;
+  sections?: TwoPaneSelectorPopoverRegionSlotProps;
+  surface?: TwoPaneSelectorPopoverRegionSlotProps;
+}
+
+export interface TwoPaneSelectorPopoverProps<TSection = any, TItem = any>
   extends Omit<React.ComponentPropsWithoutRef<typeof Popover>, 'children'> {
   activeSectionId?: React.Key | null;
-  contentClassName?: string;
   defaultActiveSectionId?: React.Key | null;
   defaultValue?: React.Key | null;
   emptyDescription?: React.ReactNode;
   emptyTitle?: React.ReactNode;
-  getItemBadge?: (
-    item: TItem,
-    itemIndex: number,
-    section: TSection,
-    sectionIndex: number,
-  ) => React.ReactNode;
-  getItemDescription?: (
-    item: TItem,
-    itemIndex: number,
-    section: TSection,
-    sectionIndex: number,
-  ) => React.ReactNode;
-  getItemId?: (
-    item: TItem,
-    itemIndex: number,
-    section: TSection,
-    sectionIndex: number,
-  ) => React.Key;
-  getItemLabel?: (
-    item: TItem,
-    itemIndex: number,
-    section: TSection,
-    sectionIndex: number,
-  ) => React.ReactNode;
-  getSectionDescription?: (section: TSection, sectionIndex: number) => React.ReactNode;
-  getSectionId?: (section: TSection, sectionIndex: number) => React.Key;
-  getSectionLabel?: (section: TSection, sectionIndex: number) => React.ReactNode;
-  itemColumnClassName?: string;
+  getItemBadge?: TwoPaneSelectorPopoverItemBadgeRenderer<TSection, TItem>;
+  getItemDescription?: TwoPaneSelectorPopoverItemDescriptionRenderer<TSection, TItem>;
+  getItemId?: TwoPaneSelectorPopoverItemIdResolver<TSection, TItem>;
+  getItemLabel?: TwoPaneSelectorPopoverItemLabelRenderer<TSection, TItem>;
+  getSectionDescription?: TwoPaneSelectorPopoverSectionDescriptionRenderer<TSection>;
+  getSectionId?: TwoPaneSelectorPopoverSectionIdResolver<TSection>;
+  getSectionLabel?: TwoPaneSelectorPopoverSectionLabelRenderer<TSection>;
   itemTitle?: React.ReactNode;
-  onActiveSectionIdChange?: (sectionId: React.Key | null, section: TSection | undefined) => void;
-  onValueChange?: (value: React.Key, item: TItem, section: TSection) => void;
-  renderItem?: (context: TwoPaneSelectorItemRenderContext<TSection, TItem>) => React.ReactNode;
-  renderSection?: (context: TwoPaneSelectorSectionRenderContext<TSection>) => React.ReactNode;
-  sectionColumnClassName?: string;
+  onActiveSectionIdChange?: TwoPaneSelectorPopoverActiveSectionIdChangeHandler<TSection>;
+  onValueChange?: TwoPaneSelectorPopoverValueChangeHandler<TSection, TItem>;
+  renderItem?: TwoPaneSelectorPopoverItemRenderer<TSection, TItem>;
+  renderSection?: TwoPaneSelectorPopoverSectionRenderer<TSection>;
   sectionTitle?: React.ReactNode;
   sections: Array<TwoPaneSelectorSectionEntry<TSection, TItem>>;
+  slotProps?: TwoPaneSelectorPopoverSlotProps;
   trigger: React.ReactElement;
   value?: React.Key | null;
 }
@@ -112,9 +164,16 @@ function resolveDefaultItemId<TItem>(item: TItem, index: number) {
   return resolvedId ?? index;
 }
 
-function TwoPaneSelectorPopover<TSection, TItem>({
+type TwoPaneSelectorPopoverComponent = React.ForwardRefExoticComponent<
+  TwoPaneSelectorPopoverProps & React.RefAttributes<HTMLDivElement>
+> & {
+  <TSection = any, TItem = any>(
+    props: TwoPaneSelectorPopoverProps<TSection, TItem> & React.RefAttributes<HTMLDivElement>,
+  ): React.ReactNode;
+};
+
+function TwoPaneSelectorPopoverInner<TSection = any, TItem = any>({
   activeSectionId: controlledActiveSectionId,
-  contentClassName,
   defaultActiveSectionId = null,
   defaultOpen = false,
   defaultValue = null,
@@ -127,7 +186,6 @@ function TwoPaneSelectorPopover<TSection, TItem>({
   getSectionDescription,
   getSectionId,
   getSectionLabel,
-  itemColumnClassName,
   itemTitle = 'Options',
   modal,
   onActiveSectionIdChange,
@@ -136,12 +194,12 @@ function TwoPaneSelectorPopover<TSection, TItem>({
   open: controlledOpen,
   renderItem,
   renderSection,
-  sectionColumnClassName,
   sectionTitle = 'Categories',
   sections,
+  slotProps,
   trigger,
   value: controlledValue,
-}: TwoPaneSelectorPopoverProps<TSection, TItem>) {
+}: TwoPaneSelectorPopoverProps<TSection, TItem>, ref: React.ForwardedRef<HTMLDivElement>) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
   const [uncontrolledValue, setUncontrolledValue] = React.useState<React.Key | null>(defaultValue);
   const [uncontrolledActiveSectionId, setUncontrolledActiveSectionId] =
@@ -248,22 +306,44 @@ function TwoPaneSelectorPopover<TSection, TItem>({
 
   return (
     <AnchoredPickerSurface
-      bodyClassName="p-0"
       bodyScrollable={false}
-      contentClassName={contentClassName}
       modal={modal}
       onOpenChange={setOpen}
       open={resolvedOpen}
       size="lg"
+      slotProps={{
+        body: mergePatternSlotProps<NonNullable<AnchoredPickerSurfaceSlotProps['body']>>(
+          { className: 'p-0' },
+          slotProps?.body,
+        ),
+        content: slotProps?.content,
+        filters: slotProps?.filters,
+        footer: slotProps?.footer,
+        header: slotProps?.header,
+        surface: slotProps?.pickerSurface,
+      }}
       trigger={trigger}
     >
-      <div className="flex h-[20rem] min-h-0" data-sdk-pattern="two-pane-selector-popover">
+      <div
+        ref={ref}
+        {...mergePatternSlotProps<TwoPaneSelectorPopoverRegionSlotProps>(
+          {
+            className: 'flex h-[20rem] min-h-0',
+            'data-sdk-pattern': 'two-pane-selector-popover',
+            'data-sdk-region': 'two-pane-selector-surface',
+          },
+          slotProps?.surface,
+        )}
+      >
         <div
-          className={cn(
-            'flex w-[11rem] shrink-0 flex-col border-r border-[var(--sdk-color-border-default)] bg-[color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_88%,transparent)]',
-            sectionColumnClassName,
+          {...mergePatternSlotProps<TwoPaneSelectorPopoverRegionSlotProps>(
+            {
+              className:
+                'flex w-[11rem] shrink-0 flex-col border-r border-[var(--sdk-color-border-default)] bg-[color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_88%,transparent)]',
+              'data-sdk-region': 'two-pane-selector-sections',
+            },
+            slotProps?.sections,
           )}
-          data-sdk-region="two-pane-selector-sections"
         >
           <div className="border-b border-[var(--sdk-color-border-default)] px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--sdk-color-text-muted)]">
             {sectionTitle}
@@ -292,7 +372,7 @@ function TwoPaneSelectorPopover<TSection, TItem>({
                   <button
                     key={sectionRecord.sectionId}
                     className={cn(
-                      'flex w-full flex-col items-start rounded-[calc(var(--sdk-radius-control)-0.125rem)] border px-3 py-2 text-left text-sm transition-colors',
+                      'flex w-full flex-col items-start rounded-[var(--sdk-radius-control)] border px-3 py-2 text-left text-sm transition-colors',
                       active
                         ? 'border-[color-mix(in_srgb,var(--sdk-color-brand-primary)_26%,transparent)] bg-[var(--sdk-color-brand-primary-soft)] text-[var(--sdk-color-text-primary)]'
                         : 'border-transparent text-[var(--sdk-color-text-secondary)] hover:bg-[var(--sdk-color-surface-panel)] hover:text-[var(--sdk-color-text-primary)]',
@@ -317,8 +397,13 @@ function TwoPaneSelectorPopover<TSection, TItem>({
         </div>
 
         <div
-          className={cn('flex min-w-0 flex-1 flex-col', itemColumnClassName)}
-          data-sdk-region="two-pane-selector-items"
+          {...mergePatternSlotProps<TwoPaneSelectorPopoverRegionSlotProps>(
+            {
+              className: 'flex min-w-0 flex-1 flex-col',
+              'data-sdk-region': 'two-pane-selector-items',
+            },
+            slotProps?.items,
+          )}
         >
           <div className="border-b border-[var(--sdk-color-border-default)] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--sdk-color-text-muted)]">
             {itemTitle}
@@ -426,4 +511,15 @@ function TwoPaneSelectorPopover<TSection, TItem>({
   );
 }
 
+const TwoPaneSelectorPopover: TwoPaneSelectorPopoverComponent = React.forwardRef<
+  HTMLDivElement,
+  TwoPaneSelectorPopoverProps
+>(
+  TwoPaneSelectorPopoverInner as (
+    props: TwoPaneSelectorPopoverProps,
+    ref: React.ForwardedRef<HTMLDivElement>,
+  ) => React.ReactNode,
+);
+
 export { TwoPaneSelectorPopover };
+TwoPaneSelectorPopover.displayName = 'TwoPaneSelectorPopover';

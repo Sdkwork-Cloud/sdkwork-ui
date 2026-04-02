@@ -1,20 +1,25 @@
+import * as React from 'react';
 import { Minus, Square, X } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
 import { cn } from '../../../lib/utils';
 
 export type DesktopPlatform = 'desktop' | 'web';
 export type WindowUnsubscribe = () => void | Promise<void>;
+export type DesktopWindowCommandHandler = () => Promise<void>;
+export type DesktopWindowPlatformResolver = () => DesktopPlatform;
+export type DesktopWindowMaximizedResolver = () => Promise<boolean>;
+export type DesktopWindowMaximizedChangeHandler = (isMaximized: boolean) => void;
+export type DesktopWindowMaximizedSubscriber = (
+  callback: DesktopWindowMaximizedChangeHandler,
+) => Promise<WindowUnsubscribe> | WindowUnsubscribe;
 
 export interface DesktopWindowController {
-  closeWindow: () => Promise<void>;
-  getPlatform: () => DesktopPlatform;
-  isWindowMaximized: () => Promise<boolean>;
-  maximizeWindow: () => Promise<void>;
-  minimizeWindow: () => Promise<void>;
-  restoreWindow: () => Promise<void>;
-  subscribeWindowMaximized: (
-    callback: (isMaximized: boolean) => void,
-  ) => Promise<WindowUnsubscribe> | WindowUnsubscribe;
+  closeWindow: DesktopWindowCommandHandler;
+  getPlatform: DesktopWindowPlatformResolver;
+  isWindowMaximized: DesktopWindowMaximizedResolver;
+  maximizeWindow: DesktopWindowCommandHandler;
+  minimizeWindow: DesktopWindowCommandHandler;
+  restoreWindow: DesktopWindowCommandHandler;
+  subscribeWindowMaximized: DesktopWindowMaximizedSubscriber;
 }
 
 export interface DesktopWindowControlLabels {
@@ -24,7 +29,7 @@ export interface DesktopWindowControlLabels {
   restore: string;
 }
 
-export interface DesktopWindowControlsProps {
+export interface DesktopWindowControlsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   className?: string;
   controller?: DesktopWindowController | null;
   labels?: Partial<DesktopWindowControlLabels>;
@@ -64,9 +69,9 @@ function useDesktopWindowMaximized(
   controller: DesktopWindowController | null | undefined,
   isDesktop: boolean,
 ) {
-  const [isWindowMaximized, setIsWindowMaximized] = useState(false);
+  const [isWindowMaximized, setIsWindowMaximized] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!controller || !isDesktop) {
       setIsWindowMaximized(false);
       return;
@@ -108,7 +113,7 @@ function getRootClassName(
     'flex items-stretch',
     variant === 'header'
       ? 'h-full'
-      : 'overflow-hidden rounded-[calc(var(--sdk-radius-control)+0.375rem)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] shadow-[var(--sdk-shadow-md)] backdrop-blur-xl',
+      : 'overflow-hidden rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] shadow-[var(--sdk-shadow-md)] backdrop-blur-xl',
     className,
   );
 }
@@ -134,13 +139,14 @@ function getButtonClassName(params: {
   );
 }
 
-export function DesktopWindowControls({
+export const DesktopWindowControls = React.forwardRef<HTMLDivElement, DesktopWindowControlsProps>(({
   className,
   controller,
   labels,
   variant = 'header',
-}: DesktopWindowControlsProps) {
-  const resolvedLabels = useMemo(
+  ...props
+}, ref) => {
+  const resolvedLabels = React.useMemo(
     () => ({
       ...DEFAULT_LABELS,
       ...labels,
@@ -156,9 +162,11 @@ export function DesktopWindowControls({
 
   return (
     <div
+      ref={ref}
       className={getRootClassName(variant, className)}
       data-sdk-pattern="desktop-window-controls"
       data-tauri-drag-region="false"
+      {...props}
     >
       <button
         aria-label={resolvedLabels.minimize}
@@ -207,4 +215,5 @@ export function DesktopWindowControls({
       </button>
     </div>
   );
-}
+});
+DesktopWindowControls.displayName = 'DesktopWindowControls';

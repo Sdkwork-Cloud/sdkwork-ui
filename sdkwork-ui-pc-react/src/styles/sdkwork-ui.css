@@ -22,9 +22,11 @@
   --sdk-color-state-warning: #f59e0b;
   --sdk-color-state-danger: #ef4444;
   --sdk-color-state-info: #38bdf8;
-  --sdk-radius-control: 0.75rem;
-  --sdk-radius-panel: 1.75rem;
+  --sdk-radius-control: 0.5rem;
+  --sdk-radius-field: 0.375rem;
+  --sdk-radius-panel: 1rem;
   --sdk-radius-pill: 999px;
+  --sdk-shadow-soft: 0 4px 16px rgba(9, 9, 11, 0.1);
   --sdk-shadow-sm: 0 8px 24px rgba(9, 9, 11, 0.12);
   --sdk-shadow-md: 0 18px 50px rgba(9, 9, 11, 0.16);
   --sdk-shadow-lg: 0 32px 80px rgba(9, 9, 11, 0.22);

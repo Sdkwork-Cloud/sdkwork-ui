@@ -76,10 +76,14 @@ describe('AnchoredPickerSurface', () => {
   it('supports non-scrollable custom bodies for composed anchored picker layouts', () => {
     render(
       <AnchoredPickerSurface
-        bodyClassName="p-0"
         bodyScrollable={false}
         defaultOpen
         maxHeight={360}
+        slotProps={{
+          body: {
+            className: 'p-0',
+          },
+        }}
         title="Choose model"
         trigger={<button type="button">Open picker</button>}
       >

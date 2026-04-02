@@ -11,6 +11,221 @@ pnpm docs:dev
 pnpm docs:build
 ```
 
+## Governance
+
+Framework standards are defined in `/reference/framework-governance`.
+
+That rulebook covers:
+
+- semantic token contract
+- `data-sdk-ui` and `data-sdk-pattern` metadata requirements
+- direct-surface root prop rules
+- structured pattern `slotProps` rules for internal and delegated surfaces
+- structured UI composite `slotProps` and `get*Props` rules for delegated and repeated surfaces
+- structured collection container, item root, and item slot contracts for repeated collection surfaces
+- reusable component authoring rules
+- framework audit tests that guard against drift
+
+## Pattern Surface Standard
+
+Direct pattern surfaces stay open through normal root props. Internal and delegated lower surfaces are customized through named `slotProps`.
+
+```tsx
+<PickerDialog
+  className="h-full"
+  data-contract-root="picker-dialog"
+  slotProps={{
+    body: {
+      className: 'p-0',
+      'data-testid': 'picker-body',
+    },
+    sidebar: {
+      id: 'picker-sidebar',
+    },
+  }}
+  title="Choose asset"
+>
+  <AssetGrid />
+</PickerDialog>
+```
+
+Rules of use:
+
+- Use root `className`, `style`, `id`, and `data-*` on the pattern's primary surface.
+- Use `slotProps` for named internal regions such as `body`, `header`, `footer`, `sidebar`, `items`, or other documented lower surfaces.
+- Do not expect ad hoc region props such as `bodyClassName` or `headerClassName`; those are outside the framework contract.
+
+## UI Composite Surface Standard
+
+Composite UI components use the same model: direct root props stay on the owned surface, delegated or interior surfaces use `slotProps`, and repeated row or column surfaces use structured `get*Props` style contracts.
+
+```tsx
+<ActionMenuButton
+  items={[{ key: 'archive', label: 'Archive' }]}
+  menuOpen
+  slotProps={{
+    content: {
+      className: 'min-w-[14rem]',
+      'data-testid': 'actions-menu',
+    },
+  }}
+>
+  Actions
+</ActionMenuButton>
+```
+
+```tsx
+<DataTable
+  columns={[
+    {
+      id: 'name',
+      header: 'Name',
+      headerProps: {
+        className: 'whitespace-nowrap',
+      },
+      cell: (row) => row.name,
+      cellProps: (row) => ({
+        'data-row-name': row.name,
+      }),
+    },
+  ]}
+  getRowProps={(row) => ({
+    'data-row-id': row.id,
+  })}
+  rows={[{ id: 'asset-1', name: 'Launch Brief' }]}
+  slotProps={{
+    toolbar: {
+      className: 'justify-end',
+    },
+  }}
+  toolbar={<button type="button">New asset</button>}
+/>
+```
+
+Rules of use:
+
+- Use `slotProps` for named interior or delegated surfaces such as dropdown content, dialog content, grids, headers, footers, or toolbars.
+- Use `getRowProps`, `headerProps`, and `cellProps` when a component renders repeated structural surfaces.
+- Keep `Table` as the thin semantic primitive for raw tabular markup. Use `DataTable` when you need framework chrome, selection, density, or built-in pagination.
+- Do not expect isolated hooks such as `menuClassName`, `contentClassName`, `gridClassName`, `rowClassName`, or `headerClassName`; those are outside the framework contract.
+
+## UI Collection Surface Standard
+
+Collection-style UI components follow the same principle at item granularity: the collection root keeps direct root props, named collection regions use container `slotProps`, repeated item roots use `getItemProps`, repeated item interiors use `getItemSlotProps`, and public item components use item-level `slotProps`.
+
+```tsx
+<RichTree
+  defaultExpandedIds={['workspace']}
+  getItemProps={(item) =>
+    item.id === 'workspace'
+      ? {
+          'data-row-id': item.id,
+        }
+      : undefined
+  }
+  getItemSlotProps={(item) =>
+    item.id === 'workspace'
+      ? {
+          actions: {
+            className: 'justify-end',
+          },
+          content: {
+            className: 'rounded-[var(--sdk-radius-control)] ring-1 ring-transparent',
+          },
+        }
+      : undefined
+  }
+  items={[
+    {
+      id: 'workspace',
+      label: 'Workspace',
+      children: [{ id: 'readme', label: 'README.md' }],
+    },
+  ]}
+  renderActions={(item) => <button type="button">Open {item.id}</button>}
+  slotProps={{
+    tree: {
+      className: 'min-h-32',
+      'data-testid': 'resource-tree',
+    },
+  }}
+/>
+```
+
+```tsx
+<ActivityFeed
+  getItemProps={(item) => ({
+    'data-activity-id': item.id,
+  })}
+  getItemSlotProps={(item) =>
+    item.unread
+      ? {
+          indicator: {
+            className: 'ring-2 ring-[var(--sdk-color-brand-primary)]',
+          },
+          panel: {
+            className: 'border-[var(--sdk-color-brand-primary)]/30',
+          },
+        }
+      : undefined
+  }
+  items={[
+    {
+      id: 'release',
+      title: 'Build completed',
+      timestamp: '2026-04-01 10:30',
+      unread: true,
+    },
+  ]}
+  slotProps={{
+    header: {
+      className: 'sticky top-0',
+    },
+    list: {
+      className: 'space-y-3',
+    },
+  }}
+/>
+```
+
+```tsx
+<Stepper
+  aria-label="Publish workflow"
+  getItemProps={({ index }) =>
+    index === 1
+      ? {
+          'data-step-id': 'review',
+        }
+      : undefined
+  }
+  orientation="vertical"
+>
+  <StepperItem status="complete" title="Configure" />
+  <StepperItem
+    slotProps={{
+      connector: {
+        className: 'bg-[var(--sdk-color-brand-primary)]/40',
+      },
+      content: {
+        className: 'border-[var(--sdk-color-brand-primary)]/30',
+      },
+    }}
+    status="current"
+    title="Review"
+  />
+  <StepperItem status="upcoming" title="Publish" />
+</Stepper>
+```
+
+Rules of use:
+
+- Use collection root props on the collection root only.
+- Use container `slotProps` for named collection regions such as tree wrappers, feed headers, feed lists, or empty shells.
+- Use `getItemProps` for repeated item roots and `getItemSlotProps` for repeated item internals on data-driven collections.
+- Use item-level `slotProps` on public collection item components such as `ActivityFeedItem`, `NotificationCenterItem`, `StepperItem`, or `WorkspaceTab`.
+- Do not expect ad hoc hooks such as `itemClassName`, `indicatorClassName`, `connectorClassName`, or similar single-surface escape hatches.
+
+
 ## Exports
 
 All documented subpath exports publish both runtime JS and matching declaration files, so TypeScript consumers can import from root or by domain without losing types.
@@ -305,11 +520,10 @@ import {
   FormLabel,
   FormMessage,
   FormSection,
-  Input,
-  Select,
   SettingsField,
   SettingsSection,
 } from '@sdkwork/ui-pc-react/components/ui/form';
+import { Input, Select } from '@sdkwork/ui-pc-react/components/ui/data-entry';
 ```
 
 ```tsx
@@ -341,6 +555,7 @@ import {
   InlineAlert,
   LoadingBlock,
   NotificationCenter,
+  NotificationCenterItem,
   Progress,
   Skeleton,
   SdkworkToaster,
@@ -370,6 +585,15 @@ export function NotificationsPanel() {
         onItemSelect={(id) => console.info('select-activity', id)}
       />
       <NotificationCenter
+        getItemSlotProps={(item) =>
+          item.id === 'build'
+            ? {
+                title: {
+                  className: 'text-[var(--sdk-color-brand-primary)]',
+                },
+              }
+            : undefined
+        }
         items={[
           {
             content: 'Workspace build completed successfully.',
@@ -453,6 +677,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
+  WorkspaceTab,
   WorkspaceTabs,
 } from '@sdkwork/ui-pc-react/components/ui/navigation';
 ```
@@ -479,10 +704,24 @@ export function DesktopMenuBar() {
 export function WorkspaceTabStrip() {
   return (
     <WorkspaceTabs
+      getItemSlotProps={({ selected }) =>
+        selected
+          ? {
+              label: {
+                className: 'tracking-[0.01em]',
+              },
+            }
+          : undefined
+      }
       items={[
         { id: 'overview', label: 'Overview.md' },
         { id: 'memory', label: 'Memory.md', modified: true },
       ]}
+      slotProps={{
+        tabList: {
+          className: 'pb-1',
+        },
+      }}
       onCloseTab={(id) => console.info('close', id)}
       onValueChange={(id) => console.info('activate', id)}
       value="memory"
@@ -574,18 +813,26 @@ export function AssetTable() {
         { id: 'asset-1', name: 'Launch Brief', owner: 'SDKWORK Ops', status: 'Ready' },
         { id: 'asset-2', name: 'Moodboard', owner: 'Design Team', status: 'Review' },
       ]}
+      pagination={{
+        defaultPage: 1,
+        defaultPageSize: 10,
+        pageSizeOptions: [10, 20, 50],
+      }}
       selectable
       selectedRowIds={['asset-1']}
       selectionBar={{
         actions: <button type="button">Archive selection</button>,
         title: 'Selected assets',
       }}
+      footer={<span className="text-xs text-[var(--sdk-color-text-muted)]">Synced just now</span>}
       title="Assets"
       toolbar={<button type="button">New asset</button>}
     />
   );
 }
 ```
+
+`DataTable` owns the full table footer contract: page summary, rows-per-page selector, and compact pagination controls. Keep raw `Table` for semantic markup; use `DataTable` when the framework should own dense data-surface chrome.
 
 ```tsx
 export function AssetSummary() {
@@ -752,7 +999,7 @@ export function AssetDetailDrawer() {
       description="Review the latest sync health, ownership, and workspace metadata."
       footer={
         <div className="flex justify-end">
-          <button className="rounded-md border px-3 py-2 text-sm" type="button">
+          <button className="rounded-[var(--sdk-radius-control)] border px-3 py-2 text-sm" type="button">
             Close
           </button>
         </div>
@@ -790,10 +1037,10 @@ export function AssetOperationDrawer() {
       description="Use the shared operation shell for edit, review, approval, and commit flows."
       footer={
         <div className="flex justify-end gap-2">
-          <button className="rounded-md border px-3 py-2 text-sm" type="button">
+          <button className="rounded-[var(--sdk-radius-control)] border px-3 py-2 text-sm" type="button">
             Cancel
           </button>
-          <button className="rounded-md border px-3 py-2 text-sm" type="button">
+          <button className="rounded-[var(--sdk-radius-control)] border px-3 py-2 text-sm" type="button">
             Save changes
           </button>
         </div>
@@ -802,7 +1049,7 @@ export function AssetOperationDrawer() {
       sidebar={<div className="text-sm">Validation, checklist, or related metadata lives here.</div>}
       title="Edit Asset"
     >
-      <div className="rounded-xl border p-4 text-sm">Shared form or review content goes here.</div>
+      <div className="rounded-[var(--sdk-radius-panel)] border p-4 text-sm">Shared form or review content goes here.</div>
     </OperationDrawer>
   );
 }
@@ -821,10 +1068,10 @@ export function ModelPickerSurface() {
       trigger={<button type="button">Open model picker</button>}
     >
       <div className="grid gap-2">
-        <button className="rounded-xl border p-3 text-left text-sm" type="button">
+        <button className="rounded-[var(--sdk-radius-control)] border p-3 text-left text-sm" type="button">
           GPT-4.1
         </button>
-        <button className="rounded-xl border p-3 text-left text-sm" type="button">
+        <button className="rounded-[var(--sdk-radius-control)] border p-3 text-left text-sm" type="button">
           o4-mini
         </button>
       </div>
@@ -852,7 +1099,7 @@ export function AssetPickerDialog() {
       sidebar={<div className="text-sm">Collections and sources</div>}
       title="Choose asset"
     >
-      <div className="rounded-xl border p-4 text-sm">Your asset grid or result list goes here.</div>
+      <div className="rounded-[var(--sdk-radius-panel)] border p-4 text-sm">Your asset grid or result list goes here.</div>
     </PickerDialog>
   );
 }
@@ -892,7 +1139,7 @@ export function AssetEntityPickerDialog() {
       renderItem={({ item, selected, toggleSelection }) => (
         <button
           aria-pressed={selected}
-          className="rounded-xl border p-4 text-left text-sm"
+          className="rounded-[var(--sdk-radius-control)] border p-4 text-left text-sm"
           onClick={toggleSelection}
           type="button"
         >
@@ -974,8 +1221,12 @@ export function EditorWorkspace() {
         title: 'Inspector',
       }}
       main={{
-        bodyClassName: 'p-0',
         children: <div className="h-full min-h-[16rem] bg-[var(--sdk-color-surface-panel-muted)] p-6 text-sm">Editor canvas</div>,
+        slotProps: {
+          body: {
+            className: 'p-0',
+          },
+        },
         title: 'Canvas',
       }}
       sidebar={{
@@ -1018,7 +1269,7 @@ export function AdminWorkbench() {
         children: <div className="text-sm">Selected row detail</div>,
         title: 'Inspector',
       }}
-      filters={<div className="rounded-xl border p-4 text-sm">Filters go here</div>}
+      filters={<div className="rounded-[var(--sdk-radius-panel)] border p-4 text-sm">Filters go here</div>}
       main={{
         children: <div className="text-sm">Table or grid content</div>,
         title: 'Entities',
@@ -1109,10 +1360,10 @@ export function DesktopSettingsCenter() {
       <DirtyStateBar
         actions={
           <div className="flex gap-2">
-            <button className="rounded-md border px-3 py-2 text-sm" type="button">
+            <button className="rounded-[var(--sdk-radius-control)] border px-3 py-2 text-sm" type="button">
               Reset
             </button>
-            <button className="rounded-md border px-3 py-2 text-sm" type="button">
+            <button className="rounded-[var(--sdk-radius-control)] border px-3 py-2 text-sm" type="button">
               Save changes
             </button>
           </div>
@@ -1134,6 +1385,7 @@ import '@sdkwork/ui-pc-react/styles.css';
 ## Integration Contract
 
 - Consumers should import the package stylesheet.
+- Git-based consumers can install the package from the repository main branch; the package `prepare` script builds `dist` during git installation.
 - Consumers can use `SdkworkThemeProvider` for scoped theming.
 - `CLAW_LIGHT_THEME` and `CLAW_DARK_THEME` are the canonical preset exports.
 - `SDKWORK_LIGHT_THEME` and `SDKWORK_DARK_THEME` remain stable compatibility aliases for the default claw baseline.
@@ -1146,18 +1398,19 @@ import '@sdkwork/ui-pc-react/styles.css';
 - Use `SettingsField` for label, description, error, modified-state, and reset orchestration in settings pages instead of rebuilding app-local setting rows.
 - Use `FilterBar` when a page is primarily about searching, narrowing, or bulk-operating on a result set; keep it out of app-local page wrappers unless the behavior is truly bespoke.
 - Use `NumberInput` for bounded numeric settings, quota controls, retry counts, and other step-based desktop fields instead of rebuilding app-local steppers.
-- Use `components/ui/navigation` for shared breadcrumb, `Menubar`, `Stepper`, pagination, and `WorkspaceTabs` primitives instead of rebuilding route chrome, app menus, publish progress chrome, or editor tab strips per app.
+- Use `components/ui/navigation` for shared breadcrumb, `Menubar`, `Stepper`, pagination, `WorkspaceTab`, and `WorkspaceTabs` primitives instead of rebuilding route chrome, app menus, publish progress chrome, or editor tab strips per app.
 - Use `components/ui/actions` for command palettes, `SplitButton` primary-plus-secondary actions, `ToolbarButton` editor toggles, and `IconButton`-driven compact actions instead of rebuilding workspace launchers per app.
 - Use `ActionMenuButton` when a desktop surface needs one visible trigger with an overflow menu, and use `BulkActionBar` when selection state should materialize as a sticky multi-item action surface instead of another app-local banner.
 - Use `StatusBar` for branch, sync, runtime mode, cursor, or selection summaries at the bottom of desktop windows before introducing app-local footer chrome.
 - Use `components/ui/layout` `PanelGroup` before introducing app-local split view, resizer, or sidebar-width hooks in desktop workspaces.
 - Use `components/ui/data-entry` for reusable comboboxes, date inputs, datetime inputs, date-range inputs, and upload inputs before adding app-local selection or picker widgets.
 - Use `InlineAlert` for panel-local warnings, success guidance, and contextual remediation without promoting every message to a toast.
-- Use `NotificationCenter` for desktop notification trays and side panels instead of carrying per-app notification list shells.
+- Use `NotificationCenter` and `NotificationCenterItem` for desktop notification trays and side panels instead of carrying per-app notification list shells.
 - Use `EmptySearch` for filtered list, command result, and search drawer empty states before shipping app-local "no result" cards.
 - Use `components/ui/feedback` for toast notifications and inline status states before introducing app-local notification stores or local Sonner wrappers.
 - Use `ActivityFeed` for operation history, approval trails, sync logs, and release history before rebuilding app-local audit/event cards.
 - Use `components/ui/data-display` for reusable `DataGrid` collection shells, `DataTable` admin/resource grids, tables, trees, metric cards, and status labels before introducing app-local dashboard widgets.
+- Keep raw `Table` usage for semantic or low-level tabular markup. Reach for `DataTable` when the surface needs framework-owned border, compact radius, selection, built-in page summary, rows-per-page selection, and pagination controls.
 - Use `RichTree` when a desktop surface needs multi-select, checkbox cascade, lazy expansion, row actions, or richer node metadata; keep search inputs, file IO, and business mutations in the app or higher-order workbench layer.
 - Use `MarkdownViewer` for release notes, help text, AI-generated summaries, and settings guidance instead of shipping app-local markdown renderers in each desktop package.
 - Use `KeyValueTable` for dense read-only entity details in drawers, inspectors, and summary cards before rebuilding another label-value list around raw `div` or `dl` markup.
@@ -1197,9 +1450,13 @@ const theme = createSdkworkTheme({
     primary: '#0f766e',
   },
   radius: {
-    panel: '2rem',
+    field: '0.375rem',
+    control: '0.5rem',
+    panel: '1rem',
   },
 });
 
 const cssVariables = createThemeCssVariables(theme);
 ```
+
+The default radius ladder is `field = 0.375rem`, `control = 0.5rem`, `panel = 1rem`, and `pill = 999px`. `radius.field` controls text inputs, selects, textareas, segmented field surfaces, and dense inline collection controls such as pagination items. `radius.control` remains the shared action-control radius for generic buttons and compact shell chrome.

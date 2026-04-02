@@ -2,13 +2,15 @@ import * as React from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { cn } from '../../../lib/utils';
 
+export type SidebarSectionExpandedChangeHandler = (expanded: boolean) => void;
+
 export interface SidebarSectionProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   actions?: React.ReactNode;
   defaultExpanded?: boolean;
   description?: React.ReactNode;
   expanded?: boolean;
   meta?: React.ReactNode;
-  onExpandedChange?: (expanded: boolean) => void;
+  onExpandedChange?: SidebarSectionExpandedChangeHandler;
   title: React.ReactNode;
 }
 
@@ -56,7 +58,7 @@ const SidebarSection = React.forwardRef<HTMLDivElement, SidebarSectionProps>(
           <button
             aria-controls={contentId}
             aria-expanded={open}
-            className="flex min-w-0 flex-1 items-center justify-between gap-3 rounded-[calc(var(--sdk-radius-control)-0.125rem)] px-1 py-1.5 text-left transition-colors hover:bg-[var(--sdk-color-brand-primary-soft)]"
+            className="flex min-w-0 flex-1 items-center justify-between gap-3 rounded-[var(--sdk-radius-control)] px-1 py-1.5 text-left transition-colors hover:bg-[var(--sdk-color-brand-primary-soft)]"
             onClick={handleToggle}
             type="button"
           >

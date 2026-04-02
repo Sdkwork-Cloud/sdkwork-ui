@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { ChevronDown } from 'lucide-react';
+import { mergeSlotProps, type SlotProps } from '../../../lib/slot-props';
 import { cn } from '../../../lib/utils';
 import { Button, type ButtonProps } from '../button';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  type DropdownMenuContentProps,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -13,6 +15,7 @@ import {
 } from '../dropdown-menu';
 
 export type ActionMenuButtonItemTone = 'default' | 'danger';
+export type ActionMenuButtonItemSelectHandler = () => void;
 
 export interface ActionMenuButtonItem {
   description?: React.ReactNode;
@@ -20,7 +23,7 @@ export interface ActionMenuButtonItem {
   icon?: React.ReactNode;
   key: string;
   label: React.ReactNode;
-  onSelect?: () => void;
+  onSelect?: ActionMenuButtonItemSelectHandler;
   shortcut?: React.ReactNode;
   tone?: ActionMenuButtonItemTone;
   type?: 'item';
@@ -43,17 +46,23 @@ export type ActionMenuButtonEntry =
   | ActionMenuButtonLabelEntry
   | ActionMenuButtonSeparatorEntry;
 
+export interface ActionMenuButtonSlotProps {
+  content?: SlotProps<DropdownMenuContentProps>;
+}
+
+export type ActionMenuButtonMenuOpenChangeHandler = (open: boolean) => void;
+
 export interface ActionMenuButtonProps extends Omit<ButtonProps, 'children'> {
   children: React.ReactNode;
   defaultMenuOpen?: boolean;
   items: ActionMenuButtonEntry[];
   menuAlign?: 'start' | 'center' | 'end';
-  menuClassName?: string;
   menuLabel?: string;
   menuModal?: boolean;
   menuOpen?: boolean;
-  onMenuOpenChange?: (open: boolean) => void;
+  onMenuOpenChange?: ActionMenuButtonMenuOpenChangeHandler;
   showChevron?: boolean;
+  slotProps?: ActionMenuButtonSlotProps;
 }
 
 const itemToneClassName: Record<ActionMenuButtonItemTone, string> = {
@@ -78,12 +87,12 @@ const ActionMenuButton = React.forwardRef<HTMLButtonElement, ActionMenuButtonPro
       defaultMenuOpen,
       items,
       menuAlign = 'end',
-      menuClassName,
       menuLabel = 'Open actions menu',
       menuModal = false,
       menuOpen,
       onMenuOpenChange,
       showChevron = true,
+      slotProps,
       ...props
     },
     ref,
@@ -106,7 +115,14 @@ const ActionMenuButton = React.forwardRef<HTMLButtonElement, ActionMenuButtonPro
           {showChevron ? <ChevronDown className="h-4 w-4 shrink-0" /> : null}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align={menuAlign} className={menuClassName}>
+      <DropdownMenuContent
+        {...mergeSlotProps<SlotProps<DropdownMenuContentProps>>(
+          {
+            align: menuAlign,
+          },
+          slotProps?.content,
+        )}
+      >
         {items.map((entry) => {
           if (isSeparatorEntry(entry)) {
             return <DropdownMenuSeparator key={entry.key} />;

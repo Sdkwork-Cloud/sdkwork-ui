@@ -37,6 +37,7 @@ const Toolbar = React.forwardRef<HTMLDivElement, ToolbarProps>(
           : 'flex-col items-stretch',
         className,
       )}
+      data-sdk-ui="toolbar"
       role={role}
       {...props}
     />
@@ -50,6 +51,9 @@ export interface ToolbarGroupProps extends React.HTMLAttributes<HTMLDivElement> 
   wrap?: boolean;
 }
 
+export type ToolbarSpacerProps = React.HTMLAttributes<HTMLDivElement>;
+export type ToolbarSeparatorProps = React.ComponentPropsWithoutRef<typeof Separator>;
+
 const ToolbarGroup = React.forwardRef<HTMLDivElement, ToolbarGroupProps>(
   ({ className, orientation = 'horizontal', wrap = true, ...props }, ref) => (
     <div
@@ -59,6 +63,7 @@ const ToolbarGroup = React.forwardRef<HTMLDivElement, ToolbarGroupProps>(
         orientation === 'horizontal' ? ['items-center', wrap ? 'flex-wrap' : 'flex-nowrap'] : 'flex-col',
         className,
       )}
+      data-sdk-ui="toolbar-group"
       {...props}
     />
   ),
@@ -66,19 +71,20 @@ const ToolbarGroup = React.forwardRef<HTMLDivElement, ToolbarGroupProps>(
 
 ToolbarGroup.displayName = 'ToolbarGroup';
 
-const ToolbarSpacer = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => <div ref={ref} className={cn('min-w-4 flex-1', className)} {...props} />,
+const ToolbarSpacer = React.forwardRef<HTMLDivElement, ToolbarSpacerProps>(
+  ({ className, ...props }, ref) => <div ref={ref} className={cn('min-w-4 flex-1', className)} data-sdk-ui="toolbar-spacer" {...props} />,
 );
 
 ToolbarSpacer.displayName = 'ToolbarSpacer';
 
 const ToolbarSeparator = React.forwardRef<
   React.ElementRef<typeof Separator>,
-  React.ComponentPropsWithoutRef<typeof Separator>
+  ToolbarSeparatorProps
 >(({ className, decorative = false, orientation = 'vertical', ...props }, ref) => (
   <Separator
     ref={ref}
     className={cn(orientation === 'vertical' ? 'mx-1 h-6' : 'my-1 w-full', className)}
+    data-sdk-ui="toolbar-separator"
     decorative={decorative}
     orientation={orientation}
     {...props}

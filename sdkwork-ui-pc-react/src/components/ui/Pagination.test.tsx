@@ -40,6 +40,7 @@ describe('Pagination', () => {
     expect(screen.getByRole('link', { name: 'Previous page' })).toHaveAttribute('href', '/page/1');
     expect(screen.getByRole('link', { name: 'Next page' })).toHaveAttribute('href', '/page/3');
     expect(screen.getByRole('link', { name: '2' })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('link', { name: '2' })).toHaveClass('rounded-[var(--sdk-radius-field)]');
     expect(screen.getByText('More pages')).toBeInTheDocument();
   });
 });

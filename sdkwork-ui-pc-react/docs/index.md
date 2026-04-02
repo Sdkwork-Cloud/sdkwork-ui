@@ -10,8 +10,8 @@ hero:
       text: Get Started
       link: /guide/getting-started
     - theme: alt
-      text: Architecture
-      link: /design/architecture
+      text: Governance
+      link: /reference/framework-governance
 
 features:
   - title: Shared Primitives
@@ -30,6 +30,8 @@ features:
     details: App shell, navigation rail, workspace panel, inspector panel, `InspectorRail`, `DesktopShellFrame`, `ListDetailWorkspace`, `ManagementWorkbench`, `CrudWorkbench`, `WorkspaceScaffold`, `SettingsCenter`, `DirtyStateBar`, `SearchCommandPalette`, `RestartRequiredNotice`, page header, desktop window controls, title bars, desktop app headers, `DetailDrawer`, `OperationDrawer`, `AnchoredPickerSurface`, `PickerDialog`, `EntityPickerDialog`, `PickerSelectionFooter`, `TwoPaneSelectorPopover`, and section headers for SDKWORK desktop apps.
   - title: Semantic Theme Tokens
     details: Brand, surface, border, text, state, radius, and shadow tokens expressed as stable CSS variables with a claw-studio preset baseline and deep override support.
+  - title: Framework Governance
+    details: Source-level framework audits enforce token completeness, rendered component metadata, and shared authoring standards so the package evolves like a UI framework instead of drifting into a component bucket.
   - title: Feedback Standardization
     details: "A shared `feedback` domain unifies `ActivityFeed`, panel-local `InlineAlert`, filtered-result `EmptySearch`, desktop `NotificationCenter` panels, and a theme-aware Sonner-compatible `Toaster` and `toast` layer for desktop notifications."
   - title: Independent Package Build

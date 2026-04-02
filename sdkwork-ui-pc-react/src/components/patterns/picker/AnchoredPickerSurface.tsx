@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { cn } from '../../../lib/utils';
+import {
+  mergePatternSlotProps,
+  type PatternSlotProps,
+} from '../_internal/slot-props';
 import { EmptySearch, InlineAlert, LoadingBlock } from '../../ui/feedback';
-import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover';
+import { Popover, PopoverContent, PopoverTrigger, type PopoverContentProps } from '../../ui/popover';
 
 export type AnchoredPickerSurfaceSize = 'sm' | 'md' | 'lg' | 'xl';
 
@@ -14,16 +18,41 @@ interface AnchoredPickerSurfacePositioningProps {
   sideOffset?: React.ComponentPropsWithoutRef<typeof PopoverContent>['sideOffset'];
 }
 
+export type AnchoredPickerSurfaceRegionSlotProps = PatternSlotProps<
+  Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>
+>;
+export type AnchoredPickerSurfaceSurfaceSlotProps = PatternSlotProps<
+  Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>
+>;
+
+export interface AnchoredPickerSurfaceSlotProps {
+  body?: AnchoredPickerSurfaceRegionSlotProps;
+  content?: PatternSlotProps<
+    Omit<
+      PopoverContentProps,
+      | 'align'
+      | 'alignOffset'
+      | 'avoidCollisions'
+      | 'children'
+      | 'collisionPadding'
+      | 'side'
+      | 'sideOffset'
+    >
+  >;
+  filters?: AnchoredPickerSurfaceRegionSlotProps;
+  footer?: AnchoredPickerSurfaceRegionSlotProps;
+  header?: AnchoredPickerSurfaceRegionSlotProps;
+  surface?: AnchoredPickerSurfaceSurfaceSlotProps;
+}
+
 export interface AnchoredPickerSurfaceProps
   extends Omit<React.ComponentPropsWithoutRef<typeof Popover>, 'children'>,
     AnchoredPickerSurfacePositioningProps {
   actions?: React.ReactNode;
   badge?: React.ReactNode;
-  bodyClassName?: string;
   bodyScrollable?: boolean;
   children?: React.ReactNode;
   className?: string;
-  contentClassName?: string;
   description?: React.ReactNode;
   empty?: boolean;
   emptyAction?: React.ReactNode;
@@ -33,15 +62,13 @@ export interface AnchoredPickerSurfaceProps
   error?: React.ReactNode;
   errorTitle?: React.ReactNode;
   filters?: React.ReactNode;
-  filtersClassName?: string;
   footer?: React.ReactNode;
-  footerClassName?: string;
-  headerClassName?: string;
   loading?: boolean;
   loadingLabel?: React.ReactNode;
   maxHeight?: React.CSSProperties['maxHeight'];
   resultsSummary?: React.ReactNode;
   size?: AnchoredPickerSurfaceSize;
+  slotProps?: AnchoredPickerSurfaceSlotProps;
   title?: React.ReactNode;
   trigger: React.ReactElement;
 }
@@ -53,18 +80,16 @@ const anchoredPickerSurfaceSizeClassNames: Record<AnchoredPickerSurfaceSize, str
   xl: 'w-[min(92vw,44rem)]',
 };
 
-function AnchoredPickerSurface({
+const AnchoredPickerSurface = React.forwardRef<HTMLDivElement, AnchoredPickerSurfaceProps>(({
   actions,
   align = 'start',
   alignOffset,
   avoidCollisions,
   badge,
-  bodyClassName,
   bodyScrollable = true,
   children,
   className,
   collisionPadding = 12,
-  contentClassName,
   defaultOpen = false,
   description,
   empty = false,
@@ -75,10 +100,7 @@ function AnchoredPickerSurface({
   error,
   errorTitle = 'Unable to load options',
   filters,
-  filtersClassName,
   footer,
-  footerClassName,
-  headerClassName,
   loading = false,
   loadingLabel = 'Loading options...',
   maxHeight = 'min(30rem, var(--radix-popover-content-available-height, 30rem))',
@@ -89,9 +111,10 @@ function AnchoredPickerSurface({
   side = 'bottom',
   sideOffset = 8,
   size = 'lg',
+  slotProps,
   title,
   trigger,
-}: AnchoredPickerSurfaceProps) {
+}, ref) => {
   const resolvedContent = loading ? (
     <LoadingBlock label={loadingLabel} />
   ) : error ? (
@@ -131,27 +154,55 @@ function AnchoredPickerSurface({
         align={align}
         alignOffset={alignOffset}
         avoidCollisions={avoidCollisions}
-        className={cn(
-          'overflow-hidden border-[color-mix(in_srgb,var(--sdk-color-border-default)_88%,transparent)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel)_98%,white_2%)_0%,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_90%,transparent)_100%)] p-0 shadow-[var(--sdk-shadow-md)]',
-          anchoredPickerSurfaceSizeClassNames[size],
-          contentClassName,
+        {...mergePatternSlotProps<
+          PatternSlotProps<
+            Omit<
+              PopoverContentProps,
+              | 'align'
+              | 'alignOffset'
+              | 'avoidCollisions'
+              | 'children'
+              | 'collisionPadding'
+              | 'side'
+              | 'sideOffset'
+            >
+          >
+        >(
+          {
+            className: cn(
+              'overflow-hidden border-[color-mix(in_srgb,var(--sdk-color-border-default)_88%,transparent)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel)_98%,white_2%)_0%,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_90%,transparent)_100%)] p-0 shadow-[var(--sdk-shadow-md)]',
+              anchoredPickerSurfaceSizeClassNames[size],
+            ),
+            'data-sdk-region': 'anchored-picker-content',
+          },
+          slotProps?.content,
         )}
         collisionPadding={collisionPadding}
         side={side}
         sideOffset={sideOffset}
       >
         <div
-          className={cn('flex min-h-0 min-w-0 flex-col overflow-hidden', className)}
-          data-sdk-pattern="anchored-picker-surface"
-          style={{ maxHeight }}
+          ref={ref}
+          {...mergePatternSlotProps<AnchoredPickerSurfaceSurfaceSlotProps>(
+            {
+              className: cn('flex min-h-0 min-w-0 flex-col overflow-hidden', className),
+              'data-sdk-pattern': 'anchored-picker-surface',
+              'data-sdk-region': 'anchored-picker-surface',
+              style: { maxHeight },
+            },
+            slotProps?.surface,
+          )}
         >
           {hasHeader ? (
             <div
-              className={cn(
-                'flex shrink-0 flex-col gap-3 border-b border-[color-mix(in_srgb,var(--sdk-color-border-default)_72%,transparent)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel)_96%,white_4%)_0%,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_88%,transparent)_100%)] px-4 py-3',
-                headerClassName,
+              {...mergePatternSlotProps<AnchoredPickerSurfaceRegionSlotProps>(
+                {
+                  className:
+                    'flex shrink-0 flex-col gap-3 border-b border-[color-mix(in_srgb,var(--sdk-color-border-default)_72%,transparent)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel)_96%,white_4%)_0%,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_88%,transparent)_100%)] px-4 py-3',
+                  'data-sdk-region': 'anchored-picker-header',
+                },
+                slotProps?.header,
               )}
-              data-sdk-region="anchored-picker-header"
             >
               {title !== undefined || description !== undefined || badge !== undefined || resultsSummary !== undefined || actions !== undefined ? (
                 <div className="flex items-start gap-3">
@@ -183,11 +234,14 @@ function AnchoredPickerSurface({
 
               {filters ? (
                 <div
-                  className={cn(
-                    'flex flex-wrap items-center gap-2 rounded-[calc(var(--sdk-radius-panel)-0.125rem)] border border-[color-mix(in_srgb,var(--sdk-color-border-default)_72%,transparent)] bg-[color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_88%,transparent)] px-3 py-2.5',
-                    filtersClassName,
+                  {...mergePatternSlotProps<AnchoredPickerSurfaceRegionSlotProps>(
+                    {
+                      className:
+                        'flex flex-wrap items-center gap-2 rounded-[var(--sdk-radius-panel)] border border-[color-mix(in_srgb,var(--sdk-color-border-default)_72%,transparent)] bg-[color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_88%,transparent)] px-3 py-2.5',
+                      'data-sdk-region': 'anchored-picker-filters',
+                    },
+                    slotProps?.filters,
                   )}
-                  data-sdk-region="anchored-picker-filters"
                 >
                   {filters}
                 </div>
@@ -196,23 +250,30 @@ function AnchoredPickerSurface({
           ) : null}
 
           <div
-            className={cn(
-              'min-h-0 min-w-0 flex-1 px-3 py-3',
-              bodyScrollable ? 'overflow-y-auto' : 'overflow-hidden',
-              bodyClassName,
+            {...mergePatternSlotProps<AnchoredPickerSurfaceRegionSlotProps>(
+              {
+                className: cn(
+                  'min-h-0 min-w-0 flex-1 px-3 py-3',
+                  bodyScrollable ? 'overflow-y-auto' : 'overflow-hidden',
+                ),
+                'data-sdk-region': 'anchored-picker-body',
+              },
+              slotProps?.body,
             )}
-            data-sdk-region="anchored-picker-body"
           >
             {resolvedContent}
           </div>
 
           {footer ? (
             <div
-              className={cn(
-                'shrink-0 border-t border-[color-mix(in_srgb,var(--sdk-color-border-default)_72%,transparent)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel)_94%,white_4%)_0%,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_88%,transparent)_100%)] px-4 py-3',
-                footerClassName,
+              {...mergePatternSlotProps<AnchoredPickerSurfaceRegionSlotProps>(
+                {
+                  className:
+                    'shrink-0 border-t border-[color-mix(in_srgb,var(--sdk-color-border-default)_72%,transparent)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel)_94%,white_4%)_0%,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_88%,transparent)_100%)] px-4 py-3',
+                  'data-sdk-region': 'anchored-picker-footer',
+                },
+                slotProps?.footer,
               )}
-              data-sdk-region="anchored-picker-footer"
             >
               {footer}
             </div>
@@ -221,6 +282,7 @@ function AnchoredPickerSurface({
       </PopoverContent>
     </Popover>
   );
-}
+});
 
 export { AnchoredPickerSurface };
+AnchoredPickerSurface.displayName = 'AnchoredPickerSurface';

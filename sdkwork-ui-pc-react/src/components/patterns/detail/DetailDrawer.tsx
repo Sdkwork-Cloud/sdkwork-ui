@@ -1,12 +1,20 @@
 import * as React from 'react';
 import { cn } from '../../../lib/utils';
 import {
+  mergePatternSlotProps,
+  type PatternSlotProps,
+} from '../_internal/slot-props';
+import {
   Drawer,
   DrawerBody,
+  type DrawerBodyProps,
   DrawerContent,
+  type DrawerContentProps,
   DrawerDescription,
   DrawerFooter,
+  type DrawerFooterProps,
   DrawerHeader,
+  type DrawerHeaderProps,
   DrawerTitle,
 } from '../../ui/overlays';
 
@@ -14,16 +22,22 @@ export type DetailDrawerSide = 'left' | 'right';
 export type DetailDrawerSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 export type DetailDrawerMetricTone = 'default' | 'success' | 'warning' | 'danger';
 
+export interface DetailDrawerSlotProps {
+  body?: PatternSlotProps<Omit<DrawerBodyProps, 'children'>>;
+  content?: PatternSlotProps<Omit<DrawerContentProps, 'children' | 'side' | 'size'>>;
+  footer?: PatternSlotProps<Omit<DrawerFooterProps, 'children'>>;
+  header?: PatternSlotProps<Omit<DrawerHeaderProps, 'children'>>;
+}
+
 export interface DetailDrawerProps extends React.ComponentPropsWithoutRef<typeof Drawer> {
   actions?: React.ReactNode;
-  bodyClassName?: string;
   className?: string;
-  contentClassName?: string;
   description?: React.ReactNode;
   eyebrow?: React.ReactNode;
   footer?: React.ReactNode;
   side?: DetailDrawerSide;
   size?: DetailDrawerSize;
+  slotProps?: DetailDrawerSlotProps;
   summary?: React.ReactNode;
   title: React.ReactNode;
 }
@@ -60,15 +74,14 @@ const metricsColumnsClassName = {
 
 function DetailDrawer({
   actions,
-  bodyClassName,
   children,
   className,
-  contentClassName,
   description,
   eyebrow,
   footer,
   size = 'lg',
   side = 'right',
+  slotProps,
   summary,
   title,
   ...props
@@ -77,11 +90,25 @@ function DetailDrawer({
     <Drawer {...props}>
       <DrawerContent
         {...(description ? {} : { 'aria-describedby': undefined })}
-        className={cn('gap-0 overflow-hidden', contentClassName)}
+        {...mergePatternSlotProps<PatternSlotProps<Omit<DrawerContentProps, 'children' | 'side' | 'size'>>>(
+          {
+            className: cn('gap-0 overflow-hidden', className),
+            'data-sdk-pattern': 'detail-drawer',
+            'data-sdk-region': 'detail-drawer-content',
+          },
+          slotProps?.content,
+        )}
         size={size}
         side={side}
       >
-        <DrawerHeader className={className}>
+        <DrawerHeader
+          {...mergePatternSlotProps<PatternSlotProps<Omit<DrawerHeaderProps, 'children'>>>(
+            {
+              'data-sdk-region': 'detail-drawer-header',
+            },
+            slotProps?.header,
+          )}
+        >
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0 flex-1">
               {eyebrow ? (
@@ -100,23 +127,45 @@ function DetailDrawer({
             </div>
           ) : null}
         </DrawerHeader>
-        <DrawerBody className={cn('space-y-4', bodyClassName)}>{children}</DrawerBody>
-        {footer ? <DrawerFooter>{footer}</DrawerFooter> : null}
+        <DrawerBody
+          {...mergePatternSlotProps<PatternSlotProps<Omit<DrawerBodyProps, 'children'>>>(
+            {
+              className: 'space-y-4',
+              'data-sdk-region': 'detail-drawer-body',
+            },
+            slotProps?.body,
+          )}
+        >
+          {children}
+        </DrawerBody>
+        {footer ? (
+          <DrawerFooter
+            {...mergePatternSlotProps<PatternSlotProps<Omit<DrawerFooterProps, 'children'>>>(
+              {
+                'data-sdk-region': 'detail-drawer-footer',
+              },
+              slotProps?.footer,
+            )}
+          >
+            {footer}
+          </DrawerFooter>
+        ) : null}
       </DrawerContent>
     </Drawer>
   );
 }
 
-function DetailDrawerSection({
+const DetailDrawerSection = React.forwardRef<HTMLElement, DetailDrawerSectionProps>(({
   actions,
   children,
   className,
   description,
   title,
   ...props
-}: DetailDrawerSectionProps) {
+}, ref) => {
   return (
     <section
+      ref={ref}
       className={cn(
         'space-y-3 rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] px-4 py-4 shadow-[var(--sdk-shadow-soft)]',
         className,
@@ -138,16 +187,17 @@ function DetailDrawerSection({
       {children}
     </section>
   );
-}
+});
 
-function DetailDrawerMetrics({
+const DetailDrawerMetrics = React.forwardRef<HTMLDivElement, DetailDrawerMetricsProps>(({
   children,
   className,
   columns = 2,
   ...props
-}: DetailDrawerMetricsProps) {
+}, ref) => {
   return (
     <div
+      ref={ref}
       className={cn('grid gap-3', metricsColumnsClassName[columns], className)}
       data-sdk-pattern="detail-drawer-metrics"
       {...props}
@@ -155,18 +205,19 @@ function DetailDrawerMetrics({
       {children}
     </div>
   );
-}
+});
 
-function DetailDrawerMetric({
+const DetailDrawerMetric = React.forwardRef<HTMLDivElement, DetailDrawerMetricProps>(({
   className,
   helper,
   label,
   tone = 'default',
   value,
   ...props
-}: DetailDrawerMetricProps) {
+}, ref) => {
   return (
     <div
+      ref={ref}
       className={cn(
         'rounded-[var(--sdk-radius-control)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] px-4 py-3 shadow-[var(--sdk-shadow-soft)]',
         className,
@@ -182,6 +233,10 @@ function DetailDrawerMetric({
       {helper ? <div className="mt-1 text-xs text-[var(--sdk-color-text-secondary)]">{helper}</div> : null}
     </div>
   );
-}
+});
 
 export { DetailDrawer, DetailDrawerMetric, DetailDrawerMetrics, DetailDrawerSection };
+DetailDrawer.displayName = 'DetailDrawer';
+DetailDrawerMetric.displayName = 'DetailDrawerMetric';
+DetailDrawerMetrics.displayName = 'DetailDrawerMetrics';
+DetailDrawerSection.displayName = 'DetailDrawerSection';

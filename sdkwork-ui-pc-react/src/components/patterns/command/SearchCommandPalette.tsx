@@ -1,7 +1,12 @@
 import * as React from 'react';
 import { cn } from '../../../lib/utils';
 import {
+  mergePatternSlotProps,
+  type PatternSlotProps,
+} from '../_internal/slot-props';
+import {
   CommandDialog,
+  type CommandDialogContentProps,
   CommandEmpty,
   CommandGroup,
   CommandInput,
@@ -28,16 +33,29 @@ export interface SearchCommandPaletteGroup {
   items: SearchCommandPaletteItem[];
 }
 
+export type SearchCommandPaletteItemSelectHandler = (item: SearchCommandPaletteItem) => void;
+export type SearchCommandPaletteSearchValueChangeHandler = (value: string) => void;
+
+export type SearchCommandPaletteFooterSlotProps = PatternSlotProps<
+  Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>
+>;
+
+export interface SearchCommandPaletteSlotProps {
+  content?: CommandDialogContentProps;
+  footer?: SearchCommandPaletteFooterSlotProps;
+}
+
 export interface SearchCommandPaletteProps
-  extends Omit<React.ComponentPropsWithoutRef<typeof CommandDialog>, 'children'> {
+  extends Omit<React.ComponentPropsWithoutRef<typeof CommandDialog>, 'children' | 'slotProps'> {
   closeOnSelect?: boolean;
   emptyState?: React.ReactNode;
   footer?: React.ReactNode;
   groups: SearchCommandPaletteGroup[];
-  onItemSelect?: (item: SearchCommandPaletteItem) => void;
-  onSearchValueChange?: (value: string) => void;
+  onItemSelect?: SearchCommandPaletteItemSelectHandler;
+  onSearchValueChange?: SearchCommandPaletteSearchValueChangeHandler;
   placeholder?: string;
   searchValue?: string;
+  slotProps?: SearchCommandPaletteSlotProps;
   title?: React.ReactNode;
 }
 
@@ -89,12 +107,19 @@ export function SearchCommandPalette({
   onSearchValueChange,
   placeholder = 'Search commands',
   searchValue,
+  slotProps,
   title = 'Search command palette',
   ...props
 }: SearchCommandPaletteProps) {
   return (
     <CommandDialog
       onOpenChange={onOpenChange}
+      slotProps={{
+        content: mergePatternSlotProps<CommandDialogContentProps>(
+          { 'data-sdk-pattern': 'search-command-palette' },
+          slotProps?.content,
+        ),
+      }}
       {...props}
     >
       <DialogTitle className="sr-only">{title}</DialogTitle>
@@ -147,10 +172,19 @@ export function SearchCommandPalette({
         ))}
       </CommandList>
       {footer ? (
-        <div className={cn('shrink-0')} data-sdk-region="search-command-palette-footer">
+        <div
+          {...mergePatternSlotProps<SearchCommandPaletteFooterSlotProps>(
+            {
+              className: cn('shrink-0'),
+              'data-sdk-region': 'search-command-palette-footer',
+            },
+            slotProps?.footer,
+          )}
+        >
           {footer}
         </div>
       ) : null}
     </CommandDialog>
   );
 }
+SearchCommandPalette.displayName = 'SearchCommandPalette';

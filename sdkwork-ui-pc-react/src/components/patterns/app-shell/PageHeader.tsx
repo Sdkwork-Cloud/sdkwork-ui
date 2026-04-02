@@ -1,22 +1,30 @@
-import type { ReactNode } from 'react';
+import * as React from 'react';
 import { cn } from '../../../lib/utils';
 
-export interface PageHeaderProps {
-  actions?: ReactNode;
-  className?: string;
-  description?: ReactNode;
-  eyebrow?: ReactNode;
-  title: ReactNode;
+export interface PageHeaderProps extends Omit<React.ComponentPropsWithoutRef<'div'>, 'title'> {
+  actions?: React.ReactNode;
+  description?: React.ReactNode;
+  eyebrow?: React.ReactNode;
+  title: React.ReactNode;
 }
 
-export function PageHeader({ actions, className, description, eyebrow, title }: PageHeaderProps) {
+export const PageHeader = React.forwardRef<HTMLDivElement, PageHeaderProps>(({
+  actions,
+  className,
+  description,
+  eyebrow,
+  title,
+  ...props
+}, ref) => {
   return (
     <div
+      ref={ref}
       className={cn(
         'flex flex-col gap-4 border-b border-[var(--sdk-color-border-subtle)] px-6 py-5 md:flex-row md:items-end md:justify-between',
         className,
       )}
       data-sdk-pattern="page-header"
+      {...props}
     >
       <div className="space-y-2">
         {eyebrow ? (
@@ -32,4 +40,5 @@ export function PageHeader({ actions, className, description, eyebrow, title }: 
       {actions ? <div className="flex items-center gap-3">{actions}</div> : null}
     </div>
   );
-}
+});
+PageHeader.displayName = 'PageHeader';

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '../../../lib/utils';
+import { mergeSlotProps, type SlotProps } from '../../../lib/slot-props';
 import { inputBaseClassName } from '../input';
 
 function clampValue(value: number, min?: number, max?: number) {
@@ -31,6 +32,18 @@ function parseNumericConstraint(value: number | string | undefined) {
   return undefined;
 }
 
+export type NumberInputValueChangeHandler = (value: number | null) => void;
+export type NumberInputRootSlotProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>>;
+export type NumberInputStepperSlotProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>>;
+export type NumberInputStepperButtonSlotProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'button'>, 'children'>>;
+
+export interface NumberInputSlotProps {
+  decrementButton?: NumberInputStepperButtonSlotProps;
+  incrementButton?: NumberInputStepperButtonSlotProps;
+  root?: NumberInputRootSlotProps;
+  stepper?: NumberInputStepperSlotProps;
+}
+
 export interface NumberInputProps
   extends Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
@@ -38,7 +51,8 @@ export interface NumberInputProps
   > {
   defaultValue?: number;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  onValueChange?: (value: number | null) => void;
+  onValueChange?: NumberInputValueChangeHandler;
+  slotProps?: NumberInputSlotProps;
   value?: number | null;
 }
 
@@ -51,6 +65,7 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       min,
       onChange,
       onValueChange,
+      slotProps,
       step = 1,
       value,
       ...props
@@ -139,7 +154,15 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
     );
 
     return (
-      <div className="relative">
+      <div
+        {...mergeSlotProps(
+          {
+            className: 'relative',
+            'data-sdk-ui': 'number-input',
+          },
+          slotProps?.root,
+        )}
+      >
         <input
           ref={inputRef}
           className={cn(
@@ -147,6 +170,7 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             'pr-11 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
             className,
           )}
+          data-sdk-ui="number-input-field"
           inputMode="decimal"
           max={max}
           min={min}
@@ -156,20 +180,51 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
           {...inputValueProps}
           {...props}
         />
-        <div className="absolute inset-y-1 right-1 flex w-8 flex-col overflow-hidden rounded-[calc(var(--sdk-radius-control)-0.25rem)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel-muted)]">
+        <div
+          {...mergeSlotProps(
+            {
+              className:
+                'absolute inset-y-1 right-1 flex w-8 flex-col overflow-hidden rounded-[var(--sdk-radius-control)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel-muted)]',
+              'data-sdk-ui': 'number-input-stepper',
+            },
+            slotProps?.stepper,
+          )}
+        >
           <button
             aria-label="Increase value"
-            className="flex flex-1 items-center justify-center text-[var(--sdk-color-text-secondary)] transition-colors hover:bg-[var(--sdk-color-surface-elevated)] hover:text-[var(--sdk-color-text-primary)]"
+            {...mergeSlotProps(
+              {
+                className:
+                  'flex flex-1 items-center justify-center text-[var(--sdk-color-text-secondary)] transition-colors hover:bg-[var(--sdk-color-surface-elevated)] hover:text-[var(--sdk-color-text-primary)]',
+              },
+              slotProps?.incrementButton,
+            )}
+            onClick={(event) => {
+              slotProps?.incrementButton?.onClick?.(event);
+              if (!event.defaultPrevented) {
+                handleStep(1);
+              }
+            }}
             type="button"
-            onClick={() => handleStep(1)}
           >
             <ChevronUp className="h-3.5 w-3.5" />
           </button>
           <button
             aria-label="Decrease value"
-            className="flex flex-1 items-center justify-center border-t border-[var(--sdk-color-border-default)] text-[var(--sdk-color-text-secondary)] transition-colors hover:bg-[var(--sdk-color-surface-elevated)] hover:text-[var(--sdk-color-text-primary)]"
+            {...mergeSlotProps(
+              {
+                className:
+                  'flex flex-1 items-center justify-center border-t border-[var(--sdk-color-border-default)] text-[var(--sdk-color-text-secondary)] transition-colors hover:bg-[var(--sdk-color-surface-elevated)] hover:text-[var(--sdk-color-text-primary)]',
+              },
+              slotProps?.decrementButton,
+            )}
+            onClick={(event) => {
+              slotProps?.decrementButton?.onClick?.(event);
+              if (!event.defaultPrevented) {
+                handleStep(-1);
+              }
+            }}
             type="button"
-            onClick={() => handleStep(-1)}
           >
             <ChevronDown className="h-3.5 w-3.5" />
           </button>

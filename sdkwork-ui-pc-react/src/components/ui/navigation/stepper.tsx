@@ -1,24 +1,49 @@
 import * as React from 'react';
+import { mergeOptionalSlotProps, mergeSlotProps, type SlotProps } from '../../../lib/slot-props';
 import { cn } from '../../../lib/utils';
 
 export type StepperOrientation = 'horizontal' | 'vertical';
 export type StepperItemStatus = 'complete' | 'current' | 'upcoming' | 'error';
 
+export type StepperItemRootProps = SlotProps<
+  Omit<React.ComponentPropsWithoutRef<'li'>, 'children' | 'title'>
+>;
+export type StepperItemRegionSlotProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>>;
+export type StepperItemIndicatorSlotProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'span'>, 'children'>>;
+
+export interface StepperCollectionItemState {
+  index: number;
+  last: boolean;
+  orientation: StepperOrientation;
+  status: StepperItemStatus;
+}
+
+export type StepperItemPropsResolver = (state: StepperCollectionItemState) => StepperItemRootProps | undefined;
+export type StepperItemSlotPropsResolver = (
+  state: StepperCollectionItemState,
+) => StepperItemSlotProps | undefined;
+
+export interface StepperItemSlotProps {
+  connector?: StepperItemIndicatorSlotProps;
+  content?: StepperItemRegionSlotProps;
+  indicator?: StepperItemIndicatorSlotProps;
+}
+
 export interface StepperProps extends React.OlHTMLAttributes<HTMLOListElement> {
+  getItemProps?: StepperItemPropsResolver;
+  getItemSlotProps?: StepperItemSlotPropsResolver;
   orientation?: StepperOrientation;
 }
 
 export interface StepperItemProps extends Omit<React.LiHTMLAttributes<HTMLLIElement>, 'title'> {
   description?: React.ReactNode;
   icon?: React.ReactNode;
-  meta?: React.ReactNode;
-  status?: StepperItemStatus;
-  title: React.ReactNode;
-}
-
-interface StepperItemInternalProps extends StepperItemProps {
   last?: boolean;
+  meta?: React.ReactNode;
   stepNumber?: number;
+  status?: StepperItemStatus;
+  slotProps?: StepperItemSlotProps;
+  title: React.ReactNode;
 }
 
 const StepperContext = React.createContext<StepperOrientation>('horizontal');
@@ -40,15 +65,60 @@ const connectorClassName: Record<Exclude<StepperItemStatus, 'error'>, string> = 
   upcoming: 'bg-[var(--sdk-color-border-default)]',
 };
 
+function mergeStepperItemSlotProps(
+  baseSlotProps?: StepperItemSlotProps,
+  overrideSlotProps?: StepperItemSlotProps,
+): StepperItemSlotProps | undefined {
+  const mergedSlotProps: StepperItemSlotProps = {};
+
+  const connector = mergeOptionalSlotProps(baseSlotProps?.connector, overrideSlotProps?.connector);
+  const content = mergeOptionalSlotProps(baseSlotProps?.content, overrideSlotProps?.content);
+  const indicator = mergeOptionalSlotProps(baseSlotProps?.indicator, overrideSlotProps?.indicator);
+
+  if (connector) {
+    mergedSlotProps.connector = connector;
+  }
+
+  if (content) {
+    mergedSlotProps.content = content;
+  }
+
+  if (indicator) {
+    mergedSlotProps.indicator = indicator;
+  }
+
+  return Object.keys(mergedSlotProps).length > 0 ? mergedSlotProps : undefined;
+}
+
 const Stepper = React.forwardRef<HTMLOListElement, StepperProps>(
-  ({ children, className, orientation = 'horizontal', ...props }, ref) => {
+  ({ children, className, getItemProps, getItemSlotProps, orientation = 'horizontal', ...props }, ref) => {
     const items = React.Children.toArray(children).map((child, index, collection) => {
-      if (!React.isValidElement<StepperItemInternalProps>(child)) {
+      if (!React.isValidElement<StepperItemProps>(child)) {
         return child;
       }
 
-      return React.cloneElement(child, {
+      const childProps = child.props as StepperItemProps;
+      const itemState: StepperCollectionItemState = {
+        index,
         last: index === collection.length - 1,
+        orientation,
+        status: childProps.status ?? 'upcoming',
+      };
+      const parentItemProps = getItemProps?.(itemState);
+
+      return React.cloneElement(child, {
+        ...parentItemProps,
+        ...childProps,
+        className: cn(parentItemProps?.className, childProps.className),
+        last: itemState.last,
+        slotProps: mergeStepperItemSlotProps(getItemSlotProps?.(itemState), childProps.slotProps),
+        style:
+          parentItemProps?.style || childProps.style
+            ? {
+                ...parentItemProps?.style,
+                ...childProps.style,
+              }
+            : undefined,
         stepNumber: index + 1,
       });
     });
@@ -74,7 +144,7 @@ const Stepper = React.forwardRef<HTMLOListElement, StepperProps>(
 
 Stepper.displayName = 'Stepper';
 
-const StepperItem = React.forwardRef<HTMLLIElement, StepperItemInternalProps>(
+const StepperItem = React.forwardRef<HTMLLIElement, StepperItemProps>(
   (
     {
       className,
@@ -82,6 +152,7 @@ const StepperItem = React.forwardRef<HTMLLIElement, StepperItemInternalProps>(
       icon,
       last = false,
       meta,
+      slotProps,
       status = 'upcoming',
       stepNumber = 1,
       title,
@@ -104,24 +175,45 @@ const StepperItem = React.forwardRef<HTMLLIElement, StepperItemInternalProps>(
         >
           <div className="flex flex-col items-center">
             <span
-              className={cn(
-                'flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold shadow-[var(--sdk-shadow-soft)]',
-                indicatorShellClassName[status],
+              {...mergeSlotProps<StepperItemIndicatorSlotProps>(
+                {
+                  className: cn(
+                    'flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold shadow-[var(--sdk-shadow-soft)]',
+                    indicatorShellClassName[status],
+                  ),
+                  'data-sdk-region': 'stepper-item-indicator',
+                },
+                slotProps?.indicator,
               )}
             >
               {indicator}
             </span>
             {!last ? (
               <span
-                aria-hidden="true"
-                className={cn(
-                  'mt-2 w-px flex-1 rounded-full',
-                  status === 'error' ? connectorClassName.upcoming : connectorClassName[status],
+                {...mergeSlotProps<StepperItemIndicatorSlotProps>(
+                  {
+                    'aria-hidden': 'true',
+                    className: cn(
+                      'mt-2 w-px flex-1 rounded-full',
+                      status === 'error' ? connectorClassName.upcoming : connectorClassName[status],
+                    ),
+                    'data-sdk-region': 'stepper-item-connector',
+                  },
+                  slotProps?.connector,
                 )}
               />
             ) : null}
           </div>
-          <div className="min-w-0 rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] px-4 py-3 shadow-[var(--sdk-shadow-soft)]">
+          <div
+            {...mergeSlotProps<StepperItemRegionSlotProps>(
+              {
+                className:
+                  'min-w-0 rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] px-4 py-3 shadow-[var(--sdk-shadow-soft)]',
+                'data-sdk-region': 'stepper-item-content',
+              },
+              slotProps?.content,
+            )}
+          >
             <div className="flex flex-wrap items-center gap-2">
               <div className="text-sm font-semibold text-[var(--sdk-color-text-primary)]">{title}</div>
               {meta ? (
@@ -149,14 +241,28 @@ const StepperItem = React.forwardRef<HTMLLIElement, StepperItemInternalProps>(
       >
         <div className="flex min-w-0 flex-1 items-start gap-3">
           <span
-            className={cn(
-              'flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold shadow-[var(--sdk-shadow-soft)]',
-              indicatorShellClassName[status],
+            {...mergeSlotProps<StepperItemIndicatorSlotProps>(
+              {
+                className: cn(
+                  'flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-sm font-semibold shadow-[var(--sdk-shadow-soft)]',
+                  indicatorShellClassName[status],
+                ),
+                'data-sdk-region': 'stepper-item-indicator',
+              },
+              slotProps?.indicator,
             )}
           >
             {indicator}
           </span>
-          <div className="min-w-0">
+          <div
+            {...mergeSlotProps<StepperItemRegionSlotProps>(
+              {
+                className: 'min-w-0',
+                'data-sdk-region': 'stepper-item-content',
+              },
+              slotProps?.content,
+            )}
+          >
             <div className="flex flex-wrap items-center gap-2">
               <div className="text-sm font-semibold text-[var(--sdk-color-text-primary)]">{title}</div>
               {meta ? (
@@ -172,10 +278,16 @@ const StepperItem = React.forwardRef<HTMLLIElement, StepperItemInternalProps>(
         </div>
         {!last ? (
           <span
-            aria-hidden="true"
-            className={cn(
-              'mt-[1.125rem] h-px min-w-6 flex-1 rounded-full',
-              status === 'error' ? connectorClassName.upcoming : connectorClassName[status],
+            {...mergeSlotProps<StepperItemIndicatorSlotProps>(
+              {
+                'aria-hidden': 'true',
+                className: cn(
+                  'mt-[1.125rem] h-px min-w-6 flex-1 rounded-full',
+                  status === 'error' ? connectorClassName.upcoming : connectorClassName[status],
+                ),
+                'data-sdk-region': 'stepper-item-connector',
+              },
+              slotProps?.connector,
             )}
           />
         ) : null}

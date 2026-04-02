@@ -15,6 +15,13 @@ const rows: AssetRow[] = [
   { id: 'asset-2', name: 'Moodboard', owner: 'Design Team', status: 'Review' },
 ];
 
+const pagedRows: AssetRow[] = Array.from({ length: 25 }, (_, index) => ({
+  id: `asset-${index + 1}`,
+  name: `Asset ${index + 1}`,
+  owner: `Owner ${index + 1}`,
+  status: index % 2 === 0 ? 'Ready' : 'Review',
+}));
+
 afterEach(() => {
   cleanup();
 });
@@ -119,5 +126,115 @@ describe('DataTable', () => {
 
     expect(screen.getByText('No assets')).toBeInTheDocument();
     expect(screen.getByText('Create a new asset or adjust your filters.')).toBeInTheDocument();
+  });
+
+  it('supports built-in client pagination with page summary and previous/next controls', () => {
+    const onPageChange = vi.fn();
+    const DataTableAny = DataTable as unknown as (props: Record<string, unknown>) => React.JSX.Element;
+
+    render(
+      <DataTableAny
+        columns={[
+          { id: 'name', header: 'Name', cell: (row: AssetRow) => row.name },
+          { id: 'owner', header: 'Owner', cell: (row: AssetRow) => row.owner },
+        ]}
+        pagination={{
+          defaultPage: 2,
+          defaultPageSize: 10,
+          onPageChange,
+        }}
+        rows={pagedRows}
+        title="Assets"
+      />,
+    );
+
+    expect(screen.getByText('Showing 11-20 of 25')).toBeInTheDocument();
+    expect(screen.getByText('Asset 11')).toBeInTheDocument();
+    expect(screen.queryByText('Asset 1')).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Next page' }));
+
+    expect(onPageChange).toHaveBeenCalledWith(3);
+    expect(screen.getByText('Showing 21-25 of 25')).toBeInTheDocument();
+    expect(screen.getByText('Asset 25')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Previous page' }));
+
+    expect(onPageChange).toHaveBeenCalledWith(2);
+    expect(screen.getByText('Showing 11-20 of 25')).toBeInTheDocument();
+  });
+
+  it('supports built-in page size selection and resets to the first page when page size changes', () => {
+    const onPageChange = vi.fn();
+    const onPageSizeChange = vi.fn();
+    const DataTableAny = DataTable as unknown as (props: Record<string, unknown>) => React.JSX.Element;
+
+    render(
+      <DataTableAny
+        columns={[
+          { id: 'name', header: 'Name', cell: (row: AssetRow) => row.name },
+          { id: 'owner', header: 'Owner', cell: (row: AssetRow) => row.owner },
+        ]}
+        pagination={{
+          defaultPage: 2,
+          defaultPageSize: 10,
+          onPageChange,
+          onPageSizeChange,
+          pageSizeOptions: [10, 20, 50],
+        }}
+        rows={pagedRows}
+        title="Assets"
+      />,
+    );
+
+    expect(screen.getByRole('combobox', { name: 'Rows per page' })).toBeInTheDocument();
+    expect(screen.getByText('Showing 11-20 of 25')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('combobox', { name: 'Rows per page' }));
+    fireEvent.click(screen.getByRole('option', { name: '20' }));
+
+    expect(onPageSizeChange).toHaveBeenCalledWith(20);
+    expect(onPageChange).toHaveBeenCalledWith(1);
+    expect(screen.getByText('Showing 1-20 of 25')).toBeInTheDocument();
+    expect(screen.getByText('Asset 1')).toBeInTheDocument();
+    expect(screen.queryByText('Asset 21')).not.toBeInTheDocument();
+  });
+
+  it('supports controlled server pagination with explicit total rows', () => {
+    const onPageChange = vi.fn();
+    const DataTableAny = DataTable as unknown as (props: Record<string, unknown>) => React.JSX.Element;
+    const serverRows = Array.from({ length: 10 }, (_, index) => ({
+      id: `asset-${index + 21}`,
+      name: `Asset ${index + 21}`,
+      owner: `Owner ${index + 21}`,
+      status: index % 2 === 0 ? 'Ready' : 'Review',
+    }));
+
+    render(
+      <DataTableAny
+        columns={[
+          { id: 'name', header: 'Name', cell: (row: AssetRow) => row.name },
+          { id: 'owner', header: 'Owner', cell: (row: AssetRow) => row.owner },
+        ]}
+        pagination={{
+          mode: 'server',
+          onPageChange,
+          page: 3,
+          pageSize: 10,
+          rowCount: 52,
+        }}
+        rows={serverRows}
+        title="Assets"
+      />,
+    );
+
+    expect(screen.getByText('Showing 21-30 of 52')).toBeInTheDocument();
+    expect(screen.getByText('Asset 21')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Next page' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Page 6' }));
+
+    expect(onPageChange).toHaveBeenNthCalledWith(1, 4);
+    expect(onPageChange).toHaveBeenNthCalledWith(2, 6);
   });
 });

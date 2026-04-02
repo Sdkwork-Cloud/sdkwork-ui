@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { mergeSlotProps, type SlotProps } from '../../../lib/slot-props';
 import { cn } from '../../../lib/utils';
 
 export type TimelineItemStatus =
@@ -21,7 +22,21 @@ export interface TimelineItem {
   status?: TimelineItemStatus;
 }
 
+export type TimelineItemRootProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'li'>, 'children'>>;
+export type TimelineItemRegionSlotProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>>;
+export type TimelineItemIndicatorSlotProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'span'>, 'children'>>;
+export type TimelineItemPropsResolver = (item: TimelineItem, index: number) => TimelineItemRootProps | undefined;
+export type TimelineItemSlotPropsResolver = (item: TimelineItem, index: number) => TimelineItemSlotProps | undefined;
+
+export interface TimelineItemSlotProps {
+  connector?: TimelineItemIndicatorSlotProps;
+  content?: TimelineItemRegionSlotProps;
+  indicator?: TimelineItemIndicatorSlotProps;
+}
+
 export interface TimelineProps extends React.OlHTMLAttributes<HTMLOListElement> {
+  getItemProps?: TimelineItemPropsResolver;
+  getItemSlotProps?: TimelineItemSlotPropsResolver;
   items: TimelineItem[];
 }
 
@@ -62,7 +77,13 @@ function resolveTimelineStatus(status?: TimelineItemStatus): ResolvedTimelineSta
   return timelineStatusAlias[status as keyof typeof timelineStatusAlias] ?? status;
 }
 
-const Timeline = React.forwardRef<HTMLOListElement, TimelineProps>(({ className, items, ...props }, ref) => (
+const Timeline = React.forwardRef<HTMLOListElement, TimelineProps>(({
+  className,
+  getItemProps,
+  getItemSlotProps,
+  items,
+  ...props
+}, ref) => (
   <ol
     ref={ref}
     className={cn('space-y-0', className)}
@@ -71,19 +92,32 @@ const Timeline = React.forwardRef<HTMLOListElement, TimelineProps>(({ className,
   >
     {items.map((item, index) => {
       const status = resolveTimelineStatus(item.status);
+      const itemProps = getItemProps?.(item, index);
+      const itemSlotProps = getItemSlotProps?.(item, index);
 
       return (
         <li
+          {...mergeSlotProps<TimelineItemRootProps>(
+            {
+              className: 'grid grid-cols-[auto_minmax(0,1fr)] gap-4 pb-5 last:pb-0',
+              'data-sdk-ui': 'timeline-item',
+              'data-status': status,
+            },
+            itemProps,
+          )}
           key={item.id ?? index}
-          className="grid grid-cols-[auto_minmax(0,1fr)] gap-4 pb-5 last:pb-0"
-          data-sdk-ui="timeline-item"
-          data-status={status}
         >
           <div className="flex flex-col items-center">
             <span
-              className={cn(
-                'flex h-8 w-8 shrink-0 items-center justify-center rounded-full border',
-                timelineIndicatorShellClassName[status],
+              {...mergeSlotProps<TimelineItemIndicatorSlotProps>(
+                {
+                  className: cn(
+                    'flex h-8 w-8 shrink-0 items-center justify-center rounded-full border',
+                    timelineIndicatorShellClassName[status],
+                  ),
+                  'data-sdk-region': 'timeline-item-indicator',
+                },
+                itemSlotProps?.indicator,
               )}
             >
               {item.icon ? (
@@ -97,12 +131,27 @@ const Timeline = React.forwardRef<HTMLOListElement, TimelineProps>(({ className,
             </span>
             {index < items.length - 1 ? (
               <span
-                aria-hidden="true"
-                className="mt-2 w-px flex-1 rounded-full bg-[var(--sdk-color-border-default)]"
+                {...mergeSlotProps<TimelineItemIndicatorSlotProps>(
+                  {
+                    'aria-hidden': 'true',
+                    className: 'mt-2 w-px flex-1 rounded-full bg-[var(--sdk-color-border-default)]',
+                    'data-sdk-region': 'timeline-item-connector',
+                  },
+                  itemSlotProps?.connector,
+                )}
               />
             ) : null}
           </div>
-          <div className="min-w-0 rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] px-4 py-3 shadow-[var(--sdk-shadow-soft)]">
+          <div
+            {...mergeSlotProps<TimelineItemRegionSlotProps>(
+              {
+                className:
+                  'min-w-0 rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] px-4 py-3 shadow-[var(--sdk-shadow-soft)]',
+                'data-sdk-region': 'timeline-item-content',
+              },
+              itemSlotProps?.content,
+            )}
+          >
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div className="text-sm font-semibold text-[var(--sdk-color-text-primary)]">{item.title}</div>
               {item.timestamp ? (

@@ -21,6 +21,9 @@ export interface SettingsCenterSection {
   title?: React.ReactNode;
 }
 
+export type SettingsCenterActiveItemChangeHandler = (itemId: string) => void;
+export type SettingsCenterSearchChangeHandler = (value: string) => void;
+
 export interface SettingsCenterProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children' | 'title'> {
   actions?: React.ReactNode;
   activeItem?: string;
@@ -29,8 +32,8 @@ export interface SettingsCenterProps extends Omit<React.HTMLAttributes<HTMLDivEl
   emptyState?: React.ReactNode;
   navFooter?: React.ReactNode;
   navHeader?: React.ReactNode;
-  onActiveItemChange?: (itemId: string) => void;
-  onSearchChange?: (value: string) => void;
+  onActiveItemChange?: SettingsCenterActiveItemChangeHandler;
+  onSearchChange?: SettingsCenterSearchChangeHandler;
   searchPlaceholder?: string;
   searchValue?: string;
   sections: SettingsCenterSection[];
@@ -77,7 +80,7 @@ function itemMatchesQuery(item: SettingsCenterItem, query: string) {
   return haystack.includes(query);
 }
 
-export function SettingsCenter({
+export const SettingsCenter = React.forwardRef<HTMLDivElement, SettingsCenterProps>(({
   actions,
   activeItem,
   children,
@@ -93,7 +96,7 @@ export function SettingsCenter({
   sections,
   title,
   ...props
-}: SettingsCenterProps) {
+}, ref) => {
   const normalizedQuery = searchValue.trim().toLowerCase();
   const filteredSections = sections
     .map((section) => ({
@@ -107,6 +110,7 @@ export function SettingsCenter({
 
   return (
     <div
+      ref={ref}
       className={cn('grid h-full min-h-0 min-w-0 gap-4 lg:grid-cols-[18rem_minmax(0,1fr)]', className)}
       data-sdk-pattern="settings-center"
       {...props}
@@ -203,15 +207,18 @@ export function SettingsCenter({
       </WorkspacePanel>
     </div>
   );
-}
+});
 
 export function DirtyStateBar({ className, sticky = true, ...props }: DirtyStateBarProps) {
   return (
     <InlineAlert
       className={cn(sticky ? 'sticky bottom-0 z-10' : null, className)}
+      data-sdk-pattern="dirty-state-bar"
       showIcon
       tone="warning"
       {...props}
     />
   );
 }
+SettingsCenter.displayName = 'SettingsCenter';
+DirtyStateBar.displayName = 'DirtyStateBar';

@@ -35,4 +35,29 @@ describe('Table', () => {
     expect(screen.getByRole('cell', { name: 'Planner' })).toBeInTheDocument();
     expect(screen.getByText('Workspace agents')).toBeInTheDocument();
   });
+
+  it('keeps the primitive scroll container structurally thin instead of baking in panel chrome', () => {
+    render(
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Name</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell>Planner</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>,
+    );
+
+    const table = screen.getAllByRole('table').at(-1)!;
+    const scrollContainer = table.parentElement;
+
+    expect(scrollContainer).not.toBeNull();
+    expect(scrollContainer).toHaveClass('relative', 'w-full', 'overflow-auto');
+    expect(scrollContainer).not.toHaveClass('rounded-[var(--sdk-radius-panel)]');
+    expect(scrollContainer).not.toHaveClass('border');
+  });
 });

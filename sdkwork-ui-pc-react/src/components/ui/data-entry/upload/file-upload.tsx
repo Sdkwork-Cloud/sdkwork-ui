@@ -4,7 +4,11 @@ import { Button } from '../../button';
 import { Label } from '../../label';
 import { InlineAlert } from '../../feedback/inline-alert';
 import { UploadDropzone } from './upload-dropzone';
-import type { FileUploadItem, FileUploadProps, FileUploadRejection } from './upload-types';
+import type {
+  FileUploadItem,
+  FileUploadRootProps,
+  FileUploadRejection,
+} from './upload-types';
 import { useUploadPreviews } from './use-upload-previews';
 import { UploadItem } from './upload-item';
 import {
@@ -17,6 +21,8 @@ import {
   matchesAccept,
   normalizeAccept,
 } from './upload-utils';
+
+export type FileUploadProps = FileUploadRootProps;
 
 function useControllableFileList(value: FileUploadItem[] | undefined, defaultValue: FileUploadItem[], onValueChange?: (value: FileUploadItem[]) => void) {
   const [internalValue, setInternalValue] = React.useState(defaultValue);
@@ -37,7 +43,7 @@ function useControllableFileList(value: FileUploadItem[] | undefined, defaultVal
   return [currentValue, setValue] as const;
 }
 
-function FileUpload({
+const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(({
   accept,
   allowPaste = false,
   className,
@@ -65,7 +71,7 @@ function FileUpload({
   value,
   variant = 'file',
   ...props
-}: FileUploadProps) {
+}, ref) => {
   const variantDefaults = getUploadVariantDefaults(variant);
   const resolvedAccept = accept ?? variantDefaults.accept;
   const resolvedAcceptText = normalizeAccept(resolvedAccept);
@@ -168,7 +174,7 @@ function FileUpload({
   }, [onClear, setItems]);
 
   return (
-    <div className={cn('space-y-3', className)} {...props}>
+    <div ref={ref} className={cn('space-y-3', className)} data-sdk-ui="file-upload" {...props}>
       <div className="flex items-start justify-between gap-3">
         <div className="space-y-1">
           <Label htmlFor={inputId}>{resolvedLabel}</Label>
@@ -258,7 +264,7 @@ function FileUpload({
       ) : null}
 
       {items.length ? (
-        <div className={cn(resolvedListType === 'grid' ? 'grid gap-3 sm:grid-cols-2 xl:grid-cols-3' : 'space-y-2')}>
+        <div className={cn(resolvedListType === 'grid' ? 'grid gap-3 sm:grid-cols-2 xl:grid-cols-3' : 'space-y-2')} data-sdk-region="file-upload-list">
           {items.map((item) => (
             <UploadItem
               disabled={disabled}
@@ -277,6 +283,7 @@ function FileUpload({
       ) : null}
     </div>
   );
-}
+});
 
 export { FileUpload };
+FileUpload.displayName = 'FileUpload';

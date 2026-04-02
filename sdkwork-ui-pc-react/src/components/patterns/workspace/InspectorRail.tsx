@@ -1,21 +1,32 @@
 import * as React from 'react';
 import { cn } from '../../../lib/utils';
+import {
+  mergePatternSlotProps,
+  type PatternSlotProps,
+} from '../_internal/slot-props';
+
+export type InspectorRailRegionSlotProps = PatternSlotProps<
+  Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>
+>;
+
+export interface InspectorRailSlotProps {
+  body?: InspectorRailRegionSlotProps;
+  footer?: InspectorRailRegionSlotProps;
+  header?: InspectorRailRegionSlotProps;
+}
 
 export type InspectorRailSide = 'left' | 'right';
 export type InspectorRailVariant = 'docked' | 'sticky' | 'drawer';
 export type InspectorRailMetricTone = 'default' | 'success' | 'warning' | 'danger';
 
-export interface InspectorRailProps extends React.PropsWithChildren {
+export interface InspectorRailProps extends Omit<React.ComponentPropsWithoutRef<'aside'>, 'title'> {
   actions?: React.ReactNode;
-  bodyClassName?: string;
-  className?: string;
   description?: React.ReactNode;
   eyebrow?: React.ReactNode;
   footer?: React.ReactNode;
-  footerClassName?: string;
-  headerClassName?: string;
   meta?: React.ReactNode;
   side?: InspectorRailSide;
+  slotProps?: InspectorRailSlotProps;
   stickyHeader?: boolean;
   summary?: React.ReactNode;
   title?: React.ReactNode;
@@ -62,27 +73,27 @@ const metricsColumnsClassName = {
   3: 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3',
 } as const;
 
-export function InspectorRail({
+export const InspectorRail = React.forwardRef<HTMLElement, InspectorRailProps>(({
   actions,
-  bodyClassName,
   children,
   className,
   description,
   eyebrow,
   footer,
-  footerClassName,
-  headerClassName,
   meta,
   side = 'right',
+  slotProps,
   stickyHeader = false,
   summary,
   title,
   variant = 'docked',
-}: InspectorRailProps) {
+  ...props
+}, ref) => {
   const hasHeader = eyebrow || title || description || meta || actions || summary;
 
   return (
     <aside
+      ref={ref}
       className={cn(
         'flex h-full min-h-0 flex-col overflow-hidden rounded-[var(--sdk-radius-panel)]',
         railVariantClassName[variant],
@@ -91,13 +102,19 @@ export function InspectorRail({
       data-sdk-pattern="inspector-rail"
       data-side={side}
       data-variant={variant}
+      {...props}
     >
       {hasHeader ? (
         <div
-          className={cn(
-            'border-b border-[var(--sdk-color-border-subtle)] bg-[var(--sdk-color-surface-panel)]/95 px-5 py-4',
-            stickyHeader ? 'sticky top-0 z-10 backdrop-blur-xl' : null,
-            headerClassName,
+          {...mergePatternSlotProps<InspectorRailRegionSlotProps>(
+            {
+              className: cn(
+                'border-b border-[var(--sdk-color-border-subtle)] bg-[var(--sdk-color-surface-panel)]/95 px-5 py-4',
+                stickyHeader ? 'sticky top-0 z-10 backdrop-blur-xl' : null,
+              ),
+              'data-sdk-region': 'inspector-rail-header',
+            },
+            slotProps?.header,
           )}
         >
           <div className="flex flex-wrap items-start justify-between gap-3">
@@ -123,13 +140,26 @@ export function InspectorRail({
         </div>
       ) : null}
       <div className="min-h-0 flex-1 overflow-y-auto">
-        <div className={cn('space-y-4 px-5 py-4', bodyClassName)}>{children}</div>
+        <div
+          {...mergePatternSlotProps<InspectorRailRegionSlotProps>(
+            {
+              className: 'space-y-4 px-5 py-4',
+              'data-sdk-region': 'inspector-rail-body',
+            },
+            slotProps?.body,
+          )}
+        >
+          {children}
+        </div>
       </div>
       {footer ? (
         <div
-          className={cn(
-            'border-t border-[var(--sdk-color-border-subtle)] px-5 py-4',
-            footerClassName,
+          {...mergePatternSlotProps<InspectorRailRegionSlotProps>(
+            {
+              className: 'border-t border-[var(--sdk-color-border-subtle)] px-5 py-4',
+              'data-sdk-region': 'inspector-rail-footer',
+            },
+            slotProps?.footer,
           )}
         >
           {footer}
@@ -137,18 +167,19 @@ export function InspectorRail({
       ) : null}
     </aside>
   );
-}
+});
 
-export function InspectorRailSection({
+export const InspectorRailSection = React.forwardRef<HTMLElement, InspectorRailSectionProps>(({
   actions,
   children,
   className,
   description,
   title,
   ...props
-}: InspectorRailSectionProps) {
+}, ref) => {
   return (
     <section
+      ref={ref}
       className={cn(
         'space-y-3 rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] px-4 py-4 shadow-[var(--sdk-shadow-soft)]',
         className,
@@ -170,16 +201,17 @@ export function InspectorRailSection({
       {children}
     </section>
   );
-}
+});
 
-export function InspectorRailMetrics({
+export const InspectorRailMetrics = React.forwardRef<HTMLDivElement, InspectorRailMetricsProps>(({
   children,
   className,
   columns = 2,
   ...props
-}: InspectorRailMetricsProps) {
+}, ref) => {
   return (
     <div
+      ref={ref}
       className={cn('grid gap-3', metricsColumnsClassName[columns], className)}
       data-sdk-pattern="inspector-rail-metrics"
       {...props}
@@ -187,18 +219,19 @@ export function InspectorRailMetrics({
       {children}
     </div>
   );
-}
+});
 
-export function InspectorRailMetric({
+export const InspectorRailMetric = React.forwardRef<HTMLDivElement, InspectorRailMetricProps>(({
   className,
   helper,
   label,
   tone = 'default',
   value,
   ...props
-}: InspectorRailMetricProps) {
+}, ref) => {
   return (
     <div
+      ref={ref}
       className={cn(
         'rounded-[var(--sdk-radius-control)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] px-4 py-3 shadow-[var(--sdk-shadow-soft)]',
         className,
@@ -214,4 +247,8 @@ export function InspectorRailMetric({
       {helper ? <div className="mt-1 text-xs text-[var(--sdk-color-text-secondary)]">{helper}</div> : null}
     </div>
   );
-}
+});
+InspectorRail.displayName = 'InspectorRail';
+InspectorRailSection.displayName = 'InspectorRailSection';
+InspectorRailMetrics.displayName = 'InspectorRailMetrics';
+InspectorRailMetric.displayName = 'InspectorRailMetric';

@@ -38,10 +38,12 @@ export interface SdkworkTheme {
   };
   radius: {
     control: string;
+    field: string;
     panel: string;
     pill: string;
   };
   shadow: {
+    soft: string;
     sm: string;
     md: string;
     lg: string;
@@ -97,11 +99,13 @@ export const CLAW_DARK_THEME: SdkworkTheme = {
     info: '#38bdf8',
   },
   radius: {
-    control: '0.75rem',
-    panel: '1.75rem',
+    control: '0.5rem',
+    field: '0.375rem',
+    panel: '1rem',
     pill: '999px',
   },
   shadow: {
+    soft: '0 4px 16px rgba(9, 9, 11, 0.1)',
     sm: '0 8px 24px rgba(9, 9, 11, 0.12)',
     md: '0 18px 50px rgba(9, 9, 11, 0.16)',
     lg: '0 32px 80px rgba(9, 9, 11, 0.22)',
@@ -142,11 +146,13 @@ export const CLAW_LIGHT_THEME: SdkworkTheme = {
     info: '#0284c7',
   },
   radius: {
-    control: '0.75rem',
-    panel: '1.75rem',
+    control: '0.5rem',
+    field: '0.375rem',
+    panel: '1rem',
     pill: '999px',
   },
   shadow: {
+    soft: '0 4px 16px rgba(24, 24, 27, 0.08)',
     sm: '0 8px 24px rgba(24, 24, 27, 0.06)',
     md: '0 18px 50px rgba(24, 24, 27, 0.1)',
     lg: '0 28px 80px rgba(24, 24, 27, 0.14)',
@@ -243,8 +249,10 @@ export function createThemeCssVariables(theme: SdkworkTheme) {
     '--sdk-color-state-danger': theme.state.danger,
     '--sdk-color-state-info': theme.state.info,
     '--sdk-radius-control': theme.radius.control,
+    '--sdk-radius-field': theme.radius.field,
     '--sdk-radius-panel': theme.radius.panel,
     '--sdk-radius-pill': theme.radius.pill,
+    '--sdk-shadow-soft': theme.shadow.soft,
     '--sdk-shadow-sm': theme.shadow.sm,
     '--sdk-shadow-md': theme.shadow.md,
     '--sdk-shadow-lg': theme.shadow.lg,

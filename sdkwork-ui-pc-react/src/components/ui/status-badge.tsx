@@ -68,6 +68,7 @@ function StatusBadge({
   return (
     <Badge
       className={cn('gap-1.5 capitalize', className)}
+      data-sdk-ui="status-badge"
       data-variant={resolvedVariant}
       variant={resolvedVariant}
       {...props}
@@ -77,5 +78,7 @@ function StatusBadge({
     </Badge>
   );
 }
+
+StatusBadge.displayName = 'StatusBadge';
 
 export { StatusBadge };

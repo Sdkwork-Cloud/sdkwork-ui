@@ -42,7 +42,8 @@ describe('toast feedback layer', () => {
     const exportsMap = getFeedbackExports();
 
     expect(exportsMap.Toaster).toBeDefined();
-    expect(exportsMap.SdkworkToaster).toBe(exportsMap.Toaster);
+    expect(exportsMap.SdkworkToaster).toBeDefined();
+    expect(exportsMap.SdkworkToaster).not.toBe(exportsMap.Toaster);
     expect(exportsMap.toast).toBeDefined();
     expect(exportsMap.sdkToast).toBe(exportsMap.toast);
     expect(uiComponentCatalog.feedback).toEqual(
@@ -73,6 +74,7 @@ describe('toast feedback layer', () => {
             classNames?: Record<string, string | undefined>;
           };
           closeButton?: boolean;
+          'data-sdk-ui'?: string;
           expand?: boolean;
           position?: string;
           richColors?: boolean;
@@ -88,6 +90,7 @@ describe('toast feedback layer', () => {
 
     expect(props).toMatchObject({
       closeButton: true,
+      'data-sdk-ui': 'toaster',
       expand: true,
       position: 'bottom-right',
       richColors: true,
@@ -95,6 +98,26 @@ describe('toast feedback layer', () => {
     });
     expect(props.toastOptions?.classNames?.toast).toContain('bg-[var(--sdk-color-surface-panel)]');
     expect(props.toastOptions?.classNames?.title).toContain('text-[var(--sdk-color-text-primary)]');
+
+    sonnerMock.toasterSpy.mockClear();
+
+    if (typeof exportsMap.SdkworkToaster !== 'function') {
+      return;
+    }
+
+    render(
+      <SdkworkThemeProvider defaultTheme="light">
+        {createElement(exportsMap.SdkworkToaster as ComponentType)}
+      </SdkworkThemeProvider>,
+    );
+
+    const sdkworkProps = sonnerMock.toasterSpy.mock.calls.at(-1)?.[0] as
+      | {
+          'data-sdk-ui'?: string;
+        }
+      | undefined;
+
+    expect(sdkworkProps?.['data-sdk-ui']).toBe('sdkwork-toaster');
   });
 
   it('proxies imperative toast helpers through the shared feedback API', () => {

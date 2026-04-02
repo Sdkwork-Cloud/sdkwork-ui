@@ -27,8 +27,11 @@ export interface FileUploadRejection {
 }
 
 export type FileUploadItemActionHandler = (item: FileUploadItem) => void;
+export type FileUploadClearHandler = () => void;
+export type FileUploadRejectHandler = (rejections: FileUploadRejection[]) => void;
+export type FileUploadValueChangeHandler = (value: FileUploadItem[]) => void;
 
-export interface FileUploadProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
+export interface FileUploadRootProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
   allowPaste?: boolean;
   label?: string;
   clearable?: boolean;
@@ -43,12 +46,12 @@ export interface FileUploadProps extends Omit<React.HTMLAttributes<HTMLDivElemen
   maxFiles?: number;
   maxSize?: number;
   multiple?: boolean;
-  onClear?: () => void;
+  onClear?: FileUploadClearHandler;
   onDownloadItem?: FileUploadItemActionHandler;
   onPreviewItem?: FileUploadItemActionHandler;
-  onReject?: (rejections: FileUploadRejection[]) => void;
+  onReject?: FileUploadRejectHandler;
   onRetryItem?: FileUploadItemActionHandler;
-  onValueChange?: (value: FileUploadItem[]) => void;
+  onValueChange?: FileUploadValueChangeHandler;
   rejectionTitle?: string;
   replaceOnMax?: boolean;
   showRejections?: boolean;
@@ -56,6 +59,6 @@ export interface FileUploadProps extends Omit<React.HTMLAttributes<HTMLDivElemen
   variant?: FileUploadVariant;
 }
 
-export interface SpecializedUploadProps extends Omit<FileUploadProps, 'accept' | 'variant'> {
+export interface SpecializedUploadProps extends Omit<FileUploadRootProps, 'accept' | 'variant'> {
   accept?: string | string[];
 }

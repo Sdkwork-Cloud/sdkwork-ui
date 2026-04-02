@@ -29,43 +29,48 @@ export interface DateRangeSpanLimit {
 
 export type DateRangeFieldInvalidBehavior = 'preserve' | 'swap';
 
-type DateRangeInputProps = Omit<
+export type DateRangeFieldInputProps = Omit<
   DateInputProps,
   'aria-invalid' | 'className' | 'defaultValue' | 'onChange' | 'type' | 'value'
 >;
 
-interface BaseDateRangeFieldProps
+export type DateRangePresetValueChangeHandler = (value: string | null) => void;
+export type DateRangeValidationChangeHandler = (message: string | null) => void;
+export type DateRangeValueChangeHandler = (value: DateRangeValue) => void;
+export type DateRangeValueValidationResolver = (value: DateRangeValue) => string | null;
+
+export interface DateRangeFieldBaseProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'> {
   actions?: React.ReactNode;
   defaultPresetValue?: string | null;
   defaultValue?: Partial<DateRangeValue>;
   disabled?: boolean;
-  endInputProps?: DateRangeInputProps;
+  endInputProps?: DateRangeFieldInputProps;
   endLabel?: React.ReactNode;
   invalidBehavior?: DateRangeFieldInvalidBehavior;
   max?: string;
   maxSpan?: DateRangeSpanLimit;
   min?: string;
   mode?: TemporalInputType;
-  onPresetValueChange?: (value: string | null) => void;
-  onValidationChange?: (message: string | null) => void;
-  onValueChange?: (value: DateRangeValue) => void;
+  onPresetValueChange?: DateRangePresetValueChangeHandler;
+  onValidationChange?: DateRangeValidationChangeHandler;
+  onValueChange?: DateRangeValueChangeHandler;
   presetLabel?: React.ReactNode;
   presetValue?: string | null;
   presets?: DateRangePreset[];
-  startInputProps?: DateRangeInputProps;
+  startInputProps?: DateRangeFieldInputProps;
   startLabel?: React.ReactNode;
-  validate?: (value: DateRangeValue) => string | null;
+  validate?: DateRangeValueValidationResolver;
   value?: Partial<DateRangeValue>;
 }
 
-export interface DateRangeFieldProps extends Omit<BaseDateRangeFieldProps, 'mode'> {}
+export interface DateRangeFieldProps extends Omit<DateRangeFieldBaseProps, 'mode'> {}
 
-export interface DateTimeRangeFieldProps extends Omit<BaseDateRangeFieldProps, 'mode'> {}
+export interface DateTimeRangeFieldProps extends Omit<DateRangeFieldBaseProps, 'mode'> {}
 
-export interface DateRangePickerProps extends BaseDateRangeFieldProps {}
+export interface DateRangePickerProps extends DateRangeFieldBaseProps {}
 
-interface BaseDateRangeFieldInternalProps extends BaseDateRangeFieldProps {
+interface BaseDateRangeFieldInternalProps extends DateRangeFieldBaseProps {
   forwardedRef?: React.ForwardedRef<HTMLDivElement>;
 }
 
@@ -102,7 +107,7 @@ function resolveRangeValidationMessage(
   value: DateRangeValue,
   mode: TemporalInputType,
   maxSpan: DateRangeSpanLimit | undefined,
-  validate: ((value: DateRangeValue) => string | null) | undefined,
+  validate: DateRangeValueValidationResolver | undefined,
 ) {
   if (maxSpan && value.start && value.end) {
     const start = parseTemporalValue(value.start, mode);
@@ -304,6 +309,7 @@ DateRangeField.displayName = 'DateRangeField';
 const DateTimeRangeField = React.forwardRef<HTMLDivElement, DateTimeRangeFieldProps>((props, ref) => (
   <BaseDateRangeField
     {...props}
+    data-sdk-ui="date-time-range-field"
     forwardedRef={ref}
     mode="datetime-local"
   />
@@ -314,6 +320,7 @@ DateTimeRangeField.displayName = 'DateTimeRangeField';
 const DateRangePicker = React.forwardRef<HTMLDivElement, DateRangePickerProps>((props, ref) => (
   <BaseDateRangeField
     {...props}
+    data-sdk-ui="date-range-picker"
     forwardedRef={ref}
   />
 ));
