@@ -11,10 +11,10 @@ If your app uses the `components/ui/form` domain, align `react-hook-form` with t
 To consume the package directly from the repository main branch instead of a registry release:
 
 ```bash
-pnpm add "https://<git-host>/<org>/spring-ai-plus.git#main&path:/spring-ai-plus-business/apps/sdkwork-ui/sdkwork-ui-pc-react"
+pnpm add "https://github.com/Sdkwork-Cloud/sdkwork-ui.git#main&path:/sdkwork-ui-pc-react"
 ```
 
-The package runs `prepare` on git installs so `dist` is built before the dependency is linked into the consumer app.
+The repository tracks the prebuilt `dist` assets, so git installs work directly without requiring consumer-side lifecycle-script allowlists.
 
 ## Run The Core Checks
 

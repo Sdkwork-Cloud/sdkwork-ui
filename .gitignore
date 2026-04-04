@@ -1,5 +1,7 @@
 node_modules/
 dist/
+!sdkwork-ui-pc-react/dist/
+!sdkwork-ui-pc-react/dist/**
 coverage/
 .pack/
 .vitepress/cache/
@@ -10,4 +12,3 @@ Thumbs.db
 .idea/
 .vscode/
 *.tsbuildinfo
-

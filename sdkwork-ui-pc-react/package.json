@@ -107,7 +107,6 @@
   },
   "scripts": {
     "build": "vite build",
-    "prepare": "vite build",
     "docs:catalog": "node scripts/run-docs-catalog.mjs",
     "test": "vitest run",
     "test:watch": "vitest",

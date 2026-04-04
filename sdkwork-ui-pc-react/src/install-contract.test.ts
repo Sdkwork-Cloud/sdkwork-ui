@@ -1,10 +1,13 @@
-import { existsSync, realpathSync } from 'node:fs';
+import { existsSync, readFileSync, realpathSync } from 'node:fs';
 import { dirname, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const workspaceAppsRoot = resolve(packageRoot, '..', '..');
+const packageJson = JSON.parse(readFileSync(resolve(packageRoot, 'package.json'), 'utf8')) as {
+  scripts?: Record<string, string>;
+};
 
 const criticalRuntimePackages = [
   'react',
@@ -55,5 +58,11 @@ describe('sdkwork-ui install contract', () => {
     });
 
     expect(offenders).toEqual([]);
+  });
+
+  it('ships prebuilt assets for git dependency installs instead of relying on prepare hooks', () => {
+    expect(packageJson.scripts?.prepare).toBeUndefined();
+    expect(existsSync(resolve(packageRoot, 'dist', 'index.js'))).toBe(true);
+    expect(existsSync(resolve(packageRoot, 'dist', 'sdkwork-ui.css'))).toBe(true);
   });
 });

@@ -15,3 +15,9 @@ Current focus:
 - desktop application patterns
 - pnpm package build support
 - VitePress documentation
+
+Install the PC React package directly from git with:
+
+```bash
+pnpm add "https://github.com/Sdkwork-Cloud/sdkwork-ui.git#main&path:/sdkwork-ui-pc-react"
+```

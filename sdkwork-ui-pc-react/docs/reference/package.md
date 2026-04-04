@@ -1396,7 +1396,7 @@ import '@sdkwork/ui-pc-react/styles.css';
 ## Integration Contract
 
 - Consumers should import the package stylesheet.
-- Git-based consumers can install the package from the repository main branch; the package `prepare` script builds `dist` during git installation.
+- Git-based consumers can install the package from the repository main branch; the repository tracks prebuilt `dist` assets so installation works directly without consumer-side lifecycle-script allowlists.
 - Consumers can use `SdkworkThemeProvider` for scoped theming.
 - `CLAW_LIGHT_THEME` and `CLAW_DARK_THEME` are the canonical preset exports.
 - `SDKWORK_LIGHT_THEME` and `SDKWORK_DARK_THEME` remain stable compatibility aliases for the default claw baseline.

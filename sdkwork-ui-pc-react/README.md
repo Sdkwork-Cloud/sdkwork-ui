@@ -60,10 +60,10 @@ pnpm docs:build
 
 ## Install From Git
 
-This package can be consumed directly from the repository main branch. Because the package declares a `prepare` script, git installs build `dist` before the dependency is linked into the consumer app.
+This package can be consumed directly from the repository main branch. The repository tracks the prebuilt `dist` output, so git installs work without consumer-side lifecycle allowlists or post-install builds.
 
 ```bash
-pnpm add "https://<git-host>/<org>/spring-ai-plus.git#main&path:/spring-ai-plus-business/apps/sdkwork-ui/sdkwork-ui-pc-react"
+pnpm add "https://github.com/Sdkwork-Cloud/sdkwork-ui.git#main&path:/sdkwork-ui-pc-react"
 ```
 
 After installation, consume it like any other package:
