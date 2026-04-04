@@ -93,10 +93,12 @@ export const ManagementWorkbench = React.forwardRef<HTMLDivElement, ManagementWo
       ref={ref}
       className={cn('flex h-full min-h-0 min-w-0 flex-col gap-4', className)}
       data-sdk-pattern="management-workbench"
+      data-slot="management-workbench"
       {...props}
     >
       <PageHeader
         actions={actions}
+        data-slot="management-workbench-header"
         description={description}
         eyebrow={eyebrow}
         {...slotProps?.header}
@@ -107,6 +109,7 @@ export const ManagementWorkbench = React.forwardRef<HTMLDivElement, ManagementWo
           {...mergePatternSlotProps<ManagementWorkbenchRegionSlotProps>(
             {
               'data-sdk-region': 'management-workbench-filters',
+              'data-slot': 'management-workbench-filters',
             },
             slotProps?.filters,
           )}
@@ -119,6 +122,7 @@ export const ManagementWorkbench = React.forwardRef<HTMLDivElement, ManagementWo
           {...mergePatternSlotProps<ManagementWorkbenchRegionSlotProps>(
             {
               'data-sdk-region': 'management-workbench-selection-bar',
+              'data-slot': 'management-workbench-selection-bar',
             },
             slotProps?.selectionBar,
           )}
@@ -131,6 +135,7 @@ export const ManagementWorkbench = React.forwardRef<HTMLDivElement, ManagementWo
           {
             className: cn('min-h-0 min-w-0', detail ? 'grid gap-4 xl:grid' : null),
             'data-sdk-region': 'management-workbench-content',
+            'data-slot': 'management-workbench-content',
             style: detailGridStyle,
           },
           slotProps?.content,
@@ -138,6 +143,7 @@ export const ManagementWorkbench = React.forwardRef<HTMLDivElement, ManagementWo
       >
         <WorkspacePanel
           actions={mainActions}
+          data-slot="management-workbench-main"
           description={mainDescription}
           {...resolvedMainRootProps}
           slotProps={mainPanelSlotProps}
@@ -145,13 +151,14 @@ export const ManagementWorkbench = React.forwardRef<HTMLDivElement, ManagementWo
         >
           {children}
         </WorkspacePanel>
-        {detail ? <InspectorRail {...detail} className={cn('h-full', detail.className)} /> : null}
+        {detail ? <InspectorRail {...detail} className={cn('h-full', detail.className)} data-slot="management-workbench-detail" /> : null}
       </div>
       {footer ? (
         <div
           {...mergePatternSlotProps<ManagementWorkbenchRegionSlotProps>(
             {
               'data-sdk-region': 'management-workbench-footer',
+              'data-slot': 'management-workbench-footer',
             },
             slotProps?.footer,
           )}

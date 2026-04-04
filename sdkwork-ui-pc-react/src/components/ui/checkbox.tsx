@@ -17,9 +17,10 @@ const Checkbox = React.forwardRef<
         className,
       )}
       data-sdk-ui="checkbox"
+      data-slot="checkbox"
       {...props}
     >
-      <CheckboxPrimitive.Indicator className="flex items-center justify-center text-current">
+      <CheckboxPrimitive.Indicator className="flex items-center justify-center text-current" data-slot="checkbox-indicator">
         <Check className="h-3.5 w-3.5" />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>

@@ -51,6 +51,17 @@ describe('DetailDrawer', () => {
     expect(screen.getByText('Primary metadata shared across app detail drawers.')).toBeInTheDocument();
     expect(screen.getByText('OpenAI')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Close panel' })).toBeInTheDocument();
+    expect(document.querySelector('[data-sdk-pattern="detail-drawer"]')).toHaveAttribute('data-slot', 'detail-drawer');
+    expect(document.querySelector('[data-sdk-region="detail-drawer-content"]')).toHaveAttribute('data-slot', 'detail-drawer-content');
+    expect(document.querySelector('[data-sdk-region="detail-drawer-header"]')).toHaveAttribute('data-slot', 'detail-drawer-header');
+    expect(document.querySelector('[data-sdk-region="detail-drawer-body"]')).toHaveAttribute('data-slot', 'detail-drawer-body');
+    expect(document.querySelector('[data-sdk-region="detail-drawer-footer"]')).toHaveAttribute('data-slot', 'detail-drawer-footer');
+    expect(screen.getByText('Provider account')).toHaveAttribute('data-slot', 'detail-drawer-title');
+    expect(screen.getByText('Shared inspection flow for desktop apps.')).toHaveAttribute('data-slot', 'detail-drawer-description');
+    expect(screen.getByText('Provider account is healthy and synced.').closest('[data-slot="detail-drawer-summary"]')).toBeInTheDocument();
+    expect(document.querySelector('[data-sdk-pattern="detail-drawer-metrics"]')).toHaveAttribute('data-slot', 'detail-drawer-metrics');
+    expect(document.querySelector('[data-sdk-pattern="detail-drawer-metric"]')).toHaveAttribute('data-slot', 'detail-drawer-metric');
+    expect(document.querySelector('[data-sdk-pattern="detail-drawer-section"]')).toHaveAttribute('data-slot', 'detail-drawer-section');
   });
 
   it('surfaces the shared drawer close affordance through the Radix open-state callback', () => {

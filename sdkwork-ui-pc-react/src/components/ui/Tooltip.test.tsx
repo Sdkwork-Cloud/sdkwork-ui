@@ -18,7 +18,9 @@ describe('Tooltip', () => {
       </TooltipProvider>,
     );
 
+    expect(screen.getByText('Hover')).toHaveAttribute('data-slot', 'tooltip-trigger');
     expect(screen.getAllByText('Tooltip content')).not.toHaveLength(0);
+    expect(document.body.querySelector('[data-slot="tooltip-content"]')).toBeInTheDocument();
     expect(screen.getByRole('tooltip')).toHaveTextContent('Tooltip content');
   });
 });

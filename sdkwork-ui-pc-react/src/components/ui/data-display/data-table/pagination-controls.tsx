@@ -42,9 +42,9 @@ export function DataTablePaginationControls({
   resolvedPageSize,
 }: DataTablePaginationControlsProps) {
   return (
-    <div className={dataTablePaginationLayoutClassName} data-sdk-region="data-table-pagination-controls">
+    <div className={dataTablePaginationLayoutClassName} data-sdk-region="data-table-pagination-controls" data-slot="data-table-pagination-controls">
       {hasPageSizeSelector ? (
-        <div className={dataTablePageSizeClassName} data-sdk-region="data-table-page-size">
+        <div className={dataTablePageSizeClassName} data-sdk-region="data-table-page-size" data-slot="data-table-page-size">
           <span className="whitespace-nowrap">Rows per page</span>
           <Select value={String(resolvedPageSize)} onValueChange={onPageSizeChange}>
             <SelectTrigger

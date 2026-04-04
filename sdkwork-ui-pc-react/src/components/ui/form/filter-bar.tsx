@@ -38,14 +38,19 @@ const FilterBar = React.forwardRef<HTMLElement, FilterBarProps>(
           className,
         )}
         data-sdk-ui="filter-bar"
+        data-slot="filter-bar"
         {...props}
       >
         {title || description || summary ? (
-          <div className="flex flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
+          <div
+            className="flex flex-col gap-3 xl:flex-row xl:items-start xl:justify-between"
+            data-slot="filter-bar-header"
+          >
             <div className="space-y-1">
               {title ? (
                 <h3
                   className="text-sm font-semibold text-[var(--sdk-color-text-primary)]"
+                  data-slot="filter-bar-title"
                   id={titleId}
                 >
                   {title}
@@ -54,6 +59,7 @@ const FilterBar = React.forwardRef<HTMLElement, FilterBarProps>(
               {description ? (
                 <p
                   className="text-sm text-[var(--sdk-color-text-secondary)]"
+                  data-slot="filter-bar-description"
                   id={descriptionId}
                 >
                   {description}
@@ -61,13 +67,18 @@ const FilterBar = React.forwardRef<HTMLElement, FilterBarProps>(
               ) : null}
             </div>
             {summary ? (
-              <div className="text-sm font-medium text-[var(--sdk-color-text-secondary)]">
+              <div
+                className="text-sm font-medium text-[var(--sdk-color-text-secondary)]"
+                data-slot="filter-bar-summary"
+              >
                 {summary}
               </div>
             ) : null}
           </div>
         ) : null}
-        <div className="flex flex-wrap items-end gap-3">{children}</div>
+        <div className="flex flex-wrap items-end gap-3" data-slot="filter-bar-content">
+          {children}
+        </div>
       </section>
     );
   },
@@ -86,6 +97,7 @@ const FilterBarSection = React.forwardRef<HTMLDivElement, FilterBarSectionProps>
         className,
       )}
       data-sdk-ui="filter-bar-section"
+      data-slot="filter-bar-section"
       {...props}
     />
   ),
@@ -103,6 +115,7 @@ const FilterBarActions = React.forwardRef<HTMLDivElement, FilterBarActionsProps>
         className,
       )}
       data-sdk-ui="filter-bar-actions"
+      data-slot="filter-bar-actions"
       {...props}
     />
   ),

@@ -19,14 +19,19 @@ const SettingsSection = React.forwardRef<HTMLElement, SettingsSectionProps>(
         aria-labelledby={title ? titleId : undefined}
         className={cn('space-y-4', className)}
         data-sdk-ui="settings-section"
+        data-slot="settings-section"
         {...props}
       >
         {title || description || actions ? (
-          <div className="flex flex-col gap-3 border-b border-[var(--sdk-color-border-subtle)] pb-3 sm:flex-row sm:items-start sm:justify-between">
+          <div
+            className="flex flex-col gap-3 border-b border-[var(--sdk-color-border-subtle)] pb-3 sm:flex-row sm:items-start sm:justify-between"
+            data-slot="settings-section-header"
+          >
             <div className="min-w-0">
               {title ? (
                 <h3
                   className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--sdk-color-text-muted)]"
+                  data-slot="settings-section-title"
                   id={titleId}
                 >
                   {title}
@@ -35,16 +40,23 @@ const SettingsSection = React.forwardRef<HTMLElement, SettingsSectionProps>(
               {description ? (
                 <p
                   className="mt-2 max-w-3xl text-sm text-[var(--sdk-color-text-secondary)]"
+                  data-slot="settings-section-description"
                   id={descriptionId}
                 >
                   {description}
                 </p>
               ) : null}
             </div>
-            {actions ? <div className="flex shrink-0 items-center gap-2">{actions}</div> : null}
+            {actions ? (
+              <div className="flex shrink-0 items-center gap-2" data-slot="settings-section-actions">
+                {actions}
+              </div>
+            ) : null}
           </div>
         ) : null}
-        <div className="space-y-3">{children}</div>
+        <div className="space-y-3" data-slot="settings-section-content">
+          {children}
+        </div>
       </section>
     );
   },

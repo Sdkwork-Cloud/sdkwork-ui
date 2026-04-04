@@ -17,7 +17,7 @@ function createWindowController(): DesktopWindowController {
 
 describe('DesktopTitleBar', () => {
   it('renders leading, center, trailing, and shared window controls', async () => {
-    render(
+    const { container } = render(
       <DesktopTitleBar
         center={<button type="button">Workspace</button>}
         leading={<div>Brand</div>}
@@ -30,5 +30,10 @@ describe('DesktopTitleBar', () => {
     expect(screen.getByRole('button', { name: 'Workspace' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Settings' })).toBeInTheDocument();
     expect(await screen.findByRole('button', { name: 'Minimize window' })).toBeInTheDocument();
+    expect(container.querySelector('[data-sdk-pattern="desktop-title-bar"]')).toHaveAttribute('data-slot', 'desktop-title-bar');
+    expect(container.querySelector('[data-sdk-region="desktop-title-bar-leading"]')).toHaveAttribute('data-slot', 'desktop-title-bar-leading');
+    expect(container.querySelector('[data-sdk-region="desktop-title-bar-center-shell"]')).toHaveAttribute('data-slot', 'desktop-title-bar-center-shell');
+    expect(container.querySelector('[data-sdk-region="desktop-title-bar-center"]')).toHaveAttribute('data-slot', 'desktop-title-bar-center');
+    expect(container.querySelector('[data-sdk-region="desktop-title-bar-trailing"]')).toHaveAttribute('data-slot', 'desktop-title-bar-trailing');
   });
 });

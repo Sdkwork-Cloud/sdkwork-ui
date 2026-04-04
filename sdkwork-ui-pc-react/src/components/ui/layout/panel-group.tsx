@@ -21,6 +21,7 @@ const PanelGroup = React.forwardRef<HTMLDivElement, PanelGroupProps>(
         )}
         data-panel-group-direction={direction}
         data-sdk-ui="panel-group"
+        data-slot="panel-group"
         elementRef={ref}
         orientation={direction}
         {...props}
@@ -38,6 +39,7 @@ const Panel = React.forwardRef<HTMLDivElement, PanelProps>(({ className, ...prop
     className={cn('min-h-0 min-w-0 overflow-hidden', className)}
     data-sdk-ui="panel"
     data-sdk-panel=""
+    data-slot="panel"
     elementRef={ref}
     {...props}
   />
@@ -64,6 +66,7 @@ const PanelResizeHandle = React.forwardRef<HTMLDivElement, PanelResizeHandleProp
         data-panel-group-direction={direction}
         data-sdk-ui="panel-resize-handle"
         data-sdk-panel-resize-handle=""
+        data-slot="panel-resize-handle"
         elementRef={ref}
         {...props}
       >
@@ -73,6 +76,7 @@ const PanelResizeHandle = React.forwardRef<HTMLDivElement, PanelResizeHandleProp
               'pointer-events-none flex items-center justify-center rounded-full border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] shadow-[var(--sdk-shadow-sm)]',
               direction === 'horizontal' ? 'h-10 w-5' : 'h-5 w-10',
             )}
+            data-slot="panel-resize-handle-grip"
             data-testid="sdk-panel-resize-handle-grip"
           >
             <span

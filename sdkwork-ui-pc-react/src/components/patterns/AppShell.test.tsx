@@ -5,7 +5,7 @@ import { SDKWORK_DARK_THEME } from '../../theme';
 
 describe('AppShell', () => {
   it('renders standard PC application regions', () => {
-    render(
+    const { container } = render(
       <AppShell
         header={<div>Header</div>}
         sidebar={<div>Sidebar</div>}
@@ -18,6 +18,12 @@ describe('AppShell', () => {
     expect(screen.getByText('Sidebar')).toBeInTheDocument();
     expect(screen.getByText('Workspace')).toBeInTheDocument();
     expect(screen.getByText('Footer')).toBeInTheDocument();
+    expect(container.firstElementChild).toHaveAttribute('data-slot', 'app-shell');
+    expect(container.querySelector('[data-sdk-region="header"]')).toHaveAttribute('data-slot', 'app-shell-header');
+    expect(container.querySelector('[data-sdk-region="body"]')).toHaveAttribute('data-slot', 'app-shell-body');
+    expect(container.querySelector('[data-sdk-region="sidebar"]')).toHaveAttribute('data-slot', 'app-shell-sidebar');
+    expect(container.querySelector('[data-sdk-region="content"]')).toHaveAttribute('data-slot', 'app-shell-content');
+    expect(container.querySelector('[data-sdk-region="footer"]')).toHaveAttribute('data-slot', 'app-shell-footer');
   });
 
   it('applies theme variables and shell data markers to the root element', () => {

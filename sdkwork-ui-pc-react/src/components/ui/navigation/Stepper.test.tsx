@@ -15,13 +15,18 @@ describe('Stepper', () => {
     const items = screen.getAllByRole('listitem');
 
     expect(screen.getByRole('list', { name: 'Install steps' })).toHaveAttribute('data-orientation', 'horizontal');
+    expect(screen.getByRole('list', { name: 'Install steps' })).toHaveAttribute('data-slot', 'stepper');
     expect(items).toHaveLength(3);
     expect(items[0]).toHaveAttribute('data-status', 'complete');
+    expect(items[0]).toHaveAttribute('data-slot', 'stepper-item');
     expect(items[1]).toHaveAttribute('data-status', 'current');
     expect(items[2]).toHaveAttribute('data-status', 'upcoming');
-    expect(screen.getByText('Prepare')).toBeInTheDocument();
-    expect(screen.getByText('Authorize')).toBeInTheDocument();
-    expect(screen.getByText('Review')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-slot="stepper-item-indicator"]')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-slot="stepper-item-connector"]')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-slot="stepper-item-content"]')).toBeInTheDocument();
+    expect(screen.getByText('Prepare')).toHaveAttribute('data-slot', 'stepper-item-title');
+    expect(screen.getByText('Authorize')).toHaveAttribute('data-slot', 'stepper-item-title');
+    expect(screen.getByText('Review')).toHaveAttribute('data-slot', 'stepper-item-title');
     expect(screen.getByText('1')).toBeInTheDocument();
     expect(screen.getByText('2')).toBeInTheDocument();
     expect(screen.getByText('3')).toBeInTheDocument();
@@ -36,7 +41,7 @@ describe('Stepper', () => {
     );
 
     expect(screen.getByRole('list', { name: 'Wizard steps' })).toHaveAttribute('data-orientation', 'vertical');
-    expect(screen.getByText('Required')).toBeInTheDocument();
-    expect(screen.getByText('Paste the server URL and headers.')).toBeInTheDocument();
+    expect(screen.getByText('Required')).toHaveAttribute('data-slot', 'stepper-item-meta');
+    expect(screen.getByText('Paste the server URL and headers.')).toHaveAttribute('data-slot', 'stepper-item-description');
   });
 });

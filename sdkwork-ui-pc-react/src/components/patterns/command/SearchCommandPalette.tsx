@@ -116,7 +116,7 @@ export function SearchCommandPalette({
       onOpenChange={onOpenChange}
       slotProps={{
         content: mergePatternSlotProps<CommandDialogContentProps>(
-          { 'data-sdk-pattern': 'search-command-palette' },
+          { 'data-sdk-pattern': 'search-command-palette', 'data-slot': 'search-command-palette' },
           slotProps?.content,
         ),
       }}
@@ -177,6 +177,7 @@ export function SearchCommandPalette({
             {
               className: cn('shrink-0'),
               'data-sdk-region': 'search-command-palette-footer',
+              'data-slot': 'search-command-palette-footer',
             },
             slotProps?.footer,
           )}

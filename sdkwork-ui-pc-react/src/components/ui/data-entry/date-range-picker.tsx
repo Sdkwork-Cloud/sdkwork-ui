@@ -11,6 +11,7 @@ import {
 import { useControllableState } from '../../../lib/core';
 import { mergeSlotProps, type SlotProps } from '../../../lib/slot-props';
 import { cn } from '../../../lib/utils';
+import { useSdkworkShellBridge } from '../../../theme';
 import { buttonVariants } from '../button';
 import { inputBaseClassName } from '../input';
 import { Label } from '../label';
@@ -206,31 +207,44 @@ function toDateRangeValue(range: DayPickerDateRange | undefined): DateRangeValue
   };
 }
 
-function formatDateLabel(dateValue: string) {
-  const date = parseDateValue(dateValue);
+function interpolateTemplate(template: string, values: Record<string, string>) {
+  return Object.entries(values).reduce(
+    (output, [key, value]) => output.replaceAll(`{${key}}`, value),
+    template,
+  );
+}
 
-  if (!date) {
+function formatDateLabel(
+  dateValue: string,
+  formatDate: (value: Date | number | string | null | undefined, options?: Intl.DateTimeFormatOptions) => string,
+) {
+  if (!parseDateValue(dateValue)) {
     return '';
   }
 
-  return new Intl.DateTimeFormat('en-US', {
+  return formatDate(dateValue, {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
-  }).format(date);
+  });
 }
 
-function formatDateRangeLabel(value: DateRangeValue, placeholder: React.ReactNode) {
+function formatDateRangeLabel(
+  value: DateRangeValue,
+  placeholder: React.ReactNode,
+  formatDate: (value: Date | number | string | null | undefined, options?: Intl.DateTimeFormatOptions) => string,
+  selectEndDateLabel: string,
+) {
   if (!value.start && !value.end) {
     return placeholder;
   }
 
   if (value.start && value.end) {
-    return `${formatDateLabel(value.start)} - ${formatDateLabel(value.end)}`;
+    return `${formatDateLabel(value.start, formatDate)} - ${formatDateLabel(value.end, formatDate)}`;
   }
 
   if (value.start) {
-    return `${formatDateLabel(value.start)} - Select end date`;
+    return `${formatDateLabel(value.start, formatDate)} - ${selectEndDateLabel}`;
   }
 
   return placeholder;
@@ -253,6 +267,13 @@ function resolveRangeValidationMessage(
   value: DateRangeValue,
   mode: TemporalInputType,
   maxSpan: DateRangeSpanLimit | undefined,
+  messages: {
+    rangeLimitDay: string;
+    rangeLimitDays: string;
+    rangeLimitExceeded: string;
+    rangeLimitHour: string;
+    rangeLimitHours: string;
+  },
   validate: DateRangeValueValidationResolver | undefined,
 ) {
   if (maxSpan && value.start && value.end) {
@@ -264,7 +285,14 @@ function resolveRangeValidationMessage(
       const rangeSpan = Math.abs(end - start);
 
       if (rangeSpan > spanLimitMs) {
-        return `Range cannot exceed ${maxSpan.amount} ${maxSpan.unit}${maxSpan.amount === 1 ? '' : 's'}`;
+        const unitLabel = maxSpan.unit === 'day'
+          ? (maxSpan.amount === 1 ? messages.rangeLimitDay : messages.rangeLimitDays)
+          : (maxSpan.amount === 1 ? messages.rangeLimitHour : messages.rangeLimitHours);
+
+        return interpolateTemplate(messages.rangeLimitExceeded, {
+          amount: String(maxSpan.amount),
+          unit: unitLabel,
+        });
       }
     }
   }
@@ -362,7 +390,7 @@ function BaseDateRangeField({
   defaultValue,
   disabled = false,
   endInputProps,
-  endLabel = 'End date',
+  endLabel,
   forwardedRef,
   invalidBehavior = 'preserve',
   max,
@@ -372,15 +400,20 @@ function BaseDateRangeField({
   onPresetValueChange,
   onValidationChange,
   onValueChange,
-  presetLabel = 'Range presets',
+  presetLabel,
   presetValue,
   presets,
   startInputProps,
-  startLabel = 'Start date',
+  startLabel,
   validate,
   value,
   ...props
 }: BaseDateRangeFieldInternalProps) {
+  const shellBridge = useSdkworkShellBridge();
+  const bridgeMessages = shellBridge.messages.dateRangePicker;
+  const resolvedEndLabel = endLabel ?? bridgeMessages.endDate;
+  const resolvedPresetLabel = presetLabel ?? bridgeMessages.presets;
+  const resolvedStartLabel = startLabel ?? bridgeMessages.startDate;
   const { commitValue, currentPresetValue, currentValue } = useDateRangeState({
     defaultPresetValue,
     defaultValue,
@@ -390,7 +423,7 @@ function BaseDateRangeField({
     presets,
     value,
   });
-  const validationMessage = resolveRangeValidationMessage(currentValue, mode, maxSpan, validate);
+  const validationMessage = resolveRangeValidationMessage(currentValue, mode, maxSpan, bridgeMessages, validate);
   const startInputId = React.useId();
   const endInputId = React.useId();
   const startFieldId = startInputProps?.id ?? startInputId;
@@ -430,7 +463,7 @@ function BaseDateRangeField({
           data-slot="date-range-field-presets"
         >
           <div className="text-xs font-medium uppercase tracking-[0.18em] text-[var(--sdk-color-text-muted)]">
-            {presetLabel}
+            {resolvedPresetLabel}
           </div>
           <SegmentedControl
             fullWidth={false}
@@ -453,7 +486,7 @@ function BaseDateRangeField({
           className="space-y-2"
           data-slot="date-range-field-start"
         >
-          <Label htmlFor={startFieldId}>{startLabel}</Label>
+          <Label htmlFor={startFieldId}>{resolvedStartLabel}</Label>
           <TemporalField
             {...startInputProps}
             aria-invalid={validationMessage ? 'true' : undefined}
@@ -465,12 +498,12 @@ function BaseDateRangeField({
             onChange={(event) => handleFieldChange('start', event.target.value)}
           />
         </div>
-        <div className="hidden pb-2 text-sm text-[var(--sdk-color-text-muted)] md:block">to</div>
+        <div className="hidden pb-2 text-sm text-[var(--sdk-color-text-muted)] md:block">{bridgeMessages.to}</div>
         <div
           className="space-y-2"
           data-slot="date-range-field-end"
         >
-          <Label htmlFor={endFieldId}>{endLabel}</Label>
+          <Label htmlFor={endFieldId}>{resolvedEndLabel}</Label>
           <TemporalField
             {...endInputProps}
             aria-invalid={validationMessage ? 'true' : undefined}
@@ -584,8 +617,8 @@ const DateRangePicker = React.forwardRef<HTMLDivElement, DateRangePickerProps>(
       onPresetValueChange,
       onValidationChange,
       onValueChange,
-      placeholder = 'Select date range',
-      presetLabel = 'Range presets',
+      placeholder,
+      presetLabel,
       presetValue,
       presets,
       slotProps,
@@ -595,6 +628,10 @@ const DateRangePicker = React.forwardRef<HTMLDivElement, DateRangePickerProps>(
     },
     ref,
   ) => {
+    const shellBridge = useSdkworkShellBridge();
+    const bridgeMessages = shellBridge.messages.dateRangePicker;
+    const resolvedPlaceholder = placeholder ?? bridgeMessages.placeholder;
+    const resolvedPresetLabel = presetLabel ?? bridgeMessages.presets;
     const { commitValue, currentPresetValue, currentValue } = useDateRangeState({
       defaultPresetValue,
       defaultValue,
@@ -605,7 +642,7 @@ const DateRangePicker = React.forwardRef<HTMLDivElement, DateRangePickerProps>(
       value,
     });
     const [open, setOpen] = React.useState(false);
-    const validationMessage = resolveRangeValidationMessage(currentValue, 'date', maxSpan, validate);
+    const validationMessage = resolveRangeValidationMessage(currentValue, 'date', maxSpan, bridgeMessages, validate);
     const calendarValue = toDayPickerRange(currentValue);
     const derivedCalendarMonth = React.useMemo(
       () => resolveCalendarMonth(currentValue, defaultMonth, min, max),
@@ -700,7 +737,12 @@ const DateRangePicker = React.forwardRef<HTMLDivElement, DateRangePickerProps>(
                     !currentValue.start && !currentValue.end ? 'text-[var(--sdk-color-text-muted)]' : undefined,
                   )}
                 >
-                  {formatDateRangeLabel(currentValue, placeholder)}
+                  {formatDateRangeLabel(
+                    currentValue,
+                    resolvedPlaceholder,
+                    shellBridge.formatters.formatDate,
+                    bridgeMessages.selectEndDate,
+                  )}
                 </span>
               </span>
               <ChevronDown className="h-4 w-4 shrink-0 text-[var(--sdk-color-text-muted)]" />
@@ -729,7 +771,7 @@ const DateRangePicker = React.forwardRef<HTMLDivElement, DateRangePickerProps>(
                 )}
               >
                 <div className="text-xs font-medium uppercase tracking-[0.18em] text-[var(--sdk-color-text-muted)]">
-                  {presetLabel}
+                  {resolvedPresetLabel}
                 </div>
                 <SegmentedControl
                   fullWidth={false}

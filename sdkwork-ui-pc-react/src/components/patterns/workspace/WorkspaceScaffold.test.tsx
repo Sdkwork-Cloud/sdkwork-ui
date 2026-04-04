@@ -53,6 +53,15 @@ describe('WorkspaceScaffold', () => {
     expect(screen.getByText('Activity and logs')).toBeInTheDocument();
     expect(screen.getByText('Autosave enabled')).toBeInTheDocument();
     expect(container.querySelectorAll('[data-sdk-panel-resize-handle]').length).toBe(3);
+    expect(container.querySelector('[data-sdk-pattern="workspace-scaffold"]')).toHaveAttribute('data-slot', 'workspace-scaffold');
+    expect(container.querySelector('[data-sdk-region="workspace-header"]')).toHaveAttribute('data-slot', 'workspace-scaffold-header');
+    expect(container.querySelector('[data-sdk-region="workspace-toolbar"]')).toHaveAttribute('data-slot', 'workspace-scaffold-toolbar');
+    expect(container.querySelector('[data-sdk-region="sidebar"]')).toHaveAttribute('data-slot', 'workspace-scaffold-sidebar');
+    expect(container.querySelector('[data-sdk-region="main"]')).toHaveAttribute('data-slot', 'workspace-scaffold-main');
+    expect(container.querySelector('[data-sdk-region="inspector"]')).toHaveAttribute('data-slot', 'workspace-scaffold-inspector');
+    expect(container.querySelector('[data-sdk-region="bottom"]')).toHaveAttribute('data-slot', 'workspace-scaffold-bottom');
+    expect(container.querySelector('[data-sdk-region="workspace-main-split"]')).toHaveAttribute('data-slot', 'workspace-scaffold-main-split');
+    expect(container.querySelector('[data-sdk-region="workspace-status-bar"]')).toHaveAttribute('data-slot', 'workspace-scaffold-status-bar');
   });
 
   it('supports a main-only scaffold without resize handles', () => {

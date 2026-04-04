@@ -4,6 +4,8 @@
 
 The package now enforces twenty hard contracts:
 
+The generated governance coverage matrix is published at `/reference/framework-governance-matrix`. The generated documentation governance inventory is published at `/reference/documentation-governance-catalog`. Use them when you need to answer which audit tests and reference pages enforce a specific contract and which markdown surfaces are governed by those publication rules.
+
 ## 1. Theme Contract
 
 Every SDKWORK token referenced by component source must be declared by the theme system and emitted as a CSS variable.
@@ -60,7 +62,8 @@ This metadata exists for:
 - end-to-end test targeting
 - visual regression tooling
 - downstream app instrumentation
-- future docs automation
+- the generated runtime surface catalog at `/reference/runtime-surface-catalog`
+- the generated public API structure catalog at `/reference/public-api-structure-catalog`
 
 ## 4. Direct Surface Override Contract
 
@@ -118,6 +121,7 @@ Rules:
 - The package root JavaScript surface stays tree-shakeable; CSS side effects are declared explicitly through the stylesheet export.
 - `sideEffects` metadata is CSS-only so consumers keep framework styles without disabling JavaScript tree shaking.
 - Documentation import snippets must use only published package subpaths and real exported symbols.
+- Documentation TypeScript and TSX snippets that import the framework must typecheck against local source entrypoints instead of drifting into unverified pseudocode.
 - README export inventories must stay synchronized with the real package export map.
 
 ## 8. Install Boundary Contract
@@ -346,6 +350,8 @@ This contract aligns the framework with:
 
 ## Audit Coverage
 
+The generated runtime inventory is published at `/reference/runtime-surface-catalog`, the generated public type inventory is published at `/reference/public-api-structure-catalog`, the generated governance coverage matrix is published at `/reference/framework-governance-matrix`, and the generated documentation governance inventory is published at `/reference/documentation-governance-catalog`. These pages are emitted from source and guarded by sync tests, so the references drift only when the source contract drifts.
+
 Framework drift is prevented by source-level audit tests:
 
 - `src/theme/theme-contract.test.ts`
@@ -373,10 +379,15 @@ Framework drift is prevented by source-level audit tests:
 - `src/public-api-contract.test.ts`
 - `src/public-props-contract.test.ts`
 - `src/public-props-api-contract.test.ts`
+- `src/public-api-structure-catalog-docs-contract.test.ts`
+- `src/runtime-surface-catalog-docs-contract.test.ts`
+- `src/docs-governance-catalog-docs-contract.test.ts`
 - `src/display-name-contract.test.ts`
 - `src/barrel-contract.test.ts`
 - `src/package-publish-contract.test.ts`
+- `src/docs-governance-manifest-contract.test.ts`
 - `src/docs-contract.test.ts`
+- `src/docs-snippet-typecheck-contract.test.ts`
 - `src/install-contract.test.ts`
 
 These tests fail when:
@@ -409,7 +420,10 @@ These tests fail when:
 - a cataloged runtime export is missing from its public entrypoint or leaks across multiple domain barrels
 - a public barrel entrypoint curates exports instead of exact star re-export forwarding
 - the published export map or stylesheet side-effect metadata drifts from the framework publication contract
+- the governed documentation manifest drifts so framework import audits and snippet typecheck coverage no longer describe the same documentation surface
+- the generated documentation governance catalog drifts from the governed documentation manifest or markdown analysis output
 - a documented import path or imported symbol no longer matches the published package surface
+- a documented TypeScript or TSX example that imports the framework no longer typechecks against the local source-backed package surface
 - a critical dependency entrypoint resolves outside this package root
 
 ## Contributor Workflow
@@ -431,11 +445,12 @@ When adding or changing a component:
 13. Export and publish every same-file named helper type referenced by a public framework contract instead of hiding public type dependencies behind private aliases.
 14. Keep each slot name one-to-one with a single owned surface.
 15. Keep `uiComponentCatalog` synchronized bidirectionally with public runtime exports; a published runtime component must be cataloged and a cataloged runtime component must stay published.
-16. If a public export has no DOM surface, classify it explicitly as abstract instead of silently skipping metadata identity.
-17. If a composite field keeps native props on an inner control, expose owned shell and add-on surfaces through named `slotProps` instead of trapping shell customization at the wrapper boundary.
-18. If a public UI runtime component owns an intrinsic exact-marked root surface, declare it with `React.forwardRef` and attach that ref to the same root node.
-19. If a public pattern component owns an intrinsic exact-marked root surface, declare it with `React.forwardRef` and attach that ref to the same root node.
-20. Keep styling token-backed.
-21. Keep primitives structurally thin; move framework-owned dense chrome and built-in pagination into the higher-order composite instead of bloating low-level table or list shells.
-22. Add or update behavior tests when behavior changes.
-23. Run governance audits plus full package verification before closing the work.
+16. Regenerate `/reference/runtime-surface-catalog`, `/reference/public-api-structure-catalog`, and `/reference/documentation-governance-catalog` so the published runtime, public-type, and documentation-governance inventories stay synchronized with source-level contracts.
+17. If a public export has no DOM surface, classify it explicitly as abstract instead of silently skipping metadata identity.
+18. If a composite field keeps native props on an inner control, expose owned shell and add-on surfaces through named `slotProps` instead of trapping shell customization at the wrapper boundary.
+19. If a public UI runtime component owns an intrinsic exact-marked root surface, declare it with `React.forwardRef` and attach that ref to the same root node.
+20. If a public pattern component owns an intrinsic exact-marked root surface, declare it with `React.forwardRef` and attach that ref to the same root node.
+21. Keep styling token-backed.
+22. Keep primitives structurally thin; move framework-owned dense chrome and built-in pagination into the higher-order composite instead of bloating low-level table or list shells.
+23. Add or update behavior tests when behavior changes.
+24. Run governance audits plus full package verification before closing the work.

@@ -15,7 +15,7 @@ describe('HoverCard', () => {
       </HoverCard>,
     );
 
-    expect(screen.getByText('Agent Planner')).toBeInTheDocument();
-    expect(screen.getByText('Planner agent metadata')).toBeInTheDocument();
+    expect(screen.getByText('Agent Planner')).toHaveAttribute('data-slot', 'hover-card-trigger');
+    expect(screen.getByText('Planner agent metadata')).toHaveAttribute('data-slot', 'hover-card-content');
   });
 });

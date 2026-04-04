@@ -31,7 +31,10 @@ describe('ActionMenuButton', () => {
       </ActionMenuButton>,
     );
 
-    expect(screen.getByRole('button', { name: 'Actions' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Actions' })).toHaveAttribute('data-slot', 'action-menu-button');
+    expect(screen.getByText('Actions').closest('[data-slot="action-menu-button-label"]')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-slot="action-menu-button-chevron"]')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-slot="action-menu-button-content"]')).toBeInTheDocument();
     expect(screen.getByText('More Actions')).toBeInTheDocument();
     expect(screen.getByText('Archive item')).toBeInTheDocument();
     expect(screen.getByText('Ctrl+Alt+A')).toBeInTheDocument();

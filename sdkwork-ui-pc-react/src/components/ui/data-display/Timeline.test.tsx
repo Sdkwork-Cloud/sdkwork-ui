@@ -25,11 +25,14 @@ describe('Timeline', () => {
       />,
     );
 
-    expect(screen.getByRole('list')).toBeInTheDocument();
+    expect(screen.getByRole('list')).toHaveAttribute('data-slot', 'timeline');
     expect(screen.getAllByRole('listitem')).toHaveLength(2);
-    expect(screen.getByText('Submitted request')).toBeInTheDocument();
-    expect(screen.getByText('Funds were requested for the default payout account.')).toBeInTheDocument();
-    expect(screen.getByText('2026-03-31 09:15')).toBeInTheDocument();
+    expect(screen.getByText('Submitted request').closest('[data-sdk-ui="timeline-item"]')).toHaveAttribute('data-slot', 'timeline-item');
+    expect(document.body.querySelector('[data-slot="timeline-item-indicator"]')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-slot="timeline-item-connector"]')).toBeInTheDocument();
+    expect(screen.getByText('Submitted request')).toHaveAttribute('data-slot', 'timeline-item-title');
+    expect(screen.getByText('Funds were requested for the default payout account.')).toHaveAttribute('data-slot', 'timeline-item-description');
+    expect(screen.getByText('2026-03-31 09:15')).toHaveAttribute('data-slot', 'timeline-item-timestamp');
   });
 
   it('supports custom item content and semantic status mapping', () => {
@@ -55,5 +58,6 @@ describe('Timeline', () => {
     expect(screen.getByRole('button', { name: 'View receipt' })).toBeInTheDocument();
     expect(screen.getByText('Transferred').closest('[data-sdk-ui="timeline-item"]')).toHaveAttribute('data-status', 'success');
     expect(screen.getByText('Needs attention').closest('[data-sdk-ui="timeline-item"]')).toHaveAttribute('data-status', 'danger');
+    expect(screen.getByRole('button', { name: 'View receipt' }).closest('[data-slot="timeline-item-body"]')).toBeInTheDocument();
   });
 });

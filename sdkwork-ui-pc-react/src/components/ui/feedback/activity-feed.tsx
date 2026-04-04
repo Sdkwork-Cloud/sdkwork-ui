@@ -135,6 +135,7 @@ const ActivityFeedItem = React.forwardRef<HTMLDivElement, ActivityFeedItemProps>
         ref={ref}
         className={cn('grid grid-cols-[auto_minmax(0,1fr)] gap-4', className)}
         data-sdk-ui="activity-feed-item"
+        data-slot="activity-feed-item"
         data-tone={tone}
         data-unread={item.unread ? 'true' : 'false'}
         {...props}
@@ -148,6 +149,7 @@ const ActivityFeedItem = React.forwardRef<HTMLDivElement, ActivityFeedItemProps>
                   toneShellClass[tone],
                 ),
                 'data-sdk-region': 'activity-feed-item-indicator',
+                'data-slot': 'activity-feed-item-indicator',
               },
               slotProps?.indicator,
             )}
@@ -157,6 +159,7 @@ const ActivityFeedItem = React.forwardRef<HTMLDivElement, ActivityFeedItemProps>
               <span
                 aria-hidden="true"
                 className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border border-[var(--sdk-color-surface-panel)] bg-[var(--sdk-color-brand-primary)]"
+                data-slot="activity-feed-item-unread-indicator"
               />
             ) : null}
           </span>
@@ -167,6 +170,7 @@ const ActivityFeedItem = React.forwardRef<HTMLDivElement, ActivityFeedItemProps>
                   'aria-hidden': 'true',
                   className: 'mt-2 w-px flex-1 rounded-full bg-[var(--sdk-color-border-default)]',
                   'data-sdk-region': 'activity-feed-item-connector',
+                  'data-slot': 'activity-feed-item-connector',
                 },
                 slotProps?.connector,
               )}
@@ -180,6 +184,7 @@ const ActivityFeedItem = React.forwardRef<HTMLDivElement, ActivityFeedItemProps>
               className:
                 'min-w-0 rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] px-4 py-4 shadow-[var(--sdk-shadow-soft)]',
               'data-sdk-region': 'activity-feed-item-panel',
+              'data-slot': 'activity-feed-item-panel',
             },
             slotProps?.panel,
           )}
@@ -191,39 +196,45 @@ const ActivityFeedItem = React.forwardRef<HTMLDivElement, ActivityFeedItemProps>
                   <button
                     aria-label={resolveItemSelectLabel(item)}
                     className="truncate text-left text-sm font-semibold text-[var(--sdk-color-text-primary)] transition-colors hover:text-[var(--sdk-color-brand-primary-hover)]"
+                    data-slot="activity-feed-item-title"
                     onClick={() => onItemSelect(item.id)}
                     type="button"
                   >
                     {item.title}
                   </button>
                 ) : (
-                  <div className="truncate text-sm font-semibold text-[var(--sdk-color-text-primary)]">
+                  <div className="truncate text-sm font-semibold text-[var(--sdk-color-text-primary)]" data-slot="activity-feed-item-title">
                     {item.title}
                   </div>
                 )}
                 {item.meta ? (
-                  <div className="inline-flex max-w-full items-center rounded-full border border-[var(--sdk-color-border-subtle)] bg-[var(--sdk-color-surface-panel-muted)] px-2.5 py-1 text-[11px] font-medium text-[var(--sdk-color-text-secondary)]">
+                  <div
+                    className="inline-flex max-w-full items-center rounded-full border border-[var(--sdk-color-border-subtle)] bg-[var(--sdk-color-surface-panel-muted)] px-2.5 py-1 text-[11px] font-medium text-[var(--sdk-color-text-secondary)]"
+                    data-slot="activity-feed-item-meta"
+                  >
                     <span className="truncate">{item.meta}</span>
                   </div>
                 ) : null}
               </div>
 
               {item.description ? (
-                <div className="mt-1.5 text-sm leading-relaxed text-[var(--sdk-color-text-secondary)]">
+                <div className="mt-1.5 text-sm leading-relaxed text-[var(--sdk-color-text-secondary)]" data-slot="activity-feed-item-description">
                   {item.description}
                 </div>
               ) : null}
             </div>
 
             {item.timestamp ? (
-              <div className="shrink-0 text-xs font-medium text-[var(--sdk-color-text-muted)]">
+              <div className="shrink-0 text-xs font-medium text-[var(--sdk-color-text-muted)]" data-slot="activity-feed-item-timestamp">
                 {item.timestamp}
               </div>
             ) : null}
           </div>
 
           {item.content ? (
-            <div className="mt-3 text-sm text-[var(--sdk-color-text-secondary)]">{item.content}</div>
+            <div className="mt-3 text-sm text-[var(--sdk-color-text-secondary)]" data-slot="activity-feed-item-content">
+              {item.content}
+            </div>
           ) : null}
 
           {item.actions ? (
@@ -232,6 +243,7 @@ const ActivityFeedItem = React.forwardRef<HTMLDivElement, ActivityFeedItemProps>
                 {
                   className: 'mt-3 flex flex-wrap items-center gap-2',
                   'data-sdk-region': 'activity-feed-item-actions',
+                  'data-slot': 'activity-feed-item-actions',
                 },
                 slotProps?.actions,
               )}
@@ -272,6 +284,7 @@ const ActivityFeed = React.forwardRef<HTMLElement, ActivityFeedProps>(
         className,
       )}
       data-sdk-ui="activity-feed"
+      data-slot="activity-feed"
       {...props}
     >
       {title || description || headerActions ? (
@@ -281,6 +294,7 @@ const ActivityFeed = React.forwardRef<HTMLElement, ActivityFeedProps>(
               className:
                 'flex items-start justify-between gap-4 border-b border-[var(--sdk-color-border-subtle)] bg-[var(--sdk-color-surface-panel-muted)] px-4 py-3',
               'data-sdk-region': 'activity-feed-header',
+              'data-slot': 'activity-feed-header',
             },
             slotProps?.header,
           )}
@@ -288,12 +302,17 @@ const ActivityFeed = React.forwardRef<HTMLElement, ActivityFeedProps>(
           <div className="min-w-0">
             <div className="flex items-center gap-2">
               <Activity className="h-4 w-4 text-[var(--sdk-color-text-muted)]" />
-              <div className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--sdk-color-text-secondary)]">
+              <div
+                className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--sdk-color-text-secondary)]"
+                data-slot="activity-feed-title"
+              >
                 {title}
               </div>
             </div>
             {description ? (
-              <div className="mt-1 text-sm text-[var(--sdk-color-text-secondary)]">{description}</div>
+              <div className="mt-1 text-sm text-[var(--sdk-color-text-secondary)]" data-slot="activity-feed-description">
+                {description}
+              </div>
             ) : null}
           </div>
 
@@ -303,6 +322,7 @@ const ActivityFeed = React.forwardRef<HTMLElement, ActivityFeedProps>(
                 {
                   className: 'flex shrink-0 items-center gap-2',
                   'data-sdk-region': 'activity-feed-header-actions',
+                  'data-slot': 'activity-feed-header-actions',
                 },
                 slotProps?.headerActions,
               )}
@@ -319,6 +339,7 @@ const ActivityFeed = React.forwardRef<HTMLElement, ActivityFeedProps>(
             {
               className: 'p-4',
               'data-sdk-region': 'activity-feed-empty',
+              'data-slot': 'activity-feed-empty',
             },
             slotProps?.empty,
           )}
@@ -332,6 +353,7 @@ const ActivityFeed = React.forwardRef<HTMLElement, ActivityFeedProps>(
               {
                 className: 'space-y-4',
                 'data-sdk-region': 'activity-feed-list',
+                'data-slot': 'activity-feed-list',
               },
               slotProps?.list,
             )}

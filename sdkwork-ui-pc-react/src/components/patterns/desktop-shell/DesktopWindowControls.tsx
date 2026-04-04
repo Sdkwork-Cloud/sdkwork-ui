@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Minus, Square, X } from 'lucide-react';
 import { cn } from '../../../lib/utils';
+import { useSdkworkShellBridge } from '../../../theme';
 
 export type DesktopPlatform = 'desktop' | 'web';
 export type WindowUnsubscribe = () => void | Promise<void>;
@@ -146,12 +147,14 @@ export const DesktopWindowControls = React.forwardRef<HTMLDivElement, DesktopWin
   variant = 'header',
   ...props
 }, ref) => {
+  const shellBridge = useSdkworkShellBridge();
   const resolvedLabels = React.useMemo(
     () => ({
       ...DEFAULT_LABELS,
+      ...shellBridge.messages.windowControls,
       ...labels,
     }),
-    [labels],
+    [labels, shellBridge.messages.windowControls],
   );
   const isDesktop = controller?.getPlatform() === 'desktop';
   const isWindowMaximized = useDesktopWindowMaximized(controller, isDesktop);
@@ -165,6 +168,7 @@ export const DesktopWindowControls = React.forwardRef<HTMLDivElement, DesktopWin
       ref={ref}
       className={getRootClassName(variant, className)}
       data-sdk-pattern="desktop-window-controls"
+      data-slot="desktop-window-controls"
       data-tauri-drag-region="false"
       {...props}
     >
@@ -174,6 +178,7 @@ export const DesktopWindowControls = React.forwardRef<HTMLDivElement, DesktopWin
           variant,
           withDivider: true,
         })}
+        data-slot="desktop-window-controls-minimize"
         data-tauri-drag-region="false"
         onClick={() => {
           void controller.minimizeWindow();
@@ -189,6 +194,7 @@ export const DesktopWindowControls = React.forwardRef<HTMLDivElement, DesktopWin
           variant,
           withDivider: true,
         })}
+        data-slot="desktop-window-controls-maximize"
         data-tauri-drag-region="false"
         onClick={() => {
           void (isWindowMaximized ? controller.restoreWindow() : controller.maximizeWindow());
@@ -204,6 +210,7 @@ export const DesktopWindowControls = React.forwardRef<HTMLDivElement, DesktopWin
           intent: 'danger',
           variant,
         })}
+        data-slot="desktop-window-controls-close"
         data-tauri-drag-region="false"
         onClick={() => {
           void controller.closeWindow();

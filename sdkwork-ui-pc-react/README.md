@@ -32,7 +32,7 @@ The package is now governed by explicit framework contracts rather than ad hoc c
 - Rendered components expose stable `data-sdk-ui`, `data-sdk-pattern`, or `data-sdk-region` markers.
 - Reusable components follow shared authoring rules for props, refs, display names, and semantics.
 
-See `docs/reference/framework-governance.md` for the framework rulebook.
+See `docs/reference/framework-governance.md` for the framework rulebook, `docs/reference/documentation-governance-catalog.md` for the generated documentation audit inventory, `docs/reference/framework-governance-matrix.md` for the generated governance audit matrix, `docs/reference/runtime-surface-catalog.md` for the generated runtime inventory, and `docs/reference/public-api-structure-catalog.md` for the generated public API contract inventory.
 
 ## Scope
 

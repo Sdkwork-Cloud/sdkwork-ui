@@ -21,16 +21,19 @@ export const InspectorPanel = React.forwardRef<HTMLElement, InspectorPanelProps>
         className,
       )}
       data-sdk-pattern="inspector-panel"
+      data-slot="inspector-panel"
       {...props}
     >
       {title ? (
-        <div className="border-b border-[var(--sdk-color-border-subtle)] px-5 py-4 text-sm font-semibold">
+        <div className="border-b border-[var(--sdk-color-border-subtle)] px-5 py-4 text-sm font-semibold" data-slot="inspector-panel-title">
           {title}
         </div>
       ) : null}
-      <div className="min-h-0 flex-1 px-5 py-4">{children}</div>
+      <div className="min-h-0 flex-1 px-5 py-4" data-slot="inspector-panel-body">{children}</div>
       {footer ? (
-        <div className="border-t border-[var(--sdk-color-border-subtle)] px-5 py-4">{footer}</div>
+        <div className="border-t border-[var(--sdk-color-border-subtle)] px-5 py-4" data-slot="inspector-panel-footer">
+          {footer}
+        </div>
       ) : null}
     </aside>
   );

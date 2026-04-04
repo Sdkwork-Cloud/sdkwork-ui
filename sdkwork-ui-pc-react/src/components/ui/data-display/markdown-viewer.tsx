@@ -52,6 +52,7 @@ const MarkdownViewerEmpty = React.forwardRef<HTMLDivElement, MarkdownViewerEmpty
       ref={ref}
       className={cn('text-sm text-[var(--sdk-color-text-muted)]', className)}
       data-sdk-ui="markdown-viewer-empty"
+      data-slot="markdown-viewer-empty"
       {...props}
     >
       {children}
@@ -240,6 +241,7 @@ function renderBlock(block: MarkdownBlock, key: string) {
     <div
       className="overflow-hidden rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel-muted)]"
       data-sdk-ui="markdown-viewer-code-block"
+      data-slot="markdown-viewer-code-block"
       key={key}
     >
       {block.language ? (
@@ -267,6 +269,7 @@ const MarkdownViewer = React.forwardRef<HTMLDivElement, MarkdownViewerProps>(
           className,
         )}
         data-sdk-ui="markdown-viewer"
+        data-slot="markdown-viewer"
         {...props}
       >
         {blocks.length > 0 ? (

@@ -36,6 +36,8 @@ describe('SearchCommandPalette', () => {
     expect(screen.getByText('Open desktop preferences')).toBeInTheDocument();
     expect(screen.getByText('Ctrl+,')).toBeInTheDocument();
     expect(screen.getByText('Navigate')).toBeInTheDocument();
+    expect(document.querySelector('[data-sdk-pattern="search-command-palette"]')).toHaveAttribute('data-slot', 'search-command-palette');
+    expect(document.querySelector('[data-sdk-region="search-command-palette-footer"]')).toHaveAttribute('data-slot', 'search-command-palette-footer');
     expect(onItemSelect).toHaveBeenCalledWith(
       expect.objectContaining({
         id: 'settings',

@@ -12,6 +12,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(({ classNa
         className,
       )}
       data-sdk-ui="textarea"
+      data-slot="textarea"
       {...props}
     />
   );

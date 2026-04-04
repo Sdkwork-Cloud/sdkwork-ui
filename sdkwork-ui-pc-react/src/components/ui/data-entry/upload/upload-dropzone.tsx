@@ -63,6 +63,7 @@ function UploadDropzone({
         disabled && 'cursor-not-allowed opacity-60',
       )}
       data-sdk-ui="upload-dropzone"
+      data-slot="upload-dropzone"
       onClick={() => {
         if (!disabled) {
           onBrowse();
@@ -86,13 +87,13 @@ function UploadDropzone({
       tabIndex={disabled ? -1 : 0}
     >
       <div className="flex items-start gap-4">
-        <div className="rounded-[var(--sdk-radius-control)] bg-[var(--sdk-color-brand-primary-soft)] p-3 text-[var(--sdk-color-brand-primary)]">
+        <div className="rounded-[var(--sdk-radius-control)] bg-[var(--sdk-color-brand-primary-soft)] p-3 text-[var(--sdk-color-brand-primary)]" data-slot="upload-dropzone-icon">
           <Icon className="h-5 w-5" />
         </div>
         <div className="space-y-1">
-          <p className="text-sm font-medium text-[var(--sdk-color-text-primary)]">{title}</p>
-          <p className="text-sm text-[var(--sdk-color-text-secondary)]">{description}</p>
-          {caption ? <p className="text-xs text-[var(--sdk-color-text-muted)]">{caption}</p> : null}
+          <p className="text-sm font-medium text-[var(--sdk-color-text-primary)]" data-slot="upload-dropzone-title">{title}</p>
+          <p className="text-sm text-[var(--sdk-color-text-secondary)]" data-slot="upload-dropzone-description">{description}</p>
+          {caption ? <p className="text-xs text-[var(--sdk-color-text-muted)]" data-slot="upload-dropzone-caption">{caption}</p> : null}
         </div>
       </div>
     </div>

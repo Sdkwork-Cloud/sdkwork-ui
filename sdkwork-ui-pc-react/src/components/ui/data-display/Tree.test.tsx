@@ -24,7 +24,11 @@ describe('Tree', () => {
 
     render(<Tree data={treeData} onSelectedIdChange={handleSelectedIdChange} />);
 
-    expect(screen.getByRole('tree')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-sdk-ui="tree"]')).toHaveAttribute('data-slot', 'tree');
+    expect(screen.getByRole('tree')).toHaveAttribute('data-slot', 'rich-tree-tree');
+    expect(screen.getByRole('treeitem', { name: 'Workspace' })).toHaveAttribute('data-slot', 'rich-tree-item');
+    expect(document.body.querySelector('[data-slot="rich-tree-item-content"]')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-slot="rich-tree-item-toggle"]')).toBeInTheDocument();
     expect(screen.queryByText('API Keys')).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByText('Workspace'));
@@ -96,6 +100,7 @@ describe('Tree', () => {
       />,
     );
 
+    expect(document.body.querySelector('[data-slot="rich-tree-item-checkbox"]')).toBeInTheDocument();
     fireEvent.click(screen.getByLabelText('Check item README.md'));
 
     expect(handleCheckedIdsChange).toHaveBeenCalledWith(['readme']);
@@ -115,6 +120,7 @@ describe('Tree', () => {
     render(<Tree data={treeData} loadChildren={handleLoadChildren} />);
 
     const remoteItem = screen.getByRole('treeitem', { name: 'Remote workspace' });
+    expect(document.body.querySelector('[data-slot="rich-tree-item-icon"]')).toBeInTheDocument();
     remoteItem.focus();
     fireEvent.keyDown(remoteItem, { key: 'ArrowRight' });
 

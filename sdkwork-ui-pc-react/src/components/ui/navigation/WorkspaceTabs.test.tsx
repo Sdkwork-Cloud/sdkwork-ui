@@ -9,6 +9,7 @@ describe('WorkspaceTabs', () => {
 
     render(
       <WorkspaceTabs
+        actions={<button type="button">New tab</button>}
         items={[
           { id: 'notes', label: 'Notes.md', modified: true },
           { id: 'memory', label: 'Memory.md' },
@@ -19,7 +20,15 @@ describe('WorkspaceTabs', () => {
       />,
     );
 
+    expect(document.body.querySelector('[data-sdk-ui="workspace-tabs"]')).toHaveAttribute('data-slot', 'workspace-tabs');
+    expect(document.body.querySelector('[data-slot="workspace-tabs-tablist"]')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-slot="workspace-tabs-actions"]')).toBeInTheDocument();
     expect(screen.getByRole('tab', { name: 'Notes.md' })).toHaveAttribute('aria-selected', 'true');
+    expect(screen.getByRole('tab', { name: 'Notes.md' }).closest('[data-sdk-ui="workspace-tab"]')).toHaveAttribute('data-slot', 'workspace-tab');
+    expect(screen.getByRole('tab', { name: 'Notes.md' })).toHaveAttribute('data-slot', 'workspace-tab-trigger');
+    expect(screen.getByText('Notes.md')).toHaveAttribute('data-slot', 'workspace-tab-label');
+    expect(document.body.querySelector('[data-slot="workspace-tab-modified-indicator"]')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Close Memory.md' })).toHaveAttribute('data-slot', 'workspace-tab-close-button');
 
     fireEvent.click(screen.getByRole('tab', { name: 'Memory.md' }));
     expect(onValueChange).toHaveBeenCalledWith('memory');

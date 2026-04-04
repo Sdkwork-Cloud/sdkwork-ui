@@ -19,11 +19,15 @@ describe('BulkActionBar', () => {
       />,
     );
 
+    expect(document.body.querySelector('[data-sdk-ui="bulk-action-bar"]')).toHaveAttribute('data-slot', 'bulk-action-bar');
+    expect(screen.getByText('3')).toHaveAttribute('data-slot', 'bulk-action-bar-count');
     expect(screen.getByText('3')).toBeInTheDocument();
-    expect(screen.getByText('Rows selected')).toBeInTheDocument();
-    expect(screen.getByText('Apply shared operations to the current selection.')).toBeInTheDocument();
-    expect(screen.getByText('24 total results')).toBeInTheDocument();
+    expect(screen.getByText('Rows selected')).toHaveAttribute('data-slot', 'bulk-action-bar-title');
+    expect(screen.getByText('Apply shared operations to the current selection.')).toHaveAttribute('data-slot', 'bulk-action-bar-description');
+    expect(screen.getByText('24 total results')).toHaveAttribute('data-slot', 'bulk-action-bar-meta');
+    expect(document.body.querySelector('[data-slot="bulk-action-bar-actions"]')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Export' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Clear' })).toHaveAttribute('data-slot', 'bulk-action-bar-clear-button');
 
     fireEvent.click(screen.getByRole('button', { name: 'Clear' }));
     expect(onClear).toHaveBeenCalledTimes(1);

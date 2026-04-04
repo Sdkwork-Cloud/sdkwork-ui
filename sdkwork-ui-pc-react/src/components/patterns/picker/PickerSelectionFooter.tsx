@@ -41,15 +41,17 @@ const PickerSelectionFooter = React.forwardRef<HTMLDivElement, PickerSelectionFo
       ref={ref}
       className={cn('flex w-full flex-wrap items-center justify-between gap-3', className)}
       data-sdk-pattern="picker-selection-footer"
+      data-slot="picker-selection-footer"
       {...props}
     >
-      <div className="flex min-w-0 flex-wrap items-center gap-2 text-sm text-[var(--sdk-color-text-secondary)]">
-        <div className="font-medium text-[var(--sdk-color-text-primary)]">{summary}</div>
+      <div className="flex min-w-0 flex-wrap items-center gap-2 text-sm text-[var(--sdk-color-text-secondary)]" data-slot="picker-selection-footer-summary-row">
+        <div className="font-medium text-[var(--sdk-color-text-primary)]" data-slot="picker-selection-footer-summary">{summary}</div>
         {showClear ? (
           <Button
             onClick={onClear}
             size="sm"
             type="button"
+            data-slot="picker-selection-footer-clear"
             variant="ghost"
           >
             {clearLabel}
@@ -57,10 +59,11 @@ const PickerSelectionFooter = React.forwardRef<HTMLDivElement, PickerSelectionFo
         ) : null}
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3" data-slot="picker-selection-footer-actions">
         <Button
           onClick={onCancel}
           type="button"
+          data-slot="picker-selection-footer-cancel"
           variant="secondary"
         >
           {cancelLabel}
@@ -70,6 +73,7 @@ const PickerSelectionFooter = React.forwardRef<HTMLDivElement, PickerSelectionFo
           loading={confirmLoading}
           onClick={onConfirm}
           type="button"
+          data-slot="picker-selection-footer-confirm"
           variant={confirmVariant}
         >
           {confirmLabel}

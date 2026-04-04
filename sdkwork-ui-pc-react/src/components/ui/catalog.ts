@@ -284,7 +284,9 @@ export const uiComponentCatalog = {
     'SDKWORK_LIGHT_THEME',
     'createSdkworkTheme',
     'createThemeCssVariables',
+    'SdkworkShellBridgeProvider',
     'SdkworkThemeProvider',
+    'useSdkworkShellBridge',
   ],
   utils: ['cn'],
 } as const;

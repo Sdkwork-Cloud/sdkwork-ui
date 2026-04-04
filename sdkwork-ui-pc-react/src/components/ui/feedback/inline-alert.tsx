@@ -51,19 +51,20 @@ export const InlineAlert = React.forwardRef<HTMLDivElement, InlineAlertProps>(({
         className,
       )}
       data-sdk-ui="inline-alert"
+      data-slot="inline-alert"
       role="alert"
       {...props}
     >
-      {showIcon ? <Icon className="mt-0.5 h-4 w-4 shrink-0" /> : null}
-      <div className="min-w-0 flex-1">
-        {title ? <div className="text-sm font-semibold">{title}</div> : null}
+      {showIcon ? <Icon className="mt-0.5 h-4 w-4 shrink-0" data-slot="inline-alert-icon" /> : null}
+      <div className="min-w-0 flex-1" data-slot="inline-alert-body">
+        {title ? <div className="text-sm font-semibold" data-slot="inline-alert-title">{title}</div> : null}
         {description ? (
-          <div className={cn('text-sm text-[var(--sdk-color-text-secondary)]', title ? 'mt-1' : undefined)}>
+          <div className={cn('text-sm text-[var(--sdk-color-text-secondary)]', title ? 'mt-1' : undefined)} data-slot="inline-alert-description">
             {description}
           </div>
         ) : null}
       </div>
-      {actions ? <div className="flex shrink-0 items-center gap-2">{actions}</div> : null}
+      {actions ? <div className="flex shrink-0 items-center gap-2" data-slot="inline-alert-actions">{actions}</div> : null}
     </div>
   );
 });

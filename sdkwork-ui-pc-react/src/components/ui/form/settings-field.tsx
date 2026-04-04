@@ -49,6 +49,7 @@ const SettingsField = React.forwardRef<HTMLDivElement, SettingsFieldProps>(
         data-layout={layout}
         data-modified={isModified ? 'true' : 'false'}
         data-sdk-ui="settings-field"
+        data-slot="settings-field"
         {...props}
       >
         <span
@@ -72,6 +73,7 @@ const SettingsField = React.forwardRef<HTMLDivElement, SettingsFieldProps>(
                       ? 'text-[var(--sdk-color-state-danger)]'
                       : 'text-[var(--sdk-color-text-primary)]',
                   )}
+                  data-slot="settings-field-label"
                   htmlFor={controlId}
                 >
                   {label}
@@ -84,6 +86,7 @@ const SettingsField = React.forwardRef<HTMLDivElement, SettingsFieldProps>(
                       ? 'text-[var(--sdk-color-state-danger)]'
                       : 'text-[var(--sdk-color-text-primary)]',
                   )}
+                  data-slot="settings-field-label"
                 >
                   {label}
                 </div>
@@ -93,6 +96,7 @@ const SettingsField = React.forwardRef<HTMLDivElement, SettingsFieldProps>(
             {description ? (
               <div
                 className="mt-1.5 text-xs leading-relaxed text-[var(--sdk-color-text-secondary)]"
+                data-slot="settings-field-description"
                 id={descriptionId}
               >
                 {description}
@@ -102,6 +106,7 @@ const SettingsField = React.forwardRef<HTMLDivElement, SettingsFieldProps>(
             {error ? (
               <div
                 className="mt-2 flex items-center gap-1.5 text-xs font-medium text-[var(--sdk-color-state-danger)]"
+                data-slot="settings-field-error"
                 id={errorId}
                 role="alert"
               >
@@ -117,16 +122,22 @@ const SettingsField = React.forwardRef<HTMLDivElement, SettingsFieldProps>(
             'flex min-w-0 items-start gap-2',
             isVertical ? 'w-full' : 'flex-1 justify-end',
           )}
+          data-slot="settings-field-control-row"
         >
           <div
             aria-describedby={description ? descriptionId : undefined}
             aria-errormessage={error ? errorId : undefined}
             className={cn('min-w-0', isVertical ? 'w-full' : 'w-full max-w-[32rem]')}
+            data-slot="settings-field-control"
           >
             {children}
           </div>
 
-          {actions ? <div className="flex shrink-0 items-center gap-1 pt-1">{actions}</div> : null}
+          {actions ? (
+            <div className="flex shrink-0 items-center gap-1 pt-1" data-slot="settings-field-actions">
+              {actions}
+            </div>
+          ) : null}
 
           {onReset ? (
             <button
@@ -137,6 +148,7 @@ const SettingsField = React.forwardRef<HTMLDivElement, SettingsFieldProps>(
                   ? 'opacity-100 hover:bg-[var(--sdk-color-brand-primary-soft)] hover:text-[var(--sdk-color-brand-primary)]'
                   : 'pointer-events-none opacity-0',
               )}
+              data-slot="settings-field-reset-button"
               onClick={onReset}
               type="button"
             >

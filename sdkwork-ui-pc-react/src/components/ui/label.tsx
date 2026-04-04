@@ -13,6 +13,7 @@ const Label = React.forwardRef<
       ref={ref}
       className={cn('text-sm font-medium text-[var(--sdk-color-text-primary)]', className)}
       data-sdk-ui="label"
+      data-slot="label"
       {...props}
     />
   );

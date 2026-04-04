@@ -110,6 +110,7 @@ export function Toaster({
     <SonnerToaster
       closeButton={closeButton}
       data-sdk-ui="toaster"
+      data-slot="toaster"
       expand={expand}
       position={position}
       richColors={richColors}
@@ -124,6 +125,7 @@ export function SdkworkToaster(props: SdkworkToasterProps) {
   return (
     <Toaster
       data-sdk-ui="sdkwork-toaster"
+      data-slot="sdkwork-toaster"
       {...props}
     />
   );

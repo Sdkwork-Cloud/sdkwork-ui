@@ -25,6 +25,7 @@ describe('PickerSelectionFooter', () => {
     expect(
       container.querySelector('[data-sdk-pattern="picker-selection-footer"]'),
     ).not.toBeNull();
+    expect(container.querySelector('[data-sdk-pattern="picker-selection-footer"]')).toHaveAttribute('data-slot', 'picker-selection-footer');
     expect(screen.getByText('2 items selected')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Clear selection' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
@@ -52,5 +53,6 @@ describe('PickerSelectionFooter', () => {
     expect(screen.queryByRole('button', { name: 'Clear selection' })).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Apply selection' })).toBeDisabled();
+    expect(screen.getByText('No items selected')).toHaveAttribute('data-slot', 'picker-selection-footer-summary');
   });
 });

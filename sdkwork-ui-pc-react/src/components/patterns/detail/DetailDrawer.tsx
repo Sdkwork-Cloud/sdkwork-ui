@@ -72,7 +72,7 @@ const metricsColumnsClassName = {
   3: 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3',
 } as const;
 
-function DetailDrawer({
+const DetailDrawer = React.forwardRef<HTMLDivElement, DetailDrawerProps>(({
   actions,
   children,
   className,
@@ -85,7 +85,7 @@ function DetailDrawer({
   summary,
   title,
   ...props
-}: DetailDrawerProps) {
+}, ref) => {
   return (
     <Drawer {...props}>
       <DrawerContent
@@ -93,67 +93,84 @@ function DetailDrawer({
         {...mergePatternSlotProps<PatternSlotProps<Omit<DrawerContentProps, 'children' | 'side' | 'size'>>>(
           {
             className: cn('gap-0 overflow-hidden', className),
-            'data-sdk-pattern': 'detail-drawer',
             'data-sdk-region': 'detail-drawer-content',
+            'data-slot': 'detail-drawer-content',
           },
           slotProps?.content,
         )}
         size={size}
         side={side}
       >
-        <DrawerHeader
-          {...mergePatternSlotProps<PatternSlotProps<Omit<DrawerHeaderProps, 'children'>>>(
-            {
-              'data-sdk-region': 'detail-drawer-header',
-            },
-            slotProps?.header,
-          )}
+        <div
+          ref={ref}
+          className="flex h-full min-h-0 flex-col overflow-hidden"
+          data-sdk-pattern="detail-drawer"
+          data-slot="detail-drawer"
         >
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div className="min-w-0 flex-1">
-              {eyebrow ? (
-                <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--sdk-color-text-muted)]">
-                  {eyebrow}
-                </div>
-              ) : null}
-              <DrawerTitle className={cn(eyebrow ? 'mt-1' : null)}>{title}</DrawerTitle>
-              {description ? <DrawerDescription className="mt-1.5">{description}</DrawerDescription> : null}
-            </div>
-            {actions ? <div className="flex shrink-0 items-center gap-2 pr-8">{actions}</div> : null}
-          </div>
-          {summary ? (
-            <div className="rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel-muted)] px-4 py-3 text-sm text-[var(--sdk-color-text-secondary)]">
-              {summary}
-            </div>
-          ) : null}
-        </DrawerHeader>
-        <DrawerBody
-          {...mergePatternSlotProps<PatternSlotProps<Omit<DrawerBodyProps, 'children'>>>(
-            {
-              className: 'space-y-4',
-              'data-sdk-region': 'detail-drawer-body',
-            },
-            slotProps?.body,
-          )}
-        >
-          {children}
-        </DrawerBody>
-        {footer ? (
-          <DrawerFooter
-            {...mergePatternSlotProps<PatternSlotProps<Omit<DrawerFooterProps, 'children'>>>(
+          <DrawerHeader
+            {...mergePatternSlotProps<PatternSlotProps<Omit<DrawerHeaderProps, 'children'>>>(
               {
-                'data-sdk-region': 'detail-drawer-footer',
+                'data-sdk-region': 'detail-drawer-header',
+                'data-slot': 'detail-drawer-header',
               },
-              slotProps?.footer,
+              slotProps?.header,
             )}
           >
-            {footer}
-          </DrawerFooter>
-        ) : null}
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div className="min-w-0 flex-1">
+                {eyebrow ? (
+                  <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--sdk-color-text-muted)]" data-slot="detail-drawer-eyebrow">
+                    {eyebrow}
+                  </div>
+                ) : null}
+                <DrawerTitle className={cn(eyebrow ? 'mt-1' : null)} data-slot="detail-drawer-title">{title}</DrawerTitle>
+                {description ? (
+                  <DrawerDescription className="mt-1.5" data-slot="detail-drawer-description">
+                    {description}
+                  </DrawerDescription>
+                ) : null}
+              </div>
+              {actions ? <div className="flex shrink-0 items-center gap-2 pr-8" data-slot="detail-drawer-actions">{actions}</div> : null}
+            </div>
+            {summary ? (
+              <div
+                className="rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel-muted)] px-4 py-3 text-sm text-[var(--sdk-color-text-secondary)]"
+                data-slot="detail-drawer-summary"
+              >
+                {summary}
+              </div>
+            ) : null}
+          </DrawerHeader>
+          <DrawerBody
+            {...mergePatternSlotProps<PatternSlotProps<Omit<DrawerBodyProps, 'children'>>>(
+              {
+                className: 'space-y-4',
+                'data-sdk-region': 'detail-drawer-body',
+                'data-slot': 'detail-drawer-body',
+              },
+              slotProps?.body,
+            )}
+          >
+            {children}
+          </DrawerBody>
+          {footer ? (
+            <DrawerFooter
+              {...mergePatternSlotProps<PatternSlotProps<Omit<DrawerFooterProps, 'children'>>>(
+                {
+                  'data-sdk-region': 'detail-drawer-footer',
+                  'data-slot': 'detail-drawer-footer',
+                },
+                slotProps?.footer,
+              )}
+            >
+              {footer}
+            </DrawerFooter>
+          ) : null}
+        </div>
       </DrawerContent>
     </Drawer>
   );
-}
+});
 
 const DetailDrawerSection = React.forwardRef<HTMLElement, DetailDrawerSectionProps>(({
   actions,
@@ -171,17 +188,24 @@ const DetailDrawerSection = React.forwardRef<HTMLElement, DetailDrawerSectionPro
         className,
       )}
       data-sdk-pattern="detail-drawer-section"
+      data-slot="detail-drawer-section"
       {...props}
     >
       {(title || description || actions) ? (
-        <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="flex flex-wrap items-start justify-between gap-3" data-slot="detail-drawer-section-header">
           <div className="min-w-0 flex-1">
-            {title ? <div className="text-sm font-semibold text-[var(--sdk-color-text-primary)]">{title}</div> : null}
+            {title ? (
+              <div className="text-sm font-semibold text-[var(--sdk-color-text-primary)]" data-slot="detail-drawer-section-title">
+                {title}
+              </div>
+            ) : null}
             {description ? (
-              <div className="mt-1 text-sm text-[var(--sdk-color-text-secondary)]">{description}</div>
+              <div className="mt-1 text-sm text-[var(--sdk-color-text-secondary)]" data-slot="detail-drawer-section-description">
+                {description}
+              </div>
             ) : null}
           </div>
-          {actions ? <div className="flex shrink-0 items-center gap-2">{actions}</div> : null}
+          {actions ? <div className="flex shrink-0 items-center gap-2" data-slot="detail-drawer-section-actions">{actions}</div> : null}
         </div>
       ) : null}
       {children}
@@ -200,6 +224,7 @@ const DetailDrawerMetrics = React.forwardRef<HTMLDivElement, DetailDrawerMetrics
       ref={ref}
       className={cn('grid gap-3', metricsColumnsClassName[columns], className)}
       data-sdk-pattern="detail-drawer-metrics"
+      data-slot="detail-drawer-metrics"
       {...props}
     >
       {children}
@@ -223,14 +248,21 @@ const DetailDrawerMetric = React.forwardRef<HTMLDivElement, DetailDrawerMetricPr
         className,
       )}
       data-sdk-pattern="detail-drawer-metric"
+      data-slot="detail-drawer-metric"
       data-tone={tone}
       {...props}
     >
-      <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--sdk-color-text-muted)]">
+      <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--sdk-color-text-muted)]" data-slot="detail-drawer-metric-label">
         {label}
       </div>
-      <div className={cn('mt-2 text-lg font-semibold', metricToneClassName[tone])}>{value}</div>
-      {helper ? <div className="mt-1 text-xs text-[var(--sdk-color-text-secondary)]">{helper}</div> : null}
+      <div className={cn('mt-2 text-lg font-semibold', metricToneClassName[tone])} data-slot="detail-drawer-metric-value">
+        {value}
+      </div>
+      {helper ? (
+        <div className="mt-1 text-xs text-[var(--sdk-color-text-secondary)]" data-slot="detail-drawer-metric-helper">
+          {helper}
+        </div>
+      ) : null}
     </div>
   );
 });

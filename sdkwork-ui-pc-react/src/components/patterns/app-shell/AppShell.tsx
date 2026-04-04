@@ -36,6 +36,7 @@ export const AppShell = React.forwardRef<HTMLDivElement, AppShellProps>(({
       data-sdk-color-mode={theme.colorMode}
       data-sdk-pattern="app-shell"
       data-sdk-shell="app"
+      data-slot="app-shell"
       {...props}
       style={{ ...createThemeStyle(theme), ...style }}
     >
@@ -43,21 +44,23 @@ export const AppShell = React.forwardRef<HTMLDivElement, AppShellProps>(({
         <header
           className="border-b border-[var(--sdk-color-border-subtle)] bg-[var(--sdk-color-surface-panel)]/90 backdrop-blur"
           data-sdk-region="header"
+          data-slot="app-shell-header"
         >
           {header}
         </header>
       ) : null}
-      <div className="flex min-h-0 flex-1" data-sdk-region="body">
+      <div className="flex min-h-0 flex-1" data-sdk-region="body" data-slot="app-shell-body">
         {sidebar ? (
           <aside
             className="min-h-0 shrink-0 border-r border-[var(--sdk-color-border-subtle)] bg-[var(--sdk-color-surface-panel)]"
             data-sdk-region="sidebar"
+            data-slot="app-shell-sidebar"
             style={{ width: sidebarWidth }}
           >
             {sidebar}
           </aside>
         ) : null}
-        <main className="min-h-0 min-w-0 flex-1" data-sdk-region="content">
+        <main className="min-h-0 min-w-0 flex-1" data-sdk-region="content" data-slot="app-shell-content">
           {content ?? null}
         </main>
       </div>
@@ -65,6 +68,7 @@ export const AppShell = React.forwardRef<HTMLDivElement, AppShellProps>(({
         <footer
           className="border-t border-[var(--sdk-color-border-subtle)] bg-[var(--sdk-color-surface-panel)]/80"
           data-sdk-region="footer"
+          data-slot="app-shell-footer"
         >
           {footer}
         </footer>

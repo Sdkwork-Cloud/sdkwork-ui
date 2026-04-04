@@ -20,7 +20,7 @@ function createWindowController(): DesktopWindowController {
 
 describe('DesktopShellFrame', () => {
   it('renders a full desktop frame with app header, navigation rail, content, and status bar', async () => {
-    render(
+    const { container } = render(
       <DesktopShellFrame
         actions={<button type="button">Search</button>}
         content={<div>Workspace content</div>}
@@ -47,5 +47,10 @@ describe('DesktopShellFrame', () => {
     expect(screen.getByText('Workspace content')).toBeInTheDocument();
     expect(screen.getByText('Ready')).toBeInTheDocument();
     expect(await screen.findByRole('button', { name: 'Minimize window' })).toBeInTheDocument();
+    expect(container.querySelector('[data-sdk-pattern="desktop-shell-frame"]')).toHaveAttribute('data-slot', 'desktop-shell-frame');
+    expect(container.querySelector('[data-sdk-shell="app"]')).toHaveAttribute('data-slot', 'desktop-shell-frame-shell');
+    expect(container.querySelector('[data-sdk-pattern="desktop-app-header"]')).toHaveAttribute('data-slot', 'desktop-shell-frame-header');
+    expect(container.querySelector('[data-sdk-pattern="navigation-rail"]')).toHaveAttribute('data-slot', 'desktop-shell-frame-navigation');
+    expect(container.querySelector('[data-sdk-region="desktop-shell-content"]')).toHaveAttribute('data-slot', 'desktop-shell-frame-content');
   });
 });

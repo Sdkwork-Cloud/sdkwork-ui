@@ -38,6 +38,7 @@ const Toolbar = React.forwardRef<HTMLDivElement, ToolbarProps>(
         className,
       )}
       data-sdk-ui="toolbar"
+      data-slot="toolbar"
       role={role}
       {...props}
     />
@@ -64,6 +65,7 @@ const ToolbarGroup = React.forwardRef<HTMLDivElement, ToolbarGroupProps>(
         className,
       )}
       data-sdk-ui="toolbar-group"
+      data-slot="toolbar-group"
       {...props}
     />
   ),
@@ -72,7 +74,9 @@ const ToolbarGroup = React.forwardRef<HTMLDivElement, ToolbarGroupProps>(
 ToolbarGroup.displayName = 'ToolbarGroup';
 
 const ToolbarSpacer = React.forwardRef<HTMLDivElement, ToolbarSpacerProps>(
-  ({ className, ...props }, ref) => <div ref={ref} className={cn('min-w-4 flex-1', className)} data-sdk-ui="toolbar-spacer" {...props} />,
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn('min-w-4 flex-1', className)} data-sdk-ui="toolbar-spacer" data-slot="toolbar-spacer" {...props} />
+  ),
 );
 
 ToolbarSpacer.displayName = 'ToolbarSpacer';
@@ -85,6 +89,7 @@ const ToolbarSeparator = React.forwardRef<
     ref={ref}
     className={cn(orientation === 'vertical' ? 'mx-1 h-6' : 'my-1 w-full', className)}
     data-sdk-ui="toolbar-separator"
+    data-slot="toolbar-separator"
     decorative={decorative}
     orientation={orientation}
     {...props}

@@ -52,6 +52,7 @@ export function CrudWorkbench<T>({
   return (
     <ManagementWorkbench
       {...props}
+      data-slot="crud-workbench"
       data-sdk-pattern="crud-workbench"
       detail={detail}
       main={{
@@ -64,6 +65,7 @@ export function CrudWorkbench<T>({
               {
                 className: 'flex h-full min-h-0 flex-col gap-4',
                 'data-sdk-region': 'crud-workbench-stack',
+                'data-slot': 'crud-workbench-stack',
               },
               slotProps?.stack,
             )}
@@ -72,7 +74,7 @@ export function CrudWorkbench<T>({
               {...tableProps}
               className={cn('min-h-0', tableClassName)}
             />
-            {editor ? <WorkspacePanel {...editor} className={cn('shrink-0', editor.className)} /> : null}
+            {editor ? <WorkspacePanel {...editor} className={cn('shrink-0', editor.className)} data-slot="crud-workbench-editor" /> : null}
           </div>
         ),
       }}

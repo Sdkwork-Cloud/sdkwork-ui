@@ -38,7 +38,11 @@ describe('FilterBar', () => {
     expect(screen.getByRole('combobox', { name: 'Status' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Reset' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Apply filters' })).toBeInTheDocument();
-    expect(container.querySelector('[data-sdk-ui="filter-bar"]')).toBeInTheDocument();
-    expect(container.querySelector('[data-sdk-ui="filter-bar-actions"]')).toBeInTheDocument();
+    expect(container.querySelector('[data-sdk-ui="filter-bar"]')).toHaveAttribute('data-slot', 'filter-bar');
+    expect(screen.getByText('Workspace Filters')).toHaveAttribute('data-slot', 'filter-bar-title');
+    expect(screen.getByText('Search, filter, and act on the current desktop list.')).toHaveAttribute('data-slot', 'filter-bar-description');
+    expect(screen.getByText('Showing 24 matching records')).toHaveAttribute('data-slot', 'filter-bar-summary');
+    expect(container.querySelector('[data-sdk-ui="filter-bar-section"]')).toHaveAttribute('data-slot', 'filter-bar-section');
+    expect(container.querySelector('[data-sdk-ui="filter-bar-actions"]')).toHaveAttribute('data-slot', 'filter-bar-actions');
   });
 });

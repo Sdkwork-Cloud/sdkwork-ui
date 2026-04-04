@@ -110,4 +110,43 @@ describe('DateRangePicker', () => {
 
     expect(document.body.querySelector('[data-slot="date-range-picker-calendar"]')).toBeInTheDocument();
   });
+
+  it('formats partial trigger labels through the shell bridge formatters and messages', async () => {
+    const themeModule = await import('../../../theme');
+    const SdkworkShellBridgeProvider = (themeModule as Record<string, any>).SdkworkShellBridgeProvider;
+
+    render(
+      <SdkworkShellBridgeProvider
+        messages={{
+          dateRangePicker: {
+            selectEndDate: '选择结束日期',
+          },
+        }}
+        value={{
+          dir: 'ltr',
+          formatters: {
+            formatDate: (value: string | Date) => {
+              const resolvedValue = typeof value === 'string'
+                ? value.slice(0, 10)
+                : value.toISOString().slice(0, 10);
+              return `ZH:${resolvedValue}`;
+            },
+          },
+          locale: 'zh-CN',
+          preferences: {
+            themeColor: 'lobster',
+            themeSelection: 'light',
+          },
+        }}
+      >
+        <DateRangePicker value={{ start: '2026-04-02' }} />
+      </SdkworkShellBridgeProvider>,
+    );
+
+    expect(
+      screen.getByRole('button', {
+        name: 'ZH:2026-04-02 - 选择结束日期',
+      }),
+    ).toBeInTheDocument();
+  });
 });

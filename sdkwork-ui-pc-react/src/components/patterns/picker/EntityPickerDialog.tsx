@@ -300,12 +300,14 @@ function EntityPickerDialogInner<T = any>({
         ref={ref}
         className="flex flex-col gap-5"
         data-sdk-pattern="entity-picker-dialog"
+        data-slot="entity-picker-dialog"
       >
         <div
           {...mergePatternSlotProps<EntityPickerDialogRegionSlotProps>(
             {
               className: resultsLayoutClassName,
               'data-sdk-region': 'entity-picker-items',
+              'data-slot': 'entity-picker-dialog-items',
             },
             slotProps?.items,
           )}
@@ -328,11 +330,12 @@ function EntityPickerDialogInner<T = any>({
         {pagination ? (
           <div
             {...mergePatternSlotProps<EntityPickerDialogRegionSlotProps>(
-              {
-                'data-sdk-region': 'entity-picker-pagination',
-              },
-              slotProps?.pagination,
-            )}
+            {
+              'data-sdk-region': 'entity-picker-pagination',
+              'data-slot': 'entity-picker-dialog-pagination',
+            },
+            slotProps?.pagination,
+          )}
           >
             {pagination}
           </div>

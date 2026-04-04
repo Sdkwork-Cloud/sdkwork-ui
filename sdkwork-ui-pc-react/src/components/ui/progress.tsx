@@ -28,12 +28,14 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
           className,
         )}
         data-sdk-ui="progress"
+        data-slot="progress"
         role="progressbar"
         {...props}
       >
         <div
           className="h-full rounded-[var(--sdk-radius-pill)] bg-[var(--sdk-color-brand-primary)] transition-[width] duration-200"
           data-sdk-ui="progress-indicator"
+          data-slot="progress-indicator"
           data-testid="sdk-progress-indicator"
           style={{ width: `${safeValue}%` }}
         />

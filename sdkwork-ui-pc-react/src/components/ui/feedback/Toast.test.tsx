@@ -91,6 +91,7 @@ describe('toast feedback layer', () => {
     expect(props).toMatchObject({
       closeButton: true,
       'data-sdk-ui': 'toaster',
+      'data-slot': 'toaster',
       expand: true,
       position: 'bottom-right',
       richColors: true,
@@ -118,6 +119,7 @@ describe('toast feedback layer', () => {
       | undefined;
 
     expect(sdkworkProps?.['data-sdk-ui']).toBe('sdkwork-toaster');
+    expect((sdkworkProps as { 'data-slot'?: string } | undefined)?.['data-slot']).toBe('sdkwork-toaster');
   });
 
   it('proxies imperative toast helpers through the shared feedback API', () => {

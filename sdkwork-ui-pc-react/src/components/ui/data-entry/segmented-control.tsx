@@ -48,6 +48,7 @@ const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedControlProps>
       )}
       data-orientation={orientation}
       data-sdk-ui="segmented-control"
+      data-slot="segmented-control"
       role="group"
       {...props}
     >
@@ -68,6 +69,7 @@ const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedControlProps>
             disabled={option.disabled}
             key={option.value}
             onClick={() => onValueChange(option.value)}
+            data-slot="segmented-control-option"
             type="button"
           >
             {option.icon ? <span className="shrink-0">{option.icon}</span> : null}

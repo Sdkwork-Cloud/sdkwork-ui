@@ -12,6 +12,7 @@ const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
         className,
       )}
       data-sdk-ui="skeleton"
+      data-slot="skeleton"
       {...props}
     />
   ),

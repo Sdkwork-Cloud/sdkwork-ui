@@ -87,6 +87,7 @@ const ToolbarButton = React.forwardRef<HTMLButtonElement, ToolbarButtonProps>(
         aria-pressed={hasPressedState ? resolvedPressed : undefined}
         className={cn(toolbarButtonVariants({ pressed: resolvedPressed, size }), className)}
         data-sdk-ui="toolbar-button"
+        data-slot="toolbar-button"
         onMouseDown={handleMouseDown}
         title={resolvedTitle}
         type={type}

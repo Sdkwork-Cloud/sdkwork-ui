@@ -88,6 +88,7 @@ export const DesktopAppHeader = React.forwardRef<HTMLDivElement, DesktopAppHeade
           {
             className: 'flex min-w-0 items-center gap-3',
             'data-sdk-region': 'desktop-app-header-brand',
+            'data-slot': 'desktop-app-header-brand',
           },
           brandSlotProps,
         )}
@@ -104,6 +105,7 @@ export const DesktopAppHeader = React.forwardRef<HTMLDivElement, DesktopAppHeade
                         className:
                           'truncate text-sm font-semibold leading-none text-[var(--sdk-color-text-primary)]',
                         'data-sdk-region': 'desktop-app-header-title',
+                        'data-slot': 'desktop-app-header-title',
                       },
                       titleSlotProps,
                     )}
@@ -121,6 +123,7 @@ export const DesktopAppHeader = React.forwardRef<HTMLDivElement, DesktopAppHeade
                     className:
                       'mt-1 truncate text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--sdk-color-text-muted)]',
                     'data-sdk-region': 'desktop-app-header-subtitle',
+                    'data-slot': 'desktop-app-header-subtitle',
                   },
                   subtitleSlotProps,
                 )}
@@ -140,6 +143,7 @@ export const DesktopAppHeader = React.forwardRef<HTMLDivElement, DesktopAppHeade
         {
           className: 'relative z-30',
           'data-sdk-pattern': 'desktop-app-header',
+          'data-slot': 'desktop-app-header',
         },
         {
           className,
@@ -150,6 +154,7 @@ export const DesktopAppHeader = React.forwardRef<HTMLDivElement, DesktopAppHeade
       )}
     >
       <DesktopTitleBar
+        data-slot="desktop-app-header-bar"
         bordered={bordered}
         center={center}
         centerInteractive={centerInteractive}

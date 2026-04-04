@@ -168,6 +168,7 @@ const NotificationCenterItem = React.forwardRef<HTMLElement, NotificationCenterI
             {
               className: cn('mt-0.5 h-4 w-4 shrink-0', toneClass[tone]),
               'data-sdk-region': 'notification-center-item-icon',
+              'data-slot': 'notification-center-item-icon',
             },
             slotProps?.icon,
           )}
@@ -177,6 +178,7 @@ const NotificationCenterItem = React.forwardRef<HTMLElement, NotificationCenterI
             {
               className: 'min-w-0 flex-1',
               'data-sdk-region': 'notification-center-item-body',
+              'data-slot': 'notification-center-item-body',
             },
             slotProps?.body,
           )}
@@ -187,6 +189,7 @@ const NotificationCenterItem = React.forwardRef<HTMLElement, NotificationCenterI
                 {
                   className: 'min-w-0 text-sm font-medium text-[var(--sdk-color-text-primary)]',
                   'data-sdk-region': 'notification-center-item-title',
+                  'data-slot': 'notification-center-item-title',
                 },
                 slotProps?.title,
               )}
@@ -199,6 +202,7 @@ const NotificationCenterItem = React.forwardRef<HTMLElement, NotificationCenterI
                   {
                     className: 'shrink-0 text-[11px] text-[var(--sdk-color-text-muted)]',
                     'data-sdk-region': 'notification-center-item-time-label',
+                    'data-slot': 'notification-center-item-time-label',
                   },
                   slotProps?.timeLabel,
                 )}
@@ -212,6 +216,7 @@ const NotificationCenterItem = React.forwardRef<HTMLElement, NotificationCenterI
               {
                 className: 'mt-1 text-sm leading-relaxed text-[var(--sdk-color-text-secondary)]',
                 'data-sdk-region': 'notification-center-item-description',
+                'data-slot': 'notification-center-item-description',
               },
               slotProps?.description,
             )}
@@ -231,6 +236,7 @@ const NotificationCenterItem = React.forwardRef<HTMLElement, NotificationCenterI
           className,
         )}
         data-sdk-ui="notification-center-item"
+        data-slot="notification-center-item"
         data-tone={tone}
         data-unread={item.unread ? 'true' : 'false'}
         {...props}
@@ -243,6 +249,7 @@ const NotificationCenterItem = React.forwardRef<HTMLElement, NotificationCenterI
                 className:
                   'absolute bottom-3 left-0 top-3 w-[3px] rounded-r-full bg-[var(--sdk-color-brand-primary)]',
                 'data-sdk-region': 'notification-center-item-unread-indicator',
+                'data-slot': 'notification-center-item-unread-indicator',
               },
               slotProps?.unreadIndicator,
             )}
@@ -269,6 +276,7 @@ const NotificationCenterItem = React.forwardRef<HTMLElement, NotificationCenterI
                 className:
                   'mt-3 inline-flex items-center gap-1 text-xs font-medium text-[var(--sdk-color-brand-primary)] transition-colors hover:text-[var(--sdk-color-brand-primary-hover)]',
                 'data-sdk-region': 'notification-center-item-action',
+                'data-slot': 'notification-center-item-action',
                 href: item.actionHref,
                 rel: 'noreferrer',
                 target: item.actionTarget ?? '_blank',
@@ -314,6 +322,7 @@ const NotificationCenter = React.forwardRef<HTMLElement, NotificationCenterProps
         className,
       )}
       data-sdk-ui="notification-center"
+      data-slot="notification-center"
       {...props}
     >
       <header
@@ -322,13 +331,17 @@ const NotificationCenter = React.forwardRef<HTMLElement, NotificationCenterProps
             className:
               'flex items-center justify-between gap-3 border-b border-[var(--sdk-color-border-subtle)] bg-[var(--sdk-color-surface-panel-muted)] px-4 py-3',
             'data-sdk-region': 'notification-center-header',
+            'data-slot': 'notification-center-header',
           },
           slotProps?.header,
         )}
       >
         <div className="flex min-w-0 items-center gap-2">
           <Bell className="h-4 w-4 text-[var(--sdk-color-text-muted)]" />
-          <div className="truncate text-xs font-semibold uppercase tracking-[0.16em] text-[var(--sdk-color-text-secondary)]">
+          <div
+            className="truncate text-xs font-semibold uppercase tracking-[0.16em] text-[var(--sdk-color-text-secondary)]"
+            data-slot="notification-center-title"
+          >
             {title}
           </div>
         </div>
@@ -339,6 +352,7 @@ const NotificationCenter = React.forwardRef<HTMLElement, NotificationCenterProps
               {
                 className: 'flex shrink-0 items-center gap-1',
                 'data-sdk-region': 'notification-center-header-actions',
+                'data-slot': 'notification-center-header-actions',
               },
               slotProps?.headerActions,
             )}
@@ -373,6 +387,7 @@ const NotificationCenter = React.forwardRef<HTMLElement, NotificationCenterProps
             {
               className: 'flex flex-col items-center justify-center px-6 py-10 text-center',
               'data-sdk-region': 'notification-center-empty',
+              'data-slot': 'notification-center-empty',
             },
             slotProps?.empty,
           )}
@@ -387,6 +402,7 @@ const NotificationCenter = React.forwardRef<HTMLElement, NotificationCenterProps
             {
               className: 'max-h-[26rem] overflow-y-auto',
               'data-sdk-region': 'notification-center-viewport',
+              'data-slot': 'notification-center-viewport',
             },
             slotProps?.viewport,
           )}
@@ -396,6 +412,7 @@ const NotificationCenter = React.forwardRef<HTMLElement, NotificationCenterProps
               {
                 className: 'divide-y divide-[var(--sdk-color-border-subtle)]',
                 'data-sdk-region': 'notification-center-list',
+                'data-slot': 'notification-center-list',
               },
               slotProps?.list,
             )}

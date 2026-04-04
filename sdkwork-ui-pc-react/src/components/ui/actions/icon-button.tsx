@@ -9,6 +9,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(({ class
     ref={ref}
     className={cn('shrink-0', className)}
     data-sdk-ui="icon-button"
+    data-slot="icon-button"
     size="icon"
     type={type}
     {...props}

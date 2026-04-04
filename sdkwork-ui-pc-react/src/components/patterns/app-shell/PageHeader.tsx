@@ -24,20 +24,23 @@ export const PageHeader = React.forwardRef<HTMLDivElement, PageHeaderProps>(({
         className,
       )}
       data-sdk-pattern="page-header"
+      data-slot="page-header"
       {...props}
     >
       <div className="space-y-2">
         {eyebrow ? (
-          <div className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--sdk-color-text-muted)]">
+          <div className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--sdk-color-text-muted)]" data-slot="page-header-eyebrow">
             {eyebrow}
           </div>
         ) : null}
-        <div className="text-2xl font-semibold tracking-tight">{title}</div>
+        <div className="text-2xl font-semibold tracking-tight" data-slot="page-header-title">{title}</div>
         {description ? (
-          <div className="max-w-3xl text-sm text-[var(--sdk-color-text-secondary)]">{description}</div>
+          <div className="max-w-3xl text-sm text-[var(--sdk-color-text-secondary)]" data-slot="page-header-description">
+            {description}
+          </div>
         ) : null}
       </div>
-      {actions ? <div className="flex items-center gap-3">{actions}</div> : null}
+      {actions ? <div className="flex items-center gap-3" data-slot="page-header-actions">{actions}</div> : null}
     </div>
   );
 });

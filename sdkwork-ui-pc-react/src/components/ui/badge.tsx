@@ -26,7 +26,7 @@ export interface BadgeProps
     VariantProps<typeof badgeVariants> {}
 
 const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ className, variant, ...props }, ref) => (
-  <div ref={ref} className={cn(badgeVariants({ variant }), className)} data-sdk-ui="badge" {...props} />
+  <div ref={ref} className={cn(badgeVariants({ variant }), className)} data-sdk-ui="badge" data-slot="badge" {...props} />
 ));
 
 Badge.displayName = 'Badge';

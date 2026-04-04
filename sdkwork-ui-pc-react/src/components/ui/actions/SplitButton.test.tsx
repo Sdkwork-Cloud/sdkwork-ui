@@ -25,6 +25,11 @@ describe('SplitButton', () => {
       </SplitButton>,
     );
 
+    expect(document.body.querySelector('[data-sdk-ui="split-button"]')).toHaveAttribute('data-slot', 'split-button');
+    expect(screen.getByRole('button', { name: 'Publish' })).toHaveAttribute('data-slot', 'split-button-primary-action');
+    expect(screen.getByRole('button', { name: 'More publish actions' })).toHaveAttribute('data-slot', 'split-button-menu-trigger');
+    expect(document.body.querySelector('[data-slot="split-button-content"]')).toBeInTheDocument();
+
     fireEvent.click(screen.getByRole('button', { name: 'Publish' }));
     expect(onPrimary).toHaveBeenCalledTimes(1);
 

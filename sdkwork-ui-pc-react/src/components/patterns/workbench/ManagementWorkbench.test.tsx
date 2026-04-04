@@ -49,5 +49,11 @@ describe('ManagementWorkbench', () => {
     expect(screen.getByText('Inspector')).toBeInTheDocument();
     expect(screen.getByText('Selected asset details')).toBeInTheDocument();
     expect(screen.getByText('Showing 24 results')).toBeInTheDocument();
+    expect(document.querySelector('[data-sdk-pattern="management-workbench"]')).toHaveAttribute('data-slot', 'management-workbench');
+    expect(document.querySelector('[data-sdk-pattern="page-header"]')).toHaveAttribute('data-slot', 'management-workbench-header');
+    expect(document.querySelector('[data-sdk-region="management-workbench-filters"]')).toHaveAttribute('data-slot', 'management-workbench-filters');
+    expect(document.querySelector('[data-sdk-region="management-workbench-selection-bar"]')).toHaveAttribute('data-slot', 'management-workbench-selection-bar');
+    expect(document.querySelector('[data-sdk-region="management-workbench-content"]')).toHaveAttribute('data-slot', 'management-workbench-content');
+    expect(document.querySelector('[data-sdk-region="management-workbench-footer"]')).toHaveAttribute('data-slot', 'management-workbench-footer');
   });
 });

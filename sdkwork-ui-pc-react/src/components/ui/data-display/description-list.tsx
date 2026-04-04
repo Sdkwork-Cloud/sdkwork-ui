@@ -24,6 +24,7 @@ const DescriptionList = React.forwardRef<HTMLDListElement, DescriptionListProps>
       ref={ref}
       className={cn('grid gap-3', descriptionListColumnsClassName[columns], className)}
       data-sdk-ui="description-list"
+      data-slot="description-list"
       {...props}
     />
   ),
@@ -40,6 +41,7 @@ const DescriptionItem = React.forwardRef<HTMLDivElement, DescriptionItemProps>(
         className,
       )}
       data-sdk-ui="description-item"
+      data-slot="description-item"
       {...props}
     />
   ),
@@ -56,6 +58,7 @@ const DescriptionTerm = React.forwardRef<HTMLElement, DescriptionTermProps>(
         className,
       )}
       data-sdk-ui="description-term"
+      data-slot="description-term"
       {...props}
     />
   ),
@@ -73,6 +76,7 @@ const DescriptionDetails = React.forwardRef<HTMLElement, DescriptionDetailsProps
         className,
       )}
       data-sdk-ui="description-details"
+      data-slot="description-details"
       {...props}
     />
   ),

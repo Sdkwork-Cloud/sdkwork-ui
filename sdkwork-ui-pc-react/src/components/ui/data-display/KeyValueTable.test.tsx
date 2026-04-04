@@ -17,8 +17,10 @@ describe('KeyValueTable', () => {
     expect(screen.getByText('req_123456')).toHaveClass('font-mono');
     expect(screen.getByText('Status')).toBeInTheDocument();
     expect(screen.getByText('Completed')).toBeInTheDocument();
-    expect(container.querySelector('table[data-sdk-ui="key-value-table"]')).toBeInTheDocument();
-    expect(container.querySelector('[data-sdk-ui="key-value-table-row"]')).toBeInTheDocument();
+    expect(container.querySelector('table[data-sdk-ui="key-value-table"]')).toHaveAttribute('data-slot', 'key-value-table');
+    expect(container.querySelector('[data-sdk-ui="key-value-table-row"]')).toHaveAttribute('data-slot', 'key-value-table-row');
+    expect(screen.getByText('Request ID')).toHaveAttribute('data-slot', 'key-value-table-label');
+    expect(screen.getByText('req_123456')).toHaveAttribute('data-slot', 'key-value-table-value');
   });
 
   it('supports tone and emphasis for important values', () => {
@@ -32,6 +34,7 @@ describe('KeyValueTable', () => {
     expect(row).toHaveAttribute('data-tone', 'danger');
     expect(row).toHaveAttribute('data-emphasis', 'strong');
     expect(screen.getByText('High')).toHaveClass('font-semibold');
+    expect(screen.getByText('High')).toHaveAttribute('data-slot', 'key-value-table-value');
   });
 
   it('supports dense layout for inspector surfaces', () => {

@@ -54,27 +54,33 @@ export const BulkActionBar = React.forwardRef<HTMLDivElement, BulkActionBarProps
         className,
       )}
       data-sdk-ui="bulk-action-bar"
+      data-slot="bulk-action-bar"
       data-tone={tone}
       {...props}
     >
       <div className="flex min-w-0 flex-wrap items-center gap-3">
         {count ? (
-          <span className="inline-flex h-8 min-w-8 items-center justify-center rounded-full bg-[var(--sdk-color-surface-panel-muted)] px-2.5 text-xs font-semibold text-[var(--sdk-color-text-primary)]">
+          <span
+            className="inline-flex h-8 min-w-8 items-center justify-center rounded-full bg-[var(--sdk-color-surface-panel-muted)] px-2.5 text-xs font-semibold text-[var(--sdk-color-text-primary)]"
+            data-slot="bulk-action-bar-count"
+          >
             {count}
           </span>
         ) : null}
         <div className="min-w-0">
-          {title ? <div className="text-sm font-semibold text-[var(--sdk-color-text-primary)]">{title}</div> : null}
+          {title ? <div className="text-sm font-semibold text-[var(--sdk-color-text-primary)]" data-slot="bulk-action-bar-title">{title}</div> : null}
           {description ? (
-            <div className="text-sm text-[var(--sdk-color-text-secondary)]">{description}</div>
+            <div className="text-sm text-[var(--sdk-color-text-secondary)]" data-slot="bulk-action-bar-description">
+              {description}
+            </div>
           ) : null}
         </div>
-        {meta ? <div className="text-xs text-[var(--sdk-color-text-muted)]">{meta}</div> : null}
+        {meta ? <div className="text-xs text-[var(--sdk-color-text-muted)]" data-slot="bulk-action-bar-meta">{meta}</div> : null}
       </div>
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2" data-slot="bulk-action-bar-actions">
         {actions}
         {onClear ? (
-          <Button onClick={onClear} size="sm" type="button" variant="ghost">
+          <Button data-slot="bulk-action-bar-clear-button" onClick={onClear} size="sm" type="button" variant="ghost">
             <X className="h-4 w-4" />
             {clearLabel}
           </Button>

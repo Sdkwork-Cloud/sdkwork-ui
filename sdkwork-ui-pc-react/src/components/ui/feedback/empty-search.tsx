@@ -36,15 +36,19 @@ export const EmptySearch = React.forwardRef<HTMLDivElement, EmptySearchProps>(({
         className,
       )}
       data-sdk-ui="empty-search"
+      data-slot="empty-search"
       role="status"
       {...props}
     >
-      <div className="flex h-14 w-14 items-center justify-center rounded-full border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel-muted)] text-[var(--sdk-color-text-secondary)] shadow-[var(--sdk-shadow-sm)]">
+      <div
+        className="flex h-14 w-14 items-center justify-center rounded-full border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel-muted)] text-[var(--sdk-color-text-secondary)] shadow-[var(--sdk-shadow-sm)]"
+        data-slot="empty-search-icon"
+      >
         <SearchX className="h-6 w-6" />
       </div>
-      <div className="text-lg font-semibold text-[var(--sdk-color-text-primary)]">{resolvedTitle}</div>
-      <div className="max-w-xl text-sm text-[var(--sdk-color-text-secondary)]">{description}</div>
-      {resolvedActions ? <div className="mt-2 flex items-center gap-3">{resolvedActions}</div> : null}
+      <div className="text-lg font-semibold text-[var(--sdk-color-text-primary)]" data-slot="empty-search-title">{resolvedTitle}</div>
+      <div className="max-w-xl text-sm text-[var(--sdk-color-text-secondary)]" data-slot="empty-search-description">{description}</div>
+      {resolvedActions ? <div className="mt-2 flex items-center gap-3" data-slot="empty-search-actions">{resolvedActions}</div> : null}
     </div>
   );
 });

@@ -8,14 +8,22 @@ describe('StatCard', () => {
       <StatCard
         change="+12.4%"
         description="Compared with last week"
+        icon={<span aria-hidden="true">#</span>}
         label="Active Agents"
         value="128"
       />,
     );
 
-    expect(screen.getByText('Active Agents')).toBeInTheDocument();
-    expect(screen.getByText('128')).toBeInTheDocument();
-    expect(screen.getByText('+12.4%')).toBeInTheDocument();
-    expect(screen.getByText('Compared with last week')).toBeInTheDocument();
+    const root = document.body.querySelector('[data-sdk-ui="stat-card"]');
+
+    expect(root).toBeInTheDocument();
+    expect(root).toHaveAttribute('data-slot', 'stat-card');
+    expect(document.body.querySelector('[data-slot="stat-card-header"]')).toBeInTheDocument();
+    expect(screen.getByText('Active Agents')).toHaveAttribute('data-slot', 'stat-card-label');
+    expect(screen.getByText('128')).toHaveAttribute('data-slot', 'stat-card-value');
+    expect(document.body.querySelector('[data-slot="stat-card-icon"]')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-slot="stat-card-body"]')).toBeInTheDocument();
+    expect(screen.getByText('+12.4%')).toHaveAttribute('data-slot', 'stat-card-change');
+    expect(screen.getByText('Compared with last week')).toHaveAttribute('data-slot', 'stat-card-description');
   });
 });

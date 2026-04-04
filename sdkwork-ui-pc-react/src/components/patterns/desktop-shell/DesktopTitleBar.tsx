@@ -81,6 +81,7 @@ export const DesktopTitleBar = React.forwardRef<HTMLElement, DesktopTitleBarProp
         className,
       )}
       data-sdk-pattern="desktop-title-bar"
+      data-slot="desktop-title-bar"
       style={style}
       {...props}
     >
@@ -91,6 +92,7 @@ export const DesktopTitleBar = React.forwardRef<HTMLElement, DesktopTitleBarProp
               className: 'flex min-w-0 flex-1 items-center gap-3',
               'data-sdk-region': 'desktop-title-bar-leading',
               'data-sdk-slot': 'leading',
+              'data-slot': 'desktop-title-bar-leading',
               'data-tauri-drag-region': true,
             },
             slotProps?.leading,
@@ -103,6 +105,7 @@ export const DesktopTitleBar = React.forwardRef<HTMLElement, DesktopTitleBarProp
           className="flex min-w-0 flex-1"
           data-sdk-region="desktop-title-bar-leading-spacer"
           data-sdk-slot="leading-spacer"
+          data-slot="desktop-title-bar-leading-spacer"
           data-tauri-drag-region
         />
       )}
@@ -115,6 +118,7 @@ export const DesktopTitleBar = React.forwardRef<HTMLElement, DesktopTitleBarProp
                 'pointer-events-none absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 items-center justify-center px-24 lg:px-32',
               'data-sdk-region': 'desktop-title-bar-center-shell',
               'data-sdk-slot': 'center-shell',
+              'data-slot': 'desktop-title-bar-center-shell',
               style: { maxWidth: centerMaxWidth },
             },
             slotProps?.centerShell,
@@ -126,6 +130,7 @@ export const DesktopTitleBar = React.forwardRef<HTMLElement, DesktopTitleBarProp
                 className: cn('w-full', centerInteractive ? 'pointer-events-auto' : null),
                 'data-sdk-region': 'desktop-title-bar-center',
                 'data-sdk-slot': 'center',
+                'data-slot': 'desktop-title-bar-center',
                 'data-tauri-drag-region': centerInteractive ? 'false' : true,
               },
               slotProps?.center,
@@ -143,6 +148,7 @@ export const DesktopTitleBar = React.forwardRef<HTMLElement, DesktopTitleBarProp
               className: 'ml-auto flex h-full shrink-0 items-center justify-end gap-2',
               'data-sdk-region': 'desktop-title-bar-trailing',
               'data-sdk-slot': 'trailing',
+              'data-slot': 'desktop-title-bar-trailing',
               'data-tauri-drag-region': 'false',
             },
             slotProps?.trailing,

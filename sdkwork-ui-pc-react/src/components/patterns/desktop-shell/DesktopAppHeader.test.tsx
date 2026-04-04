@@ -17,7 +17,7 @@ function createWindowController(): DesktopWindowController {
 
 describe('DesktopAppHeader', () => {
   it('renders shared brand, center content, actions, and desktop controls', async () => {
-    render(
+    const { container } = render(
       <DesktopAppHeader
         actions={<button type="button">Search</button>}
         badge={<span>DEV</span>}
@@ -35,5 +35,10 @@ describe('DesktopAppHeader', () => {
     expect(screen.getByRole('button', { name: 'Workspace switcher' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Search' })).toBeInTheDocument();
     expect(await screen.findByRole('button', { name: 'Minimize window' })).toBeInTheDocument();
+    expect(container.querySelector('[data-sdk-pattern="desktop-app-header"]')).toHaveAttribute('data-slot', 'desktop-app-header');
+    expect(container.querySelector('[data-sdk-pattern="desktop-title-bar"]')).toHaveAttribute('data-slot', 'desktop-app-header-bar');
+    expect(container.querySelector('[data-sdk-region="desktop-app-header-brand"]')).toHaveAttribute('data-slot', 'desktop-app-header-brand');
+    expect(container.querySelector('[data-sdk-region="desktop-app-header-title"]')).toHaveAttribute('data-slot', 'desktop-app-header-title');
+    expect(container.querySelector('[data-sdk-region="desktop-app-header-subtitle"]')).toHaveAttribute('data-slot', 'desktop-app-header-subtitle');
   });
 });

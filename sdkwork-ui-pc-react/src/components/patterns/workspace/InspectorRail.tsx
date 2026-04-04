@@ -101,6 +101,7 @@ export const InspectorRail = React.forwardRef<HTMLElement, InspectorRailProps>((
       )}
       data-sdk-pattern="inspector-rail"
       data-side={side}
+      data-slot="inspector-rail"
       data-variant={variant}
       {...props}
     >
@@ -113,6 +114,7 @@ export const InspectorRail = React.forwardRef<HTMLElement, InspectorRailProps>((
                 stickyHeader ? 'sticky top-0 z-10 backdrop-blur-xl' : null,
               ),
               'data-sdk-region': 'inspector-rail-header',
+              'data-slot': 'inspector-rail-header',
             },
             slotProps?.header,
           )}
@@ -120,20 +122,38 @@ export const InspectorRail = React.forwardRef<HTMLElement, InspectorRailProps>((
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0 flex-1">
               {eyebrow ? (
-                <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--sdk-color-text-muted)]">
+                <div
+                  className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--sdk-color-text-muted)]"
+                  data-slot="inspector-rail-eyebrow"
+                >
                   {eyebrow}
                 </div>
               ) : null}
-              {title ? <div className="mt-1 text-sm font-semibold text-[var(--sdk-color-text-primary)]">{title}</div> : null}
-              {description ? (
-                <div className="mt-1 text-sm text-[var(--sdk-color-text-secondary)]">{description}</div>
+              {title ? (
+                <div
+                  className="mt-1 text-sm font-semibold text-[var(--sdk-color-text-primary)]"
+                  data-slot="inspector-rail-title"
+                >
+                  {title}
+                </div>
               ) : null}
-              {meta ? <div className="mt-3">{meta}</div> : null}
+              {description ? (
+                <div
+                  className="mt-1 text-sm text-[var(--sdk-color-text-secondary)]"
+                  data-slot="inspector-rail-description"
+                >
+                  {description}
+                </div>
+              ) : null}
+              {meta ? <div className="mt-3" data-slot="inspector-rail-meta">{meta}</div> : null}
             </div>
-            {actions ? <div className="flex shrink-0 items-center gap-2">{actions}</div> : null}
+            {actions ? <div className="flex shrink-0 items-center gap-2" data-slot="inspector-rail-actions">{actions}</div> : null}
           </div>
           {summary ? (
-            <div className="mt-4 rounded-[var(--sdk-radius-control)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel-muted)] px-4 py-3 text-sm text-[var(--sdk-color-text-secondary)]">
+            <div
+              className="mt-4 rounded-[var(--sdk-radius-control)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel-muted)] px-4 py-3 text-sm text-[var(--sdk-color-text-secondary)]"
+              data-slot="inspector-rail-summary"
+            >
               {summary}
             </div>
           ) : null}
@@ -145,6 +165,7 @@ export const InspectorRail = React.forwardRef<HTMLElement, InspectorRailProps>((
             {
               className: 'space-y-4 px-5 py-4',
               'data-sdk-region': 'inspector-rail-body',
+              'data-slot': 'inspector-rail-body',
             },
             slotProps?.body,
           )}
@@ -158,6 +179,7 @@ export const InspectorRail = React.forwardRef<HTMLElement, InspectorRailProps>((
             {
               className: 'border-t border-[var(--sdk-color-border-subtle)] px-5 py-4',
               'data-sdk-region': 'inspector-rail-footer',
+              'data-slot': 'inspector-rail-footer',
             },
             slotProps?.footer,
           )}
@@ -185,17 +207,27 @@ export const InspectorRailSection = React.forwardRef<HTMLElement, InspectorRailS
         className,
       )}
       data-sdk-pattern="inspector-rail-section"
+      data-slot="inspector-rail-section"
       {...props}
     >
       {(title || description || actions) ? (
-        <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="flex flex-wrap items-start justify-between gap-3" data-slot="inspector-rail-section-header">
           <div className="min-w-0 flex-1">
-            {title ? <div className="text-sm font-semibold text-[var(--sdk-color-text-primary)]">{title}</div> : null}
+            {title ? (
+              <div className="text-sm font-semibold text-[var(--sdk-color-text-primary)]" data-slot="inspector-rail-section-title">
+                {title}
+              </div>
+            ) : null}
             {description ? (
-              <div className="mt-1 text-sm text-[var(--sdk-color-text-secondary)]">{description}</div>
+              <div
+                className="mt-1 text-sm text-[var(--sdk-color-text-secondary)]"
+                data-slot="inspector-rail-section-description"
+              >
+                {description}
+              </div>
             ) : null}
           </div>
-          {actions ? <div className="flex shrink-0 items-center gap-2">{actions}</div> : null}
+          {actions ? <div className="flex shrink-0 items-center gap-2" data-slot="inspector-rail-section-actions">{actions}</div> : null}
         </div>
       ) : null}
       {children}
@@ -214,6 +246,7 @@ export const InspectorRailMetrics = React.forwardRef<HTMLDivElement, InspectorRa
       ref={ref}
       className={cn('grid gap-3', metricsColumnsClassName[columns], className)}
       data-sdk-pattern="inspector-rail-metrics"
+      data-slot="inspector-rail-metrics"
       {...props}
     >
       {children}
@@ -237,14 +270,24 @@ export const InspectorRailMetric = React.forwardRef<HTMLDivElement, InspectorRai
         className,
       )}
       data-sdk-pattern="inspector-rail-metric"
+      data-slot="inspector-rail-metric"
       data-tone={tone}
       {...props}
     >
-      <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--sdk-color-text-muted)]">
+      <div
+        className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--sdk-color-text-muted)]"
+        data-slot="inspector-rail-metric-label"
+      >
         {label}
       </div>
-      <div className={cn('mt-2 text-lg font-semibold', metricToneClassName[tone])}>{value}</div>
-      {helper ? <div className="mt-1 text-xs text-[var(--sdk-color-text-secondary)]">{helper}</div> : null}
+      <div className={cn('mt-2 text-lg font-semibold', metricToneClassName[tone])} data-slot="inspector-rail-metric-value">
+        {value}
+      </div>
+      {helper ? (
+        <div className="mt-1 text-xs text-[var(--sdk-color-text-secondary)]" data-slot="inspector-rail-metric-helper">
+          {helper}
+        </div>
+      ) : null}
     </div>
   );
 });

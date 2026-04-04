@@ -75,6 +75,7 @@ export function DataTableHeaderCell<T>({
             stickyHeader ? 'sticky top-0 z-10 bg-[var(--sdk-color-surface-panel)]' : null,
           ),
           'data-sdk-region': 'data-table-header-cell',
+          'data-slot': 'data-table-header-cell',
           style: { width: resolveStyleWidth(column.width) },
         },
         column.headerProps,

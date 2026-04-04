@@ -60,6 +60,7 @@ export function RestartRequiredNotice({
       actions={resolvedActions}
       className={cn(sticky ? 'sticky bottom-0 z-10' : null, className)}
       data-sdk-pattern="restart-required-notice"
+      data-slot="restart-required-notice"
       description={description}
       showIcon
       title={title}

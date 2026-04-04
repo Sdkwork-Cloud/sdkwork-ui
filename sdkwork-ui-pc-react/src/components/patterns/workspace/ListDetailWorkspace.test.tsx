@@ -7,7 +7,7 @@ const { ListDetailWorkspace } = workspacePatterns as Record<string, ComponentTyp
 
 describe('ListDetailWorkspace', () => {
   it('renders sidebar, content, and detail panes for desktop list-detail workspaces', () => {
-    render(
+    const { container } = render(
       <ListDetailWorkspace
         content={{
           children: <div>Main canvas</div>,
@@ -35,6 +35,10 @@ describe('ListDetailWorkspace', () => {
     expect(screen.getByText('Selected asset metadata')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
     expect(screen.getAllByTestId('sdk-panel-resize-handle-grip')).toHaveLength(2);
+    expect(container.querySelector('[data-sdk-pattern="list-detail-workspace"]')).toHaveAttribute('data-slot', 'list-detail-workspace');
+    expect(container.querySelector('[data-sdk-region="sidebar"]')).toHaveAttribute('data-slot', 'list-detail-workspace-sidebar');
+    expect(container.querySelector('[data-sdk-region="content"]')).toHaveAttribute('data-slot', 'list-detail-workspace-content');
+    expect(container.querySelector('[data-sdk-region="detail"]')).toHaveAttribute('data-slot', 'list-detail-workspace-detail');
   });
 
   it('can render a content-only workspace without split handles', () => {

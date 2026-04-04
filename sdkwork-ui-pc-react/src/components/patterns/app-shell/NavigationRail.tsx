@@ -21,11 +21,12 @@ export const NavigationRail = React.forwardRef<HTMLElement, NavigationRailProps>
         className,
       )}
       data-sdk-pattern="navigation-rail"
+      data-slot="navigation-rail"
       {...props}
     >
-      {header ? <div className="shrink-0">{header}</div> : null}
-      <div className="flex min-h-0 flex-1 flex-col gap-2">{children}</div>
-      {footer ? <div className="shrink-0 pt-2">{footer}</div> : null}
+      {header ? <div className="shrink-0" data-slot="navigation-rail-header">{header}</div> : null}
+      <div className="flex min-h-0 flex-1 flex-col gap-2" data-slot="navigation-rail-body">{children}</div>
+      {footer ? <div className="shrink-0 pt-2" data-slot="navigation-rail-footer">{footer}</div> : null}
     </nav>
   );
 });

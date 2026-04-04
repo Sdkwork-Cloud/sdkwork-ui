@@ -15,6 +15,7 @@ describe('IconButton', () => {
 
     expect(button).toBeInTheDocument();
     expect(button).toHaveClass('h-10', 'w-10');
+    expect(button).toHaveAttribute('data-slot', 'icon-button');
     expect(button.querySelector('svg')).not.toBeNull();
   });
 });

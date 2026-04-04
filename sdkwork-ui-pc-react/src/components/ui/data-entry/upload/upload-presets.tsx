@@ -10,25 +10,25 @@ export type DocumentUploadProps = SpecializedUploadProps;
 function ImageUpload({ accept, listType, ...props }: ImageUploadProps) {
   const defaults = getUploadVariantDefaults('image');
 
-  return <FileUpload accept={accept ?? defaults.accept} data-sdk-ui="image-upload" listType={listType ?? defaults.listType} variant="image" {...props} />;
+  return <FileUpload accept={accept ?? defaults.accept} data-sdk-ui="image-upload" data-slot="image-upload" listType={listType ?? defaults.listType} variant="image" {...props} />;
 }
 
 function VideoUpload({ accept, listType, ...props }: VideoUploadProps) {
   const defaults = getUploadVariantDefaults('video');
 
-  return <FileUpload accept={accept ?? defaults.accept} data-sdk-ui="video-upload" listType={listType ?? defaults.listType} variant="video" {...props} />;
+  return <FileUpload accept={accept ?? defaults.accept} data-sdk-ui="video-upload" data-slot="video-upload" listType={listType ?? defaults.listType} variant="video" {...props} />;
 }
 
 function AudioUpload({ accept, listType, ...props }: AudioUploadProps) {
   const defaults = getUploadVariantDefaults('audio');
 
-  return <FileUpload accept={accept ?? defaults.accept} data-sdk-ui="audio-upload" listType={listType ?? defaults.listType} variant="audio" {...props} />;
+  return <FileUpload accept={accept ?? defaults.accept} data-sdk-ui="audio-upload" data-slot="audio-upload" listType={listType ?? defaults.listType} variant="audio" {...props} />;
 }
 
 function DocumentUpload({ accept, listType, ...props }: DocumentUploadProps) {
   const defaults = getUploadVariantDefaults('document');
 
-  return <FileUpload accept={accept ?? defaults.accept} data-sdk-ui="document-upload" listType={listType ?? defaults.listType} variant="document" {...props} />;
+  return <FileUpload accept={accept ?? defaults.accept} data-sdk-ui="document-upload" data-slot="document-upload" listType={listType ?? defaults.listType} variant="document" {...props} />;
 }
 
 ImageUpload.displayName = 'ImageUpload';

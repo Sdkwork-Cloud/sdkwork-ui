@@ -278,7 +278,9 @@ describe('ui component catalog', () => {
         'SDKWORK_LIGHT_THEME',
         'createSdkworkTheme',
         'createThemeCssVariables',
+        'SdkworkShellBridgeProvider',
         'SdkworkThemeProvider',
+        'useSdkworkShellBridge',
       ]),
     );
   });

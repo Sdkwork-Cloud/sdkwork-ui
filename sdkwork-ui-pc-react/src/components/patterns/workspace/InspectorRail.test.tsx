@@ -10,7 +10,7 @@ import {
 
 describe('InspectorRail', () => {
   it('renders a desktop inspector rail with header, summary, sections, metrics, and footer actions', () => {
-    render(
+    const { container } = render(
       <InspectorRail
         actions={<Button size="sm">Refresh</Button>}
         description="Focused details for the selected record."
@@ -44,5 +44,17 @@ describe('InspectorRail', () => {
     expect(screen.getByText('Overview')).toBeInTheDocument();
     expect(screen.getByText('Structured inspector content')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Apply' })).toBeInTheDocument();
+    expect(container.querySelector('[data-sdk-pattern="inspector-rail"]')).toHaveAttribute('data-slot', 'inspector-rail');
+    expect(container.querySelector('[data-sdk-region="inspector-rail-header"]')).toHaveAttribute('data-slot', 'inspector-rail-header');
+    expect(container.querySelector('[data-sdk-region="inspector-rail-body"]')).toHaveAttribute('data-slot', 'inspector-rail-body');
+    expect(container.querySelector('[data-sdk-region="inspector-rail-footer"]')).toHaveAttribute('data-slot', 'inspector-rail-footer');
+    expect(screen.getByText('Selection')).toHaveAttribute('data-slot', 'inspector-rail-eyebrow');
+    expect(screen.getByText('Asset inspector')).toHaveAttribute('data-slot', 'inspector-rail-title');
+    expect(screen.getByText('Focused details for the selected record.')).toHaveAttribute('data-slot', 'inspector-rail-description');
+    expect(screen.getByText('2 warnings').closest('[data-slot="inspector-rail-meta"]')).toBeInTheDocument();
+    expect(screen.getByText('Audit state and editable properties stay together in the same rail.')).toHaveAttribute('data-slot', 'inspector-rail-summary');
+    expect(container.querySelector('[data-sdk-pattern="inspector-rail-metrics"]')).toHaveAttribute('data-slot', 'inspector-rail-metrics');
+    expect(container.querySelector('[data-sdk-pattern="inspector-rail-metric"]')).toHaveAttribute('data-slot', 'inspector-rail-metric');
+    expect(container.querySelector('[data-sdk-pattern="inspector-rail-section"]')).toHaveAttribute('data-slot', 'inspector-rail-section');
   });
 });

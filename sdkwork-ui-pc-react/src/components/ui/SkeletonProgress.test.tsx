@@ -8,6 +8,7 @@ describe('feedback primitives', () => {
     render(<Skeleton className="h-8 w-24" data-testid="skeleton" />);
 
     expect(screen.getByTestId('skeleton')).toHaveClass('animate-pulse');
+    expect(screen.getByTestId('skeleton')).toHaveAttribute('data-slot', 'skeleton');
   });
 
   it('renders progress value on the shared indicator', () => {

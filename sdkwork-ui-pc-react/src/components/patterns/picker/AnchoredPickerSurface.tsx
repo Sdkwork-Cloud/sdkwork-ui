@@ -174,6 +174,7 @@ const AnchoredPickerSurface = React.forwardRef<HTMLDivElement, AnchoredPickerSur
               anchoredPickerSurfaceSizeClassNames[size],
             ),
             'data-sdk-region': 'anchored-picker-content',
+            'data-slot': 'anchored-picker-content',
           },
           slotProps?.content,
         )}
@@ -188,6 +189,7 @@ const AnchoredPickerSurface = React.forwardRef<HTMLDivElement, AnchoredPickerSur
               className: cn('flex min-h-0 min-w-0 flex-col overflow-hidden', className),
               'data-sdk-pattern': 'anchored-picker-surface',
               'data-sdk-region': 'anchored-picker-surface',
+              'data-slot': 'anchored-picker-surface',
               style: { maxHeight },
             },
             slotProps?.surface,
@@ -200,6 +202,7 @@ const AnchoredPickerSurface = React.forwardRef<HTMLDivElement, AnchoredPickerSur
                   className:
                     'flex shrink-0 flex-col gap-3 border-b border-[color-mix(in_srgb,var(--sdk-color-border-default)_72%,transparent)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel)_96%,white_4%)_0%,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_88%,transparent)_100%)] px-4 py-3',
                   'data-sdk-region': 'anchored-picker-header',
+                  'data-slot': 'anchored-picker-header',
                 },
                 slotProps?.header,
               )}
@@ -209,25 +212,25 @@ const AnchoredPickerSurface = React.forwardRef<HTMLDivElement, AnchoredPickerSur
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       {title ? (
-                        <div className="text-sm font-semibold tracking-tight text-[var(--sdk-color-text-primary)]">
+                        <div className="text-sm font-semibold tracking-tight text-[var(--sdk-color-text-primary)]" data-slot="anchored-picker-title">
                           {title}
                         </div>
                       ) : null}
                       {badge ? <div className="shrink-0">{badge}</div> : null}
                       {resultsSummary ? (
-                        <div className="text-xs font-medium text-[var(--sdk-color-text-secondary)]">
+                        <div className="text-xs font-medium text-[var(--sdk-color-text-secondary)]" data-slot="anchored-picker-results-summary">
                           {resultsSummary}
                         </div>
                       ) : null}
                     </div>
                     {description ? (
-                      <div className="mt-1.5 text-xs leading-5 text-[var(--sdk-color-text-secondary)]">
+                      <div className="mt-1.5 text-xs leading-5 text-[var(--sdk-color-text-secondary)]" data-slot="anchored-picker-description">
                         {description}
                       </div>
                     ) : null}
                   </div>
                   {actions ? (
-                    <div className="flex shrink-0 items-center gap-2">{actions}</div>
+                    <div className="flex shrink-0 items-center gap-2" data-slot="anchored-picker-actions">{actions}</div>
                   ) : null}
                 </div>
               ) : null}
@@ -239,6 +242,7 @@ const AnchoredPickerSurface = React.forwardRef<HTMLDivElement, AnchoredPickerSur
                       className:
                         'flex flex-wrap items-center gap-2 rounded-[var(--sdk-radius-panel)] border border-[color-mix(in_srgb,var(--sdk-color-border-default)_72%,transparent)] bg-[color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_88%,transparent)] px-3 py-2.5',
                       'data-sdk-region': 'anchored-picker-filters',
+                      'data-slot': 'anchored-picker-filters',
                     },
                     slotProps?.filters,
                   )}
@@ -257,6 +261,7 @@ const AnchoredPickerSurface = React.forwardRef<HTMLDivElement, AnchoredPickerSur
                   bodyScrollable ? 'overflow-y-auto' : 'overflow-hidden',
                 ),
                 'data-sdk-region': 'anchored-picker-body',
+                'data-slot': 'anchored-picker-body',
               },
               slotProps?.body,
             )}
@@ -271,6 +276,7 @@ const AnchoredPickerSurface = React.forwardRef<HTMLDivElement, AnchoredPickerSur
                   className:
                     'shrink-0 border-t border-[color-mix(in_srgb,var(--sdk-color-border-default)_72%,transparent)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel)_94%,white_4%)_0%,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_88%,transparent)_100%)] px-4 py-3',
                   'data-sdk-region': 'anchored-picker-footer',
+                  'data-slot': 'anchored-picker-footer',
                 },
                 slotProps?.footer,
               )}

@@ -23,13 +23,14 @@ export const EmptyState = React.forwardRef<HTMLDivElement, EmptyStateProps>(({
         className,
       )}
       data-sdk-ui="empty-state"
+      data-slot="empty-state"
       {...props}
     >
-      {title ? <div className="text-lg font-semibold">{title}</div> : null}
+      {title ? <div className="text-lg font-semibold" data-slot="empty-state-title">{title}</div> : null}
       {description ? (
-        <div className="max-w-xl text-sm text-[var(--sdk-color-text-secondary)]">{description}</div>
+        <div className="max-w-xl text-sm text-[var(--sdk-color-text-secondary)]" data-slot="empty-state-description">{description}</div>
       ) : null}
-      {actions ? <div className="mt-2 flex items-center gap-3">{actions}</div> : null}
+      {actions ? <div className="mt-2 flex items-center gap-3" data-slot="empty-state-actions">{actions}</div> : null}
     </div>
   );
 });
@@ -47,10 +48,11 @@ export const LoadingBlock = React.forwardRef<HTMLDivElement, LoadingBlockProps>(
         className,
       )}
       data-sdk-ui="loading-block"
+      data-slot="loading-block"
       {...props}
     >
-      <LoaderCircle className="h-4 w-4 animate-spin" />
-      <span>{label}</span>
+      <LoaderCircle className="h-4 w-4 animate-spin" data-slot="loading-block-indicator" />
+      <span data-slot="loading-block-label">{label}</span>
     </div>
   );
 });
@@ -88,10 +90,11 @@ export const StatusNotice = React.forwardRef<HTMLDivElement, StatusNoticeProps>(
         className,
       )}
       data-sdk-ui="status-notice"
+      data-slot="status-notice"
       {...props}
     >
-      {title ? <div className="text-sm font-semibold">{title}</div> : null}
-      {children ? <div className={cn(title ? 'mt-1 text-sm' : 'text-sm')}>{children}</div> : null}
+      {title ? <div className="text-sm font-semibold" data-slot="status-notice-title">{title}</div> : null}
+      {children ? <div className={cn(title ? 'mt-1 text-sm' : 'text-sm')} data-slot="status-notice-body">{children}</div> : null}
     </div>
   );
 });

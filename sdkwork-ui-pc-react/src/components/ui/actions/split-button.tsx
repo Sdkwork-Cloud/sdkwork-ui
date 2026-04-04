@@ -70,6 +70,7 @@ const SplitButton = React.forwardRef<HTMLButtonElement, SplitButtonProps>(
         {...mergeSlotProps<SplitButtonGroupSlotProps>(
           {
             className: cn('inline-flex items-stretch', className),
+            'data-slot': 'split-button',
           },
           slotProps?.group,
         )}
@@ -88,10 +89,11 @@ const SplitButton = React.forwardRef<HTMLButtonElement, SplitButtonProps>(
             },
             slotProps?.primaryAction,
           )}
+          data-slot="split-button-primary-action"
         >
           {children}
         </Button>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger asChild data-slot="split-button-menu-trigger">
           <Button
             {...mergeSlotProps<ButtonProps>(
               {
@@ -103,6 +105,7 @@ const SplitButton = React.forwardRef<HTMLButtonElement, SplitButtonProps>(
               },
               slotProps?.menuTrigger,
             )}
+            data-slot="split-button-menu-trigger"
           >
             <ChevronDown className="h-4 w-4" />
           </Button>
@@ -112,6 +115,7 @@ const SplitButton = React.forwardRef<HTMLButtonElement, SplitButtonProps>(
         {...mergeSlotProps<SlotProps<DropdownMenuContentProps>>(
           {
             align: menuAlign,
+            'data-slot': 'split-button-content',
           },
           slotProps?.content,
         )}

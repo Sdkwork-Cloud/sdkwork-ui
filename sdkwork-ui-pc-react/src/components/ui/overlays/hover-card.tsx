@@ -15,6 +15,7 @@ const HoverCardTrigger = React.forwardRef<
   <HoverCardPrimitive.Trigger
     ref={ref}
     data-sdk-ui="hover-card-trigger"
+    data-slot="hover-card-trigger"
     {...props}
   />
 ));
@@ -33,6 +34,7 @@ const HoverCardContent = React.forwardRef<
         className,
       )}
       data-sdk-ui="hover-card-content"
+      data-slot="hover-card-content"
       ref={ref}
       sideOffset={sideOffset}
       {...props}

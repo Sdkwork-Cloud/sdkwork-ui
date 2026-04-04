@@ -131,6 +131,7 @@ export const DesktopShellFrame = React.forwardRef<HTMLDivElement, DesktopShellFr
     sidebar ??
     (navigation || navigationHeader || navigationFooter ? (
       <NavigationRail
+        data-slot="desktop-shell-frame-navigation"
         footer={navigationFooter}
         header={navigationHeader}
         {...navigationSlotProps}
@@ -143,7 +144,7 @@ export const DesktopShellFrame = React.forwardRef<HTMLDivElement, DesktopShellFr
     <div
       ref={ref}
       {...mergePatternSlotProps<DesktopShellFrameRootProps>(
-        { 'data-sdk-pattern': 'desktop-shell-frame' },
+        { 'data-sdk-pattern': 'desktop-shell-frame', 'data-slot': 'desktop-shell-frame' },
         {
           className,
           id,
@@ -153,6 +154,7 @@ export const DesktopShellFrame = React.forwardRef<HTMLDivElement, DesktopShellFr
       )}
     >
       <AppShell
+        data-slot="desktop-shell-frame-shell"
         {...shellSlotProps}
         content={
           <div
@@ -160,6 +162,7 @@ export const DesktopShellFrame = React.forwardRef<HTMLDivElement, DesktopShellFr
               {
                 className: 'h-full min-h-0 min-w-0',
                 'data-sdk-region': 'desktop-shell-content',
+                'data-slot': 'desktop-shell-frame-content',
               },
               contentSlotProps,
             )}
@@ -171,6 +174,7 @@ export const DesktopShellFrame = React.forwardRef<HTMLDivElement, DesktopShellFr
         header={
           hasHeader ? (
             <DesktopAppHeader
+              data-slot="desktop-shell-frame-header"
               actions={actions}
               badge={badge}
               bordered={bordered}

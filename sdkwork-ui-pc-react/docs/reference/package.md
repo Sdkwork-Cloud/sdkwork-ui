@@ -26,6 +26,8 @@ That rulebook covers:
 - reusable component authoring rules
 - framework audit tests that guard against drift
 
+The generated runtime inventory lives at `/reference/runtime-surface-catalog`, the generated public type inventory lives at `/reference/public-api-structure-catalog`, the generated governance coverage matrix lives at `/reference/framework-governance-matrix`, and the generated documentation governance inventory lives at `/reference/documentation-governance-catalog`. All four are emitted directly from the framework source contract.
+
 ## Pattern Surface Standard
 
 Direct pattern surfaces stay open through normal root props. Internal and delegated lower surfaces are customized through named `slotProps`.
@@ -750,6 +752,12 @@ export function PublishWorkflow() {
 ```ts
 import { uiComponentCatalog } from '@sdkwork/ui-pc-react/components/ui/catalog';
 ```
+
+Use `/reference/runtime-surface-catalog` when you need the generated source-of-truth list of public runtime markers, regions, and owned slot anatomy.
+
+Use `/reference/public-api-structure-catalog` when you need the generated source-of-truth list of public props contracts, slot contracts, structured surface helpers, and callback contracts.
+
+Use `/reference/documentation-governance-catalog` when you need the generated source-of-truth list of governed markdown pages, import-audit coverage, and snippet-typecheck scope.
 
 ### Data Display Domain
 

@@ -130,6 +130,7 @@ const WorkspaceTab = React.forwardRef<HTMLDivElement, WorkspaceTabProps>(
       )}
       data-disabled={item.disabled ? 'true' : 'false'}
       data-sdk-ui="workspace-tab"
+      data-slot="workspace-tab"
       data-state={selected ? 'active' : 'inactive'}
       {...props}
     >
@@ -144,6 +145,7 @@ const WorkspaceTab = React.forwardRef<HTMLDivElement, WorkspaceTabProps>(
                 : 'hover:text-[var(--sdk-color-text-primary)]',
             ),
             'data-sdk-region': 'workspace-tab-trigger',
+            'data-slot': 'workspace-tab-trigger',
             disabled: item.disabled,
             onClick: () => onValueChange?.(item.id),
             role: 'tab',
@@ -159,6 +161,7 @@ const WorkspaceTab = React.forwardRef<HTMLDivElement, WorkspaceTabProps>(
               {
                 className: 'shrink-0',
                 'data-sdk-region': 'workspace-tab-icon',
+                'data-slot': 'workspace-tab-icon',
               },
               slotProps?.icon,
             )}
@@ -171,6 +174,7 @@ const WorkspaceTab = React.forwardRef<HTMLDivElement, WorkspaceTabProps>(
             {
               className: 'truncate',
               'data-sdk-region': 'workspace-tab-label',
+              'data-slot': 'workspace-tab-label',
             },
             slotProps?.label,
           )}
@@ -185,6 +189,7 @@ const WorkspaceTab = React.forwardRef<HTMLDivElement, WorkspaceTabProps>(
                 className:
                   'inline-flex h-2 w-2 shrink-0 rounded-full bg-[var(--sdk-color-state-warning)]',
                 'data-sdk-region': 'workspace-tab-modified-indicator',
+                'data-slot': 'workspace-tab-modified-indicator',
               },
               slotProps?.modifiedIndicator,
             )}
@@ -196,6 +201,7 @@ const WorkspaceTab = React.forwardRef<HTMLDivElement, WorkspaceTabProps>(
               {
                 className: 'shrink-0 text-xs text-[var(--sdk-color-text-muted)]',
                 'data-sdk-region': 'workspace-tab-meta',
+                'data-slot': 'workspace-tab-meta',
               },
               slotProps?.meta,
             )}
@@ -213,6 +219,7 @@ const WorkspaceTab = React.forwardRef<HTMLDivElement, WorkspaceTabProps>(
               className:
                 'rounded-full p-1 text-[var(--sdk-color-text-muted)] transition-colors hover:bg-[var(--sdk-color-surface-elevated)] hover:text-[var(--sdk-color-text-primary)]',
               'data-sdk-region': 'workspace-tab-close-button',
+              'data-slot': 'workspace-tab-close-button',
               onClick: (event) => {
                 event.stopPropagation();
                 onCloseTab(item.id);
@@ -252,6 +259,7 @@ const WorkspaceTabs = React.forwardRef<HTMLDivElement, WorkspaceTabsProps>(
       ref={ref}
       className={cn('flex items-center gap-3', className)}
       data-sdk-ui="workspace-tabs"
+      data-slot="workspace-tabs"
       {...props}
     >
       <div
@@ -261,6 +269,7 @@ const WorkspaceTabs = React.forwardRef<HTMLDivElement, WorkspaceTabsProps>(
             'aria-orientation': 'horizontal',
             className: 'flex min-w-0 flex-1 items-center gap-2 overflow-x-auto',
             'data-sdk-region': 'workspace-tabs-tablist',
+            'data-slot': 'workspace-tabs-tablist',
             role: 'tablist',
           },
           slotProps?.tabList,
@@ -272,6 +281,7 @@ const WorkspaceTabs = React.forwardRef<HTMLDivElement, WorkspaceTabsProps>(
               {
                 className: 'px-1 text-sm text-[var(--sdk-color-text-muted)]',
                 'data-sdk-region': 'workspace-tabs-empty',
+                'data-slot': 'workspace-tabs-empty',
               },
               slotProps?.empty,
             )}
@@ -307,6 +317,7 @@ const WorkspaceTabs = React.forwardRef<HTMLDivElement, WorkspaceTabsProps>(
             {
               className: 'flex shrink-0 items-center gap-2',
               'data-sdk-region': 'workspace-tabs-actions',
+              'data-slot': 'workspace-tabs-actions',
             },
             slotProps?.actions,
           )}

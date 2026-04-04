@@ -44,6 +44,8 @@ describe('EntityPickerDialog', () => {
     expect(
       document.querySelector('[data-sdk-pattern="picker-selection-footer"]'),
     ).not.toBeNull();
+    expect(document.querySelector('[data-sdk-pattern="entity-picker-dialog"]')).toHaveAttribute('data-slot', 'entity-picker-dialog');
+    expect(document.querySelector('[data-sdk-region="entity-picker-items"]')).toHaveAttribute('data-slot', 'entity-picker-dialog-items');
     expect(screen.getByRole('button', { name: 'Confirm selection' })).toBeDisabled();
     expect(screen.getByText('No items selected')).toBeInTheDocument();
 
@@ -139,5 +141,6 @@ describe('EntityPickerDialog', () => {
     expect(screen.getByRole('button', { name: 'Asset A' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Asset B' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Asset C' })).toBeInTheDocument();
+    expect(document.querySelector('[data-sdk-region="entity-picker-pagination"]')).toHaveAttribute('data-slot', 'entity-picker-dialog-pagination');
   });
 });

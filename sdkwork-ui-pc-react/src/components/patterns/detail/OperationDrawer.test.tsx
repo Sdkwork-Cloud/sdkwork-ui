@@ -30,6 +30,16 @@ describe('OperationDrawer', () => {
     expect(screen.getByText('Main form content')).toBeInTheDocument();
     expect(screen.getByText('Sidebar summary')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Save changes' })).toBeInTheDocument();
+    expect(document.querySelector('[data-sdk-pattern="operation-drawer"]')).toHaveAttribute('data-slot', 'operation-drawer');
+    expect(document.querySelector('[data-sdk-region="operation-drawer-content"]')).toHaveAttribute('data-slot', 'operation-drawer-content');
+    expect(document.querySelector('[data-sdk-region="operation-drawer-surface"]')).toHaveAttribute('data-slot', 'operation-drawer-surface');
+    expect(document.querySelector('[data-sdk-region="operation-drawer-header"]')).toHaveAttribute('data-slot', 'operation-drawer-header');
+    expect(document.querySelector('[data-sdk-region="operation-drawer-body"]')).toHaveAttribute('data-slot', 'operation-drawer-body');
+    expect(document.querySelector('[data-sdk-region="operation-drawer-sidebar"]')).toHaveAttribute('data-slot', 'operation-drawer-sidebar');
+    expect(document.querySelector('[data-sdk-region="operation-drawer-footer"]')).toHaveAttribute('data-slot', 'operation-drawer-footer');
+    expect(screen.getByText('Provider')).toHaveAttribute('data-slot', 'operation-drawer-eyebrow');
+    expect(screen.getByText('Edit provider')).toHaveAttribute('data-slot', 'operation-drawer-title');
+    expect(screen.getByText('Shared desktop work surface for edit and review flows.')).toHaveAttribute('data-slot', 'operation-drawer-description');
   });
 
   it('routes the shared close affordance through the Radix open-state callback', () => {

@@ -51,14 +51,16 @@ const SidebarSection = React.forwardRef<HTMLDivElement, SidebarSectionProps>(
           className,
         )}
         data-sdk-ui="sidebar-section"
+        data-slot="sidebar-section"
         data-state={open ? 'open' : 'closed'}
         {...props}
       >
-        <div className="flex items-start gap-2 p-2">
+        <div className="flex items-start gap-2 p-2" data-slot="sidebar-section-header">
           <button
             aria-controls={contentId}
             aria-expanded={open}
             className="flex min-w-0 flex-1 items-center justify-between gap-3 rounded-[var(--sdk-radius-control)] px-1 py-1.5 text-left transition-colors hover:bg-[var(--sdk-color-brand-primary-soft)]"
+            data-slot="sidebar-section-trigger"
             onClick={handleToggle}
             type="button"
           >
@@ -77,11 +79,12 @@ const SidebarSection = React.forwardRef<HTMLDivElement, SidebarSectionProps>(
               {open ? <ChevronDown className="h-3.5 w-3.5" /> : <ChevronRight className="h-3.5 w-3.5" />}
             </span>
           </button>
-          {actions ? <div className="flex shrink-0 items-center gap-1">{actions}</div> : null}
+          {actions ? <div className="flex shrink-0 items-center gap-1" data-slot="sidebar-section-actions">{actions}</div> : null}
         </div>
         {open ? (
           <div
             className="border-t border-[var(--sdk-color-border-subtle)] px-3 pb-3 pt-2"
+            data-slot="sidebar-section-content"
             id={contentId}
           >
             {children}

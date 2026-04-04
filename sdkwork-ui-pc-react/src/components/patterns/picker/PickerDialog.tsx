@@ -114,6 +114,7 @@ const PickerDialog = React.forwardRef<HTMLDivElement, PickerDialogProps>(({
             className:
               'gap-0 overflow-hidden border-[color-mix(in_srgb,var(--sdk-color-border-default)_88%,transparent)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel)_98%,white_2%)_0%,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_90%,transparent)_100%)]',
             'data-sdk-region': 'picker-dialog-content',
+            'data-slot': 'picker-dialog-content',
           },
           slotProps?.content,
         )}
@@ -126,6 +127,7 @@ const PickerDialog = React.forwardRef<HTMLDivElement, PickerDialogProps>(({
               className: cn('flex h-full min-h-0 min-w-0 flex-col overflow-hidden', className),
               'data-sdk-pattern': 'picker-dialog',
               'data-sdk-region': 'picker-dialog-surface',
+              'data-slot': 'picker-dialog',
             },
             slotProps?.surface,
           )}
@@ -136,6 +138,7 @@ const PickerDialog = React.forwardRef<HTMLDivElement, PickerDialogProps>(({
                 className:
                   'gap-3 border-b-[color-mix(in_srgb,var(--sdk-color-border-default)_78%,transparent)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel)_96%,white_4%)_0%,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_88%,transparent)_100%)] px-5 py-4 xl:px-6',
                 'data-sdk-region': 'picker-dialog-header',
+                'data-slot': 'picker-dialog-header',
               },
               slotProps?.header,
             )}
@@ -143,21 +146,21 @@ const PickerDialog = React.forwardRef<HTMLDivElement, PickerDialogProps>(({
             <div className="flex items-start gap-4">
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-3">
-                  <ModalTitle className="text-[1.35rem] tracking-tight">{title}</ModalTitle>
+                  <ModalTitle className="text-[1.35rem] tracking-tight" data-slot="picker-dialog-title">{title}</ModalTitle>
                   {badge ? <div className="shrink-0">{badge}</div> : null}
                   {resultsSummary ? (
-                    <div className="text-sm font-medium text-[var(--sdk-color-text-secondary)]">
+                    <div className="text-sm font-medium text-[var(--sdk-color-text-secondary)]" data-slot="picker-dialog-results-summary">
                       {resultsSummary}
                     </div>
                   ) : null}
                 </div>
                 {description ? (
-                  <ModalDescription className="mt-2 max-w-4xl text-sm leading-6">
+                  <ModalDescription className="mt-2 max-w-4xl text-sm leading-6" data-slot="picker-dialog-description">
                     {description}
                   </ModalDescription>
                 ) : null}
               </div>
-              {actions ? <div className="flex shrink-0 items-center gap-2 pr-8">{actions}</div> : null}
+              {actions ? <div className="flex shrink-0 items-center gap-2 pr-8" data-slot="picker-dialog-actions">{actions}</div> : null}
             </div>
             {filters ? (
               <div
@@ -166,6 +169,7 @@ const PickerDialog = React.forwardRef<HTMLDivElement, PickerDialogProps>(({
                     className:
                       'flex flex-wrap items-center gap-3 rounded-[var(--sdk-radius-panel)] border border-[color-mix(in_srgb,var(--sdk-color-border-default)_72%,transparent)] bg-[color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_88%,transparent)] px-3 py-3',
                     'data-sdk-region': 'picker-dialog-filters',
+                    'data-slot': 'picker-dialog-filters',
                   },
                   slotProps?.filters,
                 )}
@@ -183,6 +187,7 @@ const PickerDialog = React.forwardRef<HTMLDivElement, PickerDialogProps>(({
                     className:
                       'hidden w-[18rem] shrink-0 border-r border-[color-mix(in_srgb,var(--sdk-color-border-default)_72%,transparent)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_92%,transparent)_0%,color-mix(in_srgb,var(--sdk-color-surface-canvas)_86%,transparent)_100%)] lg:flex lg:min-h-0 lg:flex-col',
                     'data-sdk-region': 'picker-dialog-sidebar',
+                    'data-slot': 'picker-dialog-sidebar',
                   },
                   slotProps?.sidebar,
                 )}
@@ -197,6 +202,7 @@ const PickerDialog = React.forwardRef<HTMLDivElement, PickerDialogProps>(({
                   {
                     className: 'min-h-full px-5 py-5 xl:px-6',
                     'data-sdk-region': 'picker-dialog-body',
+                    'data-slot': 'picker-dialog-body',
                   },
                   slotProps?.body,
                 )}
@@ -213,6 +219,7 @@ const PickerDialog = React.forwardRef<HTMLDivElement, PickerDialogProps>(({
                   className:
                     'border-t-[color-mix(in_srgb,var(--sdk-color-border-default)_78%,transparent)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel)_94%,white_4%)_0%,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_88%,transparent)_100%)] px-5 py-3.5 xl:px-6',
                   'data-sdk-region': 'picker-dialog-footer',
+                  'data-slot': 'picker-dialog-footer',
                 },
                 slotProps?.footer,
               )}

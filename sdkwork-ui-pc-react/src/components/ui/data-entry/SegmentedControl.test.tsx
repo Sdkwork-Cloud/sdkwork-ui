@@ -18,7 +18,9 @@ describe('SegmentedControl', () => {
       />,
     );
 
+    expect(document.body.querySelector('[data-sdk-ui="segmented-control"]')).toHaveAttribute('data-slot', 'segmented-control');
     expect(screen.getByRole('button', { name: 'Design' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'Design' })).toHaveAttribute('data-slot', 'segmented-control-option');
     fireEvent.click(screen.getByRole('button', { name: 'Code' }));
     expect(onValueChange).toHaveBeenCalledWith('code');
   });

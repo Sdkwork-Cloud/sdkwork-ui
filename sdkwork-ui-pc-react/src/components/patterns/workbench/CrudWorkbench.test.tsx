@@ -88,6 +88,8 @@ describe('CrudWorkbench', () => {
     expect(screen.getByText('Editor')).toBeInTheDocument();
     expect(screen.getByText('Asset editor form')).toBeInTheDocument();
     expect(screen.getByText('Showing 2 assets')).toBeInTheDocument();
+    expect(document.querySelector('[data-sdk-pattern="crud-workbench"]')).toHaveAttribute('data-slot', 'crud-workbench');
+    expect(document.querySelector('[data-sdk-region="crud-workbench-stack"]')).toHaveAttribute('data-slot', 'crud-workbench-stack');
   });
 
   it('supports a lean CRUD workbench without detail or editor regions', () => {

@@ -29,5 +29,10 @@ describe('Form layout helpers', () => {
     expect(screen.getByRole('button', { name: 'Reset' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
+    expect(document.body.querySelector('[data-sdk-ui="form-section"]')).toHaveAttribute('data-slot', 'form-section');
+    expect(screen.getByText('Workspace Defaults')).toHaveAttribute('data-slot', 'form-section-title');
+    expect(screen.getByText('Configure the default desktop behavior for newly created workspaces.')).toHaveAttribute('data-slot', 'form-section-description');
+    expect(document.body.querySelector('[data-sdk-ui="form-grid"]')).toHaveAttribute('data-slot', 'form-grid');
+    expect(document.body.querySelector('[data-sdk-ui="form-actions"]')).toHaveAttribute('data-slot', 'form-actions');
   });
 });

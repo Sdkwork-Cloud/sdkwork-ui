@@ -17,6 +17,7 @@ const Avatar = React.forwardRef<
       className,
     )}
     data-sdk-ui="avatar"
+    data-slot="avatar"
     {...props}
   />
 ));
@@ -31,6 +32,7 @@ const AvatarImage = React.forwardRef<
     ref={ref}
     className={cn('aspect-square h-full w-full object-cover', className)}
     data-sdk-ui="avatar-image"
+    data-slot="avatar-image"
     {...props}
   />
 ));
@@ -48,6 +50,7 @@ const AvatarFallback = React.forwardRef<
       className,
     )}
     data-sdk-ui="avatar-fallback"
+    data-slot="avatar-fallback"
     {...props}
   />
 ));

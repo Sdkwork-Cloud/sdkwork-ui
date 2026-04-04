@@ -43,6 +43,7 @@ import type {
   DataTableColumn,
   DataTableDensity,
   DataTableProps as DataTablePropsContract,
+  DataTableRegionSlotProps,
   DataTableRowProps,
 } from './data-table/types';
 
@@ -367,6 +368,7 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
       ref={ref}
       className={cn('flex flex-col gap-4', className)}
       data-sdk-ui="data-table"
+      data-slot="data-table"
       {...props}
     >
       {title || description || toolbar ? (
@@ -375,23 +377,28 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
           {...mergeSlotProps(
             {
               className: 'flex flex-wrap items-start justify-between gap-3',
+              'data-slot': 'data-table-header',
             },
             slotProps?.header,
           )}
         >
           <div className="min-w-0">
             {title ? (
-              <div className="text-base font-semibold text-[var(--sdk-color-text-primary)]">{title}</div>
+              <div className="text-base font-semibold text-[var(--sdk-color-text-primary)]" data-slot="data-table-title">
+                {title}
+              </div>
             ) : null}
             {description ? (
-              <div className="mt-1 text-sm text-[var(--sdk-color-text-secondary)]">{description}</div>
+              <div className="mt-1 text-sm text-[var(--sdk-color-text-secondary)]" data-slot="data-table-description">
+                {description}
+              </div>
             ) : null}
           </div>
           {toolbar ? (
             <div
               data-sdk-region="data-table-toolbar"
-              {...mergeSlotProps(
-                {},
+              {...mergeSlotProps<DataTableRegionSlotProps>(
+                { 'data-slot': 'data-table-toolbar' },
                 slotProps?.toolbar,
               )}
             >
@@ -420,6 +427,7 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
         {...mergeSlotProps(
           {
             className: dataTableSurfaceClassName,
+            'data-slot': 'data-table-surface',
           },
           slotProps?.surface,
         )}
@@ -564,6 +572,7 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
             {...mergeSlotProps(
               {
                 className: dataTableFooterClassName,
+                'data-slot': 'data-table-footer',
               },
               slotProps?.footer,
             )}
@@ -575,8 +584,8 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
             {hasPagination ? (
               <div
                 data-sdk-region="data-table-pagination"
-                {...mergeSlotProps(
-                  {},
+                {...mergeSlotProps<DataTableRegionSlotProps>(
+                  { 'data-slot': 'data-table-pagination' },
                   slotProps?.pagination,
                 )}
               >

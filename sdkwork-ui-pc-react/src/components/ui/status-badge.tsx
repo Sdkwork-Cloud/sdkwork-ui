@@ -69,12 +69,17 @@ function StatusBadge({
     <Badge
       className={cn('gap-1.5 capitalize', className)}
       data-sdk-ui="status-badge"
+      data-slot="status-badge"
       data-variant={resolvedVariant}
       variant={resolvedVariant}
       {...props}
     >
-      {showIcon ? <Icon className="h-3.5 w-3.5" /> : null}
-      <span>{label ?? status}</span>
+      {showIcon ? (
+        <span className="inline-flex" data-slot="status-badge-icon">
+          <Icon className="h-3.5 w-3.5" />
+        </span>
+      ) : null}
+      <span data-slot="status-badge-label">{label ?? status}</span>
     </Badge>
   );
 }

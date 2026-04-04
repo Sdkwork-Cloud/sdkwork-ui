@@ -20,5 +20,8 @@ describe('SectionHeader', () => {
     expect(screen.getByRole('button', { name: 'Import' })).toBeInTheDocument();
     expect(screen.getByText('Filters')).toBeInTheDocument();
     expect(container.firstElementChild).toHaveClass('sticky');
+    expect(container.querySelector('[data-sdk-pattern="section-header"]')).toHaveAttribute('data-slot', 'section-header');
+    expect(screen.getByText('Asset Center')).toHaveAttribute('data-slot', 'section-header-title');
+    expect(screen.getByText('Shared search and action surface')).toHaveAttribute('data-slot', 'section-header-description');
   });
 });

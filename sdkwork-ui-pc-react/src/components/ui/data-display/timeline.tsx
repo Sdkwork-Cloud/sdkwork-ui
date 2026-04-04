@@ -88,6 +88,7 @@ const Timeline = React.forwardRef<HTMLOListElement, TimelineProps>(({
     ref={ref}
     className={cn('space-y-0', className)}
     data-sdk-ui="timeline"
+    data-slot="timeline"
     {...props}
   >
     {items.map((item, index) => {
@@ -101,6 +102,7 @@ const Timeline = React.forwardRef<HTMLOListElement, TimelineProps>(({
             {
               className: 'grid grid-cols-[auto_minmax(0,1fr)] gap-4 pb-5 last:pb-0',
               'data-sdk-ui': 'timeline-item',
+              'data-slot': 'timeline-item',
               'data-status': status,
             },
             itemProps,
@@ -116,6 +118,7 @@ const Timeline = React.forwardRef<HTMLOListElement, TimelineProps>(({
                     timelineIndicatorShellClassName[status],
                   ),
                   'data-sdk-region': 'timeline-item-indicator',
+                  'data-slot': 'timeline-item-indicator',
                 },
                 itemSlotProps?.indicator,
               )}
@@ -136,6 +139,7 @@ const Timeline = React.forwardRef<HTMLOListElement, TimelineProps>(({
                     'aria-hidden': 'true',
                     className: 'mt-2 w-px flex-1 rounded-full bg-[var(--sdk-color-border-default)]',
                     'data-sdk-region': 'timeline-item-connector',
+                    'data-slot': 'timeline-item-connector',
                   },
                   itemSlotProps?.connector,
                 )}
@@ -148,20 +152,27 @@ const Timeline = React.forwardRef<HTMLOListElement, TimelineProps>(({
                 className:
                   'min-w-0 rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] px-4 py-3 shadow-[var(--sdk-shadow-soft)]',
                 'data-sdk-region': 'timeline-item-content',
+                'data-slot': 'timeline-item-content',
               },
               itemSlotProps?.content,
             )}
           >
             <div className="flex flex-wrap items-start justify-between gap-2">
-              <div className="text-sm font-semibold text-[var(--sdk-color-text-primary)]">{item.title}</div>
+              <div className="text-sm font-semibold text-[var(--sdk-color-text-primary)]" data-slot="timeline-item-title">
+                {item.title}
+              </div>
               {item.timestamp ? (
-                <div className="text-xs font-medium text-[var(--sdk-color-text-muted)]">{item.timestamp}</div>
+                <div className="text-xs font-medium text-[var(--sdk-color-text-muted)]" data-slot="timeline-item-timestamp">
+                  {item.timestamp}
+                </div>
               ) : null}
             </div>
             {item.description ? (
-              <div className="mt-1.5 text-sm text-[var(--sdk-color-text-secondary)]">{item.description}</div>
+              <div className="mt-1.5 text-sm text-[var(--sdk-color-text-secondary)]" data-slot="timeline-item-description">
+                {item.description}
+              </div>
             ) : null}
-            {item.content ? <div className="mt-3">{item.content}</div> : null}
+            {item.content ? <div className="mt-3" data-slot="timeline-item-body">{item.content}</div> : null}
           </div>
         </li>
       );

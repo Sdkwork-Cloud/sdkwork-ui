@@ -29,11 +29,15 @@ describe('ActivityFeed', () => {
       />,
     );
 
+    expect(document.body.querySelector('[data-sdk-ui="activity-feed"]')).toHaveAttribute('data-slot', 'activity-feed');
     expect(screen.getByText('Recent activity')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-slot="activity-feed-header"]')).toBeInTheDocument();
+    expect(screen.getByText('Recent activity')).toHaveAttribute('data-slot', 'activity-feed-title');
     expect(screen.getByText('No activity yet')).toBeInTheDocument();
     expect(
       screen.getByText('Workflow updates, review events, and automation history will appear here.'),
     ).toBeInTheDocument();
+    expect(document.body.querySelector('[data-slot="activity-feed-empty"]')).toBeInTheDocument();
   });
 
   it('renders activity items with timestamps, details, actions, and item selection', () => {
@@ -70,11 +74,18 @@ describe('ActivityFeed', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Build completed' }));
 
     expect(onItemSelect).toHaveBeenCalledWith('release');
+    expect(document.body.querySelector('[data-slot="activity-feed-list"]')).toBeInTheDocument();
     expect(screen.getAllByRole('listitem')).toHaveLength(2);
-    expect(screen.getByText('Release pipeline')).toBeInTheDocument();
-    expect(screen.getByText('2026-04-01 11:00')).toBeInTheDocument();
+    expect(screen.getByText('Build completed').closest('[data-sdk-ui="activity-feed-item"]')).toHaveAttribute('data-slot', 'activity-feed-item');
+    expect(document.body.querySelector('[data-slot="activity-feed-item-indicator"]')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-slot="activity-feed-item-unread-indicator"]')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-slot="activity-feed-item-panel"]')).toBeInTheDocument();
+    expect(screen.getByText('Build completed')).toHaveAttribute('data-slot', 'activity-feed-item-title');
+    expect(screen.getByText('Release pipeline').closest('[data-slot="activity-feed-item-meta"]')).toBeInTheDocument();
+    expect(screen.getByText('2026-04-01 11:00')).toHaveAttribute('data-slot', 'activity-feed-item-timestamp');
     expect(screen.getByRole('button', { name: 'Open review' })).toBeInTheDocument();
-    expect(screen.getByText('Approver: Desktop platform team')).toBeInTheDocument();
+    expect(screen.getByText('Approver: Desktop platform team').closest('[data-slot="activity-feed-item-content"]')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-slot="activity-feed-item-actions"]')).toBeInTheDocument();
     expect(
       screen.getByText('Build completed').closest('[data-sdk-ui="activity-feed-item"]'),
     ).toHaveAttribute('data-tone', 'success');

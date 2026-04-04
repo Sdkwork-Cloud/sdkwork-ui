@@ -20,6 +20,7 @@ describe('RestartRequiredNotice', () => {
 
     expect(screen.getByText('Restart required')).toBeInTheDocument();
     expect(screen.getByText('Provider changes require a full desktop relaunch.')).toBeInTheDocument();
+    expect(document.querySelector('[data-sdk-pattern="restart-required-notice"]')).toHaveAttribute('data-slot', 'restart-required-notice');
     expect(onDismiss).toHaveBeenCalledTimes(1);
     expect(onRestart).toHaveBeenCalledTimes(1);
   });

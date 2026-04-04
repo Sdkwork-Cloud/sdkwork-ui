@@ -16,9 +16,13 @@ const Switch = React.forwardRef<
         className,
       )}
       data-sdk-ui="switch"
+      data-slot="switch"
       {...props}
     >
-      <SwitchPrimitive.Thumb className="pointer-events-none block h-5 w-5 translate-x-0.5 rounded-full bg-white shadow-lg transition-transform data-[state=checked]:translate-x-5" />
+      <SwitchPrimitive.Thumb
+        className="pointer-events-none block h-5 w-5 translate-x-0.5 rounded-full bg-white shadow-lg transition-transform data-[state=checked]:translate-x-5"
+        data-slot="switch-thumb"
+      />
     </SwitchPrimitive.Root>
   );
 });

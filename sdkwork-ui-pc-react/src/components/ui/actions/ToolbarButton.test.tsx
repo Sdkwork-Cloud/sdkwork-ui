@@ -26,6 +26,7 @@ describe('ToolbarButton', () => {
     expect(button).toHaveAttribute('aria-pressed', 'true');
     expect(button).toHaveAttribute('title', 'Bold (Ctrl+B)');
     expect(button).toHaveClass('h-9', 'min-w-9');
+    expect(button).toHaveAttribute('data-slot', 'toolbar-button');
   });
 
   it('supports the active alias and preserves editor focus on mouse down when requested', () => {
@@ -51,6 +52,7 @@ describe('ToolbarButton', () => {
     expect(event.defaultPrevented).toBe(true);
     expect(onMouseDown).toHaveBeenCalledTimes(1);
     expect(button).toHaveAttribute('aria-pressed', 'true');
+    expect(button).toHaveAttribute('data-slot', 'toolbar-button');
   });
 
   it('renders icon and label content in compact mode for editor and timeline toolbars', () => {

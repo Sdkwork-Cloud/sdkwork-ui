@@ -57,7 +57,7 @@ describe('DesktopWindowControls', () => {
   it('invokes minimize, maximize, restore, and close actions as window state changes', async () => {
     const controller = createWindowController();
 
-    render(<DesktopWindowControls controller={controller} />);
+    const { container } = render(<DesktopWindowControls controller={controller} />);
 
     fireEvent.click(await screen.findByRole('button', { name: 'Minimize window' }));
     fireEvent.click(screen.getByRole('button', { name: 'Maximize window' }));
@@ -75,6 +75,35 @@ describe('DesktopWindowControls', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Restore window' }));
 
+    expect(container.querySelector('[data-sdk-pattern="desktop-window-controls"]')).toHaveAttribute('data-slot', 'desktop-window-controls');
+    expect(screen.getByRole('button', { name: 'Minimize window' })).toHaveAttribute('data-slot', 'desktop-window-controls-minimize');
+    expect(screen.getByRole('button', { name: 'Restore window' })).toHaveAttribute('data-slot', 'desktop-window-controls-maximize');
+    expect(screen.getByRole('button', { name: 'Close window' })).toHaveAttribute('data-slot', 'desktop-window-controls-close');
     expect(controller.restoreWindow).toHaveBeenCalledTimes(1);
+  });
+
+  it('prefers shell bridge labels over English defaults', async () => {
+    const controller = createWindowController();
+    const themeModule = await import('../../../theme');
+    const SdkworkShellBridgeProvider = (themeModule as Record<string, any>).SdkworkShellBridgeProvider;
+
+    render(
+      <SdkworkShellBridgeProvider
+        messages={{
+          windowControls: {
+            close: '关闭窗口',
+            maximize: '最大化窗口',
+            minimize: '最小化窗口',
+            restore: '还原窗口',
+          },
+        }}
+      >
+        <DesktopWindowControls controller={controller} />
+      </SdkworkShellBridgeProvider>,
+    );
+
+    expect(await screen.findByRole('button', { name: '最小化窗口' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '最大化窗口' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '关闭窗口' })).toBeInTheDocument();
   });
 });

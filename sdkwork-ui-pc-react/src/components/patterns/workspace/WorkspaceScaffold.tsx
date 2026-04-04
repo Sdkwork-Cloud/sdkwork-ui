@@ -137,6 +137,7 @@ function renderWorkspacePane(
           {
             className: 'h-full',
             'data-sdk-region': region,
+            'data-slot': `workspace-scaffold-${region}`,
           },
           regionSlotProps,
         )}
@@ -199,6 +200,7 @@ function renderInspectorPane(
           {
             className: 'h-full',
             'data-sdk-region': 'inspector',
+            'data-slot': 'workspace-scaffold-inspector',
           },
           regionSlotProps,
         )}
@@ -280,6 +282,7 @@ export const WorkspaceScaffold = React.forwardRef<HTMLDivElement, WorkspaceScaff
       ref={ref}
       className={cn('flex h-full min-h-0 min-w-0 flex-col gap-4', className)}
       data-sdk-pattern="workspace-scaffold"
+      data-slot="workspace-scaffold"
       {...props}
     >
       {header ? (
@@ -287,6 +290,7 @@ export const WorkspaceScaffold = React.forwardRef<HTMLDivElement, WorkspaceScaff
           {...mergePatternSlotProps<WorkspaceScaffoldRegionSlotProps>(
             {
               'data-sdk-region': 'workspace-header',
+              'data-slot': 'workspace-scaffold-header',
             },
             slotProps?.header,
           )}
@@ -299,6 +303,7 @@ export const WorkspaceScaffold = React.forwardRef<HTMLDivElement, WorkspaceScaff
           {...mergePatternSlotProps<WorkspaceScaffoldRegionSlotProps>(
             {
               'data-sdk-region': 'workspace-banner',
+              'data-slot': 'workspace-scaffold-banner',
             },
             slotProps?.banner,
           )}
@@ -311,6 +316,7 @@ export const WorkspaceScaffold = React.forwardRef<HTMLDivElement, WorkspaceScaff
           {...mergePatternSlotProps<WorkspaceScaffoldRegionSlotProps>(
             {
               'data-sdk-region': 'workspace-toolbar',
+              'data-slot': 'workspace-scaffold-toolbar',
             },
             slotProps?.toolbar,
           )}
@@ -335,6 +341,7 @@ export const WorkspaceScaffold = React.forwardRef<HTMLDivElement, WorkspaceScaff
                   {
                     className: 'h-full',
                     'data-sdk-region': 'workspace-main-split',
+                    'data-slot': 'workspace-scaffold-main-split',
                   },
                   slotProps?.mainSplit,
                 )}
@@ -354,6 +361,7 @@ export const WorkspaceScaffold = React.forwardRef<HTMLDivElement, WorkspaceScaff
               {
                 className: 'h-full',
                 'data-sdk-region': 'workspace-main-split',
+                'data-slot': 'workspace-scaffold-main-split',
               },
               slotProps?.mainSplit,
             )}
@@ -367,6 +375,7 @@ export const WorkspaceScaffold = React.forwardRef<HTMLDivElement, WorkspaceScaff
           {...mergePatternSlotProps<WorkspaceScaffoldRegionSlotProps>(
             {
               'data-sdk-region': 'workspace-status-bar',
+              'data-slot': 'workspace-scaffold-status-bar',
             },
             slotProps?.statusBar,
           )}

@@ -17,6 +17,7 @@ const StatusBar = React.forwardRef<HTMLDivElement, StatusBarProps>(({ className,
       className,
     )}
     data-sdk-ui="status-bar"
+    data-slot="status-bar"
     role={role}
     {...props}
   />
@@ -34,6 +35,7 @@ const StatusBarSection = React.forwardRef<HTMLDivElement, StatusBarSectionProps>
       ref={ref}
       className={cn('flex min-w-0 flex-1 items-center gap-3', statusBarAlignClassName[align], className)}
       data-sdk-ui="status-bar-section"
+      data-slot="status-bar-section"
       {...props}
     />
   ),
@@ -53,6 +55,7 @@ const StatusBarItem = React.forwardRef<HTMLDivElement, StatusBarItemProps>(
       ref={ref}
       className={cn('inline-flex min-w-0 items-center gap-2', className)}
       data-sdk-ui="status-bar-item"
+      data-slot="status-bar-item"
       {...props}
     >
       {icon ? <span className="shrink-0 text-[var(--sdk-color-text-muted)]">{icon}</span> : null}

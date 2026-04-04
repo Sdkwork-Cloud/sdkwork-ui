@@ -108,11 +108,12 @@
   "scripts": {
     "build": "vite build",
     "prepare": "vite build",
+    "docs:catalog": "node scripts/run-docs-catalog.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "docs:dev": "node scripts/run-vitepress.mjs dev docs --host 127.0.0.1 --port 4175",
-    "docs:build": "node scripts/run-vitepress.mjs build docs",
+    "docs:dev": "pnpm docs:catalog && node scripts/run-vitepress.mjs dev docs --host 127.0.0.1 --port 4175",
+    "docs:build": "pnpm docs:catalog && node scripts/run-vitepress.mjs build docs",
     "docs:preview": "node scripts/run-vitepress.mjs preview docs --host 127.0.0.1 --port 4176"
   },
   "peerDependencies": {

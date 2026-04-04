@@ -1,10 +1,13 @@
 import { defineConfig } from 'vitepress';
+import generatedReferenceContract from '../../build/generated-reference-contract.json';
 
 const nav = [
   { text: 'Guide', link: '/guide/getting-started' },
   { text: 'Design', link: '/design/architecture' },
   { text: 'Reference', link: '/reference/package' },
 ];
+
+const generatedReferenceItems = generatedReferenceContract.generatedReferences.map((entry) => ({ text: entry.title, link: entry.link }));
 
 const sidebar = [
   {
@@ -24,7 +27,11 @@ const sidebar = [
   },
   {
     text: 'Reference',
-    items: [{ text: 'Package', link: '/reference/package' }],
+    items: [
+      { text: 'Package', link: '/reference/package' },
+      { text: 'Framework Governance', link: '/reference/framework-governance' },
+      ...generatedReferenceItems,
+    ],
   },
 ];
 

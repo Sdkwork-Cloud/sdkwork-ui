@@ -35,12 +35,20 @@ describe('FileUpload', () => {
 
     render(<FileUpload label="Upload assets" onValueChange={handleValueChange} />);
 
+    expect(document.body.querySelector('[data-sdk-ui="file-upload"]')).toHaveAttribute('data-slot', 'file-upload');
+    expect(screen.getByText('Upload assets')).toHaveAttribute('data-slot', 'file-upload-label');
+    expect(document.body.querySelector('[data-sdk-ui="upload-dropzone"]')).toHaveAttribute('data-slot', 'upload-dropzone');
+    expect(document.body.querySelector('[data-slot="upload-dropzone-title"]')).toBeInTheDocument();
+
     fireEvent.change(screen.getByLabelText('Upload assets'), {
       target: {
         files: [file],
       },
     });
 
+    expect(document.body.querySelector('[data-slot="file-upload-list"]')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-sdk-ui="upload-item"]')).toHaveAttribute('data-slot', 'upload-item');
+    expect(screen.getByText('notes.txt')).toHaveAttribute('data-slot', 'upload-item-name');
     expect(screen.getByText('notes.txt')).toBeInTheDocument();
     expect(handleValueChange).toHaveBeenCalledWith(
       expect.arrayContaining([expect.objectContaining({ name: 'notes.txt', status: 'idle' })]),
@@ -57,6 +65,8 @@ describe('FileUpload', () => {
 
     render(<ImageUpload label="Upload images" />);
 
+    expect(document.body.querySelector('[data-sdk-ui="image-upload"]')).toHaveAttribute('data-slot', 'image-upload');
+
     fireEvent.change(screen.getByLabelText('Upload images'), {
       target: {
         files: [file],
@@ -71,6 +81,8 @@ describe('FileUpload', () => {
     const file = new File(['video-data'], 'intro.mp4', { type: 'video/mp4' });
 
     render(<VideoUpload label="Upload videos" />);
+
+    expect(document.body.querySelector('[data-sdk-ui="video-upload"]')).toHaveAttribute('data-slot', 'video-upload');
 
     fireEvent.change(screen.getByLabelText('Upload videos'), {
       target: {
@@ -87,6 +99,8 @@ describe('FileUpload', () => {
 
     render(<AudioUpload label="Upload audio" />);
 
+    expect(document.body.querySelector('[data-sdk-ui="audio-upload"]')).toHaveAttribute('data-slot', 'audio-upload');
+
     fireEvent.change(screen.getByLabelText('Upload audio'), {
       target: {
         files: [file],
@@ -102,6 +116,8 @@ describe('FileUpload', () => {
     const file = new File(['image-data'], 'poster.png', { type: 'image/png' });
 
     render(<DocumentUpload label="Upload documents" onReject={handleReject} />);
+
+    expect(document.body.querySelector('[data-sdk-ui="document-upload"]')).toHaveAttribute('data-slot', 'document-upload');
 
     fireEvent.change(screen.getByLabelText('Upload documents'), {
       target: {
@@ -157,6 +173,7 @@ describe('FileUpload', () => {
 
     expect(screen.getByText('brief.pdf')).toBeInTheDocument();
     expect(screen.getByText('notes.txt')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Clear all files' })).toHaveAttribute('data-slot', 'file-upload-clear-button');
 
     fireEvent.click(screen.getByRole('button', { name: 'Clear all files' }));
 

@@ -12,6 +12,18 @@ hero:
     - theme: alt
       text: Governance
       link: /reference/framework-governance
+    - theme: alt
+      text: Docs Governance
+      link: /reference/documentation-governance-catalog
+    - theme: alt
+      text: Governance Matrix
+      link: /reference/framework-governance-matrix
+    - theme: alt
+      text: Runtime Catalog
+      link: /reference/runtime-surface-catalog
+    - theme: alt
+      text: API Catalog
+      link: /reference/public-api-structure-catalog
 
 features:
   - title: Shared Primitives
@@ -32,6 +44,12 @@ features:
     details: Brand, surface, border, text, state, radius, and shadow tokens expressed as stable CSS variables with a claw-studio preset baseline and deep override support.
   - title: Framework Governance
     details: Source-level framework audits enforce token completeness, rendered component metadata, and shared authoring standards so the package evolves like a UI framework instead of drifting into a component bucket.
+  - title: Governance Coverage Matrix
+    details: A generated governance matrix cross-indexes every framework contract with the exact audit tests and reference pages that enforce it, keeping framework rules operational instead of aspirational.
+  - title: Documentation Governance
+    details: A generated documentation governance catalog makes the governed markdown surface explicit, including which pages are import-audited and which framework-backed snippets are typechecked.
+  - title: Generated Contract Catalogs
+    details: Generated runtime and public API catalogs expose the exact framework markers, slot anatomy, props contracts, slot contracts, structured helper types, and callback contracts for every published surface.
   - title: Feedback Standardization
     details: "A shared `feedback` domain unifies `ActivityFeed`, panel-local `InlineAlert`, filtered-result `EmptySearch`, desktop `NotificationCenter` panels, and a theme-aware Sonner-compatible `Toaster` and `toast` layer for desktop notifications."
   - title: Independent Package Build

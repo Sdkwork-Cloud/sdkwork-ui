@@ -75,6 +75,7 @@ const OperationDrawer = React.forwardRef<HTMLDivElement, OperationDrawerProps>((
             className:
               'gap-0 overflow-hidden border-[color-mix(in_srgb,var(--sdk-color-border-default)_88%,transparent)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel)_98%,white_2%)_0%,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_90%,transparent)_100%)]',
             'data-sdk-region': 'operation-drawer-content',
+            'data-slot': 'operation-drawer-content',
           },
           slotProps?.content,
         )}
@@ -82,91 +83,101 @@ const OperationDrawer = React.forwardRef<HTMLDivElement, OperationDrawerProps>((
         size={size}
       >
         <div
-          ref={ref}
           {...mergePatternSlotProps<OperationDrawerSurfaceSlotProps>(
             {
-              className: cn('relative flex h-full min-h-0 min-w-0 flex-col overflow-hidden', className),
-              'data-sdk-pattern': 'operation-drawer',
+              className: 'h-full min-h-0 min-w-0',
               'data-sdk-region': 'operation-drawer-surface',
+              'data-slot': 'operation-drawer-surface',
             },
             slotProps?.surface,
           )}
         >
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,color-mix(in_srgb,var(--sdk-color-brand-primary)_18%,transparent),transparent_62%)]" />
-          <DrawerHeader
-            {...mergePatternSlotProps<PatternSlotProps<Omit<DrawerHeaderProps, 'children'>>>(
-              {
-                className:
-                  'relative border-b-[color-mix(in_srgb,var(--sdk-color-border-default)_78%,transparent)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel)_96%,white_4%)_0%,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_88%,transparent)_100%)] px-5 py-4 xl:px-6',
-                'data-sdk-region': 'operation-drawer-header',
-              },
-              slotProps?.header,
-            )}
+          <div
+            ref={ref}
+            className={cn('relative flex h-full min-h-0 min-w-0 flex-col overflow-hidden', className)}
+            data-sdk-pattern="operation-drawer"
+            data-slot="operation-drawer"
           >
-            <div className="flex items-start gap-4">
-              <div className="min-w-0 flex-1">
-                {eyebrow ? (
-                  <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--sdk-color-text-muted)]">
-                    {eyebrow}
-                  </div>
-                ) : null}
-                <div className={cn('flex flex-wrap items-center gap-3', eyebrow ? 'mt-2' : null)}>
-                  <DrawerTitle className="text-[1.45rem] tracking-tight">{title}</DrawerTitle>
-                  {badge ? <div className="shrink-0">{badge}</div> : null}
-                </div>
-                {description ? (
-                  <DrawerDescription className="mt-2 max-w-4xl text-sm leading-6">
-                    {description}
-                  </DrawerDescription>
-                ) : null}
-              </div>
-              {actions ? <div className="flex shrink-0 items-center gap-2 pr-8">{actions}</div> : null}
-            </div>
-          </DrawerHeader>
-          <div className="relative flex min-h-0 flex-1 overflow-hidden">
-            <DrawerBody
-              {...mergePatternSlotProps<PatternSlotProps<Omit<DrawerBodyProps, 'children'>>>(
-                {
-                  className: cn(
-                    'min-h-0 flex-1 px-4 py-4 xl:px-5',
-                    sidebar ? 'xl:border-r xl:border-[color-mix(in_srgb,var(--sdk-color-border-default)_72%,transparent)]' : null,
-                  ),
-                  'data-sdk-region': 'operation-drawer-body',
-                },
-                slotProps?.body,
-              )}
-            >
-              {children}
-            </DrawerBody>
-            {sidebar ? (
-              <aside
-                {...mergePatternSlotProps<OperationDrawerSidebarSlotProps>(
-                  {
-                    className:
-                      'hidden w-[320px] shrink-0 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_92%,transparent)_0%,color-mix(in_srgb,var(--sdk-color-surface-canvas)_86%,transparent)_100%)] xl:flex xl:min-h-0 xl:flex-col',
-                    'data-sdk-region': 'operation-drawer-sidebar',
-                  },
-                  slotProps?.sidebar,
-                )}
-              >
-                <div className="min-h-0 flex-1 overflow-y-auto p-5">{sidebar}</div>
-              </aside>
-            ) : null}
-          </div>
-          {footer ? (
-            <DrawerFooter
-              {...mergePatternSlotProps<PatternSlotProps<Omit<DrawerFooterProps, 'children'>>>(
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,color-mix(in_srgb,var(--sdk-color-brand-primary)_18%,transparent),transparent_62%)]" />
+            <DrawerHeader
+              {...mergePatternSlotProps<PatternSlotProps<Omit<DrawerHeaderProps, 'children'>>>(
                 {
                   className:
-                    'border-t-[color-mix(in_srgb,var(--sdk-color-border-default)_78%,transparent)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel)_94%,white_4%)_0%,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_88%,transparent)_100%)] px-5 py-3.5 xl:px-6',
-                  'data-sdk-region': 'operation-drawer-footer',
+                    'relative border-b-[color-mix(in_srgb,var(--sdk-color-border-default)_78%,transparent)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel)_96%,white_4%)_0%,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_88%,transparent)_100%)] px-5 py-4 xl:px-6',
+                  'data-sdk-region': 'operation-drawer-header',
+                  'data-slot': 'operation-drawer-header',
                 },
-                slotProps?.footer,
+                slotProps?.header,
               )}
             >
-              {footer}
-            </DrawerFooter>
-          ) : null}
+              <div className="flex items-start gap-4">
+                <div className="min-w-0 flex-1">
+                  {eyebrow ? (
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--sdk-color-text-muted)]" data-slot="operation-drawer-eyebrow">
+                      {eyebrow}
+                    </div>
+                  ) : null}
+                  <div className={cn('flex flex-wrap items-center gap-3', eyebrow ? 'mt-2' : null)}>
+                    <DrawerTitle className="text-[1.45rem] tracking-tight" data-slot="operation-drawer-title">{title}</DrawerTitle>
+                    {badge ? <div className="shrink-0">{badge}</div> : null}
+                  </div>
+                  {description ? (
+                    <DrawerDescription className="mt-2 max-w-4xl text-sm leading-6" data-slot="operation-drawer-description">
+                      {description}
+                    </DrawerDescription>
+                  ) : null}
+                </div>
+                {actions ? <div className="flex shrink-0 items-center gap-2 pr-8" data-slot="operation-drawer-actions">{actions}</div> : null}
+              </div>
+            </DrawerHeader>
+            <div className="relative flex min-h-0 flex-1 overflow-hidden">
+              <DrawerBody
+                {...mergePatternSlotProps<PatternSlotProps<Omit<DrawerBodyProps, 'children'>>>(
+                  {
+                    className: cn(
+                      'min-h-0 flex-1 px-4 py-4 xl:px-5',
+                      sidebar ? 'xl:border-r xl:border-[color-mix(in_srgb,var(--sdk-color-border-default)_72%,transparent)]' : null,
+                    ),
+                    'data-sdk-region': 'operation-drawer-body',
+                    'data-slot': 'operation-drawer-body',
+                  },
+                  slotProps?.body,
+                )}
+              >
+                {children}
+              </DrawerBody>
+              {sidebar ? (
+                <aside
+                  {...mergePatternSlotProps<OperationDrawerSidebarSlotProps>(
+                    {
+                      className:
+                        'hidden w-[320px] shrink-0 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_92%,transparent)_0%,color-mix(in_srgb,var(--sdk-color-surface-canvas)_86%,transparent)_100%)] xl:flex xl:min-h-0 xl:flex-col',
+                      'data-sdk-region': 'operation-drawer-sidebar',
+                      'data-slot': 'operation-drawer-sidebar',
+                    },
+                    slotProps?.sidebar,
+                  )}
+                >
+                  <div className="min-h-0 flex-1 overflow-y-auto p-5">{sidebar}</div>
+                </aside>
+              ) : null}
+            </div>
+            {footer ? (
+              <DrawerFooter
+                {...mergePatternSlotProps<PatternSlotProps<Omit<DrawerFooterProps, 'children'>>>(
+                  {
+                    className:
+                      'border-t-[color-mix(in_srgb,var(--sdk-color-border-default)_78%,transparent)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--sdk-color-surface-panel)_94%,white_4%)_0%,color-mix(in_srgb,var(--sdk-color-surface-panel-muted)_88%,transparent)_100%)] px-5 py-3.5 xl:px-6',
+                    'data-sdk-region': 'operation-drawer-footer',
+                    'data-slot': 'operation-drawer-footer',
+                  },
+                  slotProps?.footer,
+                )}
+              >
+                {footer}
+              </DrawerFooter>
+            ) : null}
+          </div>
         </div>
       </DrawerContent>
     </Drawer>

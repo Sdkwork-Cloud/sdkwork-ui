@@ -30,6 +30,12 @@ describe('AnchoredPickerSurface', () => {
     expect(screen.getByRole('button', { name: 'OpenAI' })).toBeInTheDocument();
     expect(screen.getByText('Picker body')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Confirm' })).toBeInTheDocument();
+    expect(document.querySelector('[data-sdk-pattern="anchored-picker-surface"]')).toHaveAttribute('data-slot', 'anchored-picker-surface');
+    expect(document.querySelector('[data-sdk-region="anchored-picker-content"]')).toHaveAttribute('data-slot', 'anchored-picker-content');
+    expect(document.querySelector('[data-sdk-region="anchored-picker-header"]')).toHaveAttribute('data-slot', 'anchored-picker-header');
+    expect(document.querySelector('[data-sdk-region="anchored-picker-filters"]')).toHaveAttribute('data-slot', 'anchored-picker-filters');
+    expect(document.querySelector('[data-sdk-region="anchored-picker-body"]')).toHaveAttribute('data-slot', 'anchored-picker-body');
+    expect(document.querySelector('[data-sdk-region="anchored-picker-footer"]')).toHaveAttribute('data-slot', 'anchored-picker-footer');
   });
 
   it('renders loading, error, and empty states through the shared feedback layer', () => {

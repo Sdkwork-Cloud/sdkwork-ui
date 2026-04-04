@@ -103,22 +103,26 @@ const ActionMenuButton = React.forwardRef<HTMLButtonElement, ActionMenuButtonPro
       onOpenChange={onMenuOpenChange}
       open={menuOpen}
     >
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild data-slot="action-menu-button">
         <Button
           ref={ref}
           className={cn('justify-between', className)}
           data-sdk-ui="action-menu-button"
+          data-slot="action-menu-button"
           type="button"
           {...props}
         >
-          <span className="inline-flex min-w-0 items-center gap-2">{children}</span>
-          {showChevron ? <ChevronDown className="h-4 w-4 shrink-0" /> : null}
+          <span className="inline-flex min-w-0 items-center gap-2" data-slot="action-menu-button-label">
+            {children}
+          </span>
+          {showChevron ? <ChevronDown className="h-4 w-4 shrink-0" data-slot="action-menu-button-chevron" /> : null}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         {...mergeSlotProps<SlotProps<DropdownMenuContentProps>>(
           {
             align: menuAlign,
+            'data-slot': 'action-menu-button-content',
           },
           slotProps?.content,
         )}

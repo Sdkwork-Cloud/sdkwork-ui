@@ -38,6 +38,7 @@ export const WorkspacePanel = React.forwardRef<HTMLElement, WorkspacePanelProps>
         className,
       )}
       data-sdk-pattern="workspace-panel"
+      data-slot="workspace-panel"
       {...props}
     >
       {title || description || actions ? (
@@ -47,17 +48,20 @@ export const WorkspacePanel = React.forwardRef<HTMLElement, WorkspacePanelProps>
               className:
                 'flex flex-wrap items-start justify-between gap-4 border-b border-[var(--sdk-color-border-subtle)] px-6 py-5',
               'data-sdk-region': 'workspace-panel-header',
+              'data-slot': 'workspace-panel-header',
             },
             slotProps?.header,
           )}
         >
           <div className="space-y-1">
-            {title ? <div className="text-base font-semibold">{title}</div> : null}
+            {title ? <div className="text-base font-semibold" data-slot="workspace-panel-title">{title}</div> : null}
             {description ? (
-              <div className="text-sm text-[var(--sdk-color-text-secondary)]">{description}</div>
+              <div className="text-sm text-[var(--sdk-color-text-secondary)]" data-slot="workspace-panel-description">
+                {description}
+              </div>
             ) : null}
           </div>
-          {actions ? <div className="flex items-center gap-3">{actions}</div> : null}
+          {actions ? <div className="flex items-center gap-3" data-slot="workspace-panel-actions">{actions}</div> : null}
         </div>
       ) : null}
       <div
@@ -65,6 +69,7 @@ export const WorkspacePanel = React.forwardRef<HTMLElement, WorkspacePanelProps>
           {
             className: 'min-h-0 flex-1 px-6 py-5',
             'data-sdk-region': 'workspace-panel-body',
+            'data-slot': 'workspace-panel-body',
           },
           slotProps?.body,
         )}

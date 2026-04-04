@@ -18,6 +18,7 @@ const Separator = React.forwardRef<
       className,
     )}
     data-sdk-ui="separator"
+    data-slot="separator"
     {...props}
   />
 ));

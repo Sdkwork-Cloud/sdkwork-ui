@@ -111,6 +111,7 @@ function renderWorkspacePane(
           {
             className: 'h-full',
             'data-sdk-region': region,
+            'data-slot': `list-detail-workspace-${region}`,
           },
           slotProps?.region,
         )}
@@ -165,6 +166,7 @@ function renderDetailPane({
           {
             className: 'h-full',
             'data-sdk-region': 'detail',
+            'data-slot': 'list-detail-workspace-detail',
           },
           slotProps?.region,
         )}
@@ -211,6 +213,7 @@ export const ListDetailWorkspace = React.forwardRef<HTMLDivElement, ListDetailWo
       ref={ref}
       className={cn('h-full min-h-0 min-w-0', className)}
       data-sdk-pattern="list-detail-workspace"
+      data-slot="list-detail-workspace"
       {...props}
     >
       <PanelGroup

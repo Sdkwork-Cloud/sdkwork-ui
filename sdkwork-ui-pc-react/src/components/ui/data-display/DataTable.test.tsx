@@ -65,6 +65,11 @@ describe('DataTable', () => {
       />,
     );
 
+    expect(document.body.querySelector('[data-sdk-ui="data-table"]')).toHaveAttribute('data-slot', 'data-table');
+    expect(document.body.querySelector('[data-slot="data-table-header"]')).toBeInTheDocument();
+    expect(screen.getByText('Assets')).toHaveAttribute('data-slot', 'data-table-title');
+    expect(document.body.querySelector('[data-slot="data-table-toolbar"]')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-slot="data-table-surface"]')).toBeInTheDocument();
     expect(screen.getByText('Assets')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'New asset' })).toBeInTheDocument();
     expect(screen.getByText('Launch Brief')).toBeInTheDocument();
@@ -193,6 +198,10 @@ describe('DataTable', () => {
       />,
     );
 
+    expect(document.body.querySelector('[data-slot="data-table-footer"]')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-slot="data-table-pagination"]')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-slot="data-table-pagination-controls"]')).toBeInTheDocument();
+    expect(document.body.querySelector('[data-slot="data-table-page-size"]')).toBeInTheDocument();
     expect(screen.getByRole('combobox', { name: 'Rows per page' })).toBeInTheDocument();
     expect(screen.getByText('Showing 11-20 of 25')).toBeInTheDocument();
 
@@ -282,6 +291,8 @@ describe('DataTable', () => {
     const nameHeader = screen.getByRole('columnheader', { name: 'Name' });
     const sortButton = screen.getByRole('button', { name: 'Sort by Name' });
 
+    expect(nameHeader).toHaveAttribute('data-slot', 'data-table-header-cell');
+    expect(sortButton).toHaveAttribute('data-slot', 'data-table-sort-trigger');
     expect(nameHeader).toHaveAttribute('aria-sort', 'descending');
     expect(screen.getByText('Showing 2-2 of 3')).toBeInTheDocument();
     expect(within(getFirstRow()).getByText('Echo')).toBeInTheDocument();

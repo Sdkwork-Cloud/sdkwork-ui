@@ -174,14 +174,16 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(({
   }, [onClear, setItems]);
 
   return (
-    <div ref={ref} className={cn('space-y-3', className)} data-sdk-ui="file-upload" {...props}>
+    <div ref={ref} className={cn('space-y-3', className)} data-sdk-ui="file-upload" data-slot="file-upload" {...props}>
       <div className="flex items-start justify-between gap-3">
         <div className="space-y-1">
-          <Label htmlFor={inputId}>{resolvedLabel}</Label>
-          {description ? <p className="text-sm text-[var(--sdk-color-text-secondary)]">{description}</p> : null}
+          <Label data-slot="file-upload-label" htmlFor={inputId}>
+            {resolvedLabel}
+          </Label>
+          {description ? <p className="text-sm text-[var(--sdk-color-text-secondary)]" data-slot="file-upload-description">{description}</p> : null}
         </div>
         {clearable && items.length ? (
-          <Button onClick={clearItems} size="sm" type="button" variant="ghost">
+          <Button data-slot="file-upload-clear-button" onClick={clearItems} size="sm" type="button" variant="ghost">
             Clear all files
           </Button>
         ) : null}
@@ -264,7 +266,11 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(({
       ) : null}
 
       {items.length ? (
-        <div className={cn(resolvedListType === 'grid' ? 'grid gap-3 sm:grid-cols-2 xl:grid-cols-3' : 'space-y-2')} data-sdk-region="file-upload-list">
+        <div
+          className={cn(resolvedListType === 'grid' ? 'grid gap-3 sm:grid-cols-2 xl:grid-cols-3' : 'space-y-2')}
+          data-sdk-region="file-upload-list"
+          data-slot="file-upload-list"
+        >
           {items.map((item) => (
             <UploadItem
               disabled={disabled}

@@ -9,12 +9,18 @@ const ScrollArea = React.forwardRef<
   React.ElementRef<typeof ScrollAreaPrimitive.Root>,
   ScrollAreaProps
 >(({ className, children, ...props }, ref) => (
-  <ScrollAreaPrimitive.Root ref={ref} className={cn('relative overflow-hidden', className)} data-sdk-ui="scroll-area" {...props}>
-    <ScrollAreaPrimitive.Viewport className="h-full w-full rounded-[inherit]">
+  <ScrollAreaPrimitive.Root
+    ref={ref}
+    className={cn('relative overflow-hidden', className)}
+    data-sdk-ui="scroll-area"
+    data-slot="scroll-area"
+    {...props}
+  >
+    <ScrollAreaPrimitive.Viewport className="h-full w-full rounded-[inherit]" data-slot="scroll-area-viewport">
       {children}
     </ScrollAreaPrimitive.Viewport>
     <ScrollBar />
-    <ScrollAreaPrimitive.Corner />
+    <ScrollAreaPrimitive.Corner data-slot="scroll-area-corner" />
   </ScrollAreaPrimitive.Root>
 ));
 
@@ -33,9 +39,10 @@ const ScrollBar = React.forwardRef<
         className,
       )}
       data-sdk-ui="scroll-bar"
+      data-slot="scroll-bar"
       {...props}
     >
-    <ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full bg-[var(--sdk-color-border-strong)]" />
+    <ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full bg-[var(--sdk-color-border-strong)]" data-slot="scroll-bar-thumb" />
   </ScrollAreaPrimitive.ScrollAreaScrollbar>
 ));
 

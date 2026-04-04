@@ -53,6 +53,7 @@ const KeyValueTable = React.forwardRef<HTMLTableElement, KeyValueTableProps>(
         className={cn('w-full table-fixed border-collapse', className)}
         data-density={dense ? 'dense' : 'default'}
         data-sdk-ui="key-value-table"
+        data-slot="key-value-table"
         {...props}
       >
         <tbody>
@@ -91,6 +92,7 @@ const KeyValueTableRow = React.forwardRef<HTMLTableRowElement, KeyValueTableRowP
       )}
       data-emphasis={emphasis}
       data-sdk-ui="key-value-table-row"
+      data-slot="key-value-table-row"
       data-tone={tone}
       {...props}
     />
@@ -111,6 +113,7 @@ const KeyValueTableLabel = React.forwardRef<HTMLTableCellElement, KeyValueTableL
           className,
         )}
         data-sdk-ui="key-value-table-label"
+        data-slot="key-value-table-label"
         scope="row"
         {...props}
       />
@@ -135,6 +138,7 @@ const KeyValueTableValue = React.forwardRef<HTMLTableCellElement, KeyValueTableV
           className,
         )}
         data-sdk-ui="key-value-table-value"
+        data-slot="key-value-table-value"
         {...props}
       />
     );

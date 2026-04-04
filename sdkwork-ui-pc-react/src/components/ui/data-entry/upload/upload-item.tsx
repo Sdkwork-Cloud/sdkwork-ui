@@ -189,8 +189,8 @@ function UploadItem({ disabled = false, fallbackVariant, item, listType, onDownl
 
   if (isGrid) {
     return (
-      <div className="rounded-[var(--sdk-radius-control)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] shadow-[var(--sdk-shadow-sm)]" data-sdk-ui="upload-item" data-sdk-variant="grid">
-        <div className="relative aspect-square overflow-hidden rounded-t-[var(--sdk-radius-control)] bg-[var(--sdk-color-surface-panel-muted)]">
+      <div className="rounded-[var(--sdk-radius-control)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] shadow-[var(--sdk-shadow-sm)]" data-sdk-ui="upload-item" data-sdk-variant="grid" data-slot="upload-item">
+        <div className="relative aspect-square overflow-hidden rounded-t-[var(--sdk-radius-control)] bg-[var(--sdk-color-surface-panel-muted)]" data-slot="upload-item-preview">
           {mediaPreview ? (
             mediaPreview
           ) : (
@@ -202,6 +202,7 @@ function UploadItem({ disabled = false, fallbackVariant, item, listType, onDownl
             <button
               className="absolute right-2 top-2 rounded-full bg-[var(--sdk-color-surface-panel)]/90 p-2 text-[var(--sdk-color-text-secondary)] shadow-[var(--sdk-shadow-sm)] transition-colors hover:text-[var(--sdk-color-text-primary)]"
               onClick={() => onRemove(item.id)}
+              data-slot="upload-item-remove-button"
               type="button"
             >
               <X className="h-4 w-4" />
@@ -211,8 +212,8 @@ function UploadItem({ disabled = false, fallbackVariant, item, listType, onDownl
         </div>
         <div className="space-y-2 px-4 py-3">
           <div className="space-y-1">
-            <p className="truncate text-sm font-medium text-[var(--sdk-color-text-primary)]">{item.name}</p>
-            <p className="text-xs text-[var(--sdk-color-text-secondary)]">{formatMetadataLine([formatFileSize(item.size), statusLabel])}</p>
+            <p className="truncate text-sm font-medium text-[var(--sdk-color-text-primary)]" data-slot="upload-item-name">{item.name}</p>
+            <p className="text-xs text-[var(--sdk-color-text-secondary)]" data-slot="upload-item-metadata">{formatMetadataLine([formatFileSize(item.size), statusLabel])}</p>
           </div>
           {kind === 'audio' && previewUrl ? (
             <audio aria-label={`Preview ${item.name}`} className="w-full" controls preload="metadata" src={previewUrl} />
@@ -225,21 +226,22 @@ function UploadItem({ disabled = false, fallbackVariant, item, listType, onDownl
   }
 
   return (
-    <div className="rounded-[var(--sdk-radius-control)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] px-4 py-3" data-sdk-ui="upload-item" data-sdk-variant="list">
+    <div className="rounded-[var(--sdk-radius-control)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] px-4 py-3" data-sdk-ui="upload-item" data-sdk-variant="list" data-slot="upload-item">
       <div className="flex items-start gap-3">
         <div
           className={cn(
             'overflow-hidden rounded-[var(--sdk-radius-control)] bg-[var(--sdk-color-surface-panel-muted)] text-[var(--sdk-color-text-secondary)]',
             kind === 'video' ? 'aspect-video w-28 shrink-0' : 'flex h-12 w-12 shrink-0 items-center justify-center',
           )}
+          data-slot="upload-item-preview"
         >
           {mediaPreview ? mediaPreview : <Icon className="h-5 w-5" />}
         </div>
         <div className="min-w-0 flex-1 space-y-2">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0 space-y-1">
-              <p className="truncate text-sm font-medium text-[var(--sdk-color-text-primary)]">{item.name}</p>
-              <p className="text-xs text-[var(--sdk-color-text-secondary)]">
+              <p className="truncate text-sm font-medium text-[var(--sdk-color-text-primary)]" data-slot="upload-item-name">{item.name}</p>
+              <p className="text-xs text-[var(--sdk-color-text-secondary)]" data-slot="upload-item-metadata">
                 {formatMetadataLine([formatFileSize(item.size), getFileExtensionLabel(item.name), statusLabel])}
               </p>
             </div>
@@ -247,6 +249,7 @@ function UploadItem({ disabled = false, fallbackVariant, item, listType, onDownl
               <button
                 className="rounded-full p-2 text-[var(--sdk-color-text-muted)] transition-colors hover:bg-[var(--sdk-color-brand-primary-soft)] hover:text-[var(--sdk-color-text-primary)]"
                 onClick={() => onRemove(item.id)}
+                data-slot="upload-item-remove-button"
                 type="button"
               >
                 <X className="h-4 w-4" />

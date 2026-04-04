@@ -523,7 +523,7 @@ const RichTree = React.forwardRef<HTMLDivElement, RichTreeProps>(({
   const renderBranch = React.useCallback(
     (branchItems: RichTreeItem[], depth: number) => {
       return (
-        <ul className="space-y-1" role={depth === 1 ? 'tree' : 'group'}>
+        <ul className="space-y-1" data-slot={depth === 1 ? 'rich-tree-tree' : 'rich-tree-group'} role={depth === 1 ? 'tree' : 'group'}>
           {branchItems.map((item) => {
             const childIds = childrenById.get(item.id) ?? [];
             const isBranch = childIds.length > 0 || Boolean(item.hasChildren);
@@ -577,6 +577,7 @@ const RichTree = React.forwardRef<HTMLDivElement, RichTreeProps>(({
                       'data-depth': depth,
                       'data-expanded': state.expanded ? 'true' : 'false',
                       'data-selected': state.selected ? 'true' : 'false',
+                      'data-slot': 'rich-tree-item',
                       onClick: () => handleSelect(item),
                       onFocus: () => setFocusedId(item.id),
                       onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => handleItemKeyDown(event, item),
@@ -598,6 +599,7 @@ const RichTree = React.forwardRef<HTMLDivElement, RichTreeProps>(({
                           className:
                             'flex h-5 w-5 shrink-0 items-center justify-center rounded-sm text-[var(--sdk-color-text-muted)] transition-colors hover:bg-[var(--sdk-color-surface-panel-muted)]',
                           'data-sdk-region': 'rich-tree-item-toggle',
+                          'data-slot': 'rich-tree-item-toggle',
                           onClick: (event: React.MouseEvent<HTMLButtonElement>) => {
                             event.stopPropagation();
                             toggleExpanded(item);
@@ -626,6 +628,7 @@ const RichTree = React.forwardRef<HTMLDivElement, RichTreeProps>(({
                           checked: state.indeterminate ? 'indeterminate' : state.checked,
                           className: 'shrink-0',
                           'data-sdk-region': 'rich-tree-item-checkbox',
+                          'data-slot': 'rich-tree-item-checkbox',
                           onCheckedChange: (nextChecked) => handleCheckedChange(item, nextChecked),
                           onClick: (event: React.MouseEvent<HTMLButtonElement>) => event.stopPropagation(),
                         },
@@ -639,6 +642,7 @@ const RichTree = React.forwardRef<HTMLDivElement, RichTreeProps>(({
                       {
                         className: 'shrink-0 text-[var(--sdk-color-text-muted)]',
                         'data-sdk-region': 'rich-tree-item-icon',
+                        'data-slot': 'rich-tree-item-icon',
                       },
                       itemSlotProps?.icon,
                     )}
@@ -650,6 +654,7 @@ const RichTree = React.forwardRef<HTMLDivElement, RichTreeProps>(({
                       {
                         className: 'min-w-0 flex-1',
                         'data-sdk-region': 'rich-tree-item-content',
+                        'data-slot': 'rich-tree-item-content',
                       },
                       itemSlotProps?.content,
                     )}
@@ -723,12 +728,14 @@ const RichTree = React.forwardRef<HTMLDivElement, RichTreeProps>(({
           className,
         )}
         data-sdk-ui="rich-tree"
+        data-slot="rich-tree"
         {...props}
       >
         <div
           {...mergeSlotProps<RichTreeRegionSlotProps>(
             {
               'data-sdk-region': 'rich-tree-empty',
+              'data-slot': 'rich-tree-empty',
             },
             slotProps?.empty,
           )}
@@ -747,6 +754,7 @@ const RichTree = React.forwardRef<HTMLDivElement, RichTreeProps>(({
         className,
       )}
       data-sdk-ui="rich-tree"
+      data-slot="rich-tree"
       {...props}
     >
       <div
@@ -754,6 +762,7 @@ const RichTree = React.forwardRef<HTMLDivElement, RichTreeProps>(({
           {
             'aria-multiselectable': selectionMode === 'multiple' ? 'true' : undefined,
             'data-sdk-region': 'rich-tree-tree',
+            'data-slot': 'rich-tree-tree',
           },
           slotProps?.tree,
         )}
@@ -796,6 +805,7 @@ function Tree({
     <RichTree
       {...props}
       data-sdk-ui="tree"
+      data-slot="tree"
       defaultSelectedIds={normalizedDefaultSelectedIds}
       expandOnSelect={props.expandOnSelect ?? true}
       items={data}

@@ -32,6 +32,13 @@ describe('PickerDialog', () => {
     expect(screen.getByText('Collections')).toBeInTheDocument();
     expect(screen.getByText('Asset grid')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Confirm selection' })).toBeInTheDocument();
+    expect(document.querySelector('[data-sdk-pattern="picker-dialog"]')).toHaveAttribute('data-slot', 'picker-dialog');
+    expect(document.querySelector('[data-sdk-region="picker-dialog-content"]')).toHaveAttribute('data-slot', 'picker-dialog-content');
+    expect(document.querySelector('[data-sdk-region="picker-dialog-header"]')).toHaveAttribute('data-slot', 'picker-dialog-header');
+    expect(document.querySelector('[data-sdk-region="picker-dialog-filters"]')).toHaveAttribute('data-slot', 'picker-dialog-filters');
+    expect(document.querySelector('[data-sdk-region="picker-dialog-sidebar"]')).toHaveAttribute('data-slot', 'picker-dialog-sidebar');
+    expect(document.querySelector('[data-sdk-region="picker-dialog-body"]')).toHaveAttribute('data-slot', 'picker-dialog-body');
+    expect(document.querySelector('[data-sdk-region="picker-dialog-footer"]')).toHaveAttribute('data-slot', 'picker-dialog-footer');
   });
 
   it('renders loading, error, and empty states through the shared feedback layer', () => {

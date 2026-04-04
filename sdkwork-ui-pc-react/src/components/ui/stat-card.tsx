@@ -32,19 +32,30 @@ function StatCard({
     <Card
       className={cn('h-full', className)}
       data-sdk-ui="stat-card"
+      data-slot="stat-card"
       {...props}
     >
-      <CardHeader className="flex flex-row items-start justify-between gap-4 space-y-0">
+      <CardHeader className="flex flex-row items-start justify-between gap-4 space-y-0" data-slot="stat-card-header">
         <div className="space-y-1">
-          <CardDescription>{label}</CardDescription>
-          <CardTitle className="text-3xl">{value}</CardTitle>
+          <CardDescription data-slot="stat-card-label">{label}</CardDescription>
+          <CardTitle className="text-3xl" data-slot="stat-card-value">
+            {value}
+          </CardTitle>
         </div>
-        {icon ? <div className="text-[var(--sdk-color-text-secondary)]">{icon}</div> : null}
+        {icon ? <div className="text-[var(--sdk-color-text-secondary)]" data-slot="stat-card-icon">{icon}</div> : null}
       </CardHeader>
       {description || change ? (
-        <CardContent className="flex items-center justify-between gap-4">
-          {description ? <p className="text-sm text-[var(--sdk-color-text-secondary)]">{description}</p> : <span />}
-          {change ? <span className={cn('text-sm font-medium', changeToneClass[changeTone])}>{change}</span> : null}
+        <CardContent className="flex items-center gap-4" data-slot="stat-card-body">
+          {description ? (
+            <p className="flex-1 text-sm text-[var(--sdk-color-text-secondary)]" data-slot="stat-card-description">
+              {description}
+            </p>
+          ) : null}
+          {change ? (
+            <span className={cn('ml-auto text-sm font-medium', changeToneClass[changeTone])} data-slot="stat-card-change">
+              {change}
+            </span>
+          ) : null}
         </CardContent>
       ) : null}
     </Card>

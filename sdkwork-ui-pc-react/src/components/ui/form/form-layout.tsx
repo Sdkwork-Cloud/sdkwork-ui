@@ -36,14 +36,19 @@ const FormSection = React.forwardRef<HTMLElement, FormSectionProps>(
           className,
         )}
         data-sdk-ui="form-section"
+        data-slot="form-section"
         {...props}
       >
         {title || description || actions ? (
-          <div className="flex flex-col gap-4 border-b border-[var(--sdk-color-border-subtle)] pb-5 xl:flex-row xl:items-start xl:justify-between">
+          <div
+            className="flex flex-col gap-4 border-b border-[var(--sdk-color-border-subtle)] pb-5 xl:flex-row xl:items-start xl:justify-between"
+            data-slot="form-section-header"
+          >
             <div className="space-y-1.5">
               {title ? (
                 <h3
                   className="text-base font-semibold text-[var(--sdk-color-text-primary)]"
+                  data-slot="form-section-title"
                   id={titleId}
                 >
                   {title}
@@ -52,16 +57,23 @@ const FormSection = React.forwardRef<HTMLElement, FormSectionProps>(
               {description ? (
                 <p
                   className="max-w-3xl text-sm text-[var(--sdk-color-text-secondary)]"
+                  data-slot="form-section-description"
                   id={descriptionId}
                 >
                   {description}
                 </p>
               ) : null}
             </div>
-            {actions ? <div className="flex items-center gap-3">{actions}</div> : null}
+            {actions ? (
+              <div className="flex items-center gap-3" data-slot="form-section-actions">
+                {actions}
+              </div>
+            ) : null}
           </div>
         ) : null}
-        <div className="space-y-6">{children}</div>
+        <div className="space-y-6" data-slot="form-section-content">
+          {children}
+        </div>
       </section>
     );
   },
@@ -75,6 +87,7 @@ const FormGrid = React.forwardRef<HTMLDivElement, FormGridProps>(
       ref={ref}
       className={cn('grid gap-4 xl:gap-6', formGridColumnsClass[columns], className)}
       data-sdk-ui="form-grid"
+      data-slot="form-grid"
       {...props}
     >
       {children}
@@ -93,6 +106,7 @@ const FormActions = React.forwardRef<HTMLDivElement, FormActionsProps>(
         className,
       )}
       data-sdk-ui="form-actions"
+      data-slot="form-actions"
       {...props}
     />
   ),

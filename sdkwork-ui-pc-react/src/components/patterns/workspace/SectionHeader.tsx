@@ -31,30 +31,37 @@ export const SectionHeader = React.forwardRef<HTMLDivElement, SectionHeaderProps
         className,
       )}
       data-sdk-pattern="section-header"
+      data-slot="section-header"
       {...props}
     >
       {(eyebrow || title || description || meta || actions) ? (
-        <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="flex flex-wrap items-start justify-between gap-3" data-slot="section-header-header">
           <div className="min-w-0 flex-1">
             {eyebrow ? (
-              <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--sdk-color-text-muted)]">
+              <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--sdk-color-text-muted)]" data-slot="section-header-eyebrow">
                 {eyebrow}
               </div>
             ) : null}
             {title ? (
-              <div className="mt-1 text-sm font-semibold text-[var(--sdk-color-text-primary)]">
+              <div className="mt-1 text-sm font-semibold text-[var(--sdk-color-text-primary)]" data-slot="section-header-title">
                 {title}
               </div>
             ) : null}
             {description ? (
-              <div className="mt-1 text-sm text-[var(--sdk-color-text-secondary)]">{description}</div>
+              <div className="mt-1 text-sm text-[var(--sdk-color-text-secondary)]" data-slot="section-header-description">
+                {description}
+              </div>
             ) : null}
-            {meta ? <div className="mt-2">{meta}</div> : null}
+            {meta ? <div className="mt-2" data-slot="section-header-meta">{meta}</div> : null}
           </div>
-          {actions ? <div className="flex shrink-0 items-center gap-2">{actions}</div> : null}
+          {actions ? <div className="flex shrink-0 items-center gap-2" data-slot="section-header-actions">{actions}</div> : null}
         </div>
       ) : null}
-      {children ? <div className={cn(title || description || actions ? 'mt-4' : null)}>{children}</div> : null}
+      {children ? (
+        <div className={cn(title || description || actions ? 'mt-4' : null)} data-slot="section-header-content">
+          {children}
+        </div>
+      ) : null}
     </div>
   );
 });

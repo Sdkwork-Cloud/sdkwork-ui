@@ -133,6 +133,7 @@ const Stepper = React.forwardRef<HTMLOListElement, StepperProps>(
           )}
           data-orientation={orientation}
           data-sdk-ui="stepper"
+          data-slot="stepper"
           {...props}
         >
           {items}
@@ -170,6 +171,7 @@ const StepperItem = React.forwardRef<HTMLLIElement, StepperItemProps>(
           className={cn('grid grid-cols-[auto_minmax(0,1fr)] gap-3', className)}
           data-orientation={orientation}
           data-sdk-ui="stepper-item"
+          data-slot="stepper-item"
           data-status={status}
           {...props}
         >
@@ -182,6 +184,7 @@ const StepperItem = React.forwardRef<HTMLLIElement, StepperItemProps>(
                     indicatorShellClassName[status],
                   ),
                   'data-sdk-region': 'stepper-item-indicator',
+                  'data-slot': 'stepper-item-indicator',
                 },
                 slotProps?.indicator,
               )}
@@ -198,6 +201,7 @@ const StepperItem = React.forwardRef<HTMLLIElement, StepperItemProps>(
                       status === 'error' ? connectorClassName.upcoming : connectorClassName[status],
                     ),
                     'data-sdk-region': 'stepper-item-connector',
+                    'data-slot': 'stepper-item-connector',
                   },
                   slotProps?.connector,
                 )}
@@ -210,20 +214,28 @@ const StepperItem = React.forwardRef<HTMLLIElement, StepperItemProps>(
                 className:
                   'min-w-0 rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] px-4 py-3 shadow-[var(--sdk-shadow-soft)]',
                 'data-sdk-region': 'stepper-item-content',
+                'data-slot': 'stepper-item-content',
               },
               slotProps?.content,
             )}
           >
             <div className="flex flex-wrap items-center gap-2">
-              <div className="text-sm font-semibold text-[var(--sdk-color-text-primary)]">{title}</div>
+              <div className="text-sm font-semibold text-[var(--sdk-color-text-primary)]" data-slot="stepper-item-title">
+                {title}
+              </div>
               {meta ? (
-                <div className="text-[11px] font-medium uppercase tracking-[0.12em] text-[var(--sdk-color-text-muted)]">
+                <div
+                  className="text-[11px] font-medium uppercase tracking-[0.12em] text-[var(--sdk-color-text-muted)]"
+                  data-slot="stepper-item-meta"
+                >
                   {meta}
                 </div>
               ) : null}
             </div>
             {description ? (
-              <div className="mt-1.5 text-sm text-[var(--sdk-color-text-secondary)]">{description}</div>
+              <div className="mt-1.5 text-sm text-[var(--sdk-color-text-secondary)]" data-slot="stepper-item-description">
+                {description}
+              </div>
             ) : null}
           </div>
         </li>
@@ -236,6 +248,7 @@ const StepperItem = React.forwardRef<HTMLLIElement, StepperItemProps>(
         className={cn('flex min-w-[12rem] flex-1 items-start gap-3', className)}
         data-orientation={orientation}
         data-sdk-ui="stepper-item"
+        data-slot="stepper-item"
         data-status={status}
         {...props}
       >
@@ -248,6 +261,7 @@ const StepperItem = React.forwardRef<HTMLLIElement, StepperItemProps>(
                   indicatorShellClassName[status],
                 ),
                 'data-sdk-region': 'stepper-item-indicator',
+                'data-slot': 'stepper-item-indicator',
               },
               slotProps?.indicator,
             )}
@@ -259,20 +273,28 @@ const StepperItem = React.forwardRef<HTMLLIElement, StepperItemProps>(
               {
                 className: 'min-w-0',
                 'data-sdk-region': 'stepper-item-content',
+                'data-slot': 'stepper-item-content',
               },
               slotProps?.content,
             )}
           >
             <div className="flex flex-wrap items-center gap-2">
-              <div className="text-sm font-semibold text-[var(--sdk-color-text-primary)]">{title}</div>
+              <div className="text-sm font-semibold text-[var(--sdk-color-text-primary)]" data-slot="stepper-item-title">
+                {title}
+              </div>
               {meta ? (
-                <div className="text-[11px] font-medium uppercase tracking-[0.12em] text-[var(--sdk-color-text-muted)]">
+                <div
+                  className="text-[11px] font-medium uppercase tracking-[0.12em] text-[var(--sdk-color-text-muted)]"
+                  data-slot="stepper-item-meta"
+                >
                   {meta}
                 </div>
               ) : null}
             </div>
             {description ? (
-              <div className="mt-1.5 text-sm text-[var(--sdk-color-text-secondary)]">{description}</div>
+              <div className="mt-1.5 text-sm text-[var(--sdk-color-text-secondary)]" data-slot="stepper-item-description">
+                {description}
+              </div>
             ) : null}
           </div>
         </div>
@@ -286,6 +308,7 @@ const StepperItem = React.forwardRef<HTMLLIElement, StepperItemProps>(
                   status === 'error' ? connectorClassName.upcoming : connectorClassName[status],
                 ),
                 'data-sdk-region': 'stepper-item-connector',
+                'data-slot': 'stepper-item-connector',
               },
               slotProps?.connector,
             )}

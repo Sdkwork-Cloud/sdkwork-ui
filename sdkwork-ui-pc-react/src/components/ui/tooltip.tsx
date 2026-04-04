@@ -17,6 +17,7 @@ const TooltipTrigger = React.forwardRef<
   <TooltipPrimitive.Trigger
     ref={ref}
     data-sdk-ui="tooltip-trigger"
+    data-slot="tooltip-trigger"
     {...props}
   />
 ));
@@ -36,6 +37,7 @@ const TooltipContent = React.forwardRef<
         className,
       )}
       data-sdk-ui="tooltip-content"
+      data-slot="tooltip-content"
       {...props}
     />
   </TooltipPrimitive.Portal>
