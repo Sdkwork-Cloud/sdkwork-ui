@@ -4,7 +4,7 @@ export * from '../stat-card';
 export * from '../status-badge';
 export * from '../table';
 export * from '../tabs';
-export * from './data-grid';
+export * from './collection-grid';
 export * from './data-table';
 export * from './description-list';
 export * from './key-value-table';

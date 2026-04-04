@@ -53,7 +53,7 @@ describe('UI slot props API contract', () => {
     expect(getExportPropertyNames('src/components/ui/actions/index.ts', 'ActionMenuButtonProps')).toContain('slotProps');
     expect(getExportPropertyNames('src/components/ui/actions/index.ts', 'SplitButtonProps')).toContain('slotProps');
     expect(getExportPropertyNames('src/components/ui/actions/index.ts', 'CommandDialogProps')).toContain('slotProps');
-    expect(getExportPropertyNames('src/components/ui/data-display/index.ts', 'DataGridProps')).toContain('slotProps');
+    expect(getExportPropertyNames('src/components/ui/data-display/index.ts', 'CollectionGridProps')).toContain('slotProps');
     expect(getExportPropertyNames('src/components/ui/data-display/index.ts', 'DataTableProps')).toContain('slotProps');
   });
 
@@ -62,7 +62,7 @@ describe('UI slot props API contract', () => {
     expect(getExportPropertyNames('src/components/ui/actions/index.ts', 'SplitButtonProps')).not.toContain('menuClassName');
     expect(getExportPropertyNames('src/components/ui/actions/index.ts', 'CommandDialogProps')).not.toContain('contentClassName');
     expect(getExportPropertyNames('src/components/ui/actions/index.ts', 'CommandDialogProps')).not.toContain('contentProps');
-    expect(getExportPropertyNames('src/components/ui/data-display/index.ts', 'DataGridProps')).not.toContain('gridClassName');
+    expect(getExportPropertyNames('src/components/ui/data-display/index.ts', 'CollectionGridProps')).not.toContain('gridClassName');
     expect(getExportPropertyNames('src/components/ui/data-display/index.ts', 'DataTableProps')).not.toContain('rowClassName');
     expect(getExportPropertyNames('src/components/ui/data-display/index.ts', 'DataTableColumn')).not.toContain('headerClassName');
     expect(getExportPropertyNames('src/components/ui/data-display/index.ts', 'DataTableColumn')).not.toContain('className');

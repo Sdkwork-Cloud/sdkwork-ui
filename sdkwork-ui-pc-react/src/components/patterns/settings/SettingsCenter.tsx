@@ -57,7 +57,7 @@ function toSearchableText(node: React.ReactNode): string {
     return node.map(toSearchableText).join(' ');
   }
 
-  if (React.isValidElement(node)) {
+  if (React.isValidElement<{ children?: React.ReactNode }>(node)) {
     return toSearchableText(node.props.children);
   }
 
@@ -153,13 +153,14 @@ export const SettingsCenter = React.forwardRef<HTMLDivElement, SettingsCenterPro
                       <button
                         aria-label={toSearchableText(item.label)}
                         className={cn(
-                          'flex w-full items-start gap-3 rounded-[var(--sdk-radius-control)] border px-3 py-3 text-left transition-colors',
+                          'flex w-full items-start gap-3 rounded-[var(--sdk-radius-field)] border px-3 py-3 text-left transition-colors',
                           active
                             ? 'border-[var(--sdk-color-brand-primary)] bg-[var(--sdk-color-brand-primary-soft)]'
                             : 'border-transparent hover:border-[var(--sdk-color-border-default)] hover:bg-[var(--sdk-color-surface-panel-muted)]',
                           item.disabled ? 'cursor-not-allowed opacity-60' : null,
                         )}
                         data-sdk-pattern="settings-nav-item"
+                        data-slot="settings-center-nav-item"
                         data-state={active ? 'active' : 'inactive'}
                         disabled={item.disabled}
                         key={item.id}

@@ -1,6 +1,7 @@
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import {
+  Combobox,
   DateInput,
   NumberInput,
   TagInput,
@@ -97,11 +98,19 @@ describe('UI field shell slot props contract', () => {
         aria-label="Tags"
         defaultValue={['alpha']}
         slotProps={{
+          removeButton: {
+            className: 'tag-input-remove-probe',
+            'data-slot-probe': 'tag-input-remove',
+          },
           root: {
             className: slotProbeClassName,
             'data-slot-probe': 'tag-input-root',
             id: 'tag-input-root',
             style: slotProbeStyle,
+          },
+          tag: {
+            className: 'tag-input-tag-probe',
+            'data-slot-probe': 'tag-input-tag',
           },
         }}
       />,
@@ -111,5 +120,66 @@ describe('UI field shell slot props contract', () => {
     expect(queryUi('tag-input')).toHaveAttribute('data-slot-probe', 'tag-input-root');
     expect(queryUi('tag-input')).toHaveAttribute('id', 'tag-input-root');
     expect(queryUi('tag-input')).toHaveStyle(slotProbeStyle);
+    expect(screen.getByLabelText('Tags')).toHaveAttribute('data-slot', 'tag-input-input');
+    expect(screen.getByText('alpha').closest('[data-slot="tag-input-tag"]')).toHaveClass('tag-input-tag-probe');
+    expect(screen.getByText('alpha').closest('[data-slot="tag-input-tag"]')).toHaveAttribute(
+      'data-slot-probe',
+      'tag-input-tag',
+    );
+    expect(screen.getByRole('button', { name: 'Remove alpha' })).toHaveClass('tag-input-remove-probe');
+    expect(screen.getByRole('button', { name: 'Remove alpha' })).toHaveAttribute(
+      'data-slot-probe',
+      'tag-input-remove',
+    );
+  });
+
+  it('applies structured slotProps to owned Combobox shell surfaces', async () => {
+    render(
+      <Combobox
+        aria-label="Model"
+        clearable
+        defaultValue="gpt-5.4"
+        options={[
+          { label: 'GPT-5.4', value: 'gpt-5.4' },
+          { label: 'Claude Desktop', value: 'claude-desktop' },
+        ]}
+        slotProps={{
+          clearButton: {
+            className: 'combobox-clear-probe',
+            'data-slot-probe': 'combobox-clear',
+          },
+          content: {
+            className: 'combobox-content-probe',
+            'data-slot-probe': 'combobox-content',
+          },
+          input: {
+            className: 'combobox-input-probe',
+            'data-slot-probe': 'combobox-input',
+          },
+          root: {
+            className: slotProbeClassName,
+            'data-slot-probe': 'combobox-root',
+            id: 'combobox-root',
+            style: slotProbeStyle,
+          },
+        }}
+      />,
+    );
+
+    expect(queryUi('combobox')).toHaveClass(slotProbeClassName);
+    expect(queryUi('combobox')).toHaveAttribute('data-slot-probe', 'combobox-root');
+    expect(queryUi('combobox')).toHaveAttribute('id', 'combobox-root');
+    expect(queryUi('combobox')).toHaveStyle(slotProbeStyle);
+    expect(screen.getByRole('button', { name: 'Clear selection' })).toHaveClass('combobox-clear-probe');
+    expect(screen.getByRole('button', { name: 'Clear selection' })).toHaveAttribute('data-slot-probe', 'combobox-clear');
+
+    fireEvent.click(screen.getByRole('combobox'));
+
+    await waitFor(() => {
+      expect(queryUi('combobox-content')).toHaveClass('combobox-content-probe');
+      expect(queryUi('combobox-content')).toHaveAttribute('data-slot-probe', 'combobox-content');
+      expect(queryUi('combobox-input')).toHaveClass('combobox-input-probe');
+      expect(queryUi('combobox-input')).toHaveAttribute('data-slot-probe', 'combobox-input');
+    });
   });
 });

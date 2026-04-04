@@ -240,7 +240,7 @@ import {
   AppShell,
   BulkActionBar,
   Button,
-  DataGrid,
+  CollectionGrid,
   DataTable,
   RichTree,
   DesktopAppHeader,
@@ -303,10 +303,12 @@ import {
   Command,
   ConfirmDialog,
   ContextMenu,
-  DataGrid,
+  CollectionGrid,
   DataTable,
   DateInput,
+  DateRangeField,
   DateRangePicker,
+  DateTimeRangeField,
   DateTimeInput,
   DescriptionList,
   Drawer,
@@ -481,10 +483,9 @@ export function TagEditor() {
 ```tsx
 export function ActivityTimeFilter() {
   return (
-    <DateRangePicker
+    <DateTimeRangeField
       actions={<button type="button">Apply</button>}
       endLabel="End time"
-      mode="datetime-local"
       presets={[
         {
           label: '24h',
@@ -502,6 +503,8 @@ export function ActivityTimeFilter() {
   );
 }
 ```
+
+Use `DateRangeField` or `DateTimeRangeField` for inline dual-input filters. Use `DateRangePicker` when the interaction should center on calendar selection inside a popover.
 
 ### Form Domain
 
@@ -752,7 +755,7 @@ import { uiComponentCatalog } from '@sdkwork/ui-pc-react/components/ui/catalog';
 
 ```ts
 import {
-  DataGrid,
+  CollectionGrid,
   DataTable,
   DescriptionDetails,
   DescriptionItem,
@@ -782,8 +785,8 @@ export function AssetGrid() {
   ];
 
   return (
-    <DataGrid
-      data={items}
+    <CollectionGrid
+      items={items}
       emptyDescription="Try adjusting your filters or create a new asset."
       emptyTitle="No assets"
       pagination={<div className="text-xs text-muted-foreground">Page 1 of 1</div>}
@@ -1068,10 +1071,10 @@ export function ModelPickerSurface() {
       trigger={<button type="button">Open model picker</button>}
     >
       <div className="grid gap-2">
-        <button className="rounded-[var(--sdk-radius-control)] border p-3 text-left text-sm" type="button">
+        <button className="rounded-[var(--sdk-radius-field)] border p-3 text-left text-sm" type="button">
           GPT-4.1
         </button>
-        <button className="rounded-[var(--sdk-radius-control)] border p-3 text-left text-sm" type="button">
+        <button className="rounded-[var(--sdk-radius-field)] border p-3 text-left text-sm" type="button">
           o4-mini
         </button>
       </div>
@@ -1139,7 +1142,7 @@ export function AssetEntityPickerDialog() {
       renderItem={({ item, selected, toggleSelection }) => (
         <button
           aria-pressed={selected}
-          className="rounded-[var(--sdk-radius-control)] border p-4 text-left text-sm"
+          className="rounded-[var(--sdk-radius-field)] border p-4 text-left text-sm"
           onClick={toggleSelection}
           type="button"
         >
@@ -1409,7 +1412,7 @@ import '@sdkwork/ui-pc-react/styles.css';
 - Use `EmptySearch` for filtered list, command result, and search drawer empty states before shipping app-local "no result" cards.
 - Use `components/ui/feedback` for toast notifications and inline status states before introducing app-local notification stores or local Sonner wrappers.
 - Use `ActivityFeed` for operation history, approval trails, sync logs, and release history before rebuilding app-local audit/event cards.
-- Use `components/ui/data-display` for reusable `DataGrid` collection shells, `DataTable` admin/resource grids, tables, trees, metric cards, and status labels before introducing app-local dashboard widgets.
+- Use `components/ui/data-display` for reusable `CollectionGrid` collection shells, `DataTable` admin/resource grids, tables, trees, metric cards, and status labels before introducing app-local dashboard widgets.
 - Keep raw `Table` usage for semantic or low-level tabular markup. Reach for `DataTable` when the surface needs framework-owned border, compact radius, selection, built-in page summary, rows-per-page selection, and pagination controls.
 - Use `RichTree` when a desktop surface needs multi-select, checkbox cascade, lazy expansion, row actions, or richer node metadata; keep search inputs, file IO, and business mutations in the app or higher-order workbench layer.
 - Use `MarkdownViewer` for release notes, help text, AI-generated summaries, and settings guidance instead of shipping app-local markdown renderers in each desktop package.

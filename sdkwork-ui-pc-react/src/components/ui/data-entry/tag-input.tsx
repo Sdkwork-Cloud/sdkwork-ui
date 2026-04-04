@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Hash, X } from 'lucide-react';
+import { useControllableState } from '../../../lib/core';
 import { cn } from '../../../lib/utils';
 import { mergeSlotProps, type SlotProps } from '../../../lib/slot-props';
 import { inputBaseClassName } from '../input';
@@ -7,13 +8,17 @@ import { inputBaseClassName } from '../input';
 const DEFAULT_SEPARATOR_KEYS = ['Enter', 'Tab', ','] as const;
 export type TagInputValueChangeHandler = (value: string[]) => void;
 export type TagInputRootSlotProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>>;
+export type TagInputTagSlotProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'span'>, 'children'>>;
+export type TagInputRemoveButtonSlotProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'button'>, 'children'>>;
 
 export interface TagInputSlotProps {
   root?: TagInputRootSlotProps;
+  removeButton?: TagInputRemoveButtonSlotProps;
+  tag?: TagInputTagSlotProps;
 }
 
 export interface TagInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'defaultValue' | 'onChange' | 'value'> {
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'defaultValue' | 'value'> {
   allowDuplicates?: boolean;
   defaultValue?: string[];
   maxTags?: number;
@@ -42,16 +47,22 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
     ref,
   ) => {
     const [draft, setDraft] = React.useState('');
-    const [internalValue, setInternalValue] = React.useState(defaultValue ?? []);
-    const tags = value ?? internalValue;
+    const [tags, setTags] = useControllableState<string[]>({
+      defaultValue: defaultValue ?? [],
+      onChange: onValueChange,
+      value,
+    });
     const canAddMore = maxTags === undefined || tags.length < maxTags;
+    const {
+      'aria-label': ariaLabel,
+      onChange: onInputChange,
+      onKeyDown: onInputKeyDown,
+      ...inputProps
+    } = props;
+    const isDisabled = Boolean(inputProps.disabled);
 
     function commitTags(nextTags: string[]) {
-      if (value === undefined) {
-        setInternalValue(nextTags);
-      }
-
-      onValueChange?.(nextTags);
+      setTags(nextTags);
     }
 
     function addTag(rawTag: string) {
@@ -80,24 +91,49 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
             className: cn(
               inputBaseClassName,
               'h-auto min-h-10 flex-wrap items-center gap-2 px-2 py-2',
+              isDisabled ? 'opacity-60' : undefined,
               className,
             ),
+            'data-disabled': isDisabled ? 'true' : 'false',
             'data-sdk-ui': 'tag-input',
+            'data-slot': 'tag-input',
           },
           slotProps?.root,
         )}
       >
         {tags.map((tag) => (
           <span
-            className="inline-flex items-center gap-1 rounded-full border border-[var(--sdk-color-border-subtle)] bg-[var(--sdk-color-surface-panel-muted)] px-2.5 py-1 text-xs font-medium text-[var(--sdk-color-text-secondary)]"
+            {...mergeSlotProps(
+              {
+                className:
+                  'inline-flex items-center gap-1 rounded-[var(--sdk-radius-pill)] border border-[var(--sdk-color-border-subtle)] bg-[var(--sdk-color-surface-panel-muted)] px-2.5 py-1 text-xs font-medium text-[var(--sdk-color-text-secondary)]',
+                'data-sdk-ui': 'tag-input-tag',
+                'data-slot': 'tag-input-tag',
+              },
+              slotProps?.tag,
+            )}
             key={tag}
           >
             <Hash className="h-3 w-3" />
             <span>{tag}</span>
             <button
               aria-label={`Remove ${tag}`}
-              className="rounded-full p-0.5 text-[var(--sdk-color-text-muted)] transition-colors hover:bg-[var(--sdk-color-surface-elevated)] hover:text-[var(--sdk-color-text-primary)]"
-              onClick={() => removeTag(tag)}
+              {...mergeSlotProps(
+                {
+                  className:
+                    'rounded-[var(--sdk-radius-pill)] p-0.5 text-[var(--sdk-color-text-muted)] transition-colors hover:bg-[var(--sdk-color-surface-elevated)] hover:text-[var(--sdk-color-text-primary)]',
+                  'data-sdk-ui': 'tag-input-remove-button',
+                  'data-slot': 'tag-input-remove',
+                },
+                slotProps?.removeButton,
+              )}
+              onClick={(event) => {
+                slotProps?.removeButton?.onClick?.(event);
+                if (!event.defaultPrevented && !isDisabled) {
+                  removeTag(tag);
+                }
+              }}
+              disabled={isDisabled}
               type="button"
             >
               <X className="h-3 w-3" />
@@ -107,9 +143,17 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
 
         {canAddMore ? (
           <input
-            ref={ref}
+            aria-label={ariaLabel}
             className="min-w-[8rem] flex-1 bg-transparent text-sm text-[var(--sdk-color-text-primary)] outline-none placeholder:text-[var(--sdk-color-text-muted)]"
+            data-sdk-ui="tag-input-input"
+            data-slot="tag-input-input"
             onChange={(event) => {
+              onInputChange?.(event);
+
+              if (event.defaultPrevented) {
+                return;
+              }
+
               const nextDraft = event.target.value;
               const hasSeparator = nextDraft.includes(',');
 
@@ -128,6 +172,12 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
               setDraft(nextDraft);
             }}
             onKeyDown={(event) => {
+              onInputKeyDown?.(event);
+
+              if (event.defaultPrevented) {
+                return;
+              }
+
               if (DEFAULT_SEPARATOR_KEYS.includes(event.key as (typeof DEFAULT_SEPARATOR_KEYS)[number])) {
                 if (draft.trim()) {
                   event.preventDefault();
@@ -142,9 +192,10 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
               }
             }}
             placeholder={placeholder}
+            ref={ref}
             type="text"
             value={draft}
-            {...props}
+            {...inputProps}
           />
         ) : null}
       </div>

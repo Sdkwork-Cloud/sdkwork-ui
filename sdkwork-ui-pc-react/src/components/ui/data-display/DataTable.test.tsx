@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Button } from '../button';
 import { DataTable } from './data-table';
@@ -21,6 +21,12 @@ const pagedRows: AssetRow[] = Array.from({ length: 25 }, (_, index) => ({
   owner: `Owner ${index + 1}`,
   status: index % 2 === 0 ? 'Ready' : 'Review',
 }));
+
+const sortableRows = [
+  { id: 'asset-z', name: 'Zulu', owner: 'Owner Z', status: 'Ready', rank: 30 },
+  { id: 'asset-a', name: 'Alpha', owner: 'Owner A', status: 'Review', rank: 10 },
+  { id: 'asset-e', name: 'Echo', owner: 'Owner E', status: 'Ready', rank: 20 },
+];
 
 afterEach(() => {
   cleanup();
@@ -236,5 +242,62 @@ describe('DataTable', () => {
 
     expect(onPageChange).toHaveBeenNthCalledWith(1, 4);
     expect(onPageChange).toHaveBeenNthCalledWith(2, 6);
+  });
+
+  it('supports accessible client-side sorting and resets pagination when sort order changes', () => {
+    const onSortingChange = vi.fn();
+    const DataTableAny = DataTable as unknown as (props: Record<string, unknown>) => React.JSX.Element;
+
+    render(
+      <DataTableAny
+        columns={[
+          {
+            accessorKey: 'name',
+            cell: (row: (typeof sortableRows)[number]) => row.name,
+            header: 'Name',
+            id: 'name',
+            sortable: true,
+          },
+          {
+            accessorKey: 'rank',
+            align: 'right',
+            cell: (row: (typeof sortableRows)[number]) => row.rank,
+            header: 'Rank',
+            id: 'rank',
+          },
+        ]}
+        defaultSorting={[{ desc: true, id: 'name' }]}
+        onSortingChange={onSortingChange}
+        pagination={{
+          defaultPage: 2,
+          defaultPageSize: 1,
+        }}
+        rows={sortableRows}
+        title="Sortable assets"
+      />,
+    );
+
+    const table = screen.getByRole('table');
+    const getFirstRow = () => within(table).getAllByRole('row')[1];
+    const nameHeader = screen.getByRole('columnheader', { name: 'Name' });
+    const sortButton = screen.getByRole('button', { name: 'Sort by Name' });
+
+    expect(nameHeader).toHaveAttribute('aria-sort', 'descending');
+    expect(screen.getByText('Showing 2-2 of 3')).toBeInTheDocument();
+    expect(within(getFirstRow()).getByText('Echo')).toBeInTheDocument();
+
+    fireEvent.click(sortButton);
+
+    expect(onSortingChange).toHaveBeenLastCalledWith([{ desc: false, id: 'name' }]);
+    expect(nameHeader).toHaveAttribute('aria-sort', 'ascending');
+    expect(screen.getByText('Showing 1-1 of 3')).toBeInTheDocument();
+    expect(within(getFirstRow()).getByText('Alpha')).toBeInTheDocument();
+
+    fireEvent.click(sortButton);
+
+    expect(onSortingChange).toHaveBeenLastCalledWith([{ desc: true, id: 'name' }]);
+    expect(nameHeader).toHaveAttribute('aria-sort', 'descending');
+    expect(screen.getByText('Showing 1-1 of 3')).toBeInTheDocument();
+    expect(within(getFirstRow()).getByText('Zulu')).toBeInTheDocument();
   });
 });

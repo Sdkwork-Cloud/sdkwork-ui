@@ -33,6 +33,7 @@ const Command = React.forwardRef<
       className,
     )}
     data-sdk-ui="command"
+    data-slot="command"
     {...props}
   />
 ));
@@ -76,6 +77,7 @@ const CommandInput = React.forwardRef<
     className="flex items-center gap-3 border-b border-[var(--sdk-color-border-default)] px-4 py-3"
     cmdk-input-wrapper=""
     data-sdk-ui="command-input-wrapper"
+    data-slot="command-input-wrapper"
   >
     <Search className="h-4 w-4 text-[var(--sdk-color-text-muted)]" />
     <CommandPrimitive.Input
@@ -85,6 +87,7 @@ const CommandInput = React.forwardRef<
         className,
       )}
       data-sdk-ui="command-input"
+      data-slot="command-input"
       {...props}
     />
   </div>
@@ -100,6 +103,7 @@ const CommandList = React.forwardRef<
     ref={ref}
     className={cn('max-h-[24rem] overflow-y-auto overflow-x-hidden p-2', className)}
     data-sdk-ui="command-list"
+    data-slot="command-list"
     {...props}
   />
 ));
@@ -114,6 +118,7 @@ const CommandEmpty = React.forwardRef<
     ref={ref}
     className={cn('py-8 text-center text-sm text-[var(--sdk-color-text-secondary)]', className)}
     data-sdk-ui="command-empty"
+    data-slot="command-empty"
     {...props}
   />
 ));
@@ -128,6 +133,7 @@ const CommandGroup = React.forwardRef<
     ref={ref}
     className={cn('overflow-hidden p-1 text-[var(--sdk-color-text-primary)]', className)}
     data-sdk-ui="command-group"
+    data-slot="command-group"
     {...props}
   />
 ));
@@ -142,6 +148,7 @@ const CommandSeparator = React.forwardRef<
     ref={ref}
     className={cn('-mx-1 my-2 h-px bg-[var(--sdk-color-border-default)]', className)}
     data-sdk-ui="command-separator"
+    data-slot="command-separator"
     {...props}
   />
 ));
@@ -155,10 +162,11 @@ const CommandItem = React.forwardRef<
   <CommandPrimitive.Item
     ref={ref}
     className={cn(
-      'relative flex cursor-default items-center gap-2 rounded-[var(--sdk-radius-control)] px-3 py-2 text-sm outline-none transition-colors data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-[selected=true]:bg-[var(--sdk-color-brand-primary-soft)] data-[selected=true]:text-[var(--sdk-color-text-primary)]',
+      'relative flex cursor-default items-center gap-2 rounded-[var(--sdk-radius-field)] px-3 py-2 text-sm outline-none transition-colors data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-[selected=true]:bg-[var(--sdk-color-brand-primary-soft)] data-[selected=true]:text-[var(--sdk-color-text-primary)]',
       className,
     )}
     data-sdk-ui="command-item"
+    data-slot="command-item"
     {...props}
   />
 ));
@@ -170,6 +178,7 @@ const CommandShortcut = React.forwardRef<HTMLSpanElement, CommandShortcutProps>(
     ref={ref}
     className={cn('ml-auto text-[11px] uppercase tracking-[0.12em] text-[var(--sdk-color-text-muted)]', className)}
     data-sdk-ui="command-shortcut"
+    data-slot="command-shortcut"
     {...props}
   />
 ));

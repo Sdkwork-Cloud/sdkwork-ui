@@ -1,20 +1,20 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { DataGrid } from './index';
+import { CollectionGrid } from './index';
 
-describe('DataGrid', () => {
+describe('CollectionGrid', () => {
   it('renders a loading state for desktop collection views', () => {
-    render(<DataGrid data={[]} loading loadingLabel="Loading assets..." renderItem={() => null} />);
+    render(<CollectionGrid items={[]} loading loadingLabel="Loading assets..." renderItem={() => null} />);
 
     expect(screen.getByText('Loading assets...')).toBeInTheDocument();
   });
 
   it('renders grid items, empty state copy, and pagination content', () => {
     const { rerender } = render(
-      <DataGrid
-        data={[]}
+      <CollectionGrid
         emptyDescription="Try changing your filters or create a new item."
         emptyTitle="No assets"
+        items={[]}
         renderItem={() => null}
       />,
     );
@@ -23,8 +23,8 @@ describe('DataGrid', () => {
     expect(screen.getByText('Try changing your filters or create a new item.')).toBeInTheDocument();
 
     rerender(
-      <DataGrid
-        data={[
+      <CollectionGrid
+        items={[
           { id: 'a', name: 'Alpha' },
           { id: 'b', name: 'Beta' },
         ]}

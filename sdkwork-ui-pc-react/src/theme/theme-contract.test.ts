@@ -23,7 +23,7 @@ function collectFiles(root: string, predicate: (filePath: string) => boolean): s
 describe('theme contract', () => {
   it('declares every SDKWORK token used by the framework', () => {
     const componentFiles = collectFiles('src/components', (filePath) => filePath.endsWith('.ts') || filePath.endsWith('.tsx'));
-    const frameworkSources = [...componentFiles, 'src/theme/sdkwork-theme.ts', 'src/styles/sdkwork-ui.css'];
+    const frameworkSources = [...componentFiles, 'src/theme/sdkwork-theme.ts', 'src/theme/surface-recipes.ts', 'src/styles/sdkwork-ui.css'];
     const usedTokens = new Set<string>();
 
     frameworkSources.forEach((filePath) => {

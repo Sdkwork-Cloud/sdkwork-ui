@@ -25,6 +25,7 @@ Rules:
 - Do not reference undeclared tokens from components.
 - Prefer reusing an existing semantic token before expanding the contract.
 - `radius.field` is the canonical token for text inputs, selects, textareas, and other dense inline controls such as pagination items inside collection surfaces.
+- `radius.field` is also the canonical token for dense selection rows such as command items, menu items, tree rows, option tiles, and compact collection shells.
 - `radius.control` remains the shared token for generic action controls and compact shell chrome; do not reuse it for large form field surfaces by default.
 - The baseline radius ladder is intentionally compact: `radius.field = 0.375rem`, `radius.control = 0.5rem`, `radius.panel = 1rem`, and `radius.pill = 999px`.
 
@@ -37,6 +38,8 @@ Rules:
 - UI components expose `data-sdk-ui="<component-name>"` on the primary rendered surface.
 - Pattern components expose `data-sdk-pattern="<pattern-name>"` on the primary surface.
 - Named internal regions use `data-sdk-region="<region-name>"`.
+- Meaningful owned interior anatomy surfaces should expose stable `data-slot="<slot-name>"` markers when the component publishes or tests those sub-surfaces as framework structure.
+- `data-slot` is for exact internal anatomy, not a replacement for `data-sdk-ui` or `data-sdk-pattern` identity markers.
 - Wrapper components that delegate to another framework component must still pass a stable marker through.
 
 ## 3. Runtime Metadata Identity Contract
@@ -415,23 +418,24 @@ When adding or changing a component:
 
 1. Start from the closest existing domain pattern.
 2. Add or preserve exact-match `data-sdk-ui`, `data-sdk-pattern`, and `data-sdk-region` markers.
-3. If a public direct surface owns its DOM root, keep that same root open to standard DOM props instead of trapping `className`, `style`, `id`, or `data-*`.
-4. If a composite pattern exposes named internal or delegated regions, publish stable `slotProps` keys instead of ad hoc top-level region props.
-5. If a composite UI component exposes internal or delegated regions, publish `slotProps` instead of isolated region class hooks.
-6. If a data-oriented UI component exposes row, header, or cell customization, use structured props contracts instead of `*ClassName` callbacks.
-7. If a collection-style UI component renders repeated owned item surfaces, use `getItemProps`, `getItemSlotProps`, or item-level `slotProps` instead of app-local wrappers or semantic-only surface hooks.
-8. Name and export structured surface helper types so public callbacks and prop values resolve through explicit `*Props` or `*PropsResolver` contracts.
-9. Name and export semantic renderer, resolver, and handler callback types instead of publishing anonymous inline callback signatures on public framework contracts.
-10. Name and export public event handler callback types instead of publishing anonymous inline `on*` signatures.
-11. Name and export callback helper contracts for public non-`Props` auxiliary APIs instead of publishing anonymous function-valued members or callable unions.
-12. Export and publish every same-file named helper type referenced by a public framework contract instead of hiding public type dependencies behind private aliases.
-13. Keep each slot name one-to-one with a single owned surface.
-14. Keep `uiComponentCatalog` synchronized bidirectionally with public runtime exports; a published runtime component must be cataloged and a cataloged runtime component must stay published.
-15. If a public export has no DOM surface, classify it explicitly as abstract instead of silently skipping metadata identity.
-16. If a composite field keeps native props on an inner control, expose owned shell and add-on surfaces through named `slotProps` instead of trapping shell customization at the wrapper boundary.
-17. If a public UI runtime component owns an intrinsic exact-marked root surface, declare it with `React.forwardRef` and attach that ref to the same root node.
-18. If a public pattern component owns an intrinsic exact-marked root surface, declare it with `React.forwardRef` and attach that ref to the same root node.
-19. Keep styling token-backed.
-20. Keep primitives structurally thin; move framework-owned dense chrome and built-in pagination into the higher-order composite instead of bloating low-level table or list shells.
-21. Add or update behavior tests when behavior changes.
-22. Run governance audits plus full package verification before closing the work.
+3. Add or preserve stable `data-slot` markers on meaningful owned anatomy surfaces that the component treats as public framework structure.
+4. If a public direct surface owns its DOM root, keep that same root open to standard DOM props instead of trapping `className`, `style`, `id`, or `data-*`.
+5. If a composite pattern exposes named internal or delegated regions, publish stable `slotProps` keys instead of ad hoc top-level region props.
+6. If a composite UI component exposes internal or delegated regions, publish `slotProps` instead of isolated region class hooks.
+7. If a data-oriented UI component exposes row, header, or cell customization, use structured props contracts instead of `*ClassName` callbacks.
+8. If a collection-style UI component renders repeated owned item surfaces, use `getItemProps`, `getItemSlotProps`, or item-level `slotProps` instead of app-local wrappers or semantic-only surface hooks.
+9. Name and export structured surface helper types so public callbacks and prop values resolve through explicit `*Props` or `*PropsResolver` contracts.
+10. Name and export semantic renderer, resolver, and handler callback types instead of publishing anonymous inline callback signatures on public framework contracts.
+11. Name and export public event handler callback types instead of publishing anonymous inline `on*` signatures.
+12. Name and export callback helper contracts for public non-`Props` auxiliary APIs instead of publishing anonymous function-valued members or callable unions.
+13. Export and publish every same-file named helper type referenced by a public framework contract instead of hiding public type dependencies behind private aliases.
+14. Keep each slot name one-to-one with a single owned surface.
+15. Keep `uiComponentCatalog` synchronized bidirectionally with public runtime exports; a published runtime component must be cataloged and a cataloged runtime component must stay published.
+16. If a public export has no DOM surface, classify it explicitly as abstract instead of silently skipping metadata identity.
+17. If a composite field keeps native props on an inner control, expose owned shell and add-on surfaces through named `slotProps` instead of trapping shell customization at the wrapper boundary.
+18. If a public UI runtime component owns an intrinsic exact-marked root surface, declare it with `React.forwardRef` and attach that ref to the same root node.
+19. If a public pattern component owns an intrinsic exact-marked root surface, declare it with `React.forwardRef` and attach that ref to the same root node.
+20. Keep styling token-backed.
+21. Keep primitives structurally thin; move framework-owned dense chrome and built-in pagination into the higher-order composite instead of bloating low-level table or list shells.
+22. Add or update behavior tests when behavior changes.
+23. Run governance audits plus full package verification before closing the work.

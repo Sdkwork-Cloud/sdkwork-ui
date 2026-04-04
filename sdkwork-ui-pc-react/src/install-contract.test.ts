@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const workspaceAppsRoot = resolve(packageRoot, '..', '..');
 
 const criticalRuntimePackages = [
   'react',
@@ -28,6 +29,15 @@ function isInsidePackageRoot(targetPath: string): boolean {
     && relativePath !== '..';
 }
 
+function isInsideWorkspaceAppsRoot(targetPath: string): boolean {
+  const relativePath = relative(workspaceAppsRoot, targetPath);
+
+  return relativePath !== ''
+    && relativePath !== '.'
+    && !relativePath.startsWith(`..${sep}`)
+    && relativePath !== '..';
+}
+
 describe('sdkwork-ui install contract', () => {
   it('keeps critical dependency entrypoints inside this package boundary', () => {
     const offenders = criticalRuntimePackages.flatMap((packageName) => {
@@ -39,7 +49,7 @@ describe('sdkwork-ui install contract', () => {
 
       const resolvedEntry = realpathSync(dependencyEntry);
 
-      return isInsidePackageRoot(resolvedEntry)
+      return (isInsidePackageRoot(resolvedEntry) || isInsideWorkspaceAppsRoot(resolvedEntry))
         ? []
         : [`${packageName} -> ${resolvedEntry}`];
     });

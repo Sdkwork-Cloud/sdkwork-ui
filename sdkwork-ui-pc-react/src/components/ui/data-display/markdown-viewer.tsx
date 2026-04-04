@@ -40,6 +40,8 @@ type MarkdownBlock =
   | MarkdownQuoteBlock
   | MarkdownDividerBlock;
 
+type MarkdownHeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
 export interface MarkdownViewerEmptyProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
 }
@@ -170,7 +172,7 @@ function parseMarkdownBlocks(content: string): MarkdownBlock[] {
 
 function renderBlock(block: MarkdownBlock, key: string) {
   if (block.type === 'heading') {
-    const HeadingTag = `h${block.level}` as keyof JSX.IntrinsicElements;
+    const HeadingTag = `h${block.level}` as MarkdownHeadingTag;
     const headingClassNameMap: Record<MarkdownHeadingBlock['level'], string> = {
       1: 'text-2xl',
       2: 'text-xl',

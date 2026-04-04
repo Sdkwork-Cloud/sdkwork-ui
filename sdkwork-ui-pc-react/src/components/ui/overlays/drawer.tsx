@@ -20,6 +20,7 @@ const DrawerTrigger = React.forwardRef<
   <DialogPrimitive.Trigger
     ref={ref}
     data-sdk-ui="drawer-trigger"
+    data-slot="drawer-trigger"
     {...props}
   />
 ));
@@ -33,6 +34,7 @@ const DrawerClose = React.forwardRef<
   <DialogPrimitive.Close
     ref={ref}
     data-sdk-ui="drawer-close"
+    data-slot="drawer-close"
     {...props}
   />
 ));
@@ -46,6 +48,7 @@ const DrawerOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     className={cn('fixed inset-0 z-50 bg-[var(--sdk-color-surface-overlay)] backdrop-blur-sm', className)}
     data-sdk-ui="drawer-overlay"
+    data-slot="drawer-overlay"
     ref={ref}
     {...props}
   />
@@ -95,6 +98,7 @@ const DrawerContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.C
           className,
         )}
         data-sdk-ui="drawer-content"
+        data-slot="drawer-content"
         ref={ref}
         {...props}
       >
@@ -115,12 +119,19 @@ const DrawerHeader = React.forwardRef<HTMLDivElement, DrawerHeaderProps>(({ clas
     ref={ref}
     className={cn('flex shrink-0 flex-col gap-1.5 border-b border-[var(--sdk-color-border-default)] px-6 py-5 pr-14', className)}
     data-sdk-ui="drawer-header"
+    data-slot="drawer-header"
     {...props}
   />
 ));
 
 const DrawerBody = React.forwardRef<HTMLDivElement, DrawerBodyProps>(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn('flex-1 overflow-y-auto px-6 py-5', className)} data-sdk-ui="drawer-body" {...props} />
+  <div
+    ref={ref}
+    className={cn('flex-1 overflow-y-auto px-6 py-5', className)}
+    data-sdk-ui="drawer-body"
+    data-slot="drawer-body"
+    {...props}
+  />
 ));
 
 const DrawerFooter = React.forwardRef<HTMLDivElement, DrawerFooterProps>(({ className, ...props }, ref) => (
@@ -128,6 +139,7 @@ const DrawerFooter = React.forwardRef<HTMLDivElement, DrawerFooterProps>(({ clas
     ref={ref}
     className={cn('flex shrink-0 items-center justify-end gap-3 border-t border-[var(--sdk-color-border-default)] px-6 py-4', className)}
     data-sdk-ui="drawer-footer"
+    data-slot="drawer-footer"
     {...props}
   />
 ));
@@ -139,7 +151,13 @@ const DrawerTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
   DrawerTitleProps
 >(({ className, ...props }, ref) => (
-  <DialogPrimitive.Title className={cn('text-lg font-semibold', className)} data-sdk-ui="drawer-title" ref={ref} {...props} />
+  <DialogPrimitive.Title
+    className={cn('text-lg font-semibold', className)}
+    data-sdk-ui="drawer-title"
+    data-slot="drawer-title"
+    ref={ref}
+    {...props}
+  />
 ));
 
 DrawerTitle.displayName = 'DrawerTitle';
@@ -151,6 +169,7 @@ const DrawerDescription = React.forwardRef<
   <DialogPrimitive.Description
     className={cn('text-sm text-[var(--sdk-color-text-secondary)]', className)}
     data-sdk-ui="drawer-description"
+    data-slot="drawer-description"
     ref={ref}
     {...props}
   />

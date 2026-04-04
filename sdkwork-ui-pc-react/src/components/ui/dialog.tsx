@@ -24,6 +24,7 @@ const DialogTrigger = React.forwardRef<
   <DialogPrimitive.Trigger
     ref={ref}
     data-sdk-ui="dialog-trigger"
+    data-slot="dialog-trigger"
     {...props}
   />
 ));
@@ -37,6 +38,7 @@ const DialogClose = React.forwardRef<
   <DialogPrimitive.Close
     ref={ref}
     data-sdk-ui="dialog-close"
+    data-slot="dialog-close"
     {...props}
   />
 ));
@@ -51,6 +53,7 @@ const DialogOverlay = React.forwardRef<
     ref={ref}
     className={cn('fixed inset-0 z-50 bg-[var(--sdk-color-surface-overlay)] backdrop-blur-sm', className)}
     data-sdk-ui="dialog-overlay"
+    data-slot="dialog-overlay"
     {...props}
   />
 ));
@@ -70,6 +73,7 @@ const DialogContent = React.forwardRef<
         className,
       )}
       data-sdk-ui="dialog-content"
+      data-slot="dialog-content"
       {...props}
     >
       {children}
@@ -84,18 +88,36 @@ const DialogContent = React.forwardRef<
 DialogContent.displayName = 'DialogContent';
 
 const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn('flex flex-col gap-1.5 pr-10', className)} data-sdk-ui="dialog-header" {...props} />
+  <div
+    ref={ref}
+    className={cn('flex flex-col gap-1.5 pr-10', className)}
+    data-sdk-ui="dialog-header"
+    data-slot="dialog-header"
+    {...props}
+  />
 ));
 
 const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn('flex justify-end gap-3', className)} data-sdk-ui="dialog-footer" {...props} />
+  <div
+    ref={ref}
+    className={cn('flex justify-end gap-3', className)}
+    data-sdk-ui="dialog-footer"
+    data-slot="dialog-footer"
+    {...props}
+  />
 ));
 
 const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
   DialogTitleProps
 >(({ className, ...props }, ref) => (
-  <DialogPrimitive.Title ref={ref} className={cn('text-lg font-semibold', className)} data-sdk-ui="dialog-title" {...props} />
+  <DialogPrimitive.Title
+    ref={ref}
+    className={cn('text-lg font-semibold', className)}
+    data-sdk-ui="dialog-title"
+    data-slot="dialog-title"
+    {...props}
+  />
 ));
 
 DialogTitle.displayName = 'DialogTitle';
@@ -108,6 +130,7 @@ const DialogDescription = React.forwardRef<
     ref={ref}
     className={cn('text-sm text-[var(--sdk-color-text-secondary)]', className)}
     data-sdk-ui="dialog-description"
+    data-slot="dialog-description"
     {...props}
   />
 ));

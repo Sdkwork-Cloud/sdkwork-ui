@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ChevronRight, FileText, Folder, FolderOpen, LoaderCircle } from 'lucide-react';
+import { useControllableState } from '../../../lib/core';
 import { mergeSlotProps, type SlotProps } from '../../../lib/slot-props';
 import { EmptyState } from '../../patterns/feedback';
 import { cn } from '../../../lib/utils';
@@ -115,8 +116,11 @@ interface VisibleTreeNode {
 
 interface TreeMaps {
   childrenById: Map<string, string[]>;
-  itemById: Map<string, RichTreeItem>;
   parentById: Map<string, string | null>;
+}
+
+function uniqueIds(ids: readonly string[]) {
+  return Array.from(new Set(ids.filter(Boolean)));
 }
 
 interface CheckState {
@@ -124,36 +128,12 @@ interface CheckState {
   indeterminate: boolean;
 }
 
-function uniqueIds(ids: readonly string[]) {
-  return Array.from(new Set(ids.filter(Boolean)));
-}
-
-function useControllableState<T>(controlledValue: T | undefined, defaultValue: T, onChange?: (value: T) => void) {
-  const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue);
-  const isControlled = controlledValue !== undefined;
-  const value = isControlled ? controlledValue : uncontrolledValue;
-
-  const setValue = React.useCallback(
-    (nextValue: T) => {
-      if (!isControlled) {
-        setUncontrolledValue(nextValue);
-      }
-      onChange?.(nextValue);
-    },
-    [isControlled, onChange],
-  );
-
-  return [value, setValue] as const;
-}
-
 function buildTreeMaps(items: RichTreeItem[]) {
   const childrenById = new Map<string, string[]>();
-  const itemById = new Map<string, RichTreeItem>();
   const parentById = new Map<string, string | null>();
 
   function visit(nodes: RichTreeItem[], parentId: string | null) {
     nodes.forEach((node) => {
-      itemById.set(node.id, node);
       parentById.set(node.id, parentId);
       childrenById.set(
         node.id,
@@ -170,7 +150,6 @@ function buildTreeMaps(items: RichTreeItem[]) {
 
   return {
     childrenById,
-    itemById,
     parentById,
   } satisfies TreeMaps;
 }
@@ -307,21 +286,21 @@ const RichTree = React.forwardRef<HTMLDivElement, RichTreeProps>(({
   slotProps,
   ...props
 }, ref) => {
-  const [selectedIds, setSelectedIds] = useControllableState<string[]>(
-    selectedIdsProp,
-    uniqueIds(defaultSelectedIds),
-    onSelectedIdsChange,
-  );
-  const [expandedIds, setExpandedIds] = useControllableState<string[]>(
-    expandedIdsProp,
-    uniqueIds(defaultExpandedIds),
-    onExpandedIdsChange,
-  );
-  const [checkedIds, setCheckedIds] = useControllableState<string[]>(
-    checkedIdsProp,
-    uniqueIds(defaultCheckedIds),
-    onCheckedIdsChange,
-  );
+  const [selectedIds, setSelectedIds] = useControllableState<string[]>({
+    defaultValue: uniqueIds(defaultSelectedIds),
+    onChange: onSelectedIdsChange,
+    value: selectedIdsProp,
+  });
+  const [expandedIds, setExpandedIds] = useControllableState<string[]>({
+    defaultValue: uniqueIds(defaultExpandedIds),
+    onChange: onExpandedIdsChange,
+    value: expandedIdsProp,
+  });
+  const [checkedIds, setCheckedIds] = useControllableState<string[]>({
+    defaultValue: uniqueIds(defaultCheckedIds),
+    onChange: onCheckedIdsChange,
+    value: checkedIdsProp,
+  });
   const [loadingIds, setLoadingIds] = React.useState<string[]>([]);
   const [focusedId, setFocusedId] = React.useState<string | null>(null);
 
@@ -329,7 +308,7 @@ const RichTree = React.forwardRef<HTMLDivElement, RichTreeProps>(({
   const selectedIdSet = React.useMemo(() => new Set(selectedIds), [selectedIds]);
   const explicitCheckedIdSet = React.useMemo(() => new Set(checkedIds), [checkedIds]);
   const loadingIdSet = React.useMemo(() => new Set(loadingIds), [loadingIds]);
-  const { childrenById, itemById, parentById } = React.useMemo(() => buildTreeMaps(items), [items]);
+  const { childrenById, parentById } = React.useMemo(() => buildTreeMaps(items), [items]);
   const visibleNodes = React.useMemo(
     () => collectVisibleNodes(items, expandedIdSet),
     [expandedIdSet, items],
@@ -518,6 +497,16 @@ const RichTree = React.forwardRef<HTMLDivElement, RichTreeProps>(({
           focusNode(parentById.get(item.id) ?? null);
           return;
         }
+        case 'Home': {
+          event.preventDefault();
+          focusNode(visibleNodes[0]?.id ?? null);
+          return;
+        }
+        case 'End': {
+          event.preventDefault();
+          focusNode(visibleNodes[visibleNodes.length - 1]?.id ?? null);
+          return;
+        }
         case 'Enter':
         case ' ': {
           event.preventDefault();
@@ -579,7 +568,7 @@ const RichTree = React.forwardRef<HTMLDivElement, RichTreeProps>(({
                       'aria-level': depth,
                       'aria-selected': state.selected,
                       className: cn(
-                        'group flex min-h-10 items-center gap-2 rounded-[var(--sdk-radius-control)] px-3 py-2 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--sdk-color-border-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--sdk-color-surface-panel)]',
+                        'group flex min-h-10 items-center gap-2 rounded-[var(--sdk-radius-field)] px-3 py-2 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--sdk-color-border-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--sdk-color-surface-panel)]',
                         state.selected
                           ? 'bg-[var(--sdk-color-brand-primary-soft)] text-[var(--sdk-color-text-primary)]'
                           : 'text-[var(--sdk-color-text-secondary)] hover:bg-[var(--sdk-color-surface-panel-muted)] hover:text-[var(--sdk-color-text-primary)]',

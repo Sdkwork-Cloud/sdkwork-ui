@@ -47,6 +47,13 @@ describe('SettingsCenter', () => {
     expect(screen.getByRole('button', { name: 'Export' })).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Search settings')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Appearance' })).toHaveAttribute('data-state', 'active');
+    expect(screen.getByRole('button', { name: 'Appearance' })).toHaveAttribute(
+      'data-slot',
+      'settings-center-nav-item',
+    );
+    expect(screen.getByRole('button', { name: 'Appearance' })).toHaveClass(
+      'rounded-[var(--sdk-radius-field)]',
+    );
     fireEvent.click(screen.getByRole('button', { name: 'Account' }));
     expect(handleActiveItemChange).toHaveBeenCalledWith('account');
     expect(screen.getByText('Appearance form')).toBeInTheDocument();

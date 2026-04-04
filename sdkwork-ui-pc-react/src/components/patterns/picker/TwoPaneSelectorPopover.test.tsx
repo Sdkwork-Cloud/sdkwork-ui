@@ -67,6 +67,23 @@ describe('TwoPaneSelectorPopover', () => {
     expect(document.querySelector('[data-sdk-pattern="anchored-picker-surface"]')).not.toBeNull();
     expect(screen.getByText('GPT-4.1')).toBeInTheDocument();
     expect(screen.queryByText('Claude Sonnet 4')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'OpenAI' })).toHaveAttribute(
+      'data-slot',
+      'two-pane-selector-section-trigger',
+    );
+    expect(screen.getByRole('button', { name: 'OpenAI' })).toHaveClass(
+      'rounded-[var(--sdk-radius-field)]',
+    );
+    const gptOption = screen.getByText('GPT-4.1').closest('button');
+
+    expect(gptOption).not.toBeNull();
+    expect(gptOption).toHaveAttribute(
+      'data-slot',
+      'two-pane-selector-item-trigger',
+    );
+    expect(gptOption).toHaveClass(
+      'rounded-[var(--sdk-radius-field)]',
+    );
 
     fireEvent.click(screen.getByRole('button', { name: 'Anthropic' }));
 

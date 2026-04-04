@@ -16,6 +16,7 @@ const PopoverTrigger = React.forwardRef<
   <PopoverPrimitive.Trigger
     ref={ref}
     data-sdk-ui="popover-trigger"
+    data-slot="popover-trigger"
     {...props}
   />
 ));
@@ -29,6 +30,7 @@ const PopoverAnchor = React.forwardRef<
   <PopoverPrimitive.Anchor
     ref={ref}
     data-sdk-ui="popover-anchor"
+    data-slot="popover-anchor"
     {...props}
   />
 ));
@@ -48,6 +50,7 @@ const PopoverContent = React.forwardRef<
         className,
       )}
       data-sdk-ui="popover-content"
+      data-slot="popover-content"
       sideOffset={sideOffset}
       {...props}
     />

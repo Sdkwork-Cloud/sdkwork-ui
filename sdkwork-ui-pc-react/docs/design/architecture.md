@@ -138,7 +138,7 @@ The primitive directories are classified by the same mental model used by leadin
 The directory model intentionally separates standalone field controls from form orchestration:
 
 - `data-entry` provides independently reusable input primitives such as `Input`, `Select`, `Checkbox`, `RadioGroup`, and `Slider`
-- `data-entry` also owns richer app-agnostic entry primitives such as `Combobox`, `DateInput`, `DateTimeInput`, `DateRangeField`, `DateTimeRangeField`, `DateRangePicker`, `NumberInput`, `SegmentedControl`, `TagInput`, and the full upload family around `FileUpload`, including rejection feedback and remote item action hooks
+- `data-entry` also owns richer app-agnostic entry primitives such as `Combobox`, `DateInput`, `DateTimeInput`, `DateRangeField`, `DateTimeRangeField`, the popover-based `DateRangePicker`, `NumberInput`, `SegmentedControl`, `TagInput`, and the full upload family around `FileUpload`, including rejection feedback and remote item action hooks
 - `form` composes those primitives with React Hook Form bindings, validation messaging, desktop sectioning, settings-field orchestration through `SettingsField` and `SettingsSection`, action layouts, and list-filter composition through `FilterBar`
 - `actions` now covers direct button affordances, compact icon triggers, split-button affordances, action-menu affordances, batch-selection action bars, toolbar toggle actions, and keyboard-friendly command surfaces
 - `data-display` now includes both compact identity surfaces and heavier desktop information surfaces such as collection grids, resource data tables, description lists, markdown presentation, key-value detail tables, tables, timelines, trees, metric cards, and status labels
@@ -257,7 +257,7 @@ The same audit also justifies a dedicated numeric input primitive:
 The date and range-filter suite is now an explicit framework responsibility:
 
 - `claw-studio` and `sdkwork-drive-pc-react` already share a native-input desktop `DateInput` seam, while desktop-settings and api-router families repeat preset-driven date and datetime filters
-- `DateTimeInput`, `DateRangeField`, `DateTimeRangeField`, and `DateRangePicker` now keep the UI-only part of that behavior in `data-entry`, while app services remain responsible for Unix timestamps, preset enums, and backend query serialization
+- `DateTimeInput`, `DateRangeField`, and `DateTimeRangeField` now keep inline range-entry behavior in `data-entry`, while `DateRangePicker` owns popover calendar selection for date-only ranges; app services remain responsible for Unix timestamps, preset enums, and backend query serialization
 - the next shared additions in this family should therefore center on richer popup `DatePicker` shells, preset controllers, active-filter chips, and normalization helpers for desktop date and datetime values
 
 Desktop selection actions and overflow menus are now explicit framework responsibilities too:
@@ -298,9 +298,9 @@ Picker workflows are now explicit framework responsibilities too:
 
 Collection-grid shells are now explicit framework responsibilities too:
 
-- `sdkwork-backend-react-web` already carries an app-local `DataGrid` shell for desktop admin listings
+- `sdkwork-backend-react-web` already carries an app-local collection-grid shell for desktop admin listings
 - gallery, asset, search, and card-oriented desktop pages repeat the same loading, empty, card-grid, and pagination choreography even when their item markup differs
-- `DataGrid` keeps that collection orchestration in `data-display` instead of letting each app rebuild the same outer list-state shell around custom cards
+- `CollectionGrid` keeps that collection orchestration in `data-display` instead of letting each app rebuild the same outer list-state shell around custom cards
 
 Admin data-table surfaces are now explicit framework responsibilities too:
 

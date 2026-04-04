@@ -372,11 +372,12 @@ function TwoPaneSelectorPopoverInner<TSection = any, TItem = any>({
                   <button
                     key={sectionRecord.sectionId}
                     className={cn(
-                      'flex w-full flex-col items-start rounded-[var(--sdk-radius-control)] border px-3 py-2 text-left text-sm transition-colors',
+                      'flex w-full flex-col items-start rounded-[var(--sdk-radius-field)] border px-3 py-2 text-left text-sm transition-colors',
                       active
                         ? 'border-[color-mix(in_srgb,var(--sdk-color-brand-primary)_26%,transparent)] bg-[var(--sdk-color-brand-primary-soft)] text-[var(--sdk-color-text-primary)]'
                         : 'border-transparent text-[var(--sdk-color-text-secondary)] hover:bg-[var(--sdk-color-surface-panel)] hover:text-[var(--sdk-color-text-primary)]',
                     )}
+                    data-slot="two-pane-selector-section-trigger"
                     onClick={sectionContext.setActiveSection}
                     type="button"
                   >
@@ -440,11 +441,12 @@ function TwoPaneSelectorPopoverInner<TSection = any, TItem = any>({
                     <button
                       key={itemId}
                       className={cn(
-                        'flex w-full items-start gap-3 rounded-[var(--sdk-radius-control)] border px-3 py-3 text-left transition-colors',
+                        'flex w-full items-start gap-3 rounded-[var(--sdk-radius-field)] border px-3 py-3 text-left transition-colors',
                         selected
                           ? 'border-[color-mix(in_srgb,var(--sdk-color-brand-primary)_30%,transparent)] bg-[var(--sdk-color-brand-primary-soft)] text-[var(--sdk-color-text-primary)]'
                           : 'border-transparent text-[var(--sdk-color-text-primary)] hover:border-[var(--sdk-color-border-default)] hover:bg-[var(--sdk-color-surface-panel-muted)]',
                       )}
+                      data-slot="two-pane-selector-item-trigger"
                       onClick={itemContext.select}
                       type="button"
                     >

@@ -14,6 +14,7 @@ const Tabs = React.forwardRef<
   <TabsPrimitive.Root
     ref={ref}
     data-sdk-ui="tabs"
+    data-slot="tabs"
     {...props}
   />
 ));
@@ -29,6 +30,7 @@ const TabsList = React.forwardRef<
       className,
     )}
     data-sdk-ui="tabs-list"
+    data-slot="tabs-list"
     {...props}
   />
 ));
@@ -46,6 +48,7 @@ const TabsTrigger = React.forwardRef<
       className,
     )}
     data-sdk-ui="tabs-trigger"
+    data-slot="tabs-trigger"
     {...props}
   />
 ));
@@ -63,6 +66,7 @@ const TabsContent = React.forwardRef<
       className,
     )}
     data-sdk-ui="tabs-content"
+    data-slot="tabs-content"
     {...props}
   />
 ));

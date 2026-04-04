@@ -14,31 +14,34 @@ type MergeableSlotProps = {
   style?: CSSProperties;
 };
 
-export function mergeSlotProps<T extends MergeableSlotProps>(
+export function mergeSlotProps<T extends object>(
   baseProps: T,
   overrideProps?: Partial<T>,
 ): T {
+  const basePropsWithMerge = baseProps as T & MergeableSlotProps;
+  const overridePropsWithMerge = overrideProps as Partial<T & MergeableSlotProps> | undefined;
+
   if (!overrideProps) {
     return baseProps;
   }
 
   const mergedStyle =
-    baseProps.style || overrideProps.style
+    basePropsWithMerge.style || overridePropsWithMerge?.style
       ? {
-          ...baseProps.style,
-          ...overrideProps.style,
+          ...basePropsWithMerge.style,
+          ...overridePropsWithMerge?.style,
         }
       : undefined;
 
   return {
     ...baseProps,
     ...overrideProps,
-    className: cn(baseProps.className, overrideProps.className),
+    className: cn(basePropsWithMerge.className, overridePropsWithMerge?.className),
     style: mergedStyle,
-  };
+  } as T;
 }
 
-export function mergeOptionalSlotProps<T extends MergeableSlotProps>(
+export function mergeOptionalSlotProps<T extends object>(
   baseProps?: T,
   overrideProps?: Partial<T>,
 ): T | undefined {

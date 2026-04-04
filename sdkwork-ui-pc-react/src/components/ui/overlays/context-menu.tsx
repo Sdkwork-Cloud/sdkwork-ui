@@ -42,6 +42,7 @@ const ContextMenuTrigger = React.forwardRef<
   <ContextMenuPrimitive.Trigger
     ref={ref}
     data-sdk-ui="context-menu-trigger"
+    data-slot="context-menu-trigger"
     {...props}
   />
 ));
@@ -55,6 +56,7 @@ const ContextMenuGroup = React.forwardRef<
   <ContextMenuPrimitive.Group
     ref={ref}
     data-sdk-ui="context-menu-group"
+    data-slot="context-menu-group"
     {...props}
   />
 ));
@@ -68,6 +70,7 @@ const ContextMenuRadioGroup = React.forwardRef<
   <ContextMenuPrimitive.RadioGroup
     ref={ref}
     data-sdk-ui="context-menu-radio-group"
+    data-slot="context-menu-radio-group"
     {...props}
   />
 ));
@@ -85,6 +88,7 @@ const ContextMenuSubTrigger = React.forwardRef<
       className,
     )}
     data-sdk-ui="context-menu-sub-trigger"
+    data-slot="context-menu-sub-trigger"
     ref={ref}
     {...props}
   >
@@ -105,6 +109,7 @@ const ContextMenuSubContent = React.forwardRef<
       className,
     )}
     data-sdk-ui="context-menu-sub-content"
+    data-slot="context-menu-sub-content"
     ref={ref}
     {...props}
   />
@@ -123,6 +128,7 @@ const ContextMenuContent = React.forwardRef<
         className,
       )}
       data-sdk-ui="context-menu-content"
+      data-slot="context-menu-content"
       ref={ref}
       {...props}
     />
@@ -142,6 +148,7 @@ const ContextMenuItem = React.forwardRef<
       className,
     )}
     data-sdk-ui="context-menu-item"
+    data-slot="context-menu-item"
     ref={ref}
     {...props}
   />
@@ -160,6 +167,7 @@ const ContextMenuCheckboxItem = React.forwardRef<
       className,
     )}
     data-sdk-ui="context-menu-checkbox-item"
+    data-slot="context-menu-checkbox-item"
     ref={ref}
     {...props}
   >
@@ -184,6 +192,7 @@ const ContextMenuRadioItem = React.forwardRef<
       className,
     )}
     data-sdk-ui="context-menu-radio-item"
+    data-slot="context-menu-radio-item"
     ref={ref}
     {...props}
   >
@@ -205,6 +214,7 @@ const ContextMenuLabel = React.forwardRef<
   <ContextMenuPrimitive.Label
     className={cn('px-2 py-1.5 text-xs font-semibold text-[var(--sdk-color-text-secondary)]', inset && 'pl-8', className)}
     data-sdk-ui="context-menu-label"
+    data-slot="context-menu-label"
     ref={ref}
     {...props}
   />
@@ -219,6 +229,7 @@ const ContextMenuSeparator = React.forwardRef<
   <ContextMenuPrimitive.Separator
     className={cn('mx-1 my-1 h-px bg-[var(--sdk-color-border-subtle)]', className)}
     data-sdk-ui="context-menu-separator"
+    data-slot="context-menu-separator"
     ref={ref}
     {...props}
   />
@@ -231,6 +242,7 @@ const ContextMenuShortcut = React.forwardRef<HTMLSpanElement, ContextMenuShortcu
     ref={ref}
     className={cn('ml-auto text-xs tracking-[0.08em] text-[var(--sdk-color-text-muted)]', className)}
     data-sdk-ui="context-menu-shortcut"
+    data-slot="context-menu-shortcut"
     {...props}
   />
 ));

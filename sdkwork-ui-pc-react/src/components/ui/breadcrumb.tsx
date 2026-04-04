@@ -17,6 +17,7 @@ const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
       aria-label={ariaLabel}
       className={cn('w-full', className)}
       data-sdk-ui="breadcrumb"
+      data-slot="breadcrumb"
       {...props}
     />
   ),
@@ -33,6 +34,7 @@ const BreadcrumbList = React.forwardRef<HTMLOListElement, BreadcrumbListProps>(
         className,
       )}
       data-sdk-ui="breadcrumb-list"
+      data-slot="breadcrumb-list"
       {...props}
     />
   ),
@@ -46,6 +48,7 @@ const BreadcrumbItem = React.forwardRef<HTMLLIElement, BreadcrumbItemProps>(
       ref={ref}
       className={cn('inline-flex items-center gap-1.5', className)}
       data-sdk-ui="breadcrumb-item"
+      data-slot="breadcrumb-item"
       {...props}
     />
   ),
@@ -69,6 +72,7 @@ const BreadcrumbLink = React.forwardRef<HTMLAnchorElement, BreadcrumbLinkProps>(
           className,
         )}
         data-sdk-ui="breadcrumb-link"
+        data-slot="breadcrumb-link"
         {...props}
       />
     );
@@ -85,6 +89,7 @@ const BreadcrumbPage = React.forwardRef<HTMLSpanElement, BreadcrumbPageProps>(
       aria-disabled="true"
       className={cn('font-medium text-[var(--sdk-color-text-primary)]', className)}
       data-sdk-ui="breadcrumb-page"
+      data-slot="breadcrumb-page"
       {...props}
     />
   ),
@@ -102,6 +107,7 @@ const BreadcrumbSeparator = React.forwardRef<HTMLLIElement, BreadcrumbSeparatorP
     aria-hidden="true"
     className={cn('text-[var(--sdk-color-text-muted)]', className)}
     data-sdk-ui="breadcrumb-separator"
+    data-slot="breadcrumb-separator"
     role="presentation"
     {...props}
   >
@@ -117,6 +123,7 @@ const BreadcrumbEllipsis = React.forwardRef<HTMLSpanElement, BreadcrumbEllipsisP
     aria-hidden="true"
     className={cn('inline-flex h-9 w-9 items-center justify-center', className)}
     data-sdk-ui="breadcrumb-ellipsis"
+    data-slot="breadcrumb-ellipsis"
     role="presentation"
     {...props}
   >

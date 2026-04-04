@@ -21,6 +21,7 @@ const ModalTrigger = React.forwardRef<
   <DialogPrimitive.Trigger
     ref={ref}
     data-sdk-ui="modal-trigger"
+    data-slot="modal-trigger"
     {...props}
   />
 ));
@@ -34,6 +35,7 @@ const ModalClose = React.forwardRef<
   <DialogPrimitive.Close
     ref={ref}
     data-sdk-ui="modal-close"
+    data-slot="modal-close"
     {...props}
   />
 ));
@@ -48,6 +50,7 @@ const ModalOverlay = React.forwardRef<
     ref={ref}
     className={cn('fixed inset-0 z-50 bg-[var(--sdk-color-surface-overlay)] backdrop-blur-sm', className)}
     data-sdk-ui="modal-overlay"
+    data-slot="modal-overlay"
     {...props}
   />
 ));
@@ -95,6 +98,7 @@ const ModalContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Co
         ref={ref}
         className={cn(modalContentVariants({ align, size }), className)}
         data-sdk-ui="modal-content"
+        data-slot="modal-content"
         {...props}
       >
         {children}
@@ -119,6 +123,7 @@ const ModalHeader = React.forwardRef<HTMLDivElement, ModalHeaderProps>(({ classN
       className,
     )}
     data-sdk-ui="modal-header"
+    data-slot="modal-header"
     {...props}
   />
 ));
@@ -128,6 +133,7 @@ const ModalBody = React.forwardRef<HTMLDivElement, ModalBodyProps>(({ className,
     ref={ref}
     className={cn('min-h-0 flex-1 overflow-y-auto px-6 py-5', className)}
     data-sdk-ui="modal-body"
+    data-slot="modal-body"
     {...props}
   />
 ));
@@ -140,6 +146,7 @@ const ModalFooter = React.forwardRef<HTMLDivElement, ModalFooterProps>(({ classN
       className,
     )}
     data-sdk-ui="modal-footer"
+    data-slot="modal-footer"
     {...props}
   />
 ));
@@ -151,7 +158,13 @@ const ModalTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
   ModalTitleProps
 >(({ className, ...props }, ref) => (
-  <DialogPrimitive.Title ref={ref} className={cn('text-lg font-semibold', className)} data-sdk-ui="modal-title" {...props} />
+  <DialogPrimitive.Title
+    ref={ref}
+    className={cn('text-lg font-semibold', className)}
+    data-sdk-ui="modal-title"
+    data-slot="modal-title"
+    {...props}
+  />
 ));
 
 ModalTitle.displayName = 'ModalTitle';
@@ -164,6 +177,7 @@ const ModalDescription = React.forwardRef<
     ref={ref}
     className={cn('text-sm text-[var(--sdk-color-text-secondary)]', className)}
     data-sdk-ui="modal-description"
+    data-slot="modal-description"
     {...props}
   />
 ));

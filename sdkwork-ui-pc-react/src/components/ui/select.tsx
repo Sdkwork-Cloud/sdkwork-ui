@@ -21,6 +21,7 @@ const SelectGroup = React.forwardRef<
   <SelectPrimitive.Group
     ref={ref}
     data-sdk-ui="select-group"
+    data-slot="select-group"
     {...props}
   />
 ));
@@ -34,6 +35,7 @@ const SelectValue = React.forwardRef<
   <SelectPrimitive.Value
     ref={ref}
     data-sdk-ui="select-value"
+    data-slot="select-value"
     {...props}
   />
 ));
@@ -51,6 +53,7 @@ const SelectTrigger = React.forwardRef<
       className,
     )}
     data-sdk-ui="select-trigger"
+    data-slot="select-trigger"
     {...props}
   >
     {children}
@@ -75,6 +78,7 @@ const SelectContent = React.forwardRef<
         className,
       )}
       data-sdk-ui="select-content"
+      data-slot="select-content"
       {...props}
     >
       <SelectPrimitive.ScrollUpButton className="flex cursor-default items-center justify-center py-1">
@@ -98,6 +102,7 @@ const SelectLabel = React.forwardRef<
     ref={ref}
     className={cn('px-2 py-1.5 text-xs font-semibold text-[var(--sdk-color-text-secondary)]', className)}
     data-sdk-ui="select-label"
+    data-slot="select-label"
     {...props}
   />
 ));
@@ -115,6 +120,7 @@ const SelectItem = React.forwardRef<
       className,
     )}
     data-sdk-ui="select-item"
+    data-slot="select-item"
     {...props}
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
@@ -136,6 +142,7 @@ const SelectSeparator = React.forwardRef<
     ref={ref}
     className={cn('mx-1 my-1 h-px bg-[var(--sdk-color-border-subtle)]', className)}
     data-sdk-ui="select-separator"
+    data-slot="select-separator"
     {...props}
   />
 ));

@@ -50,12 +50,16 @@ function getExportPropertyNames(modulePath: string, exportName: string) {
 
 describe('UI field shell slot props API contract', () => {
   it('publishes slotProps on composite field controls with owned shell surfaces', () => {
+    expect(getExportPropertyNames('src/components/ui/data-entry/index.ts', 'ComboboxProps')).toContain('slotProps');
     expect(getExportPropertyNames('src/components/ui/data-entry/index.ts', 'DateInputProps')).toContain('slotProps');
     expect(getExportPropertyNames('src/components/ui/data-entry/index.ts', 'NumberInputProps')).toContain('slotProps');
     expect(getExportPropertyNames('src/components/ui/data-entry/index.ts', 'TagInputProps')).toContain('slotProps');
   });
 
   it('forbids ad hoc shell class hooks on governed field controls', () => {
+    expect(getExportPropertyNames('src/components/ui/data-entry/index.ts', 'ComboboxProps')).not.toContain('clearButtonClassName');
+    expect(getExportPropertyNames('src/components/ui/data-entry/index.ts', 'ComboboxProps')).not.toContain('contentClassName');
+    expect(getExportPropertyNames('src/components/ui/data-entry/index.ts', 'ComboboxProps')).not.toContain('menuClassName');
     expect(getExportPropertyNames('src/components/ui/data-entry/index.ts', 'DateInputProps')).not.toContain('calendarButtonClassName');
     expect(getExportPropertyNames('src/components/ui/data-entry/index.ts', 'DateInputProps')).not.toContain('rootClassName');
     expect(getExportPropertyNames('src/components/ui/data-entry/index.ts', 'NumberInputProps')).not.toContain('stepperClassName');

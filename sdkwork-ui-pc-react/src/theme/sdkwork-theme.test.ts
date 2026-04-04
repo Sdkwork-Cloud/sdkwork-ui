@@ -31,7 +31,7 @@ describe('sdkwork theme', () => {
     expect(variables['--sdk-radius-panel']).toBe(SDKWORK_LIGHT_THEME.radius.panel);
   });
 
-  it('uses claw preset tokens as the default SDKWORK PC reference style', () => {
+  it('uses claw shell surfaces with the lobster accent as the default SDKWORK PC reference style', () => {
     const theme = createSdkworkTheme({
       preset: 'claw',
       colorMode: 'dark',
@@ -39,6 +39,16 @@ describe('sdkwork theme', () => {
 
     expect(theme.surface.panel).toBe(CLAW_DARK_THEME.surface.panel);
     expect(theme.radius.control).toBe(CLAW_DARK_THEME.radius.control);
+    expect(theme.brand.primary).toBe('#ef4444');
+  });
+
+  it('supports the explicit tech-blue claw accent for the classic blue variant', () => {
+    const theme = createSdkworkTheme({
+      preset: 'claw',
+      colorMode: 'dark',
+      themeColor: 'tech-blue',
+    });
+
     expect(theme.brand.primary).toBe(CLAW_DARK_THEME.brand.primary);
   });
 

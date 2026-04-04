@@ -1,16 +1,19 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
-import { DateRangePicker } from './index';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { DateRangeField, DateRangePicker, DateTimeRangeField } from './index';
 
-describe('DateRangePicker', () => {
+afterEach(() => {
+  cleanup();
+});
+
+describe('DateTimeRangeField', () => {
   it('applies desktop range presets and updates both temporal inputs', () => {
     const handleValueChange = vi.fn();
     const handlePresetValueChange = vi.fn();
 
     render(
-      <DateRangePicker
+      <DateTimeRangeField
         endLabel="End time"
-        mode="datetime-local"
         onPresetValueChange={handlePresetValueChange}
         onValueChange={handleValueChange}
         presets={[
@@ -45,12 +48,14 @@ describe('DateRangePicker', () => {
       start: '2026-04-01T12:00',
     });
   });
+});
 
+describe('DateRangeField', () => {
   it('clears the active preset and surfaces validation feedback for invalid manual ranges', () => {
     const handlePresetValueChange = vi.fn();
 
     render(
-      <DateRangePicker
+      <DateRangeField
         defaultPresetValue="today"
         defaultValue={{
           end: '2026-04-02',
@@ -88,5 +93,21 @@ describe('DateRangePicker', () => {
     expect(handlePresetValueChange).toHaveBeenCalledWith(null);
     expect(endInput).toHaveAttribute('aria-invalid', 'true');
     expect(screen.getByText('Start date must be before end date')).toBeInTheDocument();
+  });
+});
+
+describe('DateRangePicker', () => {
+  it('renders a trigger button instead of inline temporal fields and opens a calendar popover', () => {
+    render(<DateRangePicker placeholder="Select range" />);
+
+    const trigger = screen.getByRole('button', { name: 'Select range' });
+
+    expect(trigger).toHaveAttribute('data-slot', 'date-range-picker-trigger');
+    expect(screen.queryByLabelText('Start date')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('End date')).not.toBeInTheDocument();
+
+    fireEvent.click(trigger);
+
+    expect(document.body.querySelector('[data-slot="date-range-picker-calendar"]')).toBeInTheDocument();
   });
 });

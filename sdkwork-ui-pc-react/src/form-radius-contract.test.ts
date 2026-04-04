@@ -74,4 +74,22 @@ describe('form radius contract', () => {
       expect(readSource(filePath)).not.toContain('calc(var(--sdk-radius');
     });
   });
+
+  it('uses field radius on dense selection rows and compact collection shells', () => {
+    expect(readSource('src/components/ui/actions/command.tsx')).toContain(
+      'rounded-[var(--sdk-radius-field)]',
+    );
+    expect(readSource('src/components/ui/dropdown-menu.tsx')).toContain(
+      'rounded-[var(--sdk-radius-field)]',
+    );
+    expect(readSource('src/components/ui/navigation/menubar.tsx')).toContain(
+      'rounded-[var(--sdk-radius-field)]',
+    );
+    expect(readSource('src/components/ui/data-display/tree.tsx')).toContain(
+      'rounded-[var(--sdk-radius-field)]',
+    );
+    expect(readSource('src/components/ui/data-display/data-table/styles.ts')).toContain(
+      'rounded-[var(--sdk-radius-field)]',
+    );
+  });
 });

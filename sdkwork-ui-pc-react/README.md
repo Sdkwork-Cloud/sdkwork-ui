@@ -2,7 +2,7 @@
 
 `@sdkwork/ui-pc-react` is the shared PC application UI framework for SDKWORK desktop and desktop-first React applications.
 
-The default visual baseline is the `claw-studio` desktop design language: zinc-neutral surfaces, blue brand emphasis, compact control radii, restrained panel radii, and soft layered shadows.
+The default visual baseline is the `claw-studio` desktop design language: zinc-neutral surfaces, theme-color-driven brand emphasis with a default lobster accent, compact control radii, restrained panel radii, and soft layered shadows.
 
 It standardizes:
 
@@ -22,7 +22,7 @@ It standardizes:
 - a publishable pnpm package build
 - framework documentation with VitePress
 
-The current shared baseline includes actions with `SplitButton`, `ActionMenuButton`, and `BulkActionBar`, data-entry primitives including `TagInput`, `DateTimeInput`, `DateRangeField`, `DateTimeRangeField`, `DateRangePicker`, a typed upload family with replacement, clear-all, paste, directory support, inline rejection feedback, and preview/download/retry item actions, richer data-display primitives including `DataGrid`, `DataTable`, `RichTree`, `Timeline`, `MarkdownViewer`, and `KeyValueTable`, layout toolbars plus `StatusBar`, split-workspace surfaces, navigation primitives including `Menubar`, `Stepper`, and closable workspace tabs, overlays, a feedback domain with `ActivityFeed`, inline alerts, notification-center panels, and themed toast notifications, a desktop form system with settings-specific field orchestration, list-filter infrastructure, structured detail presentation primitives, advanced desktop interaction components, and desktop shell or workbench patterns including reusable `DesktopShellFrame`, `InspectorRail`, `SettingsCenter`, `DirtyStateBar`, `DetailDrawer`, `OperationDrawer`, `AnchoredPickerSurface`, `PickerDialog`, `EntityPickerDialog`, `PickerSelectionFooter`, `TwoPaneSelectorPopover`, `ListDetailWorkspace`, `ManagementWorkbench`, `CrudWorkbench`, `SearchCommandPalette`, and `WorkspaceScaffold`.
+The current shared baseline includes actions with `SplitButton`, `ActionMenuButton`, and `BulkActionBar`, data-entry primitives including `TagInput`, `DateTimeInput`, `DateRangeField`, `DateTimeRangeField`, and the popover-based `DateRangePicker`, a typed upload family with replacement, clear-all, paste, directory support, inline rejection feedback, and preview/download/retry item actions, richer data-display primitives including `CollectionGrid`, `DataTable`, `RichTree`, `Timeline`, `MarkdownViewer`, and `KeyValueTable`, layout toolbars plus `StatusBar`, split-workspace surfaces, navigation primitives including `Menubar`, `Stepper`, and closable workspace tabs, overlays, a feedback domain with `ActivityFeed`, inline alerts, notification-center panels, and themed toast notifications, a desktop form system with settings-specific field orchestration, list-filter infrastructure, structured detail presentation primitives, advanced desktop interaction components, and desktop shell or workbench patterns including reusable `DesktopShellFrame`, `InspectorRail`, `SettingsCenter`, `DirtyStateBar`, `DetailDrawer`, `OperationDrawer`, `AnchoredPickerSurface`, `PickerDialog`, `EntityPickerDialog`, `PickerSelectionFooter`, `TwoPaneSelectorPopover`, `ListDetailWorkspace`, `ManagementWorkbench`, `CrudWorkbench`, `SearchCommandPalette`, and `WorkspaceScaffold`.
 
 ## Framework Governance
 
@@ -107,6 +107,7 @@ The theme model is `preset + deep overrides`.
 
 - `CLAW_LIGHT_THEME` and `CLAW_DARK_THEME` are the canonical `claw-studio` presets.
 - `SDKWORK_LIGHT_THEME` and `SDKWORK_DARK_THEME` are compatibility aliases that currently point to the claw preset baseline.
+- `themeColor` selects the accent palette for claw tokens. The shared baseline now defaults to `lobster` and also supports `tech-blue`, `green-tech`, `rose`, `violet`, and `zinc`.
 - `createSdkworkTheme()` accepts semantic overrides for `brand`, `surface`, `text`, `border`, `state`, `radius`, and `shadow`.
 
 ```tsx
@@ -366,7 +367,7 @@ The upload family now covers local and remote desktop intake flows:
 
 `data-display` now also covers core desktop information surfaces:
 
-- `DataGrid`
+- `CollectionGrid`
 - `DataTable`
 - `RichTree`
 - `DescriptionList`, `DescriptionItem`, `DescriptionTerm`, `DescriptionDetails`
@@ -457,7 +458,7 @@ src/components/patterns
 
 The top-level pattern files remain as compatibility re-export facades, but new composition families should land inside their owning pattern domain.
 
-The current implementation covers the highest-frequency shared controls first, including `Avatar`, `Tabs`, `DataGrid`, `DataTable`, `RichTree`, `DescriptionList`, `KeyValueTable`, `MarkdownViewer`, `Table`, `Timeline`, `Tree`, `StatusBadge`, `StatCard`, `ActivityFeed`, `ActivityFeedItem`, `Progress`, `Skeleton`, `InlineAlert`, `EmptySearch`, `NotificationCenter`, `NotificationCenterItem`, `Toaster`, `toast`, `Popover`, `DropdownMenu`, `Tooltip`, `RadioGroup`, `Slider`, `Button`, `IconButton`, `ToolbarButton`, `ActionMenuButton`, `BulkActionBar`, `SplitButton`, `Command`, `Toolbar`, `PanelGroup`, `Panel`, `PanelResizeHandle`, `SidebarSection`, `StatusBar`, `Modal`, `ConfirmDialog`, `Drawer`, `ContextMenu`, `HoverCard`, `Combobox`, `DateInput`, `DateTimeInput`, `DateRangeField`, `DateTimeRangeField`, `DateRangePicker`, the full upload family (`FileUpload`, `ImageUpload`, `VideoUpload`, `AudioUpload`, `DocumentUpload`), `NumberInput`, `SegmentedControl`, `TagInput`, `Menubar`, `Stepper`, `StepperItem`, `WorkspaceTab`, `WorkspaceTabs`, the shared form system, core navigation primitives, and the desktop pattern family (`DesktopWindowControls`, `DesktopTitleBar`, `DesktopAppHeader`, `DesktopShellFrame`, `SectionHeader`, `SettingsCenter`, `DirtyStateBar`, `DetailDrawer`, `OperationDrawer`, `AnchoredPickerSurface`, `PickerDialog`, `EntityPickerDialog`, `PickerSelectionFooter`, `TwoPaneSelectorPopover`, `InspectorRail`, `ListDetailWorkspace`, `ManagementWorkbench`, `CrudWorkbench`, `SearchCommandPalette`, `WorkspaceScaffold`, and `RestartRequiredNotice`). The picker stack now layers `AnchoredPickerSurface` beneath `TwoPaneSelectorPopover` so future `DatePicker`, `PresetRangePicker`, `TreeSelect`, and `TransferList` patterns can converge on one anchored shell. The docs now position the next-wave catalog around richer popup date picking, filter tabs and chips, `TreeSelect`, `TransferList`, explorer shells, and higher-order settings or navigation workbench families.
+The current implementation covers the highest-frequency shared controls first, including `Avatar`, `Tabs`, `CollectionGrid`, `DataTable`, `RichTree`, `DescriptionList`, `KeyValueTable`, `MarkdownViewer`, `Table`, `Timeline`, `Tree`, `StatusBadge`, `StatCard`, `ActivityFeed`, `ActivityFeedItem`, `Progress`, `Skeleton`, `InlineAlert`, `EmptySearch`, `NotificationCenter`, `NotificationCenterItem`, `Toaster`, `toast`, `Popover`, `DropdownMenu`, `Tooltip`, `RadioGroup`, `Slider`, `Button`, `IconButton`, `ToolbarButton`, `ActionMenuButton`, `BulkActionBar`, `SplitButton`, `Command`, `Toolbar`, `PanelGroup`, `Panel`, `PanelResizeHandle`, `SidebarSection`, `StatusBar`, `Modal`, `ConfirmDialog`, `Drawer`, `ContextMenu`, `HoverCard`, `Combobox`, `DateInput`, `DateTimeInput`, `DateRangeField`, `DateTimeRangeField`, `DateRangePicker`, the full upload family (`FileUpload`, `ImageUpload`, `VideoUpload`, `AudioUpload`, `DocumentUpload`), `NumberInput`, `SegmentedControl`, `TagInput`, `Menubar`, `Stepper`, `StepperItem`, `WorkspaceTab`, `WorkspaceTabs`, the shared form system, core navigation primitives, and the desktop pattern family (`DesktopWindowControls`, `DesktopTitleBar`, `DesktopAppHeader`, `DesktopShellFrame`, `SectionHeader`, `SettingsCenter`, `DirtyStateBar`, `DetailDrawer`, `OperationDrawer`, `AnchoredPickerSurface`, `PickerDialog`, `EntityPickerDialog`, `PickerSelectionFooter`, `TwoPaneSelectorPopover`, `InspectorRail`, `ListDetailWorkspace`, `ManagementWorkbench`, `CrudWorkbench`, `SearchCommandPalette`, `WorkspaceScaffold`, and `RestartRequiredNotice`). The picker stack now layers `AnchoredPickerSurface` beneath `TwoPaneSelectorPopover` so future `DatePicker`, `PresetRangePicker`, `TreeSelect`, and `TransferList` patterns can converge on one anchored shell. The docs now position the next-wave catalog around richer popup date picking, filter tabs and chips, `TreeSelect`, `TransferList`, explorer shells, and higher-order settings or navigation workbench families.
 
 ## Documentation
 

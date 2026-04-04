@@ -6,7 +6,7 @@ describe('NumberInput', () => {
   it('renders a desktop number field with increment and decrement controls', () => {
     const handleValueChange = vi.fn();
 
-    render(
+    const { container } = render(
       <NumberInput
         aria-label="Temperature"
         max={2}
@@ -17,6 +17,8 @@ describe('NumberInput', () => {
       />,
     );
 
+    expect(container.querySelector('[data-sdk-ui="number-input"]')).toHaveAttribute('data-slot', 'number-input');
+    expect(screen.getByLabelText('Temperature')).toHaveAttribute('data-slot', 'number-input-input');
     fireEvent.click(screen.getByRole('button', { name: 'Increase value' }));
     expect(handleValueChange).toHaveBeenCalledWith(1.5);
 

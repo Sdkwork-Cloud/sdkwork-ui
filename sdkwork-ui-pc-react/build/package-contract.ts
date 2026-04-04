@@ -89,7 +89,7 @@ export function toFrameworkPackageSpecifier(subpath: string): string {
 }
 
 function toDistTypesPath(sourcePath: string): string {
-  return `./dist/${sourcePath.replace(/^src\//, '').replace(/\.(ts|tsx)$/, '.d.ts')}`;
+  return `./dist/src/${sourcePath.replace(/^src\//, '').replace(/\.(ts|tsx)$/, '.d.ts')}`;
 }
 
 export { frameworkPackageName };

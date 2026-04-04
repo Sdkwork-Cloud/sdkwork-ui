@@ -14,6 +14,7 @@ const Pagination = React.forwardRef<HTMLElement, PaginationProps>(({ className, 
     aria-label="pagination"
     className={cn('mx-auto flex w-full justify-center', className)}
     data-sdk-ui="pagination"
+    data-slot="pagination"
     role="navigation"
     {...props}
   />
@@ -27,6 +28,7 @@ const PaginationContent = React.forwardRef<HTMLOListElement, PaginationContentPr
       ref={ref}
       className={cn('flex flex-row items-center gap-1', className)}
       data-sdk-ui="pagination-content"
+      data-slot="pagination-content"
       {...props}
     />
   ),
@@ -40,6 +42,7 @@ const PaginationItem = React.forwardRef<HTMLLIElement, PaginationItemProps>(
       ref={ref}
       className={cn('', className)}
       data-sdk-ui="pagination-item"
+      data-slot="pagination-item"
       {...props}
     />
   ),
@@ -73,6 +76,7 @@ const PaginationLink = React.forwardRef<HTMLAnchorElement, PaginationLinkProps>(
       className,
     )}
     data-sdk-ui="pagination-link"
+    data-slot="pagination-link"
     {...props}
   />
 ));
@@ -87,6 +91,7 @@ const PaginationPrevious = ({
     aria-label="Previous page"
     className={cn('gap-1.5 rounded-[var(--sdk-radius-field)] px-3', className)}
     data-sdk-ui="pagination-previous"
+    data-slot="pagination-previous"
     size="sm"
     {...props}
   >
@@ -105,6 +110,7 @@ const PaginationNext = ({
     aria-label="Next page"
     className={cn('gap-1.5 rounded-[var(--sdk-radius-field)] px-3', className)}
     data-sdk-ui="pagination-next"
+    data-slot="pagination-next"
     size="sm"
     {...props}
   >
@@ -124,6 +130,7 @@ const PaginationEllipsis = React.forwardRef<HTMLSpanElement, PaginationEllipsisP
       className,
     )}
     data-sdk-ui="pagination-ellipsis"
+    data-slot="pagination-ellipsis"
     {...props}
   >
     <MoreHorizontal className="h-4 w-4" />

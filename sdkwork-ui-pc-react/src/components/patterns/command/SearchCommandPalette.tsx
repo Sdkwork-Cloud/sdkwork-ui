@@ -72,7 +72,7 @@ function toSearchableText(node: React.ReactNode): string {
     return node.map(toSearchableText).join(' ');
   }
 
-  if (React.isValidElement(node)) {
+  if (React.isValidElement<{ children?: React.ReactNode }>(node)) {
     return toSearchableText(node.props.children);
   }
 

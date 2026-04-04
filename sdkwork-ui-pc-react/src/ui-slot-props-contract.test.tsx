@@ -2,8 +2,8 @@ import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import {
   ActionMenuButton,
+  CollectionGrid,
   CommandDialog,
-  DataGrid,
   DataTable,
   DialogTitle,
   SplitButton,
@@ -102,33 +102,33 @@ describe('UI slot props contract', () => {
     expect(queryUi('command')).toHaveAttribute('data-slot-probe', 'command-root');
   });
 
-  it('applies structured slotProps to DataGrid interior surfaces', () => {
+  it('applies structured slotProps to CollectionGrid interior surfaces', () => {
     render(
-      <DataGrid
-        data={[{ id: 'a', name: 'Alpha' }]}
+      <CollectionGrid
+        items={[{ id: 'a', name: 'Alpha' }]}
         pagination={<div>Page 1</div>}
         renderItem={(item) => <div>{item.name}</div>}
         slotProps={{
           grid: {
             className: slotProbeClassName,
-            'data-slot-probe': 'data-grid-grid',
-            id: 'data-grid-grid',
+            'data-slot-probe': 'collection-grid-grid',
+            id: 'collection-grid-grid',
             style: slotProbeStyle,
           },
           pagination: {
-            className: 'data-grid-pagination-probe',
-            'data-slot-probe': 'data-grid-pagination',
+            className: 'collection-grid-pagination-probe',
+            'data-slot-probe': 'collection-grid-pagination',
           },
         }}
       />,
     );
 
-    expect(queryRegion('data-grid-grid')).toHaveClass(slotProbeClassName);
-    expect(queryRegion('data-grid-grid')).toHaveAttribute('data-slot-probe', 'data-grid-grid');
-    expect(queryRegion('data-grid-grid')).toHaveAttribute('id', 'data-grid-grid');
-    expect(queryRegion('data-grid-grid')).toHaveStyle(slotProbeStyle);
-    expect(queryRegion('data-grid-pagination')).toHaveClass('data-grid-pagination-probe');
-    expect(queryRegion('data-grid-pagination')).toHaveAttribute('data-slot-probe', 'data-grid-pagination');
+    expect(queryRegion('collection-grid-grid')).toHaveClass(slotProbeClassName);
+    expect(queryRegion('collection-grid-grid')).toHaveAttribute('data-slot-probe', 'collection-grid-grid');
+    expect(queryRegion('collection-grid-grid')).toHaveAttribute('id', 'collection-grid-grid');
+    expect(queryRegion('collection-grid-grid')).toHaveStyle(slotProbeStyle);
+    expect(queryRegion('collection-grid-pagination')).toHaveClass('collection-grid-pagination-probe');
+    expect(queryRegion('collection-grid-pagination')).toHaveAttribute('data-slot-probe', 'collection-grid-pagination');
   });
 
   it('applies structured slotProps and get*Props to DataTable owned surfaces', () => {

@@ -145,6 +145,7 @@ const TemporalInput = React.forwardRef<HTMLInputElement, TemporalInputProps>(
           {...props}
           className={cn(
             inputBaseClassName,
+            'rounded-[var(--sdk-radius-field)]',
             'cursor-pointer pr-14 [appearance:none] [color-scheme:light] [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-0 [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:w-14 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0 dark:[color-scheme:dark]',
             className,
           )}

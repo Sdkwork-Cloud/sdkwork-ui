@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { composeRefs, useControllableState } from '../../../lib/core';
 import { cn } from '../../../lib/utils';
 import { mergeSlotProps, type SlotProps } from '../../../lib/slot-props';
 import { inputBaseClassName } from '../input';
@@ -73,38 +74,13 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
     ref,
   ) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
-
-    React.useImperativeHandle(ref, () => inputRef.current as HTMLInputElement, []);
-
-    const inputValueProps =
-      value === undefined
-        ? { defaultValue }
-        : { value: value ?? '' };
     const numericMin = parseNumericConstraint(min);
     const numericMax = parseNumericConstraint(max);
-
-    const commitInputValue = React.useCallback((nextValue: number | null) => {
-      const input = inputRef.current;
-
-      if (!input) {
-        return false;
-      }
-
-      const valueAsString = nextValue === null ? '' : String(nextValue);
-      const prototype =
-        input.ownerDocument.defaultView?.HTMLInputElement?.prototype ??
-        HTMLInputElement.prototype;
-      const valueSetter = Object.getOwnPropertyDescriptor(prototype, 'value')?.set;
-
-      if (valueSetter) {
-        valueSetter.call(input, valueAsString);
-      } else {
-        input.value = valueAsString;
-      }
-
-      input.dispatchEvent(new Event('input', { bubbles: true }));
-      return true;
-    }, []);
+    const [currentValue, setCurrentValue] = useControllableState<number | null>({
+      defaultValue: defaultValue ?? null,
+      onChange: onValueChange,
+      value: value === undefined ? undefined : value,
+    });
 
     const handleChange = React.useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,44 +89,34 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
         onChange?.(event);
 
         if (nextValue === '') {
-          onValueChange?.(null);
+          setCurrentValue(null);
           return;
         }
 
         const parsed = Number(nextValue);
 
         if (!Number.isNaN(parsed)) {
-          onValueChange?.(parsed);
+          setCurrentValue(parsed);
         }
       },
-      [onChange, onValueChange],
+      [onChange, setCurrentValue],
     );
 
     const handleStep = React.useCallback(
       (direction: 1 | -1) => {
         const stepValue = parseNumericConstraint(step);
         const safeStep = stepValue ?? 1;
-        const rawCurrentValue = inputRef.current?.value.trim();
-        const parsedCurrentValue =
-          rawCurrentValue && !Number.isNaN(Number(rawCurrentValue))
-            ? Number(rawCurrentValue)
-            : null;
         const current =
-          parsedCurrentValue ??
-          (typeof value === 'number'
-            ? value
+          typeof currentValue === 'number'
+            ? currentValue
             : typeof defaultValue === 'number'
               ? defaultValue
-              : 0);
+              : 0;
         const next = clampValue(current + safeStep * direction, numericMin, numericMax);
 
-        if (commitInputValue(next)) {
-          return;
-        }
-
-        onValueChange?.(next);
+        setCurrentValue(next);
       },
-      [commitInputValue, defaultValue, numericMax, numericMin, onValueChange, step, value],
+      [currentValue, defaultValue, numericMax, numericMin, setCurrentValue, step],
     );
 
     return (
@@ -159,25 +125,27 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
           {
             className: 'relative',
             'data-sdk-ui': 'number-input',
+            'data-slot': 'number-input',
           },
           slotProps?.root,
         )}
       >
         <input
-          ref={inputRef}
+          ref={composeRefs(ref, inputRef)}
           className={cn(
             inputBaseClassName,
-            'pr-11 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
+            'rounded-[var(--sdk-radius-field)] pr-11 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
             className,
           )}
           data-sdk-ui="number-input-field"
+          data-slot="number-input-input"
           inputMode="decimal"
           max={max}
           min={min}
           onChange={handleChange}
           step={step}
           type="number"
-          {...inputValueProps}
+          value={currentValue ?? ''}
           {...props}
         />
         <div
@@ -186,6 +154,7 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               className:
                 'absolute inset-y-1 right-1 flex w-8 flex-col overflow-hidden rounded-[var(--sdk-radius-control)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel-muted)]',
               'data-sdk-ui': 'number-input-stepper',
+              'data-slot': 'number-input-stepper',
             },
             slotProps?.stepper,
           )}
@@ -196,6 +165,7 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               {
                 className:
                   'flex flex-1 items-center justify-center text-[var(--sdk-color-text-secondary)] transition-colors hover:bg-[var(--sdk-color-surface-elevated)] hover:text-[var(--sdk-color-text-primary)]',
+                'data-slot': 'number-input-increment',
               },
               slotProps?.incrementButton,
             )}
@@ -215,6 +185,7 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
               {
                 className:
                   'flex flex-1 items-center justify-center border-t border-[var(--sdk-color-border-default)] text-[var(--sdk-color-text-secondary)] transition-colors hover:bg-[var(--sdk-color-surface-elevated)] hover:text-[var(--sdk-color-text-primary)]',
+                'data-slot': 'number-input-decrement',
               },
               slotProps?.decrementButton,
             )}

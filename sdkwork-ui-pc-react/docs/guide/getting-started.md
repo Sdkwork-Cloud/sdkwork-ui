@@ -246,7 +246,7 @@ For desktop command surfaces, modal workflows, tree navigation, rich inputs, dat
 
 ```tsx
 import { CommandDialog } from '@sdkwork/ui-pc-react/components/ui/actions';
-import { AudioUpload, Combobox, DateInput, DateRangePicker, DateTimeInput, DocumentUpload, FileUpload, ImageUpload, NumberInput, VideoUpload } from '@sdkwork/ui-pc-react/components/ui/data-entry';
+import { AudioUpload, Combobox, DateInput, DateRangePicker, DateTimeInput, DateTimeRangeField, DocumentUpload, FileUpload, ImageUpload, NumberInput, VideoUpload } from '@sdkwork/ui-pc-react/components/ui/data-entry';
 import { RichTree, Tree } from '@sdkwork/ui-pc-react/components/ui/data-display';
 import { ConfirmDialog, ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerTitle, HoverCard, HoverCardContent, HoverCardTrigger, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalTitle } from '@sdkwork/ui-pc-react/components/ui/overlays';
 ```
@@ -354,10 +354,10 @@ export function ModelPickerSurface() {
       trigger={<Button variant="secondary">Open model picker</Button>}
     >
       <div className="grid gap-2">
-        <button className="rounded-[var(--sdk-radius-control)] border p-3 text-left text-sm" type="button">
+        <button className="rounded-[var(--sdk-radius-field)] border p-3 text-left text-sm" type="button">
           GPT-4.1
         </button>
-        <button className="rounded-[var(--sdk-radius-control)] border p-3 text-left text-sm" type="button">
+        <button className="rounded-[var(--sdk-radius-field)] border p-3 text-left text-sm" type="button">
           o4-mini
         </button>
       </div>
@@ -533,12 +533,12 @@ export function SettingsPanel() {
 For analytics, log windows, and preset-aware time filters:
 
 ```tsx
-import { DateRangePicker } from '@sdkwork/ui-pc-react/components/ui/data-entry';
+import { DateTimeRangeField } from '@sdkwork/ui-pc-react/components/ui/data-entry';
 import { Button } from '@sdkwork/ui-pc-react/components/ui/actions';
 
 export function ActivityTimeFilter() {
   return (
-    <DateRangePicker
+    <DateTimeRangeField
       actions={
         <>
           <Button size="sm" variant="secondary">Reset</Button>
@@ -546,7 +546,6 @@ export function ActivityTimeFilter() {
         </>
       }
       endLabel="End time"
-      mode="datetime-local"
       presets={[
         {
           label: '24h',
@@ -569,6 +568,8 @@ export function ActivityTimeFilter() {
   );
 }
 ```
+
+Use `DateTimeRangeField` for inline datetime windows and preset-driven audit filters. Reserve `DateRangePicker` for calendar-first date-only range selection inside a popover.
 
 For shared desktop notifications:
 

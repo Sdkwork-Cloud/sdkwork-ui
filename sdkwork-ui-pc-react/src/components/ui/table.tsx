@@ -10,13 +10,27 @@ export type TableHeadProps = React.ThHTMLAttributes<HTMLTableCellElement>;
 export type TableCellProps = React.TdHTMLAttributes<HTMLTableCellElement>;
 export type TableCaptionProps = React.HTMLAttributes<HTMLTableCaptionElement>;
 
+export const tableViewportClassName = 'relative w-full overflow-auto';
+export const tableBaseClassName = 'w-full caption-bottom text-sm';
+export const tableHeaderClassName = '[&_tr]:border-b [&_tr]:border-[var(--sdk-color-border-default)]';
+export const tableBodyClassName = '[&_tr:last-child]:border-0';
+export const tableFooterClassName =
+  'border-t border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel-muted)] font-medium [&>tr]:last:border-b-0';
+export const tableRowClassName =
+  'border-b border-[var(--sdk-color-border-subtle)] transition-colors data-[state=selected]:bg-[var(--sdk-color-brand-primary-soft)]';
+export const tableHeadClassName =
+  'h-11 px-4 text-left align-middle text-sm font-medium text-[var(--sdk-color-text-secondary)]';
+export const tableCellClassName = 'p-4 align-middle text-[var(--sdk-color-text-primary)]';
+export const tableCaptionClassName = 'mt-4 text-sm text-[var(--sdk-color-text-secondary)]';
+
 const Table = React.forwardRef<HTMLTableElement, TableProps>(
   ({ className, ...props }, ref) => (
-    <div className="relative w-full overflow-auto">
+    <div className={tableViewportClassName} data-slot="table-viewport">
       <table
         ref={ref}
-        className={cn('w-full caption-bottom text-sm', className)}
+        className={cn(tableBaseClassName, className)}
         data-sdk-ui="table"
+        data-slot="table"
         {...props}
       />
     </div>
@@ -29,8 +43,9 @@ const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeaderProps>(
   ({ className, ...props }, ref) => (
     <thead
       ref={ref}
-      className={cn('[&_tr]:border-b [&_tr]:border-[var(--sdk-color-border-default)]', className)}
+      className={cn(tableHeaderClassName, className)}
       data-sdk-ui="table-header"
+      data-slot="table-header"
       {...props}
     />
   ),
@@ -42,8 +57,9 @@ const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
   ({ className, ...props }, ref) => (
     <tbody
       ref={ref}
-      className={cn('[&_tr:last-child]:border-0', className)}
+      className={cn(tableBodyClassName, className)}
       data-sdk-ui="table-body"
+      data-slot="table-body"
       {...props}
     />
   ),
@@ -55,11 +71,9 @@ const TableFooter = React.forwardRef<HTMLTableSectionElement, TableFooterProps>(
   ({ className, ...props }, ref) => (
     <tfoot
       ref={ref}
-      className={cn(
-        'border-t border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel-muted)] font-medium [&>tr]:last:border-b-0',
-        className,
-      )}
+      className={cn(tableFooterClassName, className)}
       data-sdk-ui="table-footer"
+      data-slot="table-footer"
       {...props}
     />
   ),
@@ -71,11 +85,9 @@ const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
   ({ className, ...props }, ref) => (
     <tr
       ref={ref}
-      className={cn(
-        'border-b border-[var(--sdk-color-border-subtle)] transition-colors data-[state=selected]:bg-[var(--sdk-color-brand-primary-soft)]',
-        className,
-      )}
+      className={cn(tableRowClassName, className)}
       data-sdk-ui="table-row"
+      data-slot="table-row"
       {...props}
     />
   ),
@@ -87,11 +99,9 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
   ({ className, ...props }, ref) => (
     <th
       ref={ref}
-      className={cn(
-        'h-11 px-4 text-left align-middle text-sm font-medium text-[var(--sdk-color-text-secondary)]',
-        className,
-      )}
+      className={cn(tableHeadClassName, className)}
       data-sdk-ui="table-head"
+      data-slot="table-head"
       {...props}
     />
   ),
@@ -103,8 +113,9 @@ const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
   ({ className, ...props }, ref) => (
     <td
       ref={ref}
-      className={cn('p-4 align-middle text-[var(--sdk-color-text-primary)]', className)}
+      className={cn(tableCellClassName, className)}
       data-sdk-ui="table-cell"
+      data-slot="table-cell"
       {...props}
     />
   ),
@@ -116,8 +127,9 @@ const TableCaption = React.forwardRef<HTMLTableCaptionElement, TableCaptionProps
   ({ className, ...props }, ref) => (
     <caption
       ref={ref}
-      className={cn('mt-4 text-sm text-[var(--sdk-color-text-secondary)]', className)}
+      className={cn(tableCaptionClassName, className)}
       data-sdk-ui="table-caption"
+      data-slot="table-caption"
       {...props}
     />
   ),

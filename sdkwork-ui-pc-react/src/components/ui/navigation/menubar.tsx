@@ -43,6 +43,7 @@ const Menubar = React.forwardRef<
       className,
     )}
     data-sdk-ui="menubar"
+    data-slot="menubar"
     {...props}
   />
 ));
@@ -60,6 +61,7 @@ const MenubarGroup = React.forwardRef<
   <MenubarPrimitive.Group
     ref={ref}
     data-sdk-ui="menubar-group"
+    data-slot="menubar-group"
     {...props}
   />
 ));
@@ -73,6 +75,7 @@ const MenubarRadioGroup = React.forwardRef<
   <MenubarPrimitive.RadioGroup
     ref={ref}
     data-sdk-ui="menubar-radio-group"
+    data-slot="menubar-radio-group"
     {...props}
   />
 ));
@@ -90,6 +93,7 @@ const MenubarTrigger = React.forwardRef<
       className,
     )}
     data-sdk-ui="menubar-trigger"
+    data-slot="menubar-trigger"
     {...props}
   />
 ));
@@ -103,11 +107,12 @@ const MenubarSubTrigger = React.forwardRef<
   <MenubarPrimitive.SubTrigger
     ref={ref}
     className={cn(
-      'flex cursor-default select-none items-center gap-2 rounded-[var(--sdk-radius-control)] px-2 py-1.5 text-sm outline-none transition-colors focus:bg-[var(--sdk-color-brand-primary-soft)] data-[state=open]:bg-[var(--sdk-color-brand-primary-soft)]',
+      'flex cursor-default select-none items-center gap-2 rounded-[var(--sdk-radius-field)] px-2 py-1.5 text-sm outline-none transition-colors focus:bg-[var(--sdk-color-brand-primary-soft)] data-[state=open]:bg-[var(--sdk-color-brand-primary-soft)]',
       inset && 'pl-8',
       className,
     )}
     data-sdk-ui="menubar-sub-trigger"
+    data-slot="menubar-sub-trigger"
     {...props}
   >
     {children}
@@ -128,6 +133,7 @@ const MenubarSubContent = React.forwardRef<
     ref={ref}
     className={cn(menubarContentClassName, className)}
     data-sdk-ui="menubar-sub-content"
+    data-slot="menubar-sub-content"
     {...props}
   />
 ));
@@ -145,6 +151,7 @@ const MenubarContent = React.forwardRef<
       sideOffset={sideOffset}
       className={cn(menubarContentClassName, className)}
       data-sdk-ui="menubar-content"
+      data-slot="menubar-content"
       {...props}
     />
   </MenubarPrimitive.Portal>
@@ -159,11 +166,12 @@ const MenubarItem = React.forwardRef<
   <MenubarPrimitive.Item
     ref={ref}
     className={cn(
-      'relative flex cursor-default select-none items-center gap-2 rounded-[var(--sdk-radius-control)] px-2 py-1.5 text-sm outline-none transition-colors focus:bg-[var(--sdk-color-brand-primary-soft)] focus:text-[var(--sdk-color-text-primary)] data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'relative flex cursor-default select-none items-center gap-2 rounded-[var(--sdk-radius-field)] px-2 py-1.5 text-sm outline-none transition-colors focus:bg-[var(--sdk-color-brand-primary-soft)] focus:text-[var(--sdk-color-text-primary)] data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       inset && 'pl-8',
       className,
     )}
     data-sdk-ui="menubar-item"
+    data-slot="menubar-item"
     {...props}
   />
 ));
@@ -178,10 +186,11 @@ const MenubarCheckboxItem = React.forwardRef<
     ref={ref}
     checked={checked}
     className={cn(
-      'relative flex cursor-default select-none items-center gap-2 rounded-[var(--sdk-radius-control)] py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-[var(--sdk-color-brand-primary-soft)] data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'relative flex cursor-default select-none items-center gap-2 rounded-[var(--sdk-radius-field)] py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-[var(--sdk-color-brand-primary-soft)] data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       className,
     )}
     data-sdk-ui="menubar-checkbox-item"
+    data-slot="menubar-checkbox-item"
     {...props}
   >
     <span className="absolute left-2 flex h-4 w-4 items-center justify-center">
@@ -202,10 +211,11 @@ const MenubarRadioItem = React.forwardRef<
   <MenubarPrimitive.RadioItem
     ref={ref}
     className={cn(
-      'relative flex cursor-default select-none items-center gap-2 rounded-[var(--sdk-radius-control)] py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-[var(--sdk-color-brand-primary-soft)] data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'relative flex cursor-default select-none items-center gap-2 rounded-[var(--sdk-radius-field)] py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-[var(--sdk-color-brand-primary-soft)] data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       className,
     )}
     data-sdk-ui="menubar-radio-item"
+    data-slot="menubar-radio-item"
     {...props}
   >
     <span className="absolute left-2 flex h-4 w-4 items-center justify-center">
@@ -227,6 +237,7 @@ const MenubarLabel = React.forwardRef<
     ref={ref}
     className={cn('px-2 py-1.5 text-sm font-semibold text-[var(--sdk-color-text-secondary)]', inset && 'pl-8', className)}
     data-sdk-ui="menubar-label"
+    data-slot="menubar-label"
     {...props}
   />
 ));
@@ -241,6 +252,7 @@ const MenubarSeparator = React.forwardRef<
     ref={ref}
     className={cn('-mx-1 my-1 h-px bg-[var(--sdk-color-border-subtle)]', className)}
     data-sdk-ui="menubar-separator"
+    data-slot="menubar-separator"
     {...props}
   />
 ));
@@ -252,6 +264,7 @@ const MenubarShortcut = React.forwardRef<HTMLSpanElement, MenubarShortcutProps>(
     ref={ref}
     className={cn('ml-auto text-xs tracking-[0.14em] text-[var(--sdk-color-text-muted)]', className)}
     data-sdk-ui="menubar-shortcut"
+    data-slot="menubar-shortcut"
     {...props}
   />
 ));

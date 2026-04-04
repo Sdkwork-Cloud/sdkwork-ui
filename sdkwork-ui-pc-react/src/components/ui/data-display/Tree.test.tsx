@@ -1,6 +1,10 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Tree, type TreeNodeData } from './index';
+
+afterEach(() => {
+  cleanup();
+});
 
 describe('Tree', () => {
   it('toggles folders and notifies when a leaf node is selected', () => {
@@ -115,5 +119,38 @@ describe('Tree', () => {
     fireEvent.keyDown(remoteItem, { key: 'ArrowRight' });
 
     expect(handleLoadChildren).toHaveBeenCalledTimes(1);
+  });
+
+  it('supports Home and End keyboard navigation across the visible tree collection', () => {
+    const treeData: TreeNodeData[] = [
+      {
+        id: 'workspace',
+        label: 'Workspace',
+        children: [
+          {
+            id: 'readme',
+            label: 'README.md',
+          },
+          {
+            id: 'settings',
+            label: 'settings.json',
+          },
+        ],
+      },
+    ];
+
+    render(<Tree data={treeData} defaultExpandedIds={['workspace']} />);
+
+    const workspaceItem = screen.getByRole('treeitem', { name: 'Workspace' });
+    const settingsItem = screen.getByRole('treeitem', { name: 'settings.json' });
+
+    workspaceItem.focus();
+    fireEvent.keyDown(workspaceItem, { key: 'End' });
+
+    expect(settingsItem).toHaveFocus();
+
+    fireEvent.keyDown(settingsItem, { key: 'Home' });
+
+    expect(workspaceItem).toHaveFocus();
   });
 });

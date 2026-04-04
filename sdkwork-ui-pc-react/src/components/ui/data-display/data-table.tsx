@@ -1,116 +1,81 @@
 import * as React from 'react';
-import { mergeSlotProps, type SlotProps } from '../../../lib/slot-props';
+import {
+  type ColumnDef,
+  type SortingState,
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
+import { mergeSlotProps } from '../../../lib/slot-props';
 import { cn } from '../../../lib/utils';
 import { EmptyState, LoadingBlock } from '../../patterns/feedback';
-import type { BulkActionBarProps } from '../actions';
 import { BulkActionBar } from '../actions';
-import { Button } from '../button';
 import { Checkbox } from '../checkbox';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-} from '../pagination';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../select';
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
-  type TableHeadProps,
   TableHeader,
   TableRow,
-  type TableRowProps,
-  type TableCellProps,
-  type TableProps,
 } from '../table';
+import { DataTableHeaderCell } from './data-table/header-cell';
+import { DataTablePaginationControls } from './data-table/pagination-controls';
+import {
+  areSortingStatesEqual,
+  clampPage,
+  normalizePageSize,
+  normalizeSortingState,
+  resolvePageSizeOptions,
+  resolvePaginationItems,
+  toPublicSortingState,
+} from './data-table/state';
+import {
+  dataTableFooterClassName,
+  dataTableSummaryClassName,
+  dataTableSurfaceClassName,
+} from './data-table/styles';
+import type {
+  DataTableAccessorResolver,
+  DataTableAlign,
+  DataTableCellProps,
+  DataTableColumn,
+  DataTableDensity,
+  DataTableProps as DataTablePropsContract,
+  DataTableRowProps,
+} from './data-table/types';
 
-export type DataTableDensity = 'comfortable' | 'compact';
-export type DataTableAlign = 'left' | 'center' | 'right';
+export type {
+  DataTableAccessorResolver,
+  DataTableAlign,
+  DataTableCellProps,
+  DataTableCellPropsResolver,
+  DataTableCellRenderer,
+  DataTableColumn,
+  DataTableDensity,
+  DataTableHeaderProps,
+  DataTablePageChangeHandler,
+  DataTablePageSizeChangeHandler,
+  DataTablePaginationMode,
+  DataTablePaginationProps,
+  DataTableRegionSlotProps,
+  DataTableRowActionsRenderer,
+  DataTableRowClickHandler,
+  DataTableRowIdResolver,
+  DataTableRowProps,
+  DataTableRowPropsResolver,
+  DataTableRowSelectionLabelResolver,
+  DataTableSelectedRowIdsChangeHandler,
+  DataTableSlotProps,
+  DataTableSortingChangeHandler,
+  DataTableSortingMode,
+  DataTableSortingState,
+  DataTableSortingStateItem,
+  DataTableTableSlotProps,
+} from './data-table/types';
 
-export interface DataTableColumn<T = any> {
-  align?: DataTableAlign;
-  cell: DataTableCellRenderer<T>;
-  cellProps?: DataTableCellProps | DataTableCellPropsResolver<T>;
-  header: React.ReactNode;
-  headerProps?: DataTableHeaderProps;
-  id: string;
-  width?: number | string;
-}
-
-export type DataTableRegionSlotProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>>;
-export type DataTableTableSlotProps = SlotProps<TableProps>;
-export type DataTableHeaderProps = SlotProps<Omit<TableHeadProps, 'children'>>;
-export type DataTableCellProps = SlotProps<Omit<TableCellProps, 'children'>>;
-export type DataTableRowProps = SlotProps<Omit<TableRowProps, 'children'>>;
-export type DataTableCellRenderer<T = any> = (row: T, index: number) => React.ReactNode;
-export type DataTableCellPropsResolver<T = any> = (row: T, index: number) => DataTableCellProps | undefined;
-export type DataTableRowIdResolver<T = any> = (row: T, index: number) => React.Key;
-export type DataTableRowPropsResolver<T = any> = (row: T, index: number) => DataTableRowProps | undefined;
-export type DataTableRowSelectionLabelResolver<T = any> = (row: T, index: number) => string;
-export type DataTableRowActionsRenderer<T = any> = (row: T, index: number) => React.ReactNode;
-export type DataTableRowClickHandler<T = any> = (row: T, index: number) => void;
-export type DataTableSelectedRowIdsChangeHandler = (ids: React.Key[]) => void;
-export type DataTablePageChangeHandler = (page: number) => void;
-export type DataTablePageSizeChangeHandler = (pageSize: number) => void;
-export type DataTablePaginationMode = 'client' | 'server';
-
-export interface DataTablePaginationProps {
-  defaultPage?: number;
-  defaultPageSize?: number;
-  mode?: DataTablePaginationMode;
-  onPageChange?: DataTablePageChangeHandler;
-  onPageSizeChange?: DataTablePageSizeChangeHandler;
-  page?: number;
-  pageSize?: number;
-  pageSizeOptions?: readonly number[];
-  rowCount?: number;
-}
-
-export interface DataTableSlotProps {
-  footer?: DataTableRegionSlotProps;
-  header?: DataTableRegionSlotProps;
-  pagination?: DataTableRegionSlotProps;
-  surface?: DataTableRegionSlotProps;
-  table?: DataTableTableSlotProps;
-  toolbar?: DataTableRegionSlotProps;
-}
-
-export interface DataTableProps<T = any> extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
-  columnVisibility?: Partial<Record<string, boolean>>;
-  columns: DataTableColumn<T>[];
-  density?: DataTableDensity;
-  description?: React.ReactNode;
-  emptyDescription?: React.ReactNode;
-  emptyState?: React.ReactNode;
-  emptyTitle?: React.ReactNode;
-  footer?: React.ReactNode;
-  getRowId?: DataTableRowIdResolver<T>;
-  getRowProps?: DataTableRowPropsResolver<T>;
-  getRowSelectionLabel?: DataTableRowSelectionLabelResolver<T>;
-  loading?: boolean;
-  loadingLabel?: React.ReactNode;
-  onRowClick?: DataTableRowClickHandler<T>;
-  onSelectedRowIdsChange?: DataTableSelectedRowIdsChangeHandler;
-  pagination?: DataTablePaginationProps;
-  rowActions?: DataTableRowActionsRenderer<T>;
-  rowActionsLabel?: React.ReactNode;
-  rows: T[];
-  selectable?: boolean;
-  selectedRowIds?: React.Key[];
-  selectionBar?: Omit<BulkActionBarProps, 'count' | 'onClear'>;
-  slotProps?: DataTableSlotProps;
-  stickyHeader?: boolean;
-  title?: React.ReactNode;
-  toolbar?: React.ReactNode;
-}
+export interface DataTableProps<T = any> extends DataTablePropsContract<T> {}
 
 const densityClassName: Record<DataTableDensity, string> = {
   comfortable: 'p-4',
@@ -118,63 +83,47 @@ const densityClassName: Record<DataTableDensity, string> = {
 };
 
 const alignClassName: Record<DataTableAlign, string> = {
-  left: 'text-left',
   center: 'text-center',
+  left: 'text-left',
   right: 'text-right',
 };
-
-function resolveStyleWidth(width?: number | string) {
-  if (width === undefined) {
-    return undefined;
-  }
-
-  return typeof width === 'number' ? `${width}px` : width;
-}
 
 function defaultGetRowId<T>(row: T, index: number) {
   return (row as { id?: React.Key }).id ?? index;
 }
 
-function clampPage(page: number, pageCount: number) {
-  return Math.min(Math.max(page, 1), pageCount);
+function resolveColumnAccessor<T>(column: DataTableColumn<T>): DataTableAccessorResolver<T> {
+  if (column.accessorFn) {
+    return column.accessorFn;
+  }
+
+  if (column.accessorKey) {
+    return (row: T) => row[column.accessorKey as keyof T];
+  }
+
+  return (row: T) => (row as Record<string, unknown>)[column.id];
 }
 
-function normalizePageSize(pageSize: number) {
-  return Math.max(1, Math.trunc(pageSize) || 1);
+function normalizeColumnVisibility(columnVisibility?: Partial<Record<string, boolean>>) {
+  return Object.fromEntries(
+    Object.entries(columnVisibility ?? {}).filter((entry): entry is [string, boolean] => entry[1] !== undefined),
+  );
 }
 
-function resolvePageSizeOptions(options: readonly number[] | undefined, currentPageSize: number) {
-  if (options?.length === 0) {
-    return [];
-  }
+function appendUniqueKeys(existing: React.Key[], additions: readonly React.Key[]) {
+  const seen = new Set(existing.map((item) => String(item)));
+  const next = [...existing];
 
-  return Array.from(new Set([...(options ?? [10, 20, 50]), currentPageSize]))
-    .map(normalizePageSize)
-    .sort((left, right) => left - right);
-}
+  additions.forEach((item) => {
+    const normalizedItem = String(item);
 
-function resolvePaginationItems(currentPage: number, pageCount: number) {
-  if (pageCount <= 7) {
-    return Array.from({ length: pageCount }, (_, index) => index + 1);
-  }
+    if (!seen.has(normalizedItem)) {
+      seen.add(normalizedItem);
+      next.push(item);
+    }
+  });
 
-  if (currentPage <= 4) {
-    return [1, 2, 3, 4, 5, 'end-ellipsis', pageCount] as const;
-  }
-
-  if (currentPage >= pageCount - 3) {
-    return [1, 'start-ellipsis', pageCount - 4, pageCount - 3, pageCount - 2, pageCount - 1, pageCount] as const;
-  }
-
-  return [
-    1,
-    'start-ellipsis',
-    currentPage - 1,
-    currentPage,
-    currentPage + 1,
-    'end-ellipsis',
-    pageCount,
-  ] as const;
+  return next;
 }
 
 type DataTableComponent = React.ForwardRefExoticComponent<DataTableProps & React.RefAttributes<HTMLDivElement>> & {
@@ -185,6 +134,7 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
   className,
   columnVisibility,
   columns,
+  defaultSorting,
   density = 'comfortable',
   description,
   emptyDescription,
@@ -198,6 +148,7 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
   loadingLabel,
   onRowClick,
   onSelectedRowIdsChange,
+  onSortingChange,
   pagination,
   rowActions,
   rowActionsLabel = 'Actions',
@@ -206,28 +157,23 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
   selectedRowIds = [],
   selectionBar,
   slotProps,
+  sorting: controlledSorting,
+  sortingMode = 'client',
   stickyHeader = false,
   title,
   toolbar,
   ...props
 }, ref) => {
-  const indexedRows = React.useMemo(
-    () => rows.map((row, index) => ({
-      index,
-      row,
-      rowId: getRowId(row, index),
-    })),
-    [getRowId, rows],
-  );
-  const visibleColumns = columns.filter((column) => columnVisibility?.[column.id] ?? true);
   const [uncontrolledPage, setUncontrolledPage] = React.useState(pagination?.defaultPage ?? 1);
   const [uncontrolledPageSize, setUncontrolledPageSize] = React.useState(
     normalizePageSize(pagination?.defaultPageSize ?? 10),
   );
+  const [uncontrolledSorting, setUncontrolledSorting] = React.useState(() => normalizeSortingState(defaultSorting));
+
   const resolvedPageSize = normalizePageSize(pagination?.pageSize ?? uncontrolledPageSize);
   const totalRowCount = pagination?.mode === 'server'
-    ? pagination.rowCount ?? indexedRows.length
-    : indexedRows.length;
+    ? pagination.rowCount ?? rows.length
+    : rows.length;
   const pageCount = pagination
     ? Math.max(1, Math.ceil(Math.max(totalRowCount, 1) / resolvedPageSize))
     : 1;
@@ -236,24 +182,128 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
   const resolvedPageSizeOptions = pagination
     ? resolvePageSizeOptions(pagination.pageSizeOptions, resolvedPageSize)
     : [];
-  const displayedRows = React.useMemo(() => {
+  const visibilityState = React.useMemo(
+    () => normalizeColumnVisibility(columnVisibility),
+    [columnVisibility],
+  );
+  const sortingState = controlledSorting === undefined
+    ? uncontrolledSorting
+    : normalizeSortingState(controlledSorting);
+  const hasSortableColumns = React.useMemo(
+    () => columns.some((column) => column.sortable),
+    [columns],
+  );
+  const columnMap = React.useMemo(
+    () => new Map(columns.map((column) => [column.id, column])),
+    [columns],
+  );
+  const columnDefs = React.useMemo<ColumnDef<any>[]>(
+    () =>
+      columns.map((column) => ({
+        accessorFn: resolveColumnAccessor(column),
+        enableHiding: true,
+        enableSorting: !!column.sortable,
+        id: column.id,
+      })),
+    [columns],
+  );
+
+  function handlePageChange(nextPage: number) {
     if (!pagination) {
-      return indexedRows;
+      return;
     }
 
-    if (pagination.mode === 'server') {
-      return indexedRows;
+    const clampedPage = clampPage(nextPage, pageCount);
+
+    if (pagination.page === undefined) {
+      setUncontrolledPage(clampedPage);
     }
 
-    const startIndex = (currentPage - 1) * resolvedPageSize;
-    return indexedRows.slice(startIndex, startIndex + resolvedPageSize);
-  }, [currentPage, indexedRows, pagination, resolvedPageSize]);
-  const rowIds = indexedRows.map(({ rowId }) => rowId);
-  const displayedRowIds = displayedRows.map(({ rowId }) => rowId);
-  const selectedRowIdSet = new Set(selectedRowIds);
-  const selectedRowCount = rowIds.filter((rowId) => selectedRowIdSet.has(rowId)).length;
-  const allRowsSelected = displayedRowIds.length > 0 && displayedRowIds.every((rowId) => selectedRowIdSet.has(rowId));
-  const someRowsSelected = !allRowsSelected && displayedRowIds.some((rowId) => selectedRowIdSet.has(rowId));
+    pagination.onPageChange?.(clampedPage);
+  }
+
+  function handleSortingUpdate(updater: SortingState | ((old: SortingState) => SortingState)) {
+    const nextSorting = typeof updater === 'function' ? updater(sortingState) : updater;
+
+    if (controlledSorting === undefined && !areSortingStatesEqual(uncontrolledSorting, nextSorting)) {
+      setUncontrolledSorting(nextSorting);
+    }
+
+    onSortingChange?.(toPublicSortingState(nextSorting));
+
+    if (pagination && currentPage !== 1) {
+      handlePageChange(1);
+    }
+  }
+
+  function handlePageSizeChange(nextPageSizeValue: string) {
+    if (!pagination) {
+      return;
+    }
+
+    const nextPageSize = normalizePageSize(Number(nextPageSizeValue));
+
+    if (nextPageSize === resolvedPageSize && currentPage === 1) {
+      return;
+    }
+
+    if (pagination.pageSize === undefined) {
+      setUncontrolledPageSize(nextPageSize);
+    }
+
+    if (pagination.page === undefined) {
+      setUncontrolledPage(1);
+    }
+
+    pagination.onPageSizeChange?.(nextPageSize);
+
+    if (currentPage !== 1) {
+      pagination.onPageChange?.(1);
+    }
+  }
+
+  const table = useReactTable({
+    columns: columnDefs,
+    data: rows,
+    getCoreRowModel: getCoreRowModel(),
+    ...(pagination && pagination.mode !== 'server'
+      ? {
+          getPaginationRowModel: getPaginationRowModel(),
+        }
+      : {}),
+    ...(hasSortableColumns && sortingMode !== 'server'
+      ? {
+          getSortedRowModel: getSortedRowModel(),
+        }
+      : {}),
+    getRowId: (row, index) => String(getRowId(row, index)),
+    manualPagination: pagination?.mode === 'server',
+    manualSorting: sortingMode === 'server',
+    onSortingChange: handleSortingUpdate,
+    rowCount: totalRowCount,
+    state: {
+      ...(pagination
+        ? {
+            pagination: {
+              pageIndex: currentPage - 1,
+              pageSize: resolvedPageSize,
+            },
+          }
+        : {}),
+      columnVisibility: visibilityState,
+      sorting: sortingState,
+    },
+  });
+
+  const displayedRows = table.getRowModel().rows;
+  const selectedRowIdSet = new Set(selectedRowIds.map((rowId) => String(rowId)));
+  const rowIds = rows.map((row, index) => getRowId(row, index));
+  const displayedRowIds = displayedRows.map((row) => getRowId(row.original, row.index));
+  const selectedRowCount = rowIds.filter((rowId) => selectedRowIdSet.has(String(rowId))).length;
+  const allRowsSelected =
+    displayedRowIds.length > 0 && displayedRowIds.every((rowId) => selectedRowIdSet.has(String(rowId)));
+  const someRowsSelected =
+    !allRowsSelected && displayedRowIds.some((rowId) => selectedRowIdSet.has(String(rowId)));
   const paginationSummary = displayedRows.length > 0
     ? `Showing ${(currentPage - 1) * resolvedPageSize + 1}-${(currentPage - 1) * resolvedPageSize + displayedRows.length} of ${totalRowCount}`
     : `Showing 0-0 of ${totalRowCount}`;
@@ -284,76 +334,33 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
 
   function handleToggleAllRows(checked: boolean | 'indeterminate') {
     if (checked) {
-      const nextSelectedIds = [...selectedRowIds];
-
-      displayedRowIds.forEach((rowId) => {
-        if (!nextSelectedIds.includes(rowId)) {
-          nextSelectedIds.push(rowId);
-        }
-      });
-
-      handleSelectedRowIdsChange(nextSelectedIds);
+      handleSelectedRowIdsChange(appendUniqueKeys(selectedRowIds, displayedRowIds));
       return;
     }
 
+    const displayedIdSet = new Set(displayedRowIds.map((rowId) => String(rowId)));
+
     handleSelectedRowIdsChange(
-      selectedRowIds.filter((selectedRowId) => !displayedRowIds.includes(selectedRowId)),
+      selectedRowIds.filter((selectedRowId) => !displayedIdSet.has(String(selectedRowId))),
     );
   }
 
   function handleToggleRow(rowId: React.Key, checked: boolean | 'indeterminate') {
     if (checked) {
-      handleSelectedRowIdsChange([...selectedRowIds, rowId]);
+      handleSelectedRowIdsChange(appendUniqueKeys(selectedRowIds, [rowId]));
       return;
     }
 
-    handleSelectedRowIdsChange(selectedRowIds.filter((selectedRowId) => selectedRowId !== rowId));
-  }
-
-  function handlePageChange(nextPage: number) {
-    if (!pagination) {
-      return;
-    }
-
-    const clampedPage = clampPage(nextPage, pageCount);
-
-    if (pagination.page === undefined) {
-      setUncontrolledPage(clampedPage);
-    }
-
-    pagination.onPageChange?.(clampedPage);
-  }
-
-  function handlePageSizeChange(nextPageSizeValue: string) {
-    if (!pagination) {
-      return;
-    }
-
-    const nextPageSize = normalizePageSize(Number(nextPageSizeValue));
-
-    if (nextPageSize === resolvedPageSize && currentPage === 1) {
-      return;
-    }
-
-    if (pagination.pageSize === undefined) {
-      setUncontrolledPageSize(nextPageSize);
-    }
-
-    if (pagination.page === undefined) {
-      setUncontrolledPage(1);
-    }
-
-    pagination.onPageSizeChange?.(nextPageSize);
-
-    if (currentPage !== 1) {
-      pagination.onPageChange?.(1);
-    }
+    handleSelectedRowIdsChange(
+      selectedRowIds.filter((selectedRowId) => String(selectedRowId) !== String(rowId)),
+    );
   }
 
   const hasPagination = !!pagination && totalRowCount > 0;
   const hasFooter = !!footer || hasPagination;
   const hasPageSizeSelector = hasPagination && resolvedPageSizeOptions.length > 1;
   const paginationItems = hasPagination ? resolvePaginationItems(currentPage, pageCount) : [];
+  const headerGroup = table.getHeaderGroups()[0];
 
   return (
     <div
@@ -365,7 +372,7 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
       {title || description || toolbar ? (
         <div
           data-sdk-region="data-table-header"
-          {...mergeSlotProps<DataTableRegionSlotProps>(
+          {...mergeSlotProps(
             {
               className: 'flex flex-wrap items-start justify-between gap-3',
             },
@@ -383,7 +390,7 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
           {toolbar ? (
             <div
               data-sdk-region="data-table-toolbar"
-              {...mergeSlotProps<DataTableRegionSlotProps>(
+              {...mergeSlotProps(
                 {},
                 slotProps?.toolbar,
               )}
@@ -396,6 +403,8 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
 
       {selectedRowCount > 0 ? (
         <BulkActionBar
+          actions={selectionBar?.actions}
+          clearLabel={selectionBar?.clearLabel}
           count={selectedRowCount}
           description={selectionBar?.description}
           meta={selectionBar?.meta}
@@ -403,17 +412,14 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
           sticky={selectionBar?.sticky}
           title={selectionBar?.title ?? 'Selected rows'}
           tone={selectionBar?.tone}
-          actions={selectionBar?.actions}
-          clearLabel={selectionBar?.clearLabel}
         />
       ) : null}
 
       <div
         data-sdk-region="data-table-surface"
-        {...mergeSlotProps<DataTableRegionSlotProps>(
+        {...mergeSlotProps(
           {
-            className:
-              'overflow-hidden rounded-[var(--sdk-radius-control)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] shadow-[var(--sdk-shadow-sm)]',
+            className: dataTableSurfaceClassName,
           },
           slotProps?.surface,
         )}
@@ -428,7 +434,7 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
           </div>
         ) : (
           <Table
-            {...mergeSlotProps<DataTableTableSlotProps>(
+            {...mergeSlotProps(
               {},
               slotProps?.table,
             )}
@@ -444,23 +450,24 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
                     />
                   </TableHead>
                 ) : null}
-                {visibleColumns.map((column) => (
-                  <TableHead
-                    {...mergeSlotProps<DataTableHeaderProps>(
-                      {
-                        className: cn(
-                          alignClassName[column.align ?? 'left'],
-                          stickyHeader ? 'sticky top-0 z-10 bg-[var(--sdk-color-surface-panel)]' : null,
-                        ),
-                        style: { width: resolveStyleWidth(column.width) },
-                      },
-                      column.headerProps,
-                    )}
-                    key={column.id}
-                  >
-                    {column.header}
-                  </TableHead>
-                ))}
+                {headerGroup?.headers
+                  .filter((header) => !header.isPlaceholder)
+                  .map((header) => {
+                    const column = columnMap.get(header.column.id);
+
+                    if (!column) {
+                      return null;
+                    }
+
+                    return (
+                      <DataTableHeaderCell
+                        column={column}
+                        key={header.id}
+                        sortColumn={header.column}
+                        stickyHeader={stickyHeader}
+                      />
+                    );
+                  })}
                 {rowActions ? (
                   <TableHead
                     className={cn(
@@ -474,8 +481,11 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
               </TableRow>
             </TableHeader>
             <TableBody>
-              {displayedRows.map(({ index, row, rowId }) => {
-                const selected = selectedRowIdSet.has(rowId);
+              {displayedRows.map((tableRow) => {
+                const row = tableRow.original;
+                const index = tableRow.index;
+                const rowId = getRowId(row, index);
+                const selected = selectedRowIdSet.has(String(rowId));
                 const rowSelectionLabel = getRowSelectionLabel?.(row, index) ?? String(rowId);
                 const resolvedRowProps = getRowProps?.(row, index);
 
@@ -505,7 +515,13 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
                         />
                       </TableCell>
                     ) : null}
-                    {visibleColumns.map((column) => {
+                    {tableRow.getVisibleCells().map((cell) => {
+                      const column = columnMap.get(cell.column.id);
+
+                      if (!column) {
+                        return null;
+                      }
+
                       const resolvedCellProps =
                         typeof column.cellProps === 'function'
                           ? column.cellProps(row, index)
@@ -522,7 +538,7 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
                             },
                             resolvedCellProps,
                           )}
-                          key={column.id}
+                          key={cell.id}
                         >
                           {column.cell(row, index)}
                         </TableCell>
@@ -545,97 +561,35 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
         {hasFooter ? (
           <div
             data-sdk-region="data-table-footer"
-            {...mergeSlotProps<DataTableRegionSlotProps>(
+            {...mergeSlotProps(
               {
-                className:
-                  'flex flex-col gap-3 border-t border-[var(--sdk-color-border-default)] px-4 py-3 sm:flex-row sm:items-center sm:justify-between',
+                className: dataTableFooterClassName,
               },
               slotProps?.footer,
             )}
           >
-            <div className="flex min-w-0 flex-1 flex-wrap items-center gap-3 text-sm text-[var(--sdk-color-text-secondary)]">
+            <div className={dataTableSummaryClassName}>
               {footer}
               {hasPagination ? <span>{paginationSummary}</span> : null}
             </div>
             {hasPagination ? (
               <div
                 data-sdk-region="data-table-pagination"
-                {...mergeSlotProps<DataTableRegionSlotProps>(
+                {...mergeSlotProps(
                   {},
                   slotProps?.pagination,
                 )}
               >
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
-                  {hasPageSizeSelector ? (
-                    <div className="flex items-center gap-2 text-sm text-[var(--sdk-color-text-secondary)]">
-                      <span className="whitespace-nowrap">Rows per page</span>
-                      <Select value={String(resolvedPageSize)} onValueChange={handlePageSizeChange}>
-                        <SelectTrigger
-                          aria-label="Rows per page"
-                          className="h-9 w-[5.5rem] bg-[var(--sdk-color-surface-panel-muted)] shadow-none"
-                        >
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="min-w-[5.5rem]">
-                          {resolvedPageSizeOptions.map((pageSizeOption) => (
-                            <SelectItem key={pageSizeOption} value={String(pageSizeOption)}>
-                              {pageSizeOption}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  ) : null}
-                  <Pagination className="justify-start sm:justify-end">
-                    <PaginationContent>
-                      <PaginationItem>
-                        <Button
-                          aria-label="Previous page"
-                          className="h-9 rounded-[var(--sdk-radius-field)] px-3"
-                          disabled={currentPage <= 1}
-                          onClick={() => handlePageChange(currentPage - 1)}
-                          size="sm"
-                          type="button"
-                          variant="outline"
-                        >
-                          Previous
-                        </Button>
-                      </PaginationItem>
-                      {paginationItems.map((item, itemIndex) => (
-                        <PaginationItem key={`${item}-${itemIndex}`}>
-                          {typeof item === 'number' ? (
-                            <Button
-                              aria-current={item === currentPage ? 'page' : undefined}
-                              aria-label={`Page ${item}`}
-                              className="h-9 min-w-9 rounded-[var(--sdk-radius-field)] px-3"
-                              onClick={() => handlePageChange(item)}
-                              size="sm"
-                              type="button"
-                              variant={item === currentPage ? 'secondary' : 'ghost'}
-                            >
-                              {item}
-                            </Button>
-                          ) : (
-                            <PaginationEllipsis />
-                          )}
-                        </PaginationItem>
-                      ))}
-                      <PaginationItem>
-                        <Button
-                          aria-label="Next page"
-                          className="h-9 rounded-[var(--sdk-radius-field)] px-3"
-                          disabled={currentPage >= pageCount}
-                          onClick={() => handlePageChange(currentPage + 1)}
-                          size="sm"
-                          type="button"
-                          variant="outline"
-                        >
-                          Next
-                        </Button>
-                      </PaginationItem>
-                    </PaginationContent>
-                  </Pagination>
-                </div>
+                <DataTablePaginationControls
+                  currentPage={currentPage}
+                  hasPageSizeSelector={hasPageSizeSelector}
+                  onPageChange={handlePageChange}
+                  onPageSizeChange={handlePageSizeChange}
+                  pageCount={pageCount}
+                  pageSizeOptions={resolvedPageSizeOptions}
+                  paginationItems={paginationItems}
+                  resolvedPageSize={resolvedPageSize}
+                />
               </div>
             ) : null}
           </div>

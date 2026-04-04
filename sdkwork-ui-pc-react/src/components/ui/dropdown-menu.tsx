@@ -41,6 +41,7 @@ const DropdownMenuTrigger = React.forwardRef<
   <DropdownMenuPrimitive.Trigger
     ref={ref}
     data-sdk-ui="dropdown-menu-trigger"
+    data-slot="dropdown-menu-trigger"
     {...props}
   />
 ));
@@ -54,6 +55,7 @@ const DropdownMenuGroup = React.forwardRef<
   <DropdownMenuPrimitive.Group
     ref={ref}
     data-sdk-ui="dropdown-menu-group"
+    data-slot="dropdown-menu-group"
     {...props}
   />
 ));
@@ -67,6 +69,7 @@ const DropdownMenuRadioGroup = React.forwardRef<
   <DropdownMenuPrimitive.RadioGroup
     ref={ref}
     data-sdk-ui="dropdown-menu-radio-group"
+    data-slot="dropdown-menu-radio-group"
     {...props}
   />
 ));
@@ -80,11 +83,12 @@ const DropdownMenuSubTrigger = React.forwardRef<
   <DropdownMenuPrimitive.SubTrigger
     ref={ref}
     className={cn(
-      'flex cursor-default select-none items-center gap-2 rounded-[var(--sdk-radius-control)] px-2 py-1.5 text-sm outline-none transition-colors focus:bg-[var(--sdk-color-brand-primary-soft)] data-[state=open]:bg-[var(--sdk-color-brand-primary-soft)]',
+      'flex cursor-default select-none items-center gap-2 rounded-[var(--sdk-radius-field)] px-2 py-1.5 text-sm outline-none transition-colors focus:bg-[var(--sdk-color-brand-primary-soft)] data-[state=open]:bg-[var(--sdk-color-brand-primary-soft)]',
       inset && 'pl-8',
       className,
     )}
     data-sdk-ui="dropdown-menu-sub-trigger"
+    data-slot="dropdown-menu-sub-trigger"
     {...props}
   >
     {children}
@@ -105,6 +109,7 @@ const DropdownMenuSubContent = React.forwardRef<
       className,
     )}
     data-sdk-ui="dropdown-menu-sub-content"
+    data-slot="dropdown-menu-sub-content"
     {...props}
   />
 ));
@@ -124,6 +129,7 @@ const DropdownMenuContent = React.forwardRef<
         className,
       )}
       data-sdk-ui="dropdown-menu-content"
+      data-slot="dropdown-menu-content"
       {...props}
     />
   </DropdownMenuPrimitive.Portal>
@@ -138,11 +144,12 @@ const DropdownMenuItem = React.forwardRef<
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
-      'relative flex cursor-default select-none items-center gap-2 rounded-[var(--sdk-radius-control)] px-2 py-1.5 text-sm outline-none transition-colors focus:bg-[var(--sdk-color-brand-primary-soft)] focus:text-[var(--sdk-color-text-primary)] data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'relative flex cursor-default select-none items-center gap-2 rounded-[var(--sdk-radius-field)] px-2 py-1.5 text-sm outline-none transition-colors focus:bg-[var(--sdk-color-brand-primary-soft)] focus:text-[var(--sdk-color-text-primary)] data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       inset && 'pl-8',
       className,
     )}
     data-sdk-ui="dropdown-menu-item"
+    data-slot="dropdown-menu-item"
     {...props}
   />
 ));
@@ -157,10 +164,11 @@ const DropdownMenuCheckboxItem = React.forwardRef<
     ref={ref}
     checked={checked}
     className={cn(
-      'relative flex cursor-default select-none items-center gap-2 rounded-[var(--sdk-radius-control)] py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-[var(--sdk-color-brand-primary-soft)] data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'relative flex cursor-default select-none items-center gap-2 rounded-[var(--sdk-radius-field)] py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-[var(--sdk-color-brand-primary-soft)] data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       className,
     )}
     data-sdk-ui="dropdown-menu-checkbox-item"
+    data-slot="dropdown-menu-checkbox-item"
     {...props}
   >
     <span className="absolute left-2 flex h-4 w-4 items-center justify-center">
@@ -181,10 +189,11 @@ const DropdownMenuRadioItem = React.forwardRef<
   <DropdownMenuPrimitive.RadioItem
     ref={ref}
     className={cn(
-      'relative flex cursor-default select-none items-center gap-2 rounded-[var(--sdk-radius-control)] py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-[var(--sdk-color-brand-primary-soft)] data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'relative flex cursor-default select-none items-center gap-2 rounded-[var(--sdk-radius-field)] py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-[var(--sdk-color-brand-primary-soft)] data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       className,
     )}
     data-sdk-ui="dropdown-menu-radio-item"
+    data-slot="dropdown-menu-radio-item"
     {...props}
   >
     <span className="absolute left-2 flex h-4 w-4 items-center justify-center">
@@ -210,6 +219,7 @@ const DropdownMenuLabel = React.forwardRef<
       className,
     )}
     data-sdk-ui="dropdown-menu-label"
+    data-slot="dropdown-menu-label"
     {...props}
   />
 ));
@@ -224,6 +234,7 @@ const DropdownMenuSeparator = React.forwardRef<
     ref={ref}
     className={cn('-mx-1 my-1 h-px bg-[var(--sdk-color-border-subtle)]', className)}
     data-sdk-ui="dropdown-menu-separator"
+    data-slot="dropdown-menu-separator"
     {...props}
   />
 ));
@@ -238,6 +249,7 @@ const DropdownMenuShortcut = React.forwardRef<HTMLSpanElement, DropdownMenuShort
     ref={ref}
     className={cn('ml-auto text-xs tracking-[0.14em] text-[var(--sdk-color-text-muted)]', className)}
     data-sdk-ui="dropdown-menu-shortcut"
+    data-slot="dropdown-menu-shortcut"
     {...props}
   />
 ));

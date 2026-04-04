@@ -51,12 +51,13 @@ function WorkspaceForm() {
 
 describe('Form', () => {
   it('wires label, description, validation message, and control accessibility for desktop forms', async () => {
-    render(<WorkspaceForm />);
+    const { container } = render(<WorkspaceForm />);
 
     const input = screen.getByRole('textbox', { name: 'Workspace Name' });
 
     expect(screen.getByText('Used in the desktop shell and project switchers.')).toBeInTheDocument();
     expect(input).toHaveAttribute('aria-describedby');
+    expect(container.querySelector('[data-sdk-ui="field"]')).toHaveAttribute('data-slot', 'field');
 
     fireEvent.click(screen.getByRole('button', { name: 'Save' }));
 
