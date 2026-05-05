@@ -69,12 +69,20 @@ const timelineIndicatorDotClassName: Record<ResolvedTimelineStatus, string> = {
   pending: 'bg-[var(--sdk-color-brand-primary)]',
 };
 
+function isTimelineStatusAlias(status: TimelineItemStatus): status is keyof typeof timelineStatusAlias {
+  return Object.prototype.hasOwnProperty.call(timelineStatusAlias, status);
+}
+
 function resolveTimelineStatus(status?: TimelineItemStatus): ResolvedTimelineStatus {
   if (!status) {
     return 'default';
   }
 
-  return timelineStatusAlias[status as keyof typeof timelineStatusAlias] ?? status;
+  if (isTimelineStatusAlias(status)) {
+    return timelineStatusAlias[status];
+  }
+
+  return status;
 }
 
 const Timeline = React.forwardRef<HTMLOListElement, TimelineProps>(({
