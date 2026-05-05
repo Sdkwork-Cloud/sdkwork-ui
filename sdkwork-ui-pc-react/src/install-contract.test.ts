@@ -7,6 +7,8 @@ const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const workspaceAppsRoot = resolve(packageRoot, '..', '..');
 const packageJson = JSON.parse(readFileSync(resolve(packageRoot, 'package.json'), 'utf8')) as {
   scripts?: Record<string, string>;
+  types?: string;
+  exports?: Record<string, unknown>;
 };
 
 const criticalRuntimePackages = [
@@ -64,5 +66,25 @@ describe('sdkwork-ui install contract', () => {
     expect(packageJson.scripts?.prepare).toBeUndefined();
     expect(existsSync(resolve(packageRoot, 'dist', 'index.js'))).toBe(true);
     expect(existsSync(resolve(packageRoot, 'dist', 'sdkwork-ui.css'))).toBe(true);
+  });
+
+  it('points all published type entries at files shipped in dist', () => {
+    const typeEntries = [
+      packageJson.types,
+      ...Object.values(packageJson.exports ?? {})
+        .filter((entry): entry is { types: string } => (
+          Boolean(entry)
+          && typeof entry === 'object'
+          && !Array.isArray(entry)
+          && typeof (entry as { types?: unknown }).types === 'string'
+        ))
+        .map((entry) => entry.types),
+    ].filter((entry): entry is string => typeof entry === 'string' && entry.length > 0);
+
+    const missingTypeEntries = typeEntries.filter((entry) => (
+      !existsSync(resolve(packageRoot, entry))
+    ));
+
+    expect(missingTypeEntries).toEqual([]);
   });
 });

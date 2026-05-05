@@ -6,7 +6,7 @@
   "packageManager": "pnpm@10.30.2",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
-  "types": "./dist/src/index.d.ts",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "README.md"
@@ -16,91 +16,91 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/src/index.d.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
     "./theme": {
-      "types": "./dist/src/theme/index.d.ts",
+      "types": "./dist/theme/index.d.ts",
       "import": "./dist/theme.js"
     },
     "./components/ui": {
-      "types": "./dist/src/components/ui/index.d.ts",
+      "types": "./dist/components/ui/index.d.ts",
       "import": "./dist/components-ui.js"
     },
     "./components/ui/actions": {
-      "types": "./dist/src/components/ui/actions/index.d.ts",
+      "types": "./dist/components/ui/actions/index.d.ts",
       "import": "./dist/ui-actions.js"
     },
     "./components/ui/data-entry": {
-      "types": "./dist/src/components/ui/data-entry/index.d.ts",
+      "types": "./dist/components/ui/data-entry/index.d.ts",
       "import": "./dist/ui-data-entry.js"
     },
     "./components/ui/data-display": {
-      "types": "./dist/src/components/ui/data-display/index.d.ts",
+      "types": "./dist/components/ui/data-display/index.d.ts",
       "import": "./dist/ui-data-display.js"
     },
     "./components/ui/form": {
-      "types": "./dist/src/components/ui/form/index.d.ts",
+      "types": "./dist/components/ui/form/index.d.ts",
       "import": "./dist/ui-form.js"
     },
     "./components/ui/feedback": {
-      "types": "./dist/src/components/ui/feedback/index.d.ts",
+      "types": "./dist/components/ui/feedback/index.d.ts",
       "import": "./dist/ui-feedback.js"
     },
     "./components/ui/layout": {
-      "types": "./dist/src/components/ui/layout/index.d.ts",
+      "types": "./dist/components/ui/layout/index.d.ts",
       "import": "./dist/ui-layout.js"
     },
     "./components/ui/navigation": {
-      "types": "./dist/src/components/ui/navigation/index.d.ts",
+      "types": "./dist/components/ui/navigation/index.d.ts",
       "import": "./dist/ui-navigation.js"
     },
     "./components/ui/overlays": {
-      "types": "./dist/src/components/ui/overlays/index.d.ts",
+      "types": "./dist/components/ui/overlays/index.d.ts",
       "import": "./dist/ui-overlays.js"
     },
     "./components/ui/catalog": {
-      "types": "./dist/src/components/ui/catalog.d.ts",
+      "types": "./dist/components/ui/catalog.d.ts",
       "import": "./dist/ui-catalog.js"
     },
     "./components/patterns": {
-      "types": "./dist/src/components/patterns/index.d.ts",
+      "types": "./dist/components/patterns/index.d.ts",
       "import": "./dist/components-patterns.js"
     },
     "./components/patterns/app-shell": {
-      "types": "./dist/src/components/patterns/app-shell/index.d.ts",
+      "types": "./dist/components/patterns/app-shell/index.d.ts",
       "import": "./dist/patterns-app-shell.js"
     },
     "./components/patterns/command": {
-      "types": "./dist/src/components/patterns/command/index.d.ts",
+      "types": "./dist/components/patterns/command/index.d.ts",
       "import": "./dist/patterns-command.js"
     },
     "./components/patterns/desktop-shell": {
-      "types": "./dist/src/components/patterns/desktop-shell/index.d.ts",
+      "types": "./dist/components/patterns/desktop-shell/index.d.ts",
       "import": "./dist/patterns-desktop-shell.js"
     },
     "./components/patterns/detail": {
-      "types": "./dist/src/components/patterns/detail/index.d.ts",
+      "types": "./dist/components/patterns/detail/index.d.ts",
       "import": "./dist/patterns-detail.js"
     },
     "./components/patterns/picker": {
-      "types": "./dist/src/components/patterns/picker/index.d.ts",
+      "types": "./dist/components/patterns/picker/index.d.ts",
       "import": "./dist/patterns-picker.js"
     },
     "./components/patterns/settings": {
-      "types": "./dist/src/components/patterns/settings/index.d.ts",
+      "types": "./dist/components/patterns/settings/index.d.ts",
       "import": "./dist/patterns-settings.js"
     },
     "./components/patterns/system": {
-      "types": "./dist/src/components/patterns/system/index.d.ts",
+      "types": "./dist/components/patterns/system/index.d.ts",
       "import": "./dist/patterns-system.js"
     },
     "./components/patterns/workbench": {
-      "types": "./dist/src/components/patterns/workbench/index.d.ts",
+      "types": "./dist/components/patterns/workbench/index.d.ts",
       "import": "./dist/patterns-workbench.js"
     },
     "./components/patterns/workspace": {
-      "types": "./dist/src/components/patterns/workspace/index.d.ts",
+      "types": "./dist/components/patterns/workspace/index.d.ts",
       "import": "./dist/patterns-workspace.js"
     },
     "./styles.css": "./dist/sdkwork-ui.css"
