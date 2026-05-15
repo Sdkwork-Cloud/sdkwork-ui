@@ -35,12 +35,12 @@ describe('DesktopShellFrame', () => {
           </StatusBar>
         }
         subtitle="Desktop shell"
-        title="Claw Studio"
+        title="Sdkwork Studio"
         windowController={createWindowController()}
       />,
     );
 
-    expect(screen.getByText('Claw Studio')).toBeInTheDocument();
+    expect(screen.getByText('Sdkwork Studio')).toBeInTheDocument();
     expect(screen.getByText('Desktop shell')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Assets' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Settings' })).toBeInTheDocument();

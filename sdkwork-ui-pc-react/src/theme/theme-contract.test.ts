@@ -1,7 +1,7 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { CLAW_DARK_THEME, createThemeCssVariables } from './sdkwork-theme';
+import { SDKWORK_DARK_THEME, createThemeCssVariables } from './sdkwork-theme';
 
 const sdkTokenPattern = /--sdk-[a-z0-9-]+/g;
 const declaredTokenPattern = /--sdk-[a-z0-9-]+(?=\s*:)/g;
@@ -33,7 +33,7 @@ describe('theme contract', () => {
       matches.forEach((token) => usedTokens.add(token));
     });
 
-    const declaredThemeTokens = new Set(Object.keys(createThemeCssVariables(CLAW_DARK_THEME)));
+    const declaredThemeTokens = new Set(Object.keys(createThemeCssVariables(SDKWORK_DARK_THEME)));
     const undeclaredTokens = [...usedTokens]
       .filter((token) => !declaredThemeTokens.has(token))
       .sort();
@@ -44,7 +44,7 @@ describe('theme contract', () => {
   it('keeps the base stylesheet in sync with the runtime theme contract', () => {
     const stylesheet = readFileSync('src/styles/sdkwork-ui.css', 'utf8');
     const stylesheetTokens = [...new Set(stylesheet.match(declaredTokenPattern) ?? [])].sort();
-    const runtimeTokens = Object.keys(createThemeCssVariables(CLAW_DARK_THEME)).sort();
+    const runtimeTokens = Object.keys(createThemeCssVariables(SDKWORK_DARK_THEME)).sort();
 
     expect(stylesheetTokens).toEqual(runtimeTokens);
   });

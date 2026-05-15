@@ -11,7 +11,7 @@ const contractRegistry = new Map([
     audits: [
       'src/theme/theme-contract.test.ts',
       'src/form-radius-contract.test.ts',
-      'src/styles/claw-shell-css-contract.test.ts',
+      'src/styles/sdkwork-shell-css-contract.test.ts',
     ],
     references: [
       '/reference/framework-governance',
@@ -249,7 +249,7 @@ function toRepoRelativePath(filePath) {
 function parseGovernanceContracts(markdown) {
   return markdown
     .split('\n')
-    .map((line) => line.match(/^## (\d+)\. (.+)$/))
+    .map((line) => line.match(/^##\s+(\d+)\.\s+(.+?)\s*$/))
     .filter((match) => Boolean(match))
     .map((match) => ({
       id: Number(match[1]),

@@ -17,7 +17,7 @@ That choice gives the best balance of:
 
 The theme layer defines semantic tokens through a `preset + overrides` model.
 
-The default preset is `claw`, which maps the framework baseline to the existing `claw-studio` desktop visual system while keeping semantic token names generic.
+The default preset is `sdkwork`, which maps the framework baseline to the existing `sdkwork-studio` desktop visual system while keeping semantic token names generic.
 
 The semantic token groups are:
 
@@ -31,7 +31,7 @@ The semantic token groups are:
 
 These are turned into CSS variables and can be applied either by `AppShell` or `SdkworkThemeProvider`.
 
-Compatibility exports `SDKWORK_LIGHT_THEME` and `SDKWORK_DARK_THEME` currently resolve to the claw preset so existing consumers can migrate without a breaking rename.
+Canonical exports `SDKWORK_LIGHT_THEME` and `SDKWORK_DARK_THEME` define the shared SDKWORK preset baseline.
 
 ### UI Domain Layer
 
@@ -243,7 +243,7 @@ The pattern layer contains desktop PC composition helpers:
 
 The feedback layer is intentionally grounded in the currently converging PC notification stack:
 
-- `claw-studio`, `sdkwork-notes`, `sdkwork-drive`, and `sdkwork-desktop-settings` already use `sonner`
+- `sdkwork-studio`, `sdkwork-notes`, `sdkwork-drive`, and `sdkwork-desktop-settings` already use `sonner`
 - `sdkwork-chat-pc-react` exposes a wrapper with the same mental model
 - `sdkwork-backend-react-web` and `magic-studio-v2` still carry custom toast abstractions that can now converge on the shared feedback domain instead of maintaining more local stores
 - panel-local warning and remediation blocks recur across upload, settings, backend/admin, and billing-style PC flows, which justifies keeping `InlineAlert` in the shared `feedback` layer rather than scattering ad hoc warning cards across apps
@@ -251,12 +251,12 @@ The feedback layer is intentionally grounded in the currently converging PC noti
 
 The same audit also justifies a dedicated numeric input primitive:
 
-- `sdkwork-desktop-settings`, `claw-studio`, `sdkwork-cloud-portal`, `sdkwork-backend-react-web`, and `magic-studio-v2` all repeat bounded numeric fields with min/max/step semantics
+- `sdkwork-desktop-settings`, `sdkwork-studio`, `sdkwork-cloud-portal`, `sdkwork-backend-react-web`, and `magic-studio-v2` all repeat bounded numeric fields with min/max/step semantics
 - `NumberInput` keeps that behavior in `data-entry` instead of letting each app reinvent stepper controls with slightly different keyboard and layout behavior
 
 The date and range-filter suite is now an explicit framework responsibility:
 
-- `claw-studio` and `sdkwork-drive-pc-react` already share a native-input desktop `DateInput` seam, while desktop-settings and api-router families repeat preset-driven date and datetime filters
+- `sdkwork-studio` and `sdkwork-drive-pc-react` already share a native-input desktop `DateInput` seam, while desktop-settings and api-router families repeat preset-driven date and datetime filters
 - `DateTimeInput`, `DateRangeField`, and `DateTimeRangeField` now keep inline range-entry behavior in `data-entry`, while `DateRangePicker` owns popover calendar selection for date-only ranges; app services remain responsible for Unix timestamps, preset enums, and backend query serialization
 - the next shared additions in this family should therefore center on richer popup `DatePicker` shells, preset controllers, active-filter chips, and normalization helpers for desktop date and datetime values
 
@@ -269,7 +269,7 @@ Desktop selection actions and overflow menus are now explicit framework responsi
 Resizable split workspaces are now explicit framework responsibilities too:
 
 - `magic-studio-v2` repeats side-panel, notes, film, and timeline resizers across multiple packages
-- `claw-studio` and `openchat-admin` both maintain shell/sidebar resize handles and width persistence logic
+- `sdkwork-studio` and `openchat-admin` both maintain shell/sidebar resize handles and width persistence logic
 - backend/admin and workspace-heavy PC apps need the same split-view affordance without reimplementing drag behavior
 - `PanelGroup`, `Panel`, and `PanelResizeHandle` keep that concern in `layout` instead of spreading one-off resizer hooks and divider components through each app
 
@@ -329,7 +329,7 @@ Settings editors and desktop configuration rows are now explicit framework respo
 
 Tag editing and notification trays are now explicit framework responsibilities too:
 
-- `sdkwork-notes`, `claw-studio` community flows, and backend/admin content forms all repeat lightweight tag capture or chip-editing behavior
+- `sdkwork-notes`, `sdkwork-studio` community flows, and backend/admin content forms all repeat lightweight tag capture or chip-editing behavior
 - `magic-studio-v2` and backend/admin shells already repeat notification-center panels and notification-feed item rendering
 - `TagInput` keeps lightweight chip editing in `data-entry`, while `NotificationCenter` keeps notification-list presentation in `feedback`
 
@@ -347,7 +347,7 @@ Desktop command menus are now explicit framework responsibilities too:
 
 Wizard-style progression is now an explicit framework responsibility too:
 
-- `sdkwork-backend-react-web`, `sdkwork-cloud-portal`, `claw-studio`, and `sdkwork-desktop-settings` all repeat install, publish, or configuration-step guidance with only layout and state-tone differences
+- `sdkwork-backend-react-web`, `sdkwork-cloud-portal`, `sdkwork-studio`, and `sdkwork-desktop-settings` all repeat install, publish, or configuration-step guidance with only layout and state-tone differences
 - top-tier React UI systems consistently ship dedicated stepper or steps primitives because multi-step workflow orientation should not be rebuilt in each wizard surface
 - `Stepper` keeps that progression guidance in `navigation` instead of scattering app-local circles, connectors, and status text through setup or publish pages
 
@@ -372,20 +372,20 @@ The upload system is now an explicit framework responsibility too:
 
 Desktop shell chrome is now an explicit framework responsibility as well:
 
-- `sdkwork-notes`, `claw-studio`, `sdkwork-chat-pc-react`, and `magic-studio-v2` all repeat the same window control cluster with only runtime adapters changing
+- `sdkwork-notes`, `sdkwork-studio`, `sdkwork-chat-pc-react`, and `magic-studio-v2` all repeat the same window control cluster with only runtime adapters changing
 - multiple PC apps repeat the same glass title bar, centered navigation or workspace slot, and trailing action cluster composition
 - asset, list, and panel pages repeat sticky action headers that are structurally richer than `PageHeader` but lighter than a full shell
 - `DesktopWindowControls`, `DesktopTitleBar`, `DesktopAppHeader`, and `SectionHeader` absorb that duplication without coupling the framework to Tauri, Router, or app-specific account and search behavior
 
 Full desktop window framing is now an explicit framework responsibility too:
 
-- `claw-studio`, `sdkwork-drive`, `sdkwork-notes-pc-react`, `sdkwork-chat-pc-react`, `openchat-react-pc`, `magic-studio-v2`, and backend desktop shells all repeat the same outer frame concerns around header chrome, navigation rail, content viewport, and bottom status regions
+- `sdkwork-studio`, `sdkwork-drive`, `sdkwork-notes-pc-react`, `sdkwork-chat-pc-react`, `openchat-react-pc`, `magic-studio-v2`, and backend desktop shells all repeat the same outer frame concerns around header chrome, navigation rail, content viewport, and bottom status regions
 - leading React desktop systems consistently expose a canonical shell or dashboard layout instead of requiring each product to re-author its own top-level frame composition
 - `DesktopShellFrame` keeps that outer frame in `patterns/desktop-shell`, composed on top of `AppShell`, `DesktopAppHeader`, `NavigationRail`, and `StatusBar`, instead of leaving each app to rebuild its own main window contract
 
 List-detail and inspector-rich workbenches are now explicit framework responsibilities too:
 
-- `claw-studio`, `magic-studio-v2`, `sdkwork-notes-pc-react`, and backend/admin desktop packages all repeat the same left navigation or collection rail plus main content surface plus optional right inspection region
+- `sdkwork-studio`, `magic-studio-v2`, `sdkwork-notes-pc-react`, and backend/admin desktop packages all repeat the same left navigation or collection rail plus main content surface plus optional right inspection region
 - top-tier desktop UI systems treat this as a first-class workspace composition seam because the value is in consistent resizing, surface hierarchy, and inspector affordances rather than in app-local wrappers
 - `ListDetailWorkspace` keeps that orchestration in `patterns`, composed on top of `PanelGroup`, `WorkspacePanel`, and `InspectorRail`, instead of letting each app rebuild three-pane desktop layout scaffolding
 - `InspectorRail` keeps the shared right-rail contract in `patterns/workspace`, including eyebrow, title, summary, meta, section composition, and footer action affordances

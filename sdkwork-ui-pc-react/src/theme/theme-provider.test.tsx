@@ -203,10 +203,10 @@ describe('sdkwork theme provider', () => {
     expect(document.documentElement.getAttribute('dir')).toBe('ltr');
   });
 
-  it('defaults to the claw lobster accent when no theme color is provided', () => {
+  it('defaults to the SDKWORK lobster accent when no theme color is provided', () => {
     render(
       <SdkworkThemeProvider themeSelection="dark">
-        <div>Default claw accent</div>
+        <div>Default SDKWORK accent</div>
       </SdkworkThemeProvider>,
     );
 
@@ -215,7 +215,7 @@ describe('sdkwork theme provider', () => {
     expect(document.documentElement.style.getPropertyValue('--sdk-color-brand-primary')).toBe('#ef4444');
   });
 
-  it('supports the claw tech-blue theme color explicitly', () => {
+  it('supports the SDKWORK tech-blue theme color explicitly', () => {
     render(
       <SdkworkThemeProvider themeColor="tech-blue" themeSelection="light">
         <div>Tech blue accent</div>

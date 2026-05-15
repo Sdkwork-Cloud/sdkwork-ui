@@ -286,8 +286,8 @@ import {
 
 ```ts
 import {
-  CLAW_DARK_THEME,
-  CLAW_LIGHT_THEME,
+  SDKWORK_DARK_THEME,
+  SDKWORK_LIGHT_THEME,
   SDKWORK_DARK_THEME,
   SDKWORK_LIGHT_THEME,
   createSdkworkTheme,
@@ -1264,7 +1264,7 @@ export function DesktopShellExample() {
       navigationHeader={<div className="text-sm font-semibold">SDKWORK</div>}
       statusBar={<div className="px-3 py-2 text-xs text-muted-foreground">Ready</div>}
       subtitle="Shared desktop shell"
-      title="Claw Studio"
+      title="Sdkwork Studio"
     />
   );
 }
@@ -1398,8 +1398,8 @@ import '@sdkwork/ui-pc-react/styles.css';
 - Consumers should import the package stylesheet.
 - Git-based consumers can install the package from the repository main branch; the repository tracks prebuilt `dist` assets so installation works directly without consumer-side lifecycle-script allowlists.
 - Consumers can use `SdkworkThemeProvider` for scoped theming.
-- `CLAW_LIGHT_THEME` and `CLAW_DARK_THEME` are the canonical preset exports.
-- `SDKWORK_LIGHT_THEME` and `SDKWORK_DARK_THEME` remain stable compatibility aliases for the default claw baseline.
+- `SDKWORK_LIGHT_THEME` and `SDKWORK_DARK_THEME` are the canonical preset exports.
+- `SDKWORK_LIGHT_THEME` and `SDKWORK_DARK_THEME` remain stable compatibility aliases for the default SDKWORK baseline.
 - `uiComponentCatalog` is exported for docs, playgrounds, and app-side component discovery without hard-coding directory knowledge.
 - Consumers using `components/ui/form` should align to the exported `react-hook-form` peer range.
 - Mount `components/ui/feedback` `Toaster` once near the app root so toast notifications inherit the active SDKWORK theme.
@@ -1455,7 +1455,7 @@ import '@sdkwork/ui-pc-react/styles.css';
 
 ```ts
 const theme = createSdkworkTheme({
-  preset: 'claw',
+  preset: 'sdkwork',
   colorMode: 'light',
   brand: {
     primary: '#0f766e',

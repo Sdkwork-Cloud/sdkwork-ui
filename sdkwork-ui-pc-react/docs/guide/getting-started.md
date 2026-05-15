@@ -183,7 +183,7 @@ export function AssetInspector() {
           '# Release Notes',
           '',
           '- Shared upload pipeline enabled',
-          '- Desktop shell tokens aligned to claw baseline',
+          '- Desktop shell tokens aligned to SDKWORK baseline',
         ].join('\n')}
       />
     </div>
@@ -589,7 +589,7 @@ export function FeedbackBootstrap() {
 
 ## Theme Baseline
 
-`SdkworkThemeProvider` defaults to the `claw-studio` desktop visual baseline through the SDKWORK compatibility theme exports.
+`SdkworkThemeProvider` defaults to the `sdkwork-studio` desktop visual baseline through the SDKWORK compatibility theme exports.
 
 ```tsx
 import '@sdkwork/ui-pc-react/styles.css';
@@ -620,7 +620,7 @@ For explicit preset-based theme creation:
 import { createSdkworkTheme } from '@sdkwork/ui-pc-react/theme';
 
 const theme = createSdkworkTheme({
-  preset: 'claw',
+  preset: 'sdkwork',
   colorMode: 'dark',
   surface: {
     panel: '#111827',
@@ -642,7 +642,7 @@ const theme = createSdkworkTheme({
 
 ## Intended Consumers
 
-- `claw-studio`
+- `sdkwork-studio`
 - `magic-studio-v2`
 - `sdkwork-notes/sdkwork-notes-pc-react`
 - `sdkwork-chat-pc-react`

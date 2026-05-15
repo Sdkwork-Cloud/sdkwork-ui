@@ -278,8 +278,6 @@ export const uiComponentCatalog = {
     'WorkspaceScaffold',
   ],
   theme: [
-    'CLAW_DARK_THEME',
-    'CLAW_LIGHT_THEME',
     'SDKWORK_DARK_THEME',
     'SDKWORK_LIGHT_THEME',
     'createSdkworkTheme',

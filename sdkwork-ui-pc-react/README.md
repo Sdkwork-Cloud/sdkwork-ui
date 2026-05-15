@@ -2,7 +2,7 @@
 
 `@sdkwork/ui-pc-react` is the shared PC application UI framework for SDKWORK desktop and desktop-first React applications.
 
-The default visual baseline is the `claw-studio` desktop design language: zinc-neutral surfaces, theme-color-driven brand emphasis with a default lobster accent, compact control radii, restrained panel radii, and soft layered shadows.
+The default visual baseline is the `sdkwork-studio` desktop design language: zinc-neutral surfaces, theme-color-driven brand emphasis with a default lobster accent, compact control radii, restrained panel radii, and soft layered shadows.
 
 It standardizes:
 
@@ -38,7 +38,7 @@ See `docs/reference/framework-governance.md` for the framework rulebook, `docs/r
 
 The package is designed to serve the audited PC React application family across:
 
-- `claw-studio`
+- `sdkwork-studio`
 - `magic-studio-v2`
 - `sdkwork-notes/sdkwork-notes-pc-react`
 - `sdkwork-chat-pc-react`
@@ -105,20 +105,20 @@ All published subpath exports ship both runtime JS and matching `.d.ts` entries 
 
 The theme model is `preset + deep overrides`.
 
-- `CLAW_LIGHT_THEME` and `CLAW_DARK_THEME` are the canonical `claw-studio` presets.
-- `SDKWORK_LIGHT_THEME` and `SDKWORK_DARK_THEME` are compatibility aliases that currently point to the claw preset baseline.
-- `themeColor` selects the accent palette for claw tokens. The shared baseline now defaults to `lobster` and also supports `tech-blue`, `green-tech`, `rose`, `violet`, and `zinc`.
+- `SDKWORK_LIGHT_THEME` and `SDKWORK_DARK_THEME` are the canonical `sdkwork-studio` presets.
+- `SDKWORK_LIGHT_THEME` and `SDKWORK_DARK_THEME` are compatibility aliases that currently point to the SDKWORK preset baseline.
+- `themeColor` selects the accent palette for SDKWORK tokens. The shared baseline now defaults to `lobster` and also supports `tech-blue`, `green-tech`, `rose`, `violet`, and `zinc`.
 - `createSdkworkTheme()` accepts semantic overrides for `brand`, `surface`, `text`, `border`, `state`, `radius`, and `shadow`.
 
 ```tsx
 import {
-  CLAW_LIGHT_THEME,
+  SDKWORK_LIGHT_THEME,
   SdkworkThemeProvider,
   createSdkworkTheme,
 } from '@sdkwork/ui-pc-react';
 
 const oceanTheme = createSdkworkTheme({
-  preset: 'claw',
+  preset: 'sdkwork',
   colorMode: 'light',
   brand: {
     primary: '#0f766e',
@@ -131,7 +131,7 @@ const oceanTheme = createSdkworkTheme({
 export function ExampleThemeScope() {
   return (
     <SdkworkThemeProvider
-      defaultTheme={CLAW_LIGHT_THEME.colorMode}
+      defaultTheme={SDKWORK_LIGHT_THEME.colorMode}
       overrides={oceanTheme}
     >
       <div>Scoped theme area.</div>
@@ -221,7 +221,7 @@ The framework uses:
 - shadcn-style component composition
 - Tailwind 4 during framework build to ship prebuilt CSS
 - semantic tokens instead of app-local color names
-- `claw-studio` as the default desktop visual reference
+- `sdkwork-studio` as the default desktop visual reference
 - low-coupling desktop patterns rather than business-bound components
 
 ## Internal Directory Model

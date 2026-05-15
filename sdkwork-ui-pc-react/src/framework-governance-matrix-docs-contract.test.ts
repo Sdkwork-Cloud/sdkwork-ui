@@ -30,7 +30,7 @@ describe('framework governance matrix docs contract', () => {
     const runtimeIdentityRow = findContractRow(markdown, 'Runtime Metadata Identity Contract');
 
     expect(themeRow).toContain('`src/theme/theme-contract.test.ts`');
-    expect(themeRow).toContain('`src/styles/claw-shell-css-contract.test.ts`');
+    expect(themeRow).toContain('`src/styles/sdkwork-shell-css-contract.test.ts`');
     expect(themeRow).toContain('`/reference/package`');
 
     expect(runtimeIdentityRow).toContain('`src/runtime-metadata-identity-contract.test.ts`');

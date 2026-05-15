@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 export type SdkworkColorMode = 'light' | 'dark';
-export type SdkworkThemePreset = 'claw';
+export type SdkworkThemePreset = 'sdkwork';
 export type SdkworkThemeColor = 'green-tech' | 'lobster' | 'rose' | 'tech-blue' | 'violet' | 'zinc';
 export interface SdkworkTheme {
     colorMode: SdkworkColorMode;
@@ -62,8 +62,6 @@ export interface CreateSdkworkThemeOptions extends SdkworkThemeOverrides {
     preset?: SdkworkThemePreset;
     themeColor?: SdkworkThemeColor;
 }
-export declare const CLAW_DARK_THEME: SdkworkTheme;
-export declare const CLAW_LIGHT_THEME: SdkworkTheme;
 export declare const SDKWORK_DARK_THEME: SdkworkTheme;
 export declare const SDKWORK_LIGHT_THEME: SdkworkTheme;
 export declare function createSdkworkTheme(options?: CreateSdkworkThemeOptions): SdkworkTheme;

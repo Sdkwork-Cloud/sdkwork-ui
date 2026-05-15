@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 
 export type SdkworkColorMode = 'light' | 'dark';
-export type SdkworkThemePreset = 'claw';
+export type SdkworkThemePreset = 'sdkwork';
 export type SdkworkThemeColor = 'green-tech' | 'lobster' | 'rose' | 'tech-blue' | 'violet' | 'zinc';
 
 export interface SdkworkTheme {
@@ -67,7 +67,7 @@ export interface CreateSdkworkThemeOptions extends SdkworkThemeOverrides {
   themeColor?: SdkworkThemeColor;
 }
 
-export const CLAW_DARK_THEME: SdkworkTheme = {
+export const SDKWORK_DARK_THEME: SdkworkTheme = {
   colorMode: 'dark',
   brand: {
     primary: '#3b82f6',
@@ -114,7 +114,7 @@ export const CLAW_DARK_THEME: SdkworkTheme = {
   },
 };
 
-export const CLAW_LIGHT_THEME: SdkworkTheme = {
+export const SDKWORK_LIGHT_THEME: SdkworkTheme = {
   colorMode: 'light',
   brand: {
     primary: '#2563eb',
@@ -161,10 +161,7 @@ export const CLAW_LIGHT_THEME: SdkworkTheme = {
   },
 };
 
-export const SDKWORK_DARK_THEME = CLAW_DARK_THEME;
-export const SDKWORK_LIGHT_THEME = CLAW_LIGHT_THEME;
-
-const CLAW_THEME_COLOR_CONFIGS: Record<
+const SDKWORK_THEME_COLOR_CONFIGS: Record<
   SdkworkThemeColor,
   {
     brand: {
@@ -368,7 +365,7 @@ function resolveThemeColorOverrides(
 ): SdkworkThemeOverrides {
   return {
     brand: {
-      ...CLAW_THEME_COLOR_CONFIGS[themeColor].brand[colorMode],
+      ...SDKWORK_THEME_COLOR_CONFIGS[themeColor].brand[colorMode],
     },
   };
 }
@@ -377,8 +374,8 @@ function getPresetTheme(
   preset: SdkworkThemePreset,
   colorMode: SdkworkColorMode,
 ): SdkworkTheme {
-  if (preset === 'claw') {
-    return colorMode === 'light' ? CLAW_LIGHT_THEME : CLAW_DARK_THEME;
+  if (preset === 'sdkwork') {
+    return colorMode === 'light' ? SDKWORK_LIGHT_THEME : SDKWORK_DARK_THEME;
   }
 
   return colorMode === 'light' ? SDKWORK_LIGHT_THEME : SDKWORK_DARK_THEME;
@@ -428,7 +425,7 @@ export function createSdkworkTheme(
 ) {
   const {
     colorMode = 'dark',
-    preset = 'claw',
+    preset = 'sdkwork',
     themeColor = 'lobster',
     ...overrides
   } = options;
@@ -483,7 +480,7 @@ export function createThemeHostCssVariables(
   theme: SdkworkTheme,
   themeColor: SdkworkThemeColor = 'lobster',
 ) {
-  const palette = CLAW_THEME_COLOR_CONFIGS[themeColor].palette;
+  const palette = SDKWORK_THEME_COLOR_CONFIGS[themeColor].palette;
 
   return {
     ...createThemeCssVariables(theme),
