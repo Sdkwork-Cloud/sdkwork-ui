@@ -1,18 +1,3 @@
-node_modules/
-dist/
-!sdkwork-ui-pc-react/dist/
-!sdkwork-ui-pc-react/dist/**
-coverage/
-.pack/
-.vitepress/cache/
-.vitepress/dist/
-*.log
-.DS_Store
-Thumbs.db
-.idea/
-.vscode/
-*.tsbuildinfo
-
 # SDKWork local environment and runtime config overrides
 .env.local
 .env.development.local
