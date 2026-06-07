@@ -13,8 +13,8 @@
 ### Task 1: Add `FilterBar` Tests First
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\form\FilterBar.test.tsx`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\form\index.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\form\FilterBar.test.tsx`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\form\index.ts`
 
 - [ ] Step 1: Write a failing test for `FilterBar`, `FilterBarSection`, and `FilterBarActions`
 - [ ] Step 2: Run `pnpm test -- src/components/ui/form/FilterBar.test.tsx` and confirm failure
@@ -24,9 +24,9 @@
 ### Task 2: Add `FilterBar` Implementation
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\form\filter-bar.tsx`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\form\index.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\index.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\form\filter-bar.tsx`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\form\index.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\index.ts`
 
 - [ ] Step 1: Implement `FilterBar` with desktop row layout, summary copy support, and semantic token styling
 - [ ] Step 2: Implement `FilterBarSection` for grouped filters
@@ -36,8 +36,8 @@
 ### Task 3: Add `DescriptionList` Tests First
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-display\DescriptionList.test.tsx`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-display\index.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-display\DescriptionList.test.tsx`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-display\index.ts`
 
 - [ ] Step 1: Write a failing test for `DescriptionList`, `DescriptionItem`, `DescriptionTerm`, and `DescriptionDetails`
 - [ ] Step 2: Run `pnpm test -- src/components/ui/data-display/DescriptionList.test.tsx` and confirm failure
@@ -47,9 +47,9 @@
 ### Task 4: Add `DescriptionList` Implementation
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-display\description-list.tsx`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-display\index.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\index.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-display\description-list.tsx`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-display\index.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\index.ts`
 
 - [ ] Step 1: Implement `DescriptionList` with one-column and two-column layout support
 - [ ] Step 2: Implement `DescriptionItem`, `DescriptionTerm`, and `DescriptionDetails`
@@ -59,16 +59,16 @@
 ### Task 5: Refresh Catalog And Framework Docs
 
 **Files:**
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\catalog.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\catalog.test.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\README.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\index.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\guide\getting-started.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\reference\package.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\architecture.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\component-planning.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\migration-audit.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\pc-app-adoption-matrix.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\catalog.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\catalog.test.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\README.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\index.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\guide\getting-started.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\reference\package.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\architecture.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\component-planning.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\migration-audit.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\pc-app-adoption-matrix.md`
 
 - [ ] Step 1: Add failing catalog assertions for `FilterBar` and `DescriptionList`
 - [ ] Step 2: Run `pnpm test -- src/components/ui/catalog.test.ts` and confirm failure

@@ -13,8 +13,8 @@
 ### Task 1: Stabilize The Current Primitive Expansion Baseline
 
 **Files:**
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\vitest.setup.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\Tooltip.test.tsx`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\vitest.setup.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\Tooltip.test.tsx`
 
 - [ ] Step 1: Run focused tests for `RadioGroup`, `Slider`, `DropdownMenu`, `Tooltip`, and `catalog`
 - [ ] Step 2: Capture the failing slider and tooltip assertions
@@ -24,9 +24,9 @@
 ### Task 2: Add Dedicated Form Domain Tests
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\form\Form.test.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\form\FormLayout.test.tsx`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\catalog.test.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\form\Form.test.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\form\FormLayout.test.tsx`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\catalog.test.ts`
 
 - [ ] Step 1: Write a failing test for form field wiring, validation messaging, and semantic accessibility
 - [ ] Step 2: Write a failing test for desktop form layout helpers
@@ -36,14 +36,14 @@
 ### Task 3: Implement Form Infrastructure And Exports
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\form\form.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\form\form-layout.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\form\index.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\index.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\catalog.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\index.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\package.json`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\vite.config.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\form\form.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\form\form-layout.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\form\index.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\index.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\catalog.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\index.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\package.json`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\vite.config.ts`
 
 - [ ] Step 1: Add `react-hook-form` package contract for the new shared form domain
 - [ ] Step 2: Implement the minimal `Form`, `FormField`, `FormItem`, `FormLabel`, `FormControl`, `FormDescription`, and `FormMessage` surface
@@ -54,10 +54,10 @@
 ### Task 4: Refresh Docs And Taxonomy
 
 **Files:**
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\README.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\architecture.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\component-planning.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\reference\package.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\README.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\architecture.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\component-planning.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\reference\package.md`
 
 - [ ] Step 1: Document the domain-oriented package structure and the new `form` export
 - [ ] Step 2: Separate implemented components from the forward roadmap

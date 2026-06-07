@@ -13,8 +13,8 @@
 ### Task 1: Add `PanelGroup` Tests First
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\layout\PanelGroup.test.tsx`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\layout\index.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\layout\PanelGroup.test.tsx`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\layout\index.ts`
 
 - [ ] Step 1: Write a failing export test for `PanelGroup`, `Panel`, and `PanelResizeHandle`
 - [ ] Step 2: Run `pnpm test -- src/components/ui/layout/PanelGroup.test.tsx` and confirm failure
@@ -24,11 +24,11 @@
 ### Task 2: Add The Layout Implementation
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\layout\panel-group.tsx`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\layout\index.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\index.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\package.json`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\vite.config.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\layout\panel-group.tsx`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\layout\index.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\index.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\package.json`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\vite.config.ts`
 
 - [ ] Step 1: Add the resizable-panel dependency
 - [ ] Step 2: Implement `PanelGroup` with `direction` mapping and theme-aware container classes
@@ -39,8 +39,8 @@
 ### Task 3: Register The Layout Family
 
 **Files:**
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\catalog.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\catalog.test.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\catalog.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\catalog.test.ts`
 
 - [ ] Step 1: Add failing catalog assertions for `PanelGroup`, `Panel`, and `PanelResizeHandle`
 - [ ] Step 2: Run `pnpm test -- src/components/ui/catalog.test.ts` and confirm failure
@@ -50,15 +50,15 @@
 ### Task 4: Sync Documentation
 
 **Files:**
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\README.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\index.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\guide\getting-started.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\reference\package.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\architecture.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\component-planning.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\framework-benchmark.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\migration-audit.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\pc-app-adoption-matrix.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\README.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\index.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\guide\getting-started.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\reference\package.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\architecture.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\component-planning.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\framework-benchmark.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\migration-audit.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\pc-app-adoption-matrix.md`
 
 - [ ] Step 1: Add panel-layout usage examples and exports to package docs
 - [ ] Step 2: Update architecture and planning docs so `layout` reflects the new split-workspace family

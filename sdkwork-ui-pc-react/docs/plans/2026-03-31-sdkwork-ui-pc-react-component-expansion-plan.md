@@ -13,8 +13,8 @@
 ### Task 1: Lock Default Stylesheet To Theme Exports
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\styles\sdkwork-ui.test.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\styles\sdkwork-ui.css`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\styles\sdkwork-ui.test.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\styles\sdkwork-ui.css`
 
 - [ ] Step 1: Write a failing test asserting root CSS variables match `SDKWORK_DARK_THEME`
 - [ ] Step 2: Run `pnpm test -- --run src/styles/sdkwork-ui.test.ts` and confirm failure
@@ -24,12 +24,12 @@
 ### Task 2: Add Data Display Primitives
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\Avatar.test.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\Tabs.test.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\avatar.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\tabs.tsx`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-display\index.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\index.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\Avatar.test.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\Tabs.test.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\avatar.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\tabs.tsx`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-display\index.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\index.ts`
 
 - [ ] Step 1: Write failing avatar and tabs tests
 - [ ] Step 2: Run focused tests and confirm missing export failures
@@ -39,11 +39,11 @@
 ### Task 3: Add Feedback Primitives
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\SkeletonProgress.test.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\progress.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\skeleton.tsx`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\feedback\index.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\index.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\SkeletonProgress.test.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\progress.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\skeleton.tsx`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\feedback\index.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\index.ts`
 
 - [ ] Step 1: Write failing tests for skeleton and progress behavior
 - [ ] Step 2: Run focused tests and confirm failure
@@ -53,11 +53,11 @@
 ### Task 4: Add Overlay Primitive
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\Popover.test.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\popover.tsx`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\overlays\index.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\index.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\package.json`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\Popover.test.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\popover.tsx`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\overlays\index.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\index.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\package.json`
 
 - [ ] Step 1: Write a failing popover test
 - [ ] Step 2: Run the focused test and confirm failure
@@ -67,11 +67,11 @@
 ### Task 5: Refresh Catalog And Docs
 
 **Files:**
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\catalog.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\catalog.test.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\README.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\component-planning.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\reference\package.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\catalog.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\catalog.test.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\README.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\component-planning.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\reference\package.md`
 
 - [ ] Step 1: Add failing catalog assertions for the new components
 - [ ] Step 2: Run the catalog test and confirm failure

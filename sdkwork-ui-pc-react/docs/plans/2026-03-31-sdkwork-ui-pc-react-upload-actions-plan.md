@@ -13,7 +13,7 @@
 ### Task 1: Lock The New Upload Interactions With Failing Tests
 
 **Files:**
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-entry\FileUpload.test.tsx`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-entry\FileUpload.test.tsx`
 
 - [ ] Step 1: Add a failing test for inline rejection feedback
 - [ ] Step 2: Add a failing test for preview and download item actions
@@ -23,10 +23,10 @@
 ### Task 2: Implement The Shared Action Layer
 
 **Files:**
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-entry\upload\file-upload.tsx`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-entry\upload\upload-item.tsx`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-entry\upload\upload-types.ts`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-entry\upload\upload-utils.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-entry\upload\file-upload.tsx`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-entry\upload\upload-item.tsx`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-entry\upload\upload-types.ts`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\data-entry\upload\upload-utils.ts`
 
 - [ ] Step 1: Add the new shared prop types for rejection display and item actions
 - [ ] Step 2: Implement internal rejection-state rendering
@@ -37,14 +37,14 @@
 ### Task 3: Sync Documentation
 
 **Files:**
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\README.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\guide\getting-started.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\reference\package.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\architecture.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\component-planning.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\framework-benchmark.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\migration-audit.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\pc-app-adoption-matrix.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\README.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\guide\getting-started.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\reference\package.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\architecture.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\component-planning.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\framework-benchmark.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\migration-audit.md`
+- Modify: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\pc-app-adoption-matrix.md`
 
 - [ ] Step 1: Document rejection and action handling in README and guide examples
 - [ ] Step 2: Update design and audit docs so the new interaction layer is explicit

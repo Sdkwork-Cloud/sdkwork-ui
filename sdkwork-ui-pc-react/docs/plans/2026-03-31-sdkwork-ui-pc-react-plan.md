@@ -13,11 +13,11 @@
 ### Task 1: Scaffold Package Infrastructure
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\package.json`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\tsconfig.json`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\vite.config.ts`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\components.json`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\scripts\run-vitepress.mjs`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\package.json`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\tsconfig.json`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\vite.config.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\components.json`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\scripts\run-vitepress.mjs`
 
 - [ ] Step 1: Define package metadata, scripts, exports, and dependencies
 - [ ] Step 2: Add TypeScript and Vite library build configuration
@@ -27,10 +27,10 @@
 ### Task 2: Write Failing Tests For Core Framework Behavior
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\vitest.config.ts`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\theme\sdkwork-theme.test.ts`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\patterns\AppShell.test.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\Button.test.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\vitest.config.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\theme\sdkwork-theme.test.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\patterns\AppShell.test.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\Button.test.tsx`
 
 - [ ] Step 1: Write failing tests for theme token generation, desktop shell layout, and button variants
 - [ ] Step 2: Run `pnpm test` and confirm failure reasons are missing implementation
@@ -38,11 +38,11 @@
 ### Task 3: Implement Theme Foundation
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\theme\sdkwork-theme.ts`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\theme\theme-provider.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\theme\index.ts`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\lib\utils.ts`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\styles\sdkwork-ui.css`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\theme\sdkwork-theme.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\theme\theme-provider.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\theme\index.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\lib\utils.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\styles\sdkwork-ui.css`
 
 - [ ] Step 1: Implement semantic theme tokens and factory helpers
 - [ ] Step 2: Implement provider and document token application
@@ -52,17 +52,17 @@
 ### Task 4: Implement Primitive Components
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\button.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\input.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\textarea.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\label.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\checkbox.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\switch.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\card.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\badge.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\separator.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\dialog.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\index.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\button.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\input.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\textarea.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\label.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\checkbox.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\switch.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\card.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\badge.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\separator.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\dialog.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\ui\index.ts`
 
 - [ ] Step 1: Implement button and form primitives
 - [ ] Step 2: Implement feedback and surface primitives
@@ -72,12 +72,12 @@
 ### Task 5: Implement Desktop Patterns
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\patterns\AppShell.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\patterns\PageHeader.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\patterns\NavigationRail.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\patterns\WorkspacePanel.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\patterns\InspectorPanel.tsx`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\components\patterns\index.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\patterns\AppShell.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\patterns\PageHeader.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\patterns\NavigationRail.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\patterns\WorkspacePanel.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\patterns\InspectorPanel.tsx`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\components\patterns\index.ts`
 
 - [ ] Step 1: Implement generic desktop shell pattern
 - [ ] Step 2: Implement page and panel composition helpers
@@ -86,9 +86,9 @@
 ### Task 6: Package Entry And README
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\src\index.ts`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\README.md`
-- Modify: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\README.md`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\src\index.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\README.md`
+- Modify: `<workspace-root>\sdkwork-ui\README.md`
 
 - [ ] Step 1: Export stable public APIs and stylesheet entry
 - [ ] Step 2: Document install, build, theme, and usage
@@ -97,15 +97,15 @@
 ### Task 7: VitePress Documentation Site
 
 **Files:**
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\.vitepress\config.ts`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\.vitepress\theme\index.ts`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\.vitepress\theme\custom.css`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\index.md`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\guide\getting-started.md`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\architecture.md`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\component-planning.md`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\design\migration-audit.md`
-- Create: `D:\javasource\spring-ai-plus\spring-ai-plus-business\apps\sdkwork-ui\sdkwork-ui-pc-react\docs\reference\package.md`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\.vitepress\config.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\.vitepress\theme\index.ts`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\.vitepress\theme\custom.css`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\index.md`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\guide\getting-started.md`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\architecture.md`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\component-planning.md`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\design\migration-audit.md`
+- Create: `<workspace-root>\sdkwork-ui\sdkwork-ui-pc-react\docs\reference\package.md`
 
 - [ ] Step 1: Configure VitePress site shell and branding
 - [ ] Step 2: Write framework architecture and component planning docs
