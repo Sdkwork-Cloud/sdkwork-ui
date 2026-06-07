@@ -27,8 +27,31 @@ function collectJavaScriptFiles(directory: string): string[] {
   });
 }
 
+function collectSourcePackageFiles(directory: string): string[] {
+  return readdirSync(directory).flatMap((entry) => {
+    const entryPath = resolve(directory, entry);
+    const stats = statSync(entryPath);
+
+    if (stats.isDirectory()) {
+      return collectSourcePackageFiles(entryPath);
+    }
+
+    return /\.(ts|tsx|js|jsx|mjs|cjs)$/.test(entryPath) ? [entryPath] : [];
+  });
+}
+
 function isAllowedRuntimeImport(specifier: string): boolean {
   return [...allowedRuntimeDependencies].some((dependency) => specifier === dependency || specifier.startsWith(`${dependency}/`));
+}
+
+function importedDependencyFor(specifier: string): string | null {
+  if (specifier.startsWith('@')) {
+    const [scope, name] = specifier.split('/');
+
+    return scope && name ? `${scope}/${name}` : null;
+  }
+
+  return specifier.split('/')[0] ?? null;
 }
 
 function collectBareImports(source: string): string[] {
@@ -70,6 +93,23 @@ describe('sdkwork-ui dist package boundary', () => {
 
       return bareImports.map((specifier) => `${relative(distDir, filePath)} -> ${specifier}`);
     });
+
+    expect(offenders).toEqual([]);
+  });
+
+  it('keeps declared production dependencies limited to packages imported by source or dist', () => {
+    const packageFiles = [
+      ...collectSourcePackageFiles(sourceDir),
+      ...collectJavaScriptFiles(distDir),
+    ];
+    const importedDependencies = new Set(
+      packageFiles
+        .flatMap((filePath) => collectBareImports(readFileSync(filePath, 'utf8')))
+        .map(importedDependencyFor)
+        .filter((dependency): dependency is string => Boolean(dependency)),
+    );
+    const offenders = Object.keys(packageJson.dependencies ?? {})
+      .filter((dependencyName) => !importedDependencies.has(dependencyName));
 
     expect(offenders).toEqual([]);
   });
