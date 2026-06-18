@@ -1,2 +1,2 @@
-import { i as e, n as t, r as n, t as r } from "./desktop-shell-DAJmfpSP.js";
+import { i as e, n as t, r as n, t as r } from "./desktop-shell-BI_t4MMY.js";
 export { t as DesktopAppHeader, r as DesktopShellFrame, n as DesktopTitleBar, e as DesktopWindowControls };
