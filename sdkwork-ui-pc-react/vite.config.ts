@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
     define: {
       'process.env.SDKWORK_ACCESS_TOKEN': JSON.stringify(env.SDKWORK_ACCESS_TOKEN ?? ''),
     },
-      plugins: [
+          plugins: [
     react(),
     tailwindcss(),
     dts({
@@ -44,4 +44,5 @@ export default defineConfig(({ mode }) => {
       external: isPeerDependency,
     },
   },
+  };
 });
