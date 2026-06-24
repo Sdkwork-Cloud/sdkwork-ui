@@ -3,7 +3,7 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import dts from 'vite-plugin-dts';
-import { createFrameworkLibEntrySourceMap } from './build/package-contract';
+import { createFrameworkLibEntrySourceMap } from './build/package-contract.ts';
 
 const peerDependencies = ['react', 'react-dom', 'react-hook-form'];
 const frameworkLibEntrySourceMap = createFrameworkLibEntrySourceMap();
