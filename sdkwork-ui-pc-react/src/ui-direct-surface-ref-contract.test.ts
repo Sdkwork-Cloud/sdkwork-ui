@@ -1,4 +1,4 @@
-import ts from 'typescript';
+﻿import ts from 'typescript';
 import { describe, expect, it } from 'vitest';
 import { uiComponentCatalog } from './components/ui/catalog';
 

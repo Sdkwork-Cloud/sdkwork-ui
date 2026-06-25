@@ -1,4 +1,4 @@
-import type { SortingState } from '@tanstack/react-table';
+﻿import type { SortingState } from '@tanstack/react-table';
 import type { DataTableSortingState } from './types';
 
 export type DataTablePaginationItem = number | 'start-ellipsis' | 'end-ellipsis';

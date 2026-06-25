@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+﻿import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 const starExportOnlyPattern = /^\s*(export\s+\*\s+from\s+['"][^'"]+['"];\s*)+$/;

@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 export type TableProps = React.HTMLAttributes<HTMLTableElement>;
 export type TableHeaderProps = React.HTMLAttributes<HTMLTableSectionElement>;
 export type TableBodyProps = React.HTMLAttributes<HTMLTableSectionElement>;

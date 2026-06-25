@@ -1,4 +1,4 @@
-export * from './command';
+﻿export * from './command';
 export * from './app-shell';
 export * from './desktop-shell';
 export * from './detail';

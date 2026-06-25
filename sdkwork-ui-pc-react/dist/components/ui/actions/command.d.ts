@@ -1,4 +1,4 @@
-import { Command as CommandPrimitive } from 'cmdk';
+﻿import { Command as CommandPrimitive } from 'cmdk';
 import { SlotProps } from '../../../lib/slot-props';
 import { Dialog, DialogContentProps } from '../dialog';
 import * as React from 'react';

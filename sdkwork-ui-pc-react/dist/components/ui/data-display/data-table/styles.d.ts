@@ -1,4 +1,4 @@
-export declare const dataTableSurfaceClassName = "overflow-hidden rounded-[var(--sdk-radius-field)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] shadow-[var(--sdk-shadow-sm)]";
+﻿export declare const dataTableSurfaceClassName = "overflow-hidden rounded-[var(--sdk-radius-field)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] shadow-[var(--sdk-shadow-sm)]";
 export declare const dataTableFooterClassName = "flex flex-col gap-3 border-t border-[var(--sdk-color-border-default)] px-4 py-3 sm:flex-row sm:items-center sm:justify-between";
 export declare const dataTableSummaryClassName = "flex min-w-0 flex-1 flex-wrap items-center gap-3 text-sm text-[var(--sdk-color-text-secondary)]";
 export declare const dataTablePaginationLayoutClassName = "flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end";

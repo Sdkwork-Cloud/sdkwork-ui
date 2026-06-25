@@ -1,4 +1,4 @@
-import { ButtonProps } from '../../ui/button';
+﻿import { ButtonProps } from '../../ui/button';
 import * as React from 'react';
 export type PickerSelectionFooterCancelHandler = () => void;
 export type PickerSelectionFooterClearHandler = () => void;

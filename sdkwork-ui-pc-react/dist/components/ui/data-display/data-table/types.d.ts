@@ -1,4 +1,4 @@
-import { BulkActionBarProps } from '../../actions';
+﻿import { BulkActionBarProps } from '../../actions';
 import { TableCellProps, TableHeadProps, TableProps, TableRowProps } from '../../table';
 import { SlotProps } from '../../../../lib/slot-props';
 import type * as React from 'react';

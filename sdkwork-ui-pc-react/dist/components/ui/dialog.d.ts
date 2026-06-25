@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 declare const Dialog: React.FC<DialogPrimitive.DialogProps>;
 declare const DialogPortal: React.FC<DialogPrimitive.DialogPortalProps>;

@@ -1,4 +1,4 @@
-import { PatternSlotProps } from '../_internal/slot-props';
+﻿import { PatternSlotProps } from '../_internal/slot-props';
 import { DesktopTitleBarProps, DesktopTitleBarSlotProps } from './DesktopTitleBar';
 import * as React from 'react';
 export type DesktopAppHeaderBarSlotProps = PatternSlotProps<Omit<React.ComponentPropsWithoutRef<'header'>, 'children'>>;

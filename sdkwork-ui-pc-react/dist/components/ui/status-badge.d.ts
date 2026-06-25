@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 export type StatusBadgeVariant = 'success' | 'warning' | 'danger' | 'default' | 'secondary';
 export interface StatusBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
     label?: string;

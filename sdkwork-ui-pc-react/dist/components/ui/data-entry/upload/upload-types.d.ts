@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 export type FileUploadStatus = 'idle' | 'uploading' | 'success' | 'error';
 export type FileUploadVariant = 'file' | 'image' | 'video' | 'audio' | 'document';
 export type FileUploadListType = 'list' | 'grid';

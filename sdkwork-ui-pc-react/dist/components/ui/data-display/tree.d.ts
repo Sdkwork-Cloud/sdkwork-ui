@@ -1,4 +1,4 @@
-import { SlotProps } from '../../../lib/slot-props';
+﻿import { SlotProps } from '../../../lib/slot-props';
 import { CheckboxProps } from '../checkbox';
 import * as React from 'react';
 export interface RichTreeItem {

@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import * as ResizablePanels from 'react-resizable-panels';
 export type PanelDirection = 'horizontal' | 'vertical';
 export interface PanelGroupProps extends Omit<ResizablePanels.GroupProps, 'elementRef' | 'orientation'> {

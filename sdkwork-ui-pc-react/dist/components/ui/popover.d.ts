@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 declare const Popover: React.FC<PopoverPrimitive.PopoverProps>;
 export type PopoverProps = React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>;

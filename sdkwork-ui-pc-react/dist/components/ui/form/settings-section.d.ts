@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 export interface SettingsSectionProps extends Omit<React.HTMLAttributes<HTMLElement>, 'title'> {
     actions?: React.ReactNode;
     description?: React.ReactNode;

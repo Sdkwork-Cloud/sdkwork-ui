@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 export interface SectionHeaderProps extends React.PropsWithChildren<Omit<React.HTMLAttributes<HTMLDivElement>, 'title'>> {
     actions?: React.ReactNode;
     description?: React.ReactNode;

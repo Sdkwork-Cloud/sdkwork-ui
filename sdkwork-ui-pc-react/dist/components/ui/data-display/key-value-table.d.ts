@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 export type KeyValueTone = 'default' | 'success' | 'warning' | 'danger';
 export type KeyValueEmphasis = 'default' | 'strong';
 export interface KeyValueTableRowData {

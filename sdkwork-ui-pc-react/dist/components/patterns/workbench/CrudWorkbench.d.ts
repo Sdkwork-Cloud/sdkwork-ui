@@ -1,4 +1,4 @@
-import { PatternSlotProps } from '../_internal/slot-props';
+﻿import { PatternSlotProps } from '../_internal/slot-props';
 import { DataTableProps } from '../../ui/data-display';
 import { WorkspacePanelProps } from '../workspace/WorkspacePanel';
 import { ManagementWorkbenchProps } from './ManagementWorkbench';

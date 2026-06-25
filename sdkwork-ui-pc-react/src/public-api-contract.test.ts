@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+﻿import { describe, expect, it } from 'vitest';
 import { uiComponentCatalog } from './components/ui/catalog';
 import * as packageExports from './index';
 import * as patternExports from './components/patterns';

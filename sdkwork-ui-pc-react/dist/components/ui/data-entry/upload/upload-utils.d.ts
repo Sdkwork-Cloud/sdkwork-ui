@@ -1,4 +1,4 @@
-import { FileUploadItem, FileUploadListType, FileUploadStatus, FileUploadVariant } from './upload-types';
+﻿import { FileUploadItem, FileUploadListType, FileUploadStatus, FileUploadVariant } from './upload-types';
 export declare const DOCUMENT_ACCEPT_PRESET: string[];
 interface UploadVariantDefaults {
     accept: string | string[];

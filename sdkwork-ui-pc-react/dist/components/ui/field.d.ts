@@ -1,4 +1,4 @@
-import { LabelProps } from './label';
+﻿import { LabelProps } from './label';
 import * as React from 'react';
 export type FieldOrientation = 'horizontal' | 'vertical';
 export interface FieldProps extends React.HTMLAttributes<HTMLDivElement> {

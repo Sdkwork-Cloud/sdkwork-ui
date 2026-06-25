@@ -1,1 +1,1 @@
-export * from './SettingsCenter';
+﻿export * from './SettingsCenter';

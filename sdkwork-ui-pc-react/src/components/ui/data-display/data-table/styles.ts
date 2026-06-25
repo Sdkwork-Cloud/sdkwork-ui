@@ -1,4 +1,4 @@
-export const dataTableSurfaceClassName =
+﻿export const dataTableSurfaceClassName =
   'overflow-hidden rounded-[var(--sdk-radius-field)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] shadow-[var(--sdk-shadow-sm)]';
 
 export const dataTableFooterClassName =

@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+﻿import { PropsWithChildren } from 'react';
 import { SdkworkThemeSelection } from './theme-provider';
 import { SdkworkColorMode, SdkworkThemeColor, SdkworkThemeOverrides } from './sdkwork-theme';
 export interface SdkworkShellBridgeMessages {

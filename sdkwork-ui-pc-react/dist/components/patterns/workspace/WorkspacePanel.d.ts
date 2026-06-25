@@ -1,4 +1,4 @@
-import { PatternSlotProps } from '../_internal/slot-props';
+﻿import { PatternSlotProps } from '../_internal/slot-props';
 import * as React from 'react';
 export type WorkspacePanelSectionSlotProps = PatternSlotProps<Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>>;
 export interface WorkspacePanelSlotProps {

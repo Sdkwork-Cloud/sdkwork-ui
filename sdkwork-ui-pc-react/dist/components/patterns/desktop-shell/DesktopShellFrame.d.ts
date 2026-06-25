@@ -1,4 +1,4 @@
-import { PatternSlotProps } from '../_internal/slot-props';
+﻿import { PatternSlotProps } from '../_internal/slot-props';
 import { AppShellProps } from '../app-shell/AppShell';
 import { DesktopAppHeaderProps, DesktopAppHeaderSlotProps } from './DesktopAppHeader';
 import * as React from 'react';

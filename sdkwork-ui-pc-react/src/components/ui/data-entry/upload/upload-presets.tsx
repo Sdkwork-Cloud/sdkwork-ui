@@ -1,4 +1,4 @@
-import { FileUpload } from './file-upload';
+﻿import { FileUpload } from './file-upload';
 import type { SpecializedUploadProps } from './upload-types';
 import { getUploadVariantDefaults } from './upload-utils';
 

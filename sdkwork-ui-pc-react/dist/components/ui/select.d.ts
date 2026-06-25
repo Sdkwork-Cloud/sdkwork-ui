@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import * as SelectPrimitive from '@radix-ui/react-select';
 declare const Select: React.FC<SelectPrimitive.SelectProps>;
 export type SelectProps = React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root>;

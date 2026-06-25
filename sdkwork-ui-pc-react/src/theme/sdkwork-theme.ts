@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+﻿import type { CSSProperties } from 'react';
 
 export type SdkworkColorMode = 'light' | 'dark';
 export type SdkworkThemePreset = 'sdkwork';

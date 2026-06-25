@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+﻿import { CSSProperties } from 'react';
 type MergeableProps = {
     className?: string;
     style?: CSSProperties;

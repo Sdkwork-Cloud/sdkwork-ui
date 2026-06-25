@@ -1,4 +1,4 @@
-import { InlineAlert } from '../../ui/feedback';
+﻿import { InlineAlert } from '../../ui/feedback';
 import * as React from 'react';
 export type RestartRequiredNoticeDismissHandler = () => void;
 export type RestartRequiredNoticeRestartHandler = () => void;

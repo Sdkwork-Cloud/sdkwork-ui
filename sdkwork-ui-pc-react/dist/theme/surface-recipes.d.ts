@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+﻿import { CSSProperties } from 'react';
 export type SdkworkThemeVisualTone = 'accent' | 'brand' | 'danger' | 'neutral' | 'success' | 'warning';
 export declare function createSdkworkToneStyle(tone: SdkworkThemeVisualTone, options?: {
     backgroundWeight?: number;

@@ -1,4 +1,4 @@
-export interface UseControllableStateOptions<T> {
+﻿export interface UseControllableStateOptions<T> {
     defaultValue: T;
     onChange?: (value: T) => void;
     value?: T;

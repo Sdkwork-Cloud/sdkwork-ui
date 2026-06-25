@@ -1,1 +1,1 @@
-export * from './workspace/ListDetailWorkspace';
+﻿export * from './workspace/ListDetailWorkspace';

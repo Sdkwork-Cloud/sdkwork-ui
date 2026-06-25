@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitepress';
+﻿import { defineConfig } from 'vitepress';
 import generatedReferenceContract from '../../build/generated-reference-contract.json';
 
 const nav = [

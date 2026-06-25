@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 export type EmptySearchClearHandler = () => void;
 export interface EmptySearchProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
     actions?: React.ReactNode;

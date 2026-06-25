@@ -1,4 +1,4 @@
-import { FileUploadItem, FileUploadItemActionHandler, FileUploadListType, FileUploadVariant } from './upload-types';
+﻿import { FileUploadItem, FileUploadItemActionHandler, FileUploadListType, FileUploadVariant } from './upload-types';
 interface UploadItemProps {
     disabled?: boolean;
     fallbackVariant: FileUploadVariant;

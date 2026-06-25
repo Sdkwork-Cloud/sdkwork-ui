@@ -1,4 +1,4 @@
-import { PatternSlotProps } from '../_internal/slot-props';
+﻿import { PatternSlotProps } from '../_internal/slot-props';
 import { ButtonProps } from '../../ui/button';
 import { PickerDialogProps, PickerDialogSlotProps } from './PickerDialog';
 import * as React from 'react';

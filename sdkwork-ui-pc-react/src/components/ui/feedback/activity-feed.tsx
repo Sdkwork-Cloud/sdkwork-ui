@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import { Activity, AlertCircle, AlertTriangle, CheckCircle2, Info } from 'lucide-react';
 import { mergeOptionalSlotProps, mergeSlotProps, type SlotProps } from '../../../lib/slot-props';
 import { EmptyState } from '../../patterns/feedback';

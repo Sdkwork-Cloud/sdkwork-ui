@@ -1,4 +1,4 @@
-import type { FileUploadItem, FileUploadListType, FileUploadStatus, FileUploadVariant } from './upload-types';
+﻿import type { FileUploadItem, FileUploadListType, FileUploadStatus, FileUploadVariant } from './upload-types';
 
 export const DOCUMENT_ACCEPT_PRESET = [
   '.pdf',

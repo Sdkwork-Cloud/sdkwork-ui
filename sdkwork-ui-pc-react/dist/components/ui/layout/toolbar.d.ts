@@ -1,4 +1,4 @@
-import { Separator } from '../separator';
+﻿import { Separator } from '../separator';
 import * as React from 'react';
 declare const horizontalAlignClassName: {
     readonly start: "justify-start";

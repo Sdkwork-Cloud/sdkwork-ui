@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import { ChevronRight, FileText, Folder, FolderOpen, LoaderCircle } from 'lucide-react';
 import { useControllableState } from '../../../lib/core';
 import { mergeSlotProps, type SlotProps } from '../../../lib/slot-props';

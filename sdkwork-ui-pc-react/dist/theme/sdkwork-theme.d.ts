@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+﻿import { CSSProperties } from 'react';
 export type SdkworkColorMode = 'light' | 'dark';
 export type SdkworkThemePreset = 'sdkwork';
 export type SdkworkThemeColor = 'green-tech' | 'lobster' | 'rose' | 'tech-blue' | 'violet' | 'zinc';

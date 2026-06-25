@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 export type DesktopPlatform = 'desktop' | 'web';
 export type WindowUnsubscribe = () => void | Promise<void>;
 export type DesktopWindowCommandHandler = () => Promise<void>;

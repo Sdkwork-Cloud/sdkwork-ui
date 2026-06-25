@@ -1,4 +1,4 @@
-import { Column } from '@tanstack/react-table';
+﻿import { Column } from '@tanstack/react-table';
 import { DataTableColumn } from './types';
 export interface DataTableHeaderCellProps<T> {
     column: DataTableColumn<T>;

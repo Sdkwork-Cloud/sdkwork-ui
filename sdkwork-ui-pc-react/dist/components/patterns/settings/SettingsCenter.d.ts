@@ -1,4 +1,4 @@
-import { InlineAlertProps } from '../../ui/feedback/inline-alert';
+﻿import { InlineAlertProps } from '../../ui/feedback/inline-alert';
 import * as React from 'react';
 export interface SettingsCenterItem {
     badge?: React.ReactNode;

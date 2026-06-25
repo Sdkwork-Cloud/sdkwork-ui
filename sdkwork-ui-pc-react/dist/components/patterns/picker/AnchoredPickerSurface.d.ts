@@ -1,4 +1,4 @@
-import { PatternSlotProps } from '../_internal/slot-props';
+﻿import { PatternSlotProps } from '../_internal/slot-props';
 import { Popover, PopoverContent, PopoverContentProps } from '../../ui/popover';
 import * as React from 'react';
 export type AnchoredPickerSurfaceSize = 'sm' | 'md' | 'lg' | 'xl';

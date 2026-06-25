@@ -1,4 +1,4 @@
-import { SlotProps } from '../../../lib/slot-props';
+﻿import { SlotProps } from '../../../lib/slot-props';
 import * as React from 'react';
 export type WorkspaceTabsRegionSlotProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>>;
 export type WorkspaceTabsEmptySlotProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'span'>, 'children'>>;

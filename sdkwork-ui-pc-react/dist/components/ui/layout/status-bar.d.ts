@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 declare const statusBarAlignClassName: {
     readonly start: "justify-start";
     readonly center: "justify-center";

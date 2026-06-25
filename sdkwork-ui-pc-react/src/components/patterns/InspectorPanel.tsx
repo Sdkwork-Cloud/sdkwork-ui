@@ -1,1 +1,1 @@
-export * from './workspace/InspectorPanel';
+﻿export * from './workspace/InspectorPanel';

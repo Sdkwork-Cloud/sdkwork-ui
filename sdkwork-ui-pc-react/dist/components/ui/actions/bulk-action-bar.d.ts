@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 export type BulkActionBarTone = 'default' | 'info' | 'success' | 'warning' | 'danger';
 export type BulkActionBarClearHandler = () => void;
 export interface BulkActionBarProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {

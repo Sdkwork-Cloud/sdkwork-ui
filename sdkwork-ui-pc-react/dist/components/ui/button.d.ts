@@ -1,4 +1,4 @@
-import { VariantProps } from 'class-variance-authority';
+﻿import { VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 declare const buttonVariants: (props?: ({
     variant?: "primary" | "secondary" | "outline" | "ghost" | "danger" | null | undefined;

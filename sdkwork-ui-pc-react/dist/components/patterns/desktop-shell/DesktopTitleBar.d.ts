@@ -1,4 +1,4 @@
-import { PatternSlotProps } from '../_internal/slot-props';
+﻿import { PatternSlotProps } from '../_internal/slot-props';
 import { DesktopWindowControlLabels, DesktopWindowController } from './DesktopWindowControls';
 import * as React from 'react';
 export type DesktopTitleBarRegionSlotProps = PatternSlotProps<Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>>;

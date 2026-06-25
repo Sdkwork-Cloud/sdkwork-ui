@@ -1,1 +1,1 @@
-export * from './command/SearchCommandPalette';
+﻿export * from './command/SearchCommandPalette';

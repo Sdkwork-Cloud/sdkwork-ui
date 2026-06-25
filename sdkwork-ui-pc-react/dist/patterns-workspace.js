@@ -1,8 +1,8 @@
-import { t as e } from "./utils-MYzXLqpE.js";
-import { n as t } from "./slot-props-BYpl_5uq.js";
-import { t as n } from "./WorkspacePanel-DUmixTXu.js";
-import { i as r, n as i, r as a, t as o } from "./InspectorRail-nAvH22EC.js";
-import { d as s, l as c, u as l } from "./layout-CmhGT9uF.js";
+import { t as e } from "./utils-zb6ZQb9D.js";
+import { n as t } from "./slot-props-BIbJCp38.js";
+import { t as n } from "./WorkspacePanel-Zc2PSrir.js";
+import { i as r, n as i, r as a, t as o } from "./InspectorRail-DCLXhAs_.js";
+import { d as s, l as c, u as l } from "./layout-D5cmQdlN.js";
 import * as u from "react";
 import { jsx as d, jsxs as f } from "react/jsx-runtime";
 //#region src/components/patterns/workspace/InspectorPanel.tsx

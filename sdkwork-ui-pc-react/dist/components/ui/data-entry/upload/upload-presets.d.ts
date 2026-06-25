@@ -1,4 +1,4 @@
-import { SpecializedUploadProps } from './upload-types';
+﻿import { SpecializedUploadProps } from './upload-types';
 export type ImageUploadProps = SpecializedUploadProps;
 export type VideoUploadProps = SpecializedUploadProps;
 export type AudioUploadProps = SpecializedUploadProps;

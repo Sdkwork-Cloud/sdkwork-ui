@@ -1,4 +1,4 @@
-import { PatternSlotProps } from '../_internal/slot-props';
+﻿import { PatternSlotProps } from '../_internal/slot-props';
 import { PanelProps, PanelGroupProps } from '../../ui/layout/panel-group';
 import { InspectorRailProps, InspectorRailSlotProps } from './InspectorRail';
 import { WorkspacePanelProps, WorkspacePanelSlotProps } from './WorkspacePanel';

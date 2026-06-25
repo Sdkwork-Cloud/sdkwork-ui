@@ -1,4 +1,4 @@
-import { PatternSlotProps } from '../_internal/slot-props';
+﻿import { PatternSlotProps } from '../_internal/slot-props';
 import { Popover } from '../../ui/popover';
 import { AnchoredPickerSurfaceSlotProps } from './AnchoredPickerSurface';
 import * as React from 'react';

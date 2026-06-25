@@ -1,4 +1,4 @@
-import { VariantProps } from 'class-variance-authority';
+﻿import { VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 declare const Modal: React.FC<DialogPrimitive.DialogProps>;

@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 declare const descriptionListColumnsClassName: {
     readonly 1: "grid-cols-1";
     readonly 2: "grid-cols-1 xl:grid-cols-2";

@@ -1,4 +1,4 @@
-import { PatternSlotProps } from '../_internal/slot-props';
+﻿import { PatternSlotProps } from '../_internal/slot-props';
 import { CommandDialog, CommandDialogContentProps } from '../../ui/actions';
 import * as React from 'react';
 export interface SearchCommandPaletteItem {

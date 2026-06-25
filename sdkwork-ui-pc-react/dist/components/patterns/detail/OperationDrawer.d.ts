@@ -1,4 +1,4 @@
-import { PatternSlotProps } from '../_internal/slot-props';
+﻿import { PatternSlotProps } from '../_internal/slot-props';
 import { Drawer, DrawerBodyProps, DrawerContentProps, DrawerFooterProps, DrawerHeaderProps } from '../../ui/overlays';
 import * as React from 'react';
 export type OperationDrawerSide = 'left' | 'right';

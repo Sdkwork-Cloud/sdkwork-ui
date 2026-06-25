@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import type { FileUploadItem, FileUploadVariant } from './upload-types';
 import { inferUploadItemKind, isPreviewableKind } from './upload-utils';
 

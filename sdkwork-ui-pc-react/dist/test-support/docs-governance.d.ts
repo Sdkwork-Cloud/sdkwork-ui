@@ -1,4 +1,4 @@
-import { GovernedDocumentationEntry } from '../../build/docs-governance-contract';
+﻿import { GovernedDocumentationEntry } from '../../build/docs-governance-contract';
 export type DocumentationSnippet = {
     readonly code: string;
     readonly extension: 'ts' | 'tsx';
@@ -13,9 +13,21 @@ export type ImportReference = {
 };
 export { type GovernedDocumentationEntry };
 export declare const governedDocumentationEntries: ({
-    filePath: string;
-    auditFrameworkImports: true;
-    typecheckPackageSnippets: true;
+    readonly filePath: "README.md";
+    readonly auditFrameworkImports: true;
+    readonly typecheckPackageSnippets: true;
+} | {
+    readonly filePath: "docs/guide/getting-started.md";
+    readonly auditFrameworkImports: true;
+    readonly typecheckPackageSnippets: true;
+} | {
+    readonly filePath: "docs/reference/framework-governance.md";
+    readonly auditFrameworkImports: true;
+    readonly typecheckPackageSnippets: false;
+} | {
+    readonly filePath: "docs/reference/package.md";
+    readonly auditFrameworkImports: true;
+    readonly typecheckPackageSnippets: true;
 } | {
     filePath: string;
     auditFrameworkImports: true;

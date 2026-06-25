@@ -1,4 +1,4 @@
-import { PatternSlotProps } from '../_internal/slot-props';
+﻿import { PatternSlotProps } from '../_internal/slot-props';
 import { InspectorRailProps } from '../workspace/InspectorRail';
 import { WorkspacePanelProps } from '../workspace/WorkspacePanel';
 import * as React from 'react';

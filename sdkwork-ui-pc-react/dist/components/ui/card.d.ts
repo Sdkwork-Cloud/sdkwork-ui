@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 export type CardProps = React.HTMLAttributes<HTMLDivElement>;
 export type CardHeaderProps = React.HTMLAttributes<HTMLDivElement>;
 export type CardTitleProps = React.HTMLAttributes<HTMLHeadingElement>;

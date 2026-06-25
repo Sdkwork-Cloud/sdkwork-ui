@@ -1,4 +1,4 @@
-import { FileUploadVariant } from './upload-types';
+﻿import { FileUploadVariant } from './upload-types';
 import * as React from 'react';
 interface UploadDropzoneProps {
     caption?: string;

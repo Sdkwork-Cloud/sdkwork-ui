@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 export type SidebarSectionExpandedChangeHandler = (expanded: boolean) => void;
 export interface SidebarSectionProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
     actions?: React.ReactNode;

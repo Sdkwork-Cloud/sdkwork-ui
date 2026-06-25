@@ -1,4 +1,4 @@
-export const uiComponentCatalog = {
+﻿export const uiComponentCatalog = {
   actions: [
     'Button',
     'IconButton',

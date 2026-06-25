@@ -1,1 +1,1 @@
-export * from './detail/DetailDrawer';
+﻿export * from './detail/DetailDrawer';

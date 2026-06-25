@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 export interface FilterBarProps extends Omit<React.HTMLAttributes<HTMLElement>, 'title'> {
     description?: React.ReactNode;
     summary?: React.ReactNode;

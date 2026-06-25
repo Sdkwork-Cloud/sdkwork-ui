@@ -1,4 +1,4 @@
-export interface NativeDateInputLike {
+﻿export interface NativeDateInputLike {
     disabled?: boolean;
     readOnly?: boolean;
     type?: string;

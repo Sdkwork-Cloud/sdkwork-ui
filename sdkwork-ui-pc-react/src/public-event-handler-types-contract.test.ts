@@ -1,4 +1,4 @@
-import ts from 'typescript';
+﻿import ts from 'typescript';
 import { describe, expect, it } from 'vitest';
 
 const tsConfigPath = ts.findConfigFile(process.cwd(), ts.sys.fileExists, 'tsconfig.json');

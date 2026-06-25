@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import * as ContextMenuPrimitive from '@radix-ui/react-context-menu';
 declare const ContextMenu: React.FC<ContextMenuPrimitive.ContextMenuProps>;
 declare const ContextMenuPortal: React.FC<ContextMenuPrimitive.ContextMenuPortalProps>;

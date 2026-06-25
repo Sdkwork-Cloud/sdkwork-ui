@@ -1,4 +1,4 @@
-import { SortingState } from '@tanstack/react-table';
+﻿import { SortingState } from '@tanstack/react-table';
 import { DataTableSortingState } from './types';
 export type DataTablePaginationItem = number | 'start-ellipsis' | 'end-ellipsis';
 export declare function clampPage(page: number, pageCount: number): number;

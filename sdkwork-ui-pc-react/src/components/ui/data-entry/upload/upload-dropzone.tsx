@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import { FileText, ImagePlus, Music4, UploadCloud, Video } from 'lucide-react';
 import { cn } from '../../../../lib/utils';
 import type { FileUploadVariant } from './upload-types';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 export type TabsProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.Root>;
 export type TabsListProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>;

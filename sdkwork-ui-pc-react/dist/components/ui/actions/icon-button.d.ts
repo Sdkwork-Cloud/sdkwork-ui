@@ -1,4 +1,4 @@
-import { ButtonProps } from '../button';
+﻿import { ButtonProps } from '../button';
 import * as React from 'react';
 export interface IconButtonProps extends Omit<ButtonProps, 'size'> {
 }

@@ -1,4 +1,4 @@
-import { SdkworkTheme } from '../../../theme/sdkwork-theme';
+﻿import { SdkworkTheme } from '../../../theme/sdkwork-theme';
 import * as React from 'react';
 export interface AppShellProps extends Omit<React.ComponentPropsWithoutRef<'div'>, 'children' | 'content'> {
     content?: React.ReactNode;

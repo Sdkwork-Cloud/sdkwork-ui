@@ -1,4 +1,4 @@
-type DataAttributeValue = string | number | boolean | undefined;
+﻿type DataAttributeValue = string | number | boolean | undefined;
 export type DataAttributes = {
     [K in `data-${string}`]?: DataAttributeValue;
 };

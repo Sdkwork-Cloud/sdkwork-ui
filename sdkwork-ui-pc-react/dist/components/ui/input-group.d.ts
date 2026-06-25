@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 export interface InputGroupProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 export interface InputGroupAddonProps extends React.HTMLAttributes<HTMLDivElement> {

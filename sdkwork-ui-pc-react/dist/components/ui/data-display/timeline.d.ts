@@ -1,4 +1,4 @@
-import { SlotProps } from '../../../lib/slot-props';
+﻿import { SlotProps } from '../../../lib/slot-props';
 import * as React from 'react';
 export type TimelineItemStatus = 'default' | 'success' | 'warning' | 'danger' | 'pending' | 'done' | 'current' | 'error';
 export interface TimelineItem {

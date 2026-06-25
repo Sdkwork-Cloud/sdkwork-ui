@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 
 function assignRef<T>(ref: React.ForwardedRef<T> | undefined, value: T | null) {
   if (typeof ref === 'function') {

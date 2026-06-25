@@ -1,4 +1,4 @@
-import { DataTablePaginationItem } from './state';
+﻿import { DataTablePaginationItem } from './state';
 export interface DataTablePaginationControlsProps {
     currentPage: number;
     hasPageSizeSelector: boolean;

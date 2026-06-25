@@ -1,4 +1,4 @@
-import { SlotProps } from '../../../lib/slot-props';
+﻿import { SlotProps } from '../../../lib/slot-props';
 import * as React from 'react';
 export type CollectionGridRegionSlotProps = SlotProps<Omit<React.ComponentPropsWithoutRef<'div'>, 'children'>>;
 export type CollectionGridItemKeyResolver<T = any> = (item: T, index: number) => React.Key;

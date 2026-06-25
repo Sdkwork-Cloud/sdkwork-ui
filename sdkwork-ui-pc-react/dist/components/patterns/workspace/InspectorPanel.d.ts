@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 export interface InspectorPanelProps extends Omit<React.ComponentPropsWithoutRef<'aside'>, 'title'> {
     footer?: React.ReactNode;
     title?: React.ReactNode;

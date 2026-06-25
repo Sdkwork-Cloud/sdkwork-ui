@@ -1,4 +1,4 @@
-export {
+﻿export {
   mergeSlotProps as mergePatternSlotProps,
 } from '../../../lib/slot-props';
 export type {

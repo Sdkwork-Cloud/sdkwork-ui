@@ -1,9 +1,9 @@
-import { t as e } from "./utils-MYzXLqpE.js";
-import { n as t } from "./slot-props-BYpl_5uq.js";
-import { m as n } from "./data-display-WbrK_CwF.js";
-import { t as r } from "./PageHeader-Dy2zOyIJ.js";
-import { t as i } from "./WorkspacePanel-DUmixTXu.js";
-import { t as a } from "./InspectorRail-nAvH22EC.js";
+import { t as e } from "./utils-zb6ZQb9D.js";
+import { n as t } from "./slot-props-BIbJCp38.js";
+import { m as n } from "./data-display-B7_ciSIT.js";
+import { t as r } from "./PageHeader-DCzdkmDV.js";
+import { t as i } from "./WorkspacePanel-Zc2PSrir.js";
+import { t as a } from "./InspectorRail-DCLXhAs_.js";
 import * as o from "react";
 import { jsx as s, jsxs as c } from "react/jsx-runtime";
 //#region src/components/patterns/workbench/ManagementWorkbench.tsx

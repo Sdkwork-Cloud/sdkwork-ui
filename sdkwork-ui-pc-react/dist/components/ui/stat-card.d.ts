@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 export interface StatCardProps extends React.HTMLAttributes<HTMLDivElement> {
     change?: React.ReactNode;
     changeTone?: 'default' | 'success' | 'warning' | 'danger';

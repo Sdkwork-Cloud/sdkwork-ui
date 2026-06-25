@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+﻿import { describe, expect, it } from 'vitest';
 import { uiComponentCatalog } from './catalog';
 
 describe('ui component catalog', () => {

@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from '@testing-library/react';
+﻿import { cleanup, render, screen } from '@testing-library/react';
 import { Bold, Italic } from 'lucide-react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import * as actions from './index';

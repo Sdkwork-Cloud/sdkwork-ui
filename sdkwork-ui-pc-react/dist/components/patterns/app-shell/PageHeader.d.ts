@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 export interface PageHeaderProps extends Omit<React.ComponentPropsWithoutRef<'div'>, 'title'> {
     actions?: React.ReactNode;
     description?: React.ReactNode;

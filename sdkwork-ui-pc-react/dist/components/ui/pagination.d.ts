@@ -1,4 +1,4 @@
-import { VariantProps } from 'class-variance-authority';
+﻿import { VariantProps } from 'class-variance-authority';
 import { buttonVariants } from './button';
 import * as React from 'react';
 export type PaginationContentProps = React.ComponentPropsWithoutRef<'ul'>;

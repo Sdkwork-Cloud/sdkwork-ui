@@ -1,4 +1,4 @@
-import { SlotProps } from '../../../lib/slot-props';
+﻿import { SlotProps } from '../../../lib/slot-props';
 import { InputProps } from '../input';
 import * as React from 'react';
 export type TemporalInputType = 'date' | 'datetime-local';

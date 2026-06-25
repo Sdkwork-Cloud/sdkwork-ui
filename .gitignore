@@ -2,8 +2,7 @@ node_modules/
 build/
 **/build/
 dist/
-!sdkwork-ui-pc-react/dist/
-!sdkwork-ui-pc-react/dist/**
+**/dist/
 coverage/
 .pack/
 .vitepress/cache/
