@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "SDKWORK shared PC React UI framework built on shadcn-style primitives and desktop application patterns.",
   "type": "module",
-  "packageManager": "pnpm@10.30.2",
+  "packageManager": "pnpm@10.33.0",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -168,5 +168,9 @@
     "vitepress": "^1.6.4",
     "vitest": "^4.1.2",
     "vue": "^3.5.32"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

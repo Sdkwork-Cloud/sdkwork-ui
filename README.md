@@ -1,4 +1,5 @@
 # SDKWORK UI
+repository-kind: application
 
 Shared SDKWORK UI foundations live here.
 
