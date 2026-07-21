@@ -105,8 +105,7 @@ All published subpath exports ship both runtime JS and matching `.d.ts` entries 
 
 The theme model is `preset + deep overrides`.
 
-- `SDKWORK_LIGHT_THEME` and `SDKWORK_DARK_THEME` are the canonical `sdkwork-studio` presets.
-- `SDKWORK_LIGHT_THEME` and `SDKWORK_DARK_THEME` are compatibility aliases that currently point to the SDKWORK preset baseline.
+- `SDKWORK_LIGHT_THEME` and `SDKWORK_DARK_THEME` are the canonical SDKWORK preset exports.
 - `themeColor` selects the accent palette for SDKWORK tokens. The shared baseline now defaults to `lobster` and also supports `tech-blue`, `green-tech`, `rose`, `violet`, and `zinc`.
 - `createSdkworkTheme()` accepts semantic overrides for `brand`, `surface`, `text`, `border`, `state`, `radius`, and `shadow`.
 

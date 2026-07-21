@@ -288,8 +288,6 @@ import {
 import {
   SDKWORK_DARK_THEME,
   SDKWORK_LIGHT_THEME,
-  SDKWORK_DARK_THEME,
-  SDKWORK_LIGHT_THEME,
   createSdkworkTheme,
   createThemeCssVariables,
 } from '@sdkwork/ui-pc-react/theme';
@@ -1398,8 +1396,7 @@ import '@sdkwork/ui-pc-react/styles.css';
 - Consumers should import the package stylesheet.
 - Git-based consumers can install the package from the repository main branch; the repository tracks prebuilt `dist` assets so installation works directly without consumer-side lifecycle-script allowlists.
 - Consumers can use `SdkworkThemeProvider` for scoped theming.
-- `SDKWORK_LIGHT_THEME` and `SDKWORK_DARK_THEME` are the canonical preset exports.
-- `SDKWORK_LIGHT_THEME` and `SDKWORK_DARK_THEME` remain stable compatibility aliases for the default SDKWORK baseline.
+- `SDKWORK_LIGHT_THEME` and `SDKWORK_DARK_THEME` are the canonical SDKWORK preset exports.
 - `uiComponentCatalog` is exported for docs, playgrounds, and app-side component discovery without hard-coding directory knowledge.
 - Consumers using `components/ui/form` should align to the exported `react-hook-form` peer range.
 - Mount `components/ui/feedback` `Toaster` once near the app root so toast notifications inherit the active SDKWORK theme.

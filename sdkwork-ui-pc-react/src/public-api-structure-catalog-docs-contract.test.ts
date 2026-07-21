@@ -69,6 +69,8 @@ describe('public API structure catalog docs contract', () => {
     });
 
     expect(result.status, result.stderr || result.stdout).toBe(0);
-    expect(result.stdout).toBe(readFileSync(generatedCatalogPath, 'utf8'));
+    expect(result.stdout.replaceAll('\r\n', '\n')).toBe(
+      readFileSync(generatedCatalogPath, 'utf8').replaceAll('\r\n', '\n'),
+    );
   }, 20_000);
 });
