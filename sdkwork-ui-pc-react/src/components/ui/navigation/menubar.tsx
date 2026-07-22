@@ -50,7 +50,9 @@ const Menubar = React.forwardRef<
 
 Menubar.displayName = 'Menubar';
 
-const MenubarMenu: typeof MenubarPrimitive.Menu = MenubarPrimitive.Menu;
+const MenubarMenu = Object.assign(MenubarPrimitive.Menu, {
+  displayName: 'MenubarMenu',
+});
 const MenubarPortal: typeof MenubarPrimitive.Portal = MenubarPrimitive.Portal;
 const MenubarSub: typeof MenubarPrimitive.Sub = MenubarPrimitive.Sub;
 
@@ -289,6 +291,5 @@ export {
   MenubarSubTrigger,
   MenubarTrigger,
 };
-MenubarMenu.displayName = 'MenubarMenu';
 MenubarPortal.displayName = 'MenubarPortal';
 MenubarSub.displayName = 'MenubarSub';

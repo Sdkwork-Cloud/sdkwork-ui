@@ -1,6 +1,8 @@
 node_modules/
 build/
 **/build/
+!sdkwork-ui-pc-react/build/
+!sdkwork-ui-pc-react/build/**
 dist/
 **/dist/
 coverage/
