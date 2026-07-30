@@ -75,7 +75,7 @@ function useDesktopWindowMaximized(
   React.useEffect(() => {
     if (!controller || !isDesktop) {
       setIsWindowMaximized(false);
-      return;
+      return undefined;
     }
 
     let active = true;

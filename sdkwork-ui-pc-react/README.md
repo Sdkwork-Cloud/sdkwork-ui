@@ -496,7 +496,7 @@ Extension points are limited to declared public exports, runtime entrypoints, SD
 
 ### Verification
 
-- `pnpm --filter @sdkwork/ui-pc-react typecheck`
+- `pnpm --dir sdkwork-ui-pc-react typecheck`
 
 ### Owner And Status
 

@@ -176,7 +176,7 @@
   },
   "verification": {
     "commands": [
-      "pnpm --filter @sdkwork/ui-pc-react typecheck"
+      "pnpm --dir sdkwork-ui-pc-react typecheck"
     ]
   },
   "metadata": {

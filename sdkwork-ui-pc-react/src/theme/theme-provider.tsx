@@ -67,7 +67,7 @@ export function SdkworkThemeProvider({
 
   useEffect(() => {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
-      return;
+      return undefined;
     }
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: light)');
@@ -88,7 +88,7 @@ export function SdkworkThemeProvider({
 
   useEffect(() => {
     if (typeof document === 'undefined') {
-      return;
+      return undefined;
     }
 
     const host = document.documentElement;
