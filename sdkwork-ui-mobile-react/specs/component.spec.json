@@ -37,6 +37,6 @@
     "configKeys": []
   },
   "verification": {
-    "commands": ["npx tsc --noEmit"]
+    "commands": ["pnpm typecheck"]
   }
 }
