@@ -204,7 +204,7 @@ The current implementation order is based on actual PC app overlap observed in t
 - `StatusBadge` patterns already exist in `claw-studio`, `sdkwork-drive`, and `sdkwork-react-backend-ui`
 - dashboard-like metric cards recur across portal, backend, and studio-style pages, which justifies `StatCard`
 - `Command`, `Tree`, `RichTree`, `Drawer`, the upload family, `ContextMenu`, `HoverCard`, `Combobox`, and `DateInput` are now implemented because the same overlap appeared repeatedly across backend, studio, settings, drive, and notes-style desktops
-- `DateTimeInput`, `DateRangeField`, `DateTimeRangeField`, and `DateRangePicker` are now implemented because desktop-settings, chat-pc search, drive, and claw analytics repeatedly need native datetime windows, preset-aware range entry, and reusable popover calendar range shells
+- `DateTimeInput`, `DateRangeField`, `DateTimeRangeField`, and `DateRangePicker` are now implemented because desktop-settings, chat-pc search, drive, and cloud analytics repeatedly need native datetime windows, preset-aware range entry, and reusable popover calendar range shells
 - `NumberInput` is now implemented because bounded numeric fields recur across `sdkwork-desktop-settings`, `claw-studio`, `sdkwork-cloud-portal`, `sdkwork-backend-react-web`, and `magic-studio-v2`
 - the toast layer is now implemented because direct `sonner` usage and app-local toast wrappers recur across `claw-studio`, `sdkwork-notes`, `sdkwork-drive`, `sdkwork-desktop-settings`, `sdkwork-chat-pc-react`, `magic-studio-v2`, and `sdkwork-backend-react-web`
 - `InlineAlert` is now implemented because panel-local warnings, remediation hints, and success notices recur across upload flows, settings pages, backend/admin confirmation panels, and should not all be promoted into global toast traffic
@@ -213,7 +213,7 @@ The current implementation order is based on actual PC app overlap observed in t
 - `ToolbarButton` is now implemented because notes editors, chat rich-text editors, OpenChat PC modules, and Magic Studio timeline toolbars all repeat the same active/compact toolbar action seam with only styling differences
 - `SplitButton` is now implemented because backend/admin pages and desktop workflows repeatedly pair one primary action with adjacent secondary choices through ad hoc button-plus-menu seams
 - `ActionMenuButton` and `BulkActionBar` are now implemented because admin tables, selection-heavy lists, and editor surfaces repeatedly need overflow actions and sticky multi-select action rows without rebuilding local button-plus-dropdown seams
-- `PanelGroup` is now implemented because Magic Studio, Claw shell, OpenChat admin shell, and backend-style desktop workspaces all repeat resizer handles, split views, and persisted sidebar widths
+- `PanelGroup` is now implemented because Magic Studio, Cloud shell, OpenChat admin shell, and backend-style desktop workspaces all repeat resizer handles, split views, and persisted sidebar widths
 - `StatusBar` is now implemented because desktop windows repeatedly need a low-profile bottom chrome for branch, sync, mode, or selection summaries without coupling that structure to any business module
 - `EmptySearch` is now implemented because `sdkwork-chat-pc-react` already ships a focused empty-search state and the same filtered-result pattern recurs across notes, backend/admin, and portal-style search panes
 - `FilterBar` is now implemented because admin and list-heavy applications repeat the same search plus select plus action-strip composition above tables and result sets

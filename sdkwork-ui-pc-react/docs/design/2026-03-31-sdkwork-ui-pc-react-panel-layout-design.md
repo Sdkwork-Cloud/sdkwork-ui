@@ -43,7 +43,7 @@ The SDKWORK wrapper should:
 
 - expose a stable framework API
 - map orientation to `direction`
-- apply claw-aligned semantic tokens
+- apply cloud-aligned semantic tokens
 - keep resize-handle visuals and hit areas consistent
 - prevent consuming apps from depending directly on the third-party primitive package
 

@@ -59,7 +59,7 @@ It belongs in `actions`, not `layout`, because it is a reusable command trigger 
 
 ## Styling Direction
 
-The component should follow the existing claw-aligned token system:
+The component should follow the existing cloud-aligned token system:
 
 - transparent idle state
 - muted text by default

@@ -6,13 +6,13 @@ For the more detailed app-by-app infrastructure baseline, see [PC App Adoption M
 
 | Application | Current State | Shared UI Opportunity |
 | --- | --- | --- |
-| `claw-studio` | Has `@sdkwork/claw-ui` with Radix + CVA primitives and desktop overlays | High. Many primitives are generic and close to shared form already |
+| `claw-studio` | Has `@sdkwork/cloud-ui` with Radix + CVA primitives and desktop overlays | High. Many primitives are generic and close to shared form already |
 | `magic-studio-v2` | Uses `@sdkwork/react-commons` and local framework components | High. Desktop shell patterns, toolbar abstractions, and split-workspace layouts can converge first |
 | `sdkwork-notes/sdkwork-notes-pc-react` | Uses `@sdkwork/notes-commons` with a smaller local component set | High. Button/dialog/surface components and note-editor toolbars can standardize quickly |
 | `sdkwork-chat-pc-react` | Uses a homegrown UI foundation and theme system | Medium-high. Requires careful adapter strategy, but already has a strong `EmptySearch` migration seam |
 | `sdkwork-cloud-portal` | Local UI package is layout-heavy, not design-system-heavy | Medium. More useful for shell and primitive adoption than direct replacement |
 | `sdkwork-desktop-settings` | Already has `components.json` and shadcn adoption intent | High. Good fit for direct primitive reuse |
-| `sdkwork-drive/sdkwork-drive-pc-react` | Has `@sdkwork/drive-ui`, largely duplicated from claw UI | Very high. Duplication is immediate evidence for consolidation |
+| `sdkwork-drive/sdkwork-drive-pc-react` | Has `@sdkwork/drive-ui`, largely duplicated from cloud UI | Very high. Duplication is immediate evidence for consolidation |
 | `openchat/app/openchat-react-pc` | Separate package family with PC modules | Medium. Best approached through primitive compatibility first |
 | `sdkwork-backend-react-web/packages/sdkwork-react-backend-desktop` | Desktop package embedded in a broader backend web workspace | Medium. Good candidate for shell and theme token reuse |
 | `sdkwork-auth/sdkwork-auth-pc-react` | PC React directory exists but is not materially scaffolded yet | Low today. Keep it aligned with the shared framework once implementation starts |
@@ -21,7 +21,7 @@ For the more detailed app-by-app infrastructure baseline, see [PC App Adoption M
 
 ### Finding 1
 
-`sdkwork-claw-ui` and `sdkwork-drive-ui` are near-duplicates and should be treated as the clearest source material for shared primitives.
+`sdkwork-cloudrouter-ui` and `sdkwork-drive-ui` are near-duplicates and should be treated as the clearest source material for shared primitives.
 
 ### Finding 2
 

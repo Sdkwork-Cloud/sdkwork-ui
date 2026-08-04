@@ -17,7 +17,7 @@ Build a professional, reusable PC application UI framework for SDKWORK under `ap
 
 ### What exists today
 
-- `claw-studio/packages/sdkwork-claw-ui` and `sdkwork-drive/sdkwork-drive-pc-react/packages/sdkwork-drive-ui` are effectively duplicated UI packages built on Radix + CVA + utility-class styling.
+- `claw-studio/packages/sdkwork-cloudrouter-ui` and `sdkwork-drive/sdkwork-drive-pc-react/packages/sdkwork-drive-ui` are effectively duplicated UI packages built on Radix + CVA + utility-class styling.
 - `sdkwork-chat-pc-react/packages/sdkwork-openchat-pc-ui` contains a separate homegrown PC UI foundation, theme system, and editor-oriented components.
 - `sdkwork-cloud-portal/packages/sdkwork-pc-portal-ui` is mostly page/layout composition rather than a reusable design system.
 - `magic-studio-v2/packages/sdkwork-react-commons` already exposes a local component set and desktop framework patterns, but it is not aligned to shadcn conventions.
@@ -208,7 +208,7 @@ Build the framework package and docs.
 
 Absorb duplicated generic primitives from:
 
-- `sdkwork-claw-ui`
+- `sdkwork-cloudrouter-ui`
 - `sdkwork-drive-ui`
 - `sdkwork-react-commons`
 - `sdkwork-notes-commons`

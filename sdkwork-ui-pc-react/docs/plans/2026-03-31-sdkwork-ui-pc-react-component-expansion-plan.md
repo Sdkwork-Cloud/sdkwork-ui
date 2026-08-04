@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Expand the shared PC UI framework with additional category-defining shadcn-style components and keep stylesheet defaults aligned with the exported claw-based theme baseline.
+**Goal:** Expand the shared PC UI framework with additional category-defining shadcn-style components and keep stylesheet defaults aligned with the exported cloud-based theme baseline.
 
 **Architecture:** Extend the single `@sdkwork/ui-pc-react` package with additional reusable primitives in `data-display`, `feedback`, and `overlays`, all driven by semantic SDKWORK theme tokens. Keep exports flat for consumers, classified for discoverability, and verify root stylesheet defaults against the canonical default theme export.
 
@@ -18,7 +18,7 @@
 
 - [ ] Step 1: Write a failing test asserting root CSS variables match `SDKWORK_DARK_THEME`
 - [ ] Step 2: Run `pnpm test -- --run src/styles/sdkwork-ui.test.ts` and confirm failure
-- [ ] Step 3: Update root CSS variables to the claw-aligned defaults
+- [ ] Step 3: Update root CSS variables to the cloud-aligned defaults
 - [ ] Step 4: Re-run the stylesheet test and keep it green
 
 ### Task 2: Add Data Display Primitives
