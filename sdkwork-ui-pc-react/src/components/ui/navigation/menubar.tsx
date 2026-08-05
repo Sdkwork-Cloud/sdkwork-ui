@@ -53,6 +53,7 @@ Menubar.displayName = 'Menubar';
 const MenubarMenu = Object.assign(MenubarPrimitive.Menu, {
   displayName: 'MenubarMenu',
 });
+MenubarMenu.displayName = 'MenubarMenu';
 const MenubarPortal: typeof MenubarPrimitive.Portal = MenubarPrimitive.Portal;
 const MenubarSub: typeof MenubarPrimitive.Sub = MenubarPrimitive.Sub;
 

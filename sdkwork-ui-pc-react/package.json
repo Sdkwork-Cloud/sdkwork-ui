@@ -19,6 +19,58 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./theme": {
+      "types": "./dist/theme/index.d.ts",
+      "import": "./dist/theme.js"
+    },
+    "./components/ui": {
+      "types": "./dist/components/ui/index.d.ts",
+      "import": "./dist/components-ui.js"
+    },
+    "./components/ui/actions": {
+      "types": "./dist/components/ui/actions/index.d.ts",
+      "import": "./dist/ui-actions.js"
+    },
+    "./components/ui/button": {
+      "types": "./dist/components/ui/button.d.ts",
+      "import": "./dist/ui-button.js"
+    },
+    "./components/ui/data-entry": {
+      "types": "./dist/components/ui/data-entry/index.d.ts",
+      "import": "./dist/ui-data-entry.js"
+    },
+    "./components/ui/data-display": {
+      "types": "./dist/components/ui/data-display/index.d.ts",
+      "import": "./dist/ui-data-display.js"
+    },
+    "./components/ui/form": {
+      "types": "./dist/components/ui/form/index.d.ts",
+      "import": "./dist/ui-form.js"
+    },
+    "./components/ui/feedback": {
+      "types": "./dist/components/ui/feedback/index.d.ts",
+      "import": "./dist/ui-feedback.js"
+    },
+    "./components/ui/feedback/states": {
+      "types": "./dist/components/ui/feedback/states.d.ts",
+      "import": "./dist/ui-feedback-states.js"
+    },
+    "./components/ui/layout": {
+      "types": "./dist/components/ui/layout/index.d.ts",
+      "import": "./dist/ui-layout.js"
+    },
+    "./components/ui/navigation": {
+      "types": "./dist/components/ui/navigation/index.d.ts",
+      "import": "./dist/ui-navigation.js"
+    },
+    "./components/ui/overlays": {
+      "types": "./dist/components/ui/overlays/index.d.ts",
+      "import": "./dist/ui-overlays.js"
+    },
+    "./components/ui/catalog": {
+      "types": "./dist/components/ui/catalog.d.ts",
+      "import": "./dist/ui-catalog.js"
+    },
     "./components/patterns": {
       "types": "./dist/components/patterns/index.d.ts",
       "import": "./dist/components-patterns.js"
@@ -59,61 +111,7 @@
       "types": "./dist/components/patterns/workspace/index.d.ts",
       "import": "./dist/patterns-workspace.js"
     },
-    "./components/ui": {
-      "types": "./dist/components/ui/index.d.ts",
-      "import": "./dist/components-ui.js"
-    },
-    "./components/ui/actions": {
-      "types": "./dist/components/ui/actions/index.d.ts",
-      "import": "./dist/ui-actions.js"
-    },
-    "./components/ui/button": {
-      "types": "./src/components/ui/button.tsx",
-      "import": "./src/components/ui/button.tsx",
-      "default": "./src/components/ui/button.tsx"
-    },
-    "./components/ui/catalog": {
-      "types": "./dist/components/ui/catalog.d.ts",
-      "import": "./dist/ui-catalog.js"
-    },
-    "./components/ui/data-display": {
-      "types": "./dist/components/ui/data-display/index.d.ts",
-      "import": "./dist/ui-data-display.js"
-    },
-    "./components/ui/data-entry": {
-      "types": "./dist/components/ui/data-entry/index.d.ts",
-      "import": "./dist/ui-data-entry.js"
-    },
-    "./components/ui/feedback": {
-      "types": "./dist/components/ui/feedback/index.d.ts",
-      "import": "./dist/ui-feedback.js"
-    },
-    "./components/ui/feedback/states": {
-      "types": "./src/components/ui/feedback/states.tsx",
-      "import": "./src/components/ui/feedback/states.tsx",
-      "default": "./src/components/ui/feedback/states.tsx"
-    },
-    "./components/ui/form": {
-      "types": "./dist/components/ui/form/index.d.ts",
-      "import": "./dist/ui-form.js"
-    },
-    "./components/ui/layout": {
-      "types": "./dist/components/ui/layout/index.d.ts",
-      "import": "./dist/ui-layout.js"
-    },
-    "./components/ui/navigation": {
-      "types": "./dist/components/ui/navigation/index.d.ts",
-      "import": "./dist/ui-navigation.js"
-    },
-    "./components/ui/overlays": {
-      "types": "./dist/components/ui/overlays/index.d.ts",
-      "import": "./dist/ui-overlays.js"
-    },
-    "./styles.css": "./dist/sdkwork-ui.css",
-    "./theme": {
-      "types": "./dist/theme/index.d.ts",
-      "import": "./dist/theme.js"
-    }
+    "./styles.css": "./dist/sdkwork-ui.css"
   },
   "scripts": {
     "build": "vite build",
