@@ -433,15 +433,16 @@ const DataTable: DataTableComponent = React.forwardRef<HTMLDivElement, DataTable
         )}
       >
         {loading ? (
-          <div className="px-4 py-6">
+          <div className="flex min-h-0 flex-1 items-center justify-center px-4 py-6">
             <LoadingBlock label={loadingLabel} />
           </div>
         ) : rows.length === 0 ? (
-          <div className="px-4 py-6">
+          <div className="flex min-h-0 flex-1 items-center justify-center px-4 py-6">
             {emptyState ?? <EmptyState description={emptyDescription} title={emptyTitle} />}
           </div>
         ) : (
           <Table
+            viewportClassName={slotProps?.viewport?.className}
             {...mergeSlotProps(
               {},
               slotProps?.table,

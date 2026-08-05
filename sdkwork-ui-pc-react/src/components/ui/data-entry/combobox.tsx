@@ -91,7 +91,9 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(({
   }
 
   return (
-    <Popover modal open={open} onOpenChange={setOpen}>
+    // 非 modal：Combobox 常嵌套在 Dialog/Drawer 表单内，modal 模式会把父层内容
+    // aria-hidden 并拦截外部指针事件，导致"点击下拉外部时父弹窗被一并隐藏"。
+    <Popover open={open} onOpenChange={setOpen}>
       <div
         {...mergeSlotProps<ComboboxRootSlotProps>(
           {
@@ -162,6 +164,8 @@ const Combobox = React.forwardRef<HTMLButtonElement, ComboboxProps>(({
       </div>
       <PopoverContent
         align="start"
+        // 选项列表语义：嵌套在 Dialog/Drawer 内时避免重复的 dialog role
+        role="listbox"
         {...mergeSlotProps<ComboboxContentSlotProps>(
           {
             className: 'w-[var(--radix-popover-trigger-width)] p-0',

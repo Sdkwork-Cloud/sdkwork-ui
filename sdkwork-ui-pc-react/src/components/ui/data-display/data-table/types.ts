@@ -66,6 +66,7 @@ export interface DataTableSlotProps {
   surface?: DataTableRegionSlotProps;
   table?: DataTableTableSlotProps;
   toolbar?: DataTableRegionSlotProps;
+  viewport?: DataTableRegionSlotProps;
 }
 
 export interface DataTableProps<T = any> extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {

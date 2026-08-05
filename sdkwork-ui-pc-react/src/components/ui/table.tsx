@@ -1,7 +1,13 @@
 ﻿import * as React from 'react';
 import { cn } from '../../lib/utils';
 
-export type TableProps = React.HTMLAttributes<HTMLTableElement>;
+export type TableProps = React.HTMLAttributes<HTMLTableElement> & {
+  /**
+   * Optional class names merged onto the scrolling viewport wrapper
+   * (for example `min-h-0 flex-1` to let the table fill leftover space).
+   */
+  viewportClassName?: string;
+};
 export type TableHeaderProps = React.HTMLAttributes<HTMLTableSectionElement>;
 export type TableBodyProps = React.HTMLAttributes<HTMLTableSectionElement>;
 export type TableFooterProps = React.HTMLAttributes<HTMLTableSectionElement>;
@@ -24,8 +30,8 @@ export const tableCellClassName = 'p-4 align-middle text-[var(--sdk-color-text-p
 export const tableCaptionClassName = 'mt-4 text-sm text-[var(--sdk-color-text-secondary)]';
 
 const Table = React.forwardRef<HTMLTableElement, TableProps>(
-  ({ className, ...props }, ref) => (
-    <div className={tableViewportClassName} data-slot="table-viewport">
+  ({ className, viewportClassName, ...props }, ref) => (
+    <div className={cn(tableViewportClassName, viewportClassName)} data-slot="table-viewport">
       <table
         ref={ref}
         className={cn(tableBaseClassName, className)}

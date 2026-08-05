@@ -46,7 +46,7 @@ const PopoverContent = React.forwardRef<
       ref={ref}
       align={align}
       className={cn(
-        'z-50 w-72 rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] p-4 text-[var(--sdk-color-text-primary)] shadow-[var(--sdk-shadow-md)] outline-none',
+        'z-[200] w-72 rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] p-4 text-[var(--sdk-color-text-primary)] shadow-[var(--sdk-shadow-md)] outline-none',
         className,
       )}
       data-sdk-ui="popover-content"
