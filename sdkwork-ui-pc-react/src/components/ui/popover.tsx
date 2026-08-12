@@ -40,7 +40,7 @@ PopoverAnchor.displayName = 'PopoverAnchor';
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   PopoverContentProps
->(({ align = 'center', className, sideOffset = 8, ...props }, ref) => (
+>(({ align = 'center', className, sideOffset = 8, onEscapeKeyDown, ...props }, ref) => (
   <PopoverPrimitive.Portal>
     <PopoverPrimitive.Content
       ref={ref}
@@ -52,6 +52,13 @@ const PopoverContent = React.forwardRef<
       data-sdk-ui="popover-content"
       data-slot="popover-content"
       sideOffset={sideOffset}
+      // Pressing Escape inside an open popover (e.g. a combobox inside a
+      // Modal/Drawer) dismisses the popover only; it must not cascade into
+      // the hosting dialog and close it too.
+      onEscapeKeyDown={(event) => {
+        onEscapeKeyDown?.(event);
+        event.stopPropagation();
+      }}
       {...props}
     />
   </PopoverPrimitive.Portal>

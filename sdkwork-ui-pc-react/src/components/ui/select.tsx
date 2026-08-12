@@ -65,32 +65,130 @@ const SelectTrigger = React.forwardRef<
 
 SelectTrigger.displayName = 'SelectTrigger';
 
+/** Interaction events that could reach a hosting Modal/Drawer overlay and
+ *  close it when fired outside an open select panel. Intercepted in the
+ *  document capture phase (before any dialog overlay handler runs). */
+const OUTSIDE_INTERACTION_EVENTS = ['pointerdown', 'pointerup', 'mousedown', 'mouseup', 'touchstart', 'touchend', 'click'] as const;
+
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
   SelectContentProps
->(({ className, children, position = 'popper', ...props }, ref) => (
-  <SelectPrimitive.Portal>
-    <SelectPrimitive.Content
-      ref={ref}
-      position={position}
-      className={cn(
-        'relative z-[200] min-w-[10rem] overflow-hidden rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] text-[var(--sdk-color-text-primary)] shadow-[var(--sdk-shadow-lg)]',
-        className,
-      )}
-      data-sdk-ui="select-content"
-      data-slot="select-content"
-      {...props}
-    >
-      <SelectPrimitive.ScrollUpButton className="flex cursor-default items-center justify-center py-1">
-        <ChevronUp className="h-4 w-4" />
-      </SelectPrimitive.ScrollUpButton>
-      <SelectPrimitive.Viewport className="p-1">{children}</SelectPrimitive.Viewport>
-      <SelectPrimitive.ScrollDownButton className="flex cursor-default items-center justify-center py-1">
-        <ChevronDown className="h-4 w-4" />
-      </SelectPrimitive.ScrollDownButton>
-    </SelectPrimitive.Content>
-  </SelectPrimitive.Portal>
-));
+>(({ className, children, position = 'popper', onPointerDownOutside, onEscapeKeyDown, ...props }, ref) => {
+  const contentRef = React.useRef<HTMLDivElement | null>(null);
+  const guardListenersRef = React.useRef<Array<[string, (event: Event) => void]>>([]);
+  const guardTimerRef = React.useRef<number | undefined>(undefined);
+
+  const detachOutsideGuard = () => {
+    for (const [type, handler] of guardListenersRef.current) {
+      document.removeEventListener(type, handler, true);
+    }
+    guardListenersRef.current = [];
+    if (guardTimerRef.current !== undefined) {
+      window.clearTimeout(guardTimerRef.current);
+      guardTimerRef.current = undefined;
+    }
+  };
+
+  const attachOutsideGuard = (node: HTMLDivElement) => {
+    // When the select lives inside a Modal/Drawer, interacting outside the
+    // options panel must only dismiss the select — never let the interaction
+    // reach the dialog overlay (or the dialog's own outside-interaction
+    // layer) and close the whole dialog. Radix's `disableOutsidePointerEvents`
+    // (body pointer-events) covers real browsers, but stopping propagation in
+    // the document capture phase is a deterministic guard that works
+    // regardless of the hosting dialog's z-index or stacking context.
+    //
+    // The dismiss happens on `click` — the last event of an outside
+    // interaction sequence (pointerdown → pointerup → mousedown → mouseup →
+    // click) — so every event of the sequence is stopped first; dismissing
+    // earlier would unmount this component and remove the capture listeners,
+    // letting the remaining events fall through to the dialog layer. A
+    // timeout fallback covers touch interactions that never emit a click.
+    const dismiss = () => {
+      if (guardTimerRef.current === undefined) return;
+      window.clearTimeout(guardTimerRef.current);
+      guardTimerRef.current = undefined;
+      // Dismiss the options via the Escape handler, which closes the select
+      // before the event can cascade (the host dialog's Escape listener is
+      // stopped by onEscapeKeyDown).
+      node.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+      );
+    };
+    const handleOutsideInteraction = (event: Event) => {
+      // The panel may already be unmounted (e.g. the select was closed through
+      // Radix while this capture listener is still attached, or the ref-cleanup
+      // callback did not run in the current environment). A detached node must
+      // never keep intercepting interactions for the rest of the page.
+      if (!node.isConnected) return;
+      const target = event.target;
+      if (target instanceof Node && node.contains(target)) return;
+      event.stopPropagation();
+      if (event.type === 'click') {
+        dismiss();
+      } else if (guardTimerRef.current === undefined) {
+        guardTimerRef.current = window.setTimeout(dismiss, 200);
+      }
+    };
+    for (const type of OUTSIDE_INTERACTION_EVENTS) {
+      document.addEventListener(type, handleOutsideInteraction, true);
+      guardListenersRef.current.push([type, handleOutsideInteraction]);
+    }
+  };
+
+  const setContentRef = (node: HTMLDivElement | null) => {
+    // Radix mounts the portal content after passive effects run, so the guard
+    // is attached from the ref callback (commit phase) instead of useEffect.
+    if (node) {
+      contentRef.current = node;
+      attachOutsideGuard(node);
+    } else {
+      contentRef.current = null;
+      detachOutsideGuard();
+    }
+    if (typeof ref === 'function') {
+      ref(node);
+    } else if (ref) {
+      ref.current = node;
+    }
+  };
+  return (
+    <SelectPrimitive.Portal>
+      <SelectPrimitive.Content
+        ref={setContentRef}
+        position={position}
+        className={cn(
+          'relative z-[200] min-w-[8rem] overflow-hidden rounded-[var(--sdk-radius-panel)] border border-[var(--sdk-color-border-default)] bg-[var(--sdk-color-surface-panel)] text-[var(--sdk-color-text-primary)] shadow-[var(--sdk-shadow-lg)]',
+          // In popper mode the panel aligns with the trigger width so the
+          // options never render narrower or wider than the field itself.
+          position === 'popper' && 'w-[var(--radix-select-trigger-width)]',
+          className,
+        )}
+        data-sdk-ui="select-content"
+        data-slot="select-content"
+        onPointerDownOutside={(event) => {
+          onPointerDownOutside?.(event);
+          event.stopPropagation();
+        }}
+        // Pressing Escape inside an open select dismisses the options only; the
+        // event must not cascade into the hosting Modal/Drawer and close it too.
+        onEscapeKeyDown={(event) => {
+          onEscapeKeyDown?.(event);
+          event.stopPropagation();
+        }}
+        {...props}
+      >
+        <SelectPrimitive.ScrollUpButton className="flex cursor-default items-center justify-center py-1">
+          <ChevronUp className="h-4 w-4" />
+        </SelectPrimitive.ScrollUpButton>
+        <SelectPrimitive.Viewport className="p-1">{children}</SelectPrimitive.Viewport>
+        <SelectPrimitive.ScrollDownButton className="flex cursor-default items-center justify-center py-1">
+          <ChevronDown className="h-4 w-4" />
+        </SelectPrimitive.ScrollDownButton>
+      </SelectPrimitive.Content>
+    </SelectPrimitive.Portal>
+  );
+});
 
 SelectContent.displayName = 'SelectContent';
 

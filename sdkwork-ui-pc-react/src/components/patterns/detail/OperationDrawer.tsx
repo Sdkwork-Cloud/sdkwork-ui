@@ -110,7 +110,7 @@ const OperationDrawer = React.forwardRef<HTMLDivElement, OperationDrawerProps>((
                 slotProps?.header,
               )}
             >
-              <div className="flex items-start gap-4">
+              <div className="flex items-center gap-4">
                 <div className="min-w-0 flex-1">
                   {eyebrow ? (
                     <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--sdk-color-text-muted)]" data-slot="operation-drawer-eyebrow">
