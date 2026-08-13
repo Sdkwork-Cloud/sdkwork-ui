@@ -123,6 +123,13 @@ const SelectContent = React.forwardRef<
       if (!node.isConnected) return;
       const target = event.target;
       if (target instanceof Node && node.contains(target)) return;
+      // A mouse click opens the panel on pointerdown, so the remaining events
+      // of that same interaction (pointerup/mousedown/mouseup/click) still
+      // target the trigger. Radix marks the open trigger with aria-expanded;
+      // events on it are the opening sequence, not an outside interaction, and
+      // must not dismiss the freshly opened panel.
+      const openTrigger = document.querySelector('[role="combobox"][aria-expanded="true"]');
+      if (openTrigger && target instanceof Node && openTrigger.contains(target)) return;
       event.stopPropagation();
       if (event.type === 'click') {
         dismiss();
