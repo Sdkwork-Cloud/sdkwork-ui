@@ -63,7 +63,7 @@ pnpm docs:build
 This package can be consumed directly from the repository main branch. The repository tracks the prebuilt `dist` output, so git installs work without consumer-side lifecycle allowlists or post-install builds.
 
 ```bash
-pnpm add "https://github.com/Sdkwork-Cloud/sdkwork-ui.git#main&path:/sdkwork-ui-pc-react"
+pnpm add "https://github.com/sdkwork-ai/sdkwork-ui.git#main&path:/sdkwork-ui-pc-react"
 ```
 
 After installation, consume it like any other package:

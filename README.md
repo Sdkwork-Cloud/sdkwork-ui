@@ -20,7 +20,7 @@ Current focus:
 Install the PC React package directly from git with:
 
 ```bash
-pnpm add "https://github.com/Sdkwork-Cloud/sdkwork-ui.git#main&path:/sdkwork-ui-pc-react"
+pnpm add "https://github.com/sdkwork-ai/sdkwork-ui.git#main&path:/sdkwork-ui-pc-react"
 ```
 
 ## Documentation Canon
