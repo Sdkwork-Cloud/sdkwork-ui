@@ -65,6 +65,29 @@ describe('SelectContent', () => {
     expect(screen.getByText('Option B')).toBeTruthy();
   });
 
+  it('keeps the options panel open beyond the guard dismiss window after opening', async () => {
+    render(
+      <Select defaultValue="a">
+        <SelectTrigger>Pick</SelectTrigger>
+        <SelectContent>
+          <SelectItem value="a">Option A</SelectItem>
+          <SelectItem value="b">Option B</SelectItem>
+        </SelectContent>
+      </Select>,
+    );
+
+    const trigger = screen.getByRole('combobox');
+    await openWithMouseClick(trigger);
+    expect(screen.queryByRole('listbox')).toBeTruthy();
+
+    // The outside-interaction guard schedules a 200ms dismiss for non-click
+    // events that are not exempted; wait past that window and confirm the
+    // panel survives (regression: dist builds once dropped the open-trigger
+    // exemption and dismissed freshly opened panels).
+    await new Promise((resolve) => setTimeout(resolve, 350));
+    expect(screen.queryByRole('listbox')).toBeTruthy();
+  });
+
   it('still dismisses the select but keeps the host dialog open on outside clicks', async () => {
     const dialogOpenChange = vi.fn();
     const selectOpenChange = vi.fn();
