@@ -50,7 +50,7 @@ const Menubar = React.forwardRef<
 
 Menubar.displayName = 'Menubar';
 
-const MenubarMenu: typeof MenubarPrimitive.Menu = Object.assign(MenubarPrimitive.Menu, {
+const MenubarMenu = Object.assign(MenubarPrimitive.Menu, {
   displayName: 'MenubarMenu',
 });
 MenubarMenu.displayName = 'MenubarMenu';
