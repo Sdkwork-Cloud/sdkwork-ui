@@ -1,4 +1,5 @@
-﻿import type { FileUploadItem, FileUploadListType, FileUploadStatus, FileUploadVariant } from './upload-types';
+﻿import { uuid } from '@sdkwork/utils/id';
+import type { FileUploadItem, FileUploadListType, FileUploadStatus, FileUploadVariant } from './upload-types';
 
 export const DOCUMENT_ACCEPT_PRESET = [
   '.pdf',
@@ -89,11 +90,7 @@ function getFileExtension(name: string) {
 }
 
 export function createFileId() {
-  if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
-    return crypto.randomUUID();
-  }
-
-  return `sdk-file-${Math.random().toString(36).slice(2, 10)}`;
+  return uuid();
 }
 
 export function formatFileSize(size: number) {
