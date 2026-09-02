@@ -64,3 +64,6 @@ Thumbs.db
 **/src/**/*.d.ts
 # Runtime-generated environment configuration
 **/public/runtime-env.json
+
+# Local build backups and runtime artifacts (do not commit)
+**/dist-*-bak/
