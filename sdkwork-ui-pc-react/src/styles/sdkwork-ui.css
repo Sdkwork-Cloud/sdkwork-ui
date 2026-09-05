@@ -62,6 +62,54 @@
   --sdk-shadow-lg: 0 32px 80px rgba(9, 9, 11, 0.22);
 }
 
+/*
+ * Dual-mode semantic tokens (THEME_DARKMODE_SPEC §2.2).
+ * The unscoped :root block above keeps the library's historical dark-first
+ * default for backward compatibility; the attribute-scoped blocks below bind
+ * both modes explicitly so any surface root carrying `data-sdk-color-mode`
+ * (standalone provider roots and host-embedded surface roots alike) resolves
+ * the matching set.
+ */
+[data-sdk-color-mode='dark'] {
+  --sdk-color-surface-canvas: #09090b;
+  --sdk-color-surface-panel: #18181b;
+  --sdk-color-surface-panel-muted: #27272a;
+  --sdk-color-surface-elevated: #3f3f46;
+  --sdk-color-surface-overlay: rgba(9, 9, 11, 0.45);
+  --sdk-color-text-primary: #fafafa;
+  --sdk-color-text-secondary: #d4d4d8;
+  --sdk-color-text-muted: #a1a1aa;
+  --sdk-color-text-inverse: #ffffff;
+  --sdk-color-border-subtle: rgba(244, 244, 245, 0.08);
+  --sdk-color-border-default: rgba(244, 244, 245, 0.12);
+  --sdk-color-border-strong: rgba(244, 244, 245, 0.18);
+  --sdk-color-border-focus: rgba(59, 130, 246, 0.4);
+  --sdk-color-state-success: #22c55e;
+  --sdk-color-state-warning: #f59e0b;
+  --sdk-color-state-danger: #ef4444;
+  --sdk-color-state-info: #38bdf8;
+}
+
+[data-sdk-color-mode='light'] {
+  --sdk-color-surface-canvas: #ffffff;
+  --sdk-color-surface-panel: #fafafa;
+  --sdk-color-surface-panel-muted: #f4f4f5;
+  --sdk-color-surface-elevated: #ffffff;
+  --sdk-color-surface-overlay: rgba(9, 9, 11, 0.45);
+  --sdk-color-text-primary: #18181b;
+  --sdk-color-text-secondary: #3f3f46;
+  --sdk-color-text-muted: #71717a;
+  --sdk-color-text-inverse: #ffffff;
+  --sdk-color-border-subtle: rgba(9, 9, 11, 0.06);
+  --sdk-color-border-default: rgba(9, 9, 11, 0.1);
+  --sdk-color-border-strong: rgba(9, 9, 11, 0.16);
+  --sdk-color-border-focus: rgba(59, 130, 246, 0.4);
+  --sdk-color-state-success: #16a34a;
+  --sdk-color-state-warning: #d97706;
+  --sdk-color-state-danger: #dc2626;
+  --sdk-color-state-info: #0284c7;
+}
+
 [data-theme="tech-blue"] {
   --theme-primary-50: #eff6ff;
   --theme-primary-100: #dbeafe;
